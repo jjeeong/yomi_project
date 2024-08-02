@@ -4,9 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
-
-
+//마찬가지로 적어놓을게요~~
+@Component
 public class BoardFileRowMapper implements RowMapper<BoardFile>{
 
 	@Override

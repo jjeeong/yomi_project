@@ -4,7 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
+//Dao에서 @AutoWired 쓰기 위해서는 Component필요해서 적어놉니다!!
+@Component
 public class BoardRowMapper implements RowMapper<Board>{
 
 	@Override
