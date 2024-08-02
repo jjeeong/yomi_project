@@ -1,0 +1,90 @@
+@font-face {
+    font-family: g_b;
+    src: url(/css/font/css/Gothic_A1/GothicA1-Bold.ttf)
+}
+
+@font-face {
+    font-family: g_black;
+    src: url(/css/font/css/Gothic_A1/GothicA1-Black.ttf)
+}
+
+@font-face {
+    font-family: g_r;
+    src: url(/css/font/css/Gothic_A1/GothicA1-Regular.ttf)
+}
+@font-face {
+    font-family: g_m;
+    src: url(/css/font/css/Gothic_A1/GothicA1-Medium.ttf)
+}
+
+:root {
+    --point1: #F24C00;
+    --point2: #FC7A1E;
+    --sub: #F7B788;
+    --bgcolor: #F3F3F3;
+    --color1: #EBEBEB;
+    --color2: #D9D9D9;
+    --pointFont: #010E47;
+    --mainFont: #5E6276;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: var(--bgcolor)
+}
+.login-container{
+    padding-top: 300px;
+    margin: 0 auto;
+    width: 800px;
+    height: 600px;
+    
+
+}
+.login-container >h2{
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 35px;
+    font-family: 'g_b';
+
+}
+
+
+.login-form>input{
+    width: 400px;
+    height: 50px;
+}
+.login-form>input[name=id]{
+    margin-bottom: 10px;
+}
+
+.login-input{
+    margin: 0 auto;
+    width: 404px;
+}
+.login-btn{
+    margin-top: 10px;
+    width: 404px;
+    height: 50px;
+    border-radius: 4px;
+    border: 0.5px solid var(--point1);
+    background-color: var(--point1);
+    font-family: 'g_r';
+    font-size: 17px;
+    color: var(--color1);
+}
+
+.find-links>a{
+    text-decoration: none;
+    color: black;
+    line-height: 40px;
+    font-family: 'g_r';
+}
+.find-links>a[id=find-id]{
+    margin-left: 60px;
+}
+.find-links>a[id=find-pw]{
+    margin-left: 90px;
+}
