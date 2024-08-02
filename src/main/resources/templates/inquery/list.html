@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>공지사항</title>
+<!-- 구글 아이콘 -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<style>
+
+	.inquery-list-wrap{
+		width : 1200px;
+		margin : 0 auto;
+	}
+	.inquery-list-wrap>div:nth-child(3){
+		height:500px;
+	}
+	#pageNavi{
+		margin-top : 30px;
+	}
+	.list-header{
+		padding : 10px 0px;
+	}
+	#write-btn{
+		display: inline-block;
+	}
+	#searchFrm{
+		display: flex;
+		float : right;
+	}
+	#searchFrm .select{
+		width:90px;
+	}
+	
+</style>
+</head>
+<body>
+
+	<th:block th:include="common/header"> </th:block>
+	
+	<main class="content">
+		<section class="section inquery-list-wrap">
+			<div class="page-title">문의사항</div>			
+			<div class="list-header">
+				<!--  			
+				<a th:if="${session.member != null && session.member.memberLevel == 1}" class="btn-point" href="/inquery/writeFrm">글쓰기</a>
+				-->
+				<a th:if="${session.member != null && session.member.memberLevel == 1}" class="btn-point" id="write-btn" href="/inquery/editorFrm">글쓰기</a>
+				<form action="/inquery/search" method="get" id="searchFrm">
+					<div class="input-item">
+						<div class="select">
+							<select name="type">
+								<option value="title">제목</option>
+								<option value="writer">작성자</option>
+							</select>						
+						</div>
+						<input type="text" name="keyword">
+						<button type="submit" class="btn-primary">조회</button>
+					</div>
+				</form>						
+			</div>
+			
+			<div>
+				<table class="tbl tbl-hover">
+					
+					<tr>
+						<th style="width:10%;">글번호</th>
+						<th style="width:45%;">제목</th>
+						<th style="width:15%;">작성자</th>
+						<th style="width:20%;">작성일</th>
+						<th style="width:10%;">조회수</th>
+					</tr>
+					
+					<tr th:each="inquery : ${list}">
+						<td th:text="${inquery.noticeNo}"></td>
+						<td class="left"><a th:href="@{/inquery/view(noticeNo=${inquery.noticeNo})}" th:text="${inquery.noticeTitle}"></a></td>
+						<td th:text="${inquery.noticeWriter}"></td>
+						<td th:text="${inquery.regDate}"></td>
+						<td th:text="${inquery.readCount}"></td>
+					</tr>			
+				
+				</table>
+			</div>	
+			<!-- 
+				th:text로 문자열을 넣으면 태그로 동작하지 않고 문자열로 표현
+				문자열을 태그로 인식시키려면 th:utext를 사용
+			 -->
+			<div id="pageNavi" th:utext="${pageNavi}"></div>	
+		</section>
+	</main>
+	
+	<th:block th:include="common/footer"></th:block>
+	
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
