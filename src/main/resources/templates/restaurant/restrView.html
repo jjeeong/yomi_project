@@ -142,9 +142,60 @@
         }
         .review-content {
             background-color: #fff;
-            width: 750px;
+            width: 800px;
             margin: 0 auto;
-            height: 400px;
+        }
+
+        /* ----------review ------------*/
+        .stars2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 700px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .upload {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .upload-btn, .tag-btn {
+            margin-right: 5px;
+            padding: 10px;
+        }
+
+        .submit-btn {
+            width: 200px;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: orange;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .toggle-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #ccc;
+            border: none;
+            cursor: pointer;
+        }
+
+        .collapsed .stars2,
+        .collapsed textarea,
+        .collapsed .upload,
+        .collapsed .submit-btn {
+            display: none;
+        }
+
+        .collapsed {
+            text-align: center;
         }
 
     </style>
@@ -221,9 +272,29 @@
                 <h2>리뷰</h2>
                 <h4>(10명의 평가)</h4>
             </div>
+			<div>
+			
+			</div>
             <div class="review-content">
-
+                <div class="review-form">
+                    <div class="stars2">
+                        <div class="star-rating">
+                            <span class="material-icons">grade</span>
+                            <span class="material-icons">grade</span>
+                            <span class="material-icons">grade</span>
+                            <span class="material-icons">grade</span>
+                            <span class="material-icons">grade</span>
+                        </div>
+                    </div>
+                    <textarea placeholder="리뷰를 작성하세요."></textarea>
+                    <div class="upload">
+                        <button class="tag-btn">태그 추가</button>
+                    </div>
+                    <button type="submit" class="submit-btn">등록</button>
+                    <button class="toggle-btn">접기</button>
+                </div>
             </div>
+
         </div>
 
         <div class="blog-wrap">
@@ -234,6 +305,22 @@
    <th:block th:include="common/footer"></th:block>
 
     <script>
+       document.addEventListener("DOMContentLoaded", function() {
+        const toggleBtn = document.querySelector(".toggle-btn");
+        const reviewForm = document.querySelector(".review-form");
+
+        toggleBtn.addEventListener("click", function() {
+            if (reviewForm.classList.contains("collapsed")) {
+                reviewForm.classList.remove("collapsed");
+                toggleBtn.textContent = "접기";
+            } else {
+                reviewForm.classList.add("collapsed");
+                toggleBtn.textContent = "리뷰 작성";
+            }
+          }); 
+        });
+
+
         $(function() {
            initMap();
         });
