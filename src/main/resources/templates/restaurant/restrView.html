@@ -4,180 +4,377 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>맛집 상세 페이지</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- 구글 아이콘 -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		rel="stylesheet">
+	
     <link rel="stylesheet" href="/css/font.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+	
     <style>
+        * {
+            text-decoration: none;
+            list-style:none;
+            padding: 0px;
+            margin: 0px;
+        }
         body, html {
             background-color: #F3F3F3;
             height: 100%;
         }
         .star-rating .material-icons {
-            font-size: 1.5rem;
+            font-size: 50px;
+            color: #FC7A1E;
+        }
+        .shop-img {
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+            border-radius: 30px;
+        }
+        .shop-title {
+            font-family: g_b;
+            font-size: 35px;
+        }
+
+        .restr-wrap {
+            width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px 0px gray;
+            margin-top: 70px;
+            border-radius: 30px;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .shop-imgs {
+            padding-top: 30px;
+            display: flex;
+            padding-bottom: 30px;
+        }
+        .shop-likes .material-icons{
+            color: #B3B3B3;
+            font-size: 50px;
             cursor: pointer;
-            color: #ffcc00;
         }
-        .star-rating .material-icons.gray {
-            color: #ccc;
+        .shop-likes {
+            padding-left: 120px;
         }
+        .restr-wrap-content {          
+            margin: 30px;
+        }
+        .stars1 {
+            display: flex;
+        }
+        .stars1 p {
+            margin-top: 12px;
+            font-size: 25px;
+            color: #A3A3A3;
+        }
+        .shop-information {
+            height: 150px;
+            border-bottom: 1px solid black;
+        }
+        .shop-information span {
+            font-size: 20px;
+        }
+        .shop-information .material-icons {
+            font-size: 30px;
+        }
+
+        .menu-and-tag {
+            display: flex;
+        }
+        .menu-and-tag>div {
+            width: 50%;
+            padding: 20px;
+        }
+        .menu-and-tag h3 {
+            font-family: g_m;
+        }
+        .menu {
+            border-right: 1px solid black;
+        }
+        .shop-content {
+            border: 1px solid black;
+            margin: 20px;
+            height: 200px;
+            margin-top: 50px;
+        }
+        .shop-content>h3 {
+            font-family: g_m;
+            padding-left: 20px;
+            padding-top: 20px;
+        }
+        .shop-content>p {
+            font-size: 20px;
+            padding-left: 20px;
+        }
+        .menu>ul {
+            padding-left: 0px;
+        }
+        .menu>ul>li {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        /* ----------- 리뷰 ---------------- */
+
+        .review-wrap {
+            background-color: #EBEBEB;
+            width: 900px;
+            height: 1000px;
+            margin: 0 auto;
+            margin-top: 30px;
+            box-shadow: 0px 0px 10px 0px gray;
+            border-radius: 30px;
+        }
+        .review-title {
+            display: flex;
+            margin: 20px;
+            padding-top: 20px;
+        }
+        .review-title h4 {
+            padding-top: 10px;
+        }
+        .review-content {
+            background-color: #fff;
+            width: 800px;
+            margin: 0 auto;
+        }
+
+        /* ----------review ------------*/
+        .stars2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 700px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .upload {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .upload-btn, .tag-btn {
+            margin-right: 5px;
+            padding: 10px;
+        }
+
+        .submit-btn {
+            width: 200px;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: orange;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .toggle-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #ccc;
+            border: none;
+            cursor: pointer;
+        }
+
+        .collapsed .stars2,
+        .collapsed textarea,
+        .collapsed .upload,
+        .collapsed .submit-btn {
+            display: none;
+        }
+
+        .collapsed {
+            text-align: center;
+        }
+
     </style>
 </head>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zzl0s76r4r&submodules=geocoder"></script>
-
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <body>
     
-    <!-- 헤더 들어갈 장소 -->
+    <th:block th:include="common/header"></th:block>
+
     
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card mb-4">
-                    <div class="card-body">
-                    	<div><img src="${r.restrImg1}"></div>
-                        <div class="d-flex justify-content-between align-items-start">
-                            <h2 class="card-title" th:text="${r.restrName}"></h2>
-                            <div>
-                                <span class="material-icons">favorite</span>
-                                <span class="material-icons">bookmark</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <div class="star-rating me-2">
-                                <span class="material-icons">grade</span>
-                                <span class="material-icons">grade</span>
-                                <span class="material-icons">grade</span>
-                                <span class="material-icons">grade</span>
-                                <span class="material-icons">grade</span>
-                            </div>
-                            <p class="mb-0">4.0 (10명의 평가)</p>
-                        </div>
-                        <p><span class="material-icons">location_on</span><span th:text="${r.restrAddr1}"></span> <span th:text="${r.restrAddr2}"></span></p>
-                        <p><span class="material-icons">call</span><span th:text="${r.restrTel}"></span></p>
-                        <h3 class="mt-4">메뉴</h3>
-                        <ul class="list-unstyled">
-                            <li>메뉴명 ------------ 80,000원</li>
+    <div>
+        <div class="restr-wrap">
+            <div class="restr-wrap-content">
+                <div class="shop-imgs">
+                    <div class="shop-img"></div>
+                    <div class="shop-img"></div>
+                    <div class="shop-likes">
+                        <span class="material-icons" id="like-none" th:onclick="likePush(this,[[${r.restrNo}]]);">favorite</span>
+                        <span class="material-icons">bookmark</span>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="shop-title" th:text="${r.restrName}"></h2>
+                </div>
+                <div class="stars1">
+                    <div class="star-rating">
+                        <span class="material-icons">grade</span>
+                        <span class="material-icons">grade</span>
+                        <span class="material-icons">grade</span>
+                        <span class="material-icons">grade</span>
+                        <span class="material-icons">grade</span>
+                    </div>
+                    <p>4.0 (10명의 평가)</p>
+                </div>
+                <div class="shop-information">
+                    <div>
+                        <span class="material-icons">location_on</span><span th:text="${r.restrAddr1}"></span>
+                        <span th:text="${r.restrAddr2}"></span>
+                    </div>
+                    <div>
+                        <span class="material-icons">call</span>
+                        <span th:text="${r.restrTel}"></span>
+                    </div>
+                </div>
+                <div class="menu-and-tag">
+                    <div class="menu">
+                        <h3>메뉴</h3>
+                        <ul>
                             <li>메뉴명 ------------ 80,000원</li>
                             <li>메뉴명 ------------ 80,000원</li>
                             <li>메뉴명 ------------ 80,000원</li>
                         </ul>
-                        <h3 class="mt-4">태그</h3>
-                        <span class="badge bg-secondary">#삼겹살</span>
-                        <h3 class="mt-4">매장 소개</h3>
-                        <p th:text="${r.restrContent}">설명</p>
+                    </div>
+                    <div class="tag">
+                        <h3>태그</h3>
+                        <div class="tags"></div>
                     </div>
                 </div>
-
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h3>지도</h3>
-                        <div id="map" style="width:100%;height:300px;">지도 API가 들어갈 장소</div>
-                    </div>
-                </div>
-
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h3>리뷰 작성</h3>
-                        <form>
-                            <div class="mb-3">
-                                <label for="reviewContent" class="form-label">리뷰 내용</label>
-                                <textarea class="form-control" id="reviewContent" rows="3"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">별점</label>
-                                <div class="star-rating">
-                                    <span class="material-icons" data-rating="1">grade</span>
-                                    <span class="material-icons" data-rating="2">grade</span>
-                                    <span class="material-icons" data-rating="3">grade</span>
-                                    <span class="material-icons" data-rating="4">grade</span>
-                                    <span class="material-icons" data-rating="5">grade</span>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="reviewImage" class="form-label">이미지 업로드</label>
-                                <input class="form-control" type="file" id="reviewImage" accept="image/*">
-                            </div>
-                            <button type="submit" class="btn btn-primary">리뷰 등록</button>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h3>리뷰</h3>
-                        <div class="d-flex align-items-center mb-2">
-                            <span class="badge bg-success me-2">맛있어요(8)</span>
-                            <span class="badge bg-warning me-2">추천해요(4)</span>
-                            <span class="badge bg-info">친절해요(2)</span>
-                        </div>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="card-title">작성자</h5>
-                                    <small>2024/08/01</small>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="star-rating me-2">
-                                        <span class="material-icons">grade</span>
-                                        <span class="material-icons">grade</span>
-                                        <span class="material-icons">grade</span>
-                                        <span class="material-icons">grade</span>
-                                        <span class="material-icons">grade</span>
-                                    </div>
-                                    <p class="mb-0">4.5</p>
-                                </div>
-                                <p class="card-text">리뷰 내용</p>
-                                <div class="d-flex">
-                                    <img src="img/single-item.jpg" class="img-fluid rounded me-2" style="width: 50px; height: 50px;" alt="리뷰 이미지">
-                                </div>
-                            </div>
-                        </div>
-                        <button class="btn btn-secondary">더보기</button>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-lg-12 mt-4">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h3>블로그 후기</h3>
-                        <div class="mb-3">
-                            <h5>블로그 제목</h5>
-                            <p>블로그 내용</p>
-                            <p><small>블로그 작성자</small></p>
-                        </div>
-                        <div class="mb-3">
-                            <h5>블로그 제목</h5>
-                            <p>블로그 내용</p>
-                            <p><small>블로그 작성자</small></p>
-                        </div>
-                        <div class="mb-3">
-                            <h5>블로그 제목</h5>
-                            <p>블로그 내용</p>
-                            <p><small>블로그 작성자</small></p>
-                        </div>
-                        <button class="btn btn-secondary">블로그 더보기</button>
-                    </div>
+                <div class="shop-content">
+                    <h3>매장 소개</h3>
+                    <p>설명</p>
                 </div>
             </div>
         </div>
+
+        <div id="map" style="width:100%; height:400px; margin: 0 auto; border: solid black 1px;"></div>
+
+
+        <!-- 리뷰 -->
+        <div class="review-wrap">
+			<div class="review-title">
+                <h2>리뷰</h2>
+                <h4>(10명의 평가)</h4>
+            </div>
+			<div>
+			
+			</div>
+            <div class="review-content">
+                <div class="review-form">
+                    <div class="stars2">
+                        <div class="star-rating">
+                            <span class="material-icons">grade</span>
+                            <span class="material-icons">grade</span>
+                            <span class="material-icons">grade</span>
+                            <span class="material-icons">grade</span>
+                            <span class="material-icons">grade</span>
+                        </div>
+                    </div>
+                    <textarea placeholder="리뷰를 작성하세요."></textarea>
+                    <div class="upload">
+                        <button class="tag-btn">태그 추가</button>
+                    </div>
+                    <button type="submit" class="submit-btn">등록</button>
+                    <button class="toggle-btn">접기</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="blog-wrap">
+
+        </div>
     </div>
 
-	<!-- 푸터 들어갈 장소 -->
+   <th:block th:include="common/footer"></th:block>
 
     <script>
+       document.addEventListener("DOMContentLoaded", function() {
+        const toggleBtn = document.querySelector(".toggle-btn");
+        const reviewForm = document.querySelector(".review-form");
+
+        toggleBtn.addEventListener("click", function() {
+            if (reviewForm.classList.contains("collapsed")) {
+                reviewForm.classList.remove("collapsed");
+                toggleBtn.textContent = "접기";
+            } else {
+                reviewForm.classList.add("collapsed");
+                toggleBtn.textContent = "리뷰 작성";
+            }
+          }); 
+        });
+
+
         $(function() {
-        	initMap();
+           initMap();
         });
 
         function initMap() {
-        	var map = new naver.maps.Map('map',{
-        		center : new naver.maps.LatLng(37.552758094502494, 126.98732600494576),
-        		zoom: 15
-        	});
+           var map = new naver.maps.Map('map',{
+        	  zoomControl: true,
+        	  zoomControlOptions: { //줌 컨트롤의 옵션
+                position: naver.maps.Position.TOP_RIGHT,
+                style: naver.maps.ZoomControlStyle.SMALL
+              },
+              center : new naver.maps.LatLng(37.552758094502494, 126.98732600494576),
+              zoom: 15
+           });
+        }
+        
+        function likePush(obj, restrNo) {
+            const likeId = $(obj).attr('id');
+            const isLike = (likeId === "like-none") ? 0 : 1;
+            console.log(isLike);
+
+            $.ajax({
+                url: "/restaurant/likePush",
+                data: { restrNo: restrNo, isLike: isLike },
+                type: "post",
+                success: function(data) {
+                    if (data == -10) {
+                         Swal.fire({
+                            title: "로그인 필요",
+                            text: "로그인 후 이용해 주세요",
+                            icon: "info"
+                        });
+                    } else if (data == -1) {
+                        Swal.fire({
+                            title: "데이터 처리 오류",
+                            text: "잠시 후 다시 시도해주세요.",
+                            icon: "warning"
+                        });
+                    } else {
+                        if (isLike === 0) {
+                            $(obj).css("color", "red"); 
+                            $(obj).attr("id", "like-yes"); 
+                        } else {
+                            $(obj).css("color", "gray");
+                            $(obj).attr("id", "like-none");
+                        }
+                        // 현재 좋아요 갯수 변경
+                        $(obj).nextAll().last().text(data);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error: " + error);
+                }
+            });
         }
     </script>
 </body>
