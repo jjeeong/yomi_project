@@ -27,4 +27,24 @@ public class RestrDao {
 		}
 		return (Restaurant)list.get(0);
 	}
+
+	public int insertNoticeRestrLike(int restrNo, int memberNo) {
+		String query = "insert into restr_like values(?,?)";
+		Object[] params = {restrNo, memberNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int deleteNoticeRestrLike(int restrNo, int memberNo) {
+		String query = "delete from restr_like where restr_no = ? and member_no = ?";
+		Object[] params = {restrNo, memberNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public int selectNoticeRestrLikeCount(int restrNo) {
+		String query = "select count(*) from restr_like where restr_no = ?";
+		Object[] params = {restrNo};
+		int likeCount = jdbc.queryForObject(query, Integer.class , params);
+		return likeCount;
+	}
 }
