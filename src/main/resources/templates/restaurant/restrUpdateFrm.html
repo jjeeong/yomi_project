@@ -13,7 +13,7 @@
 	<th:block th:include="common/header"></th:block>
 	<main class="main restrFrm">
 		<div class="round-box frm">
-			<h2 class="page-title">맛집 등록</h2>
+			<h2 class="page-title">맛집 수정</h2>
 			<form action="/restaurant/restrWrite" method="post" enctype="multipart/form-data">
 				<div class="info basic round-box shadow">
 					<h3>1. 기본 정보</h3>
@@ -151,7 +151,7 @@
 							<div class="img-box">
 							</div>
 							<img src="" class="img-view">
-							<label for="imageFile1" class="btn btn-sm btn-mono">등록</label>
+							<label for="imageFile1" class="btn btn-sm btn-mono">변경</label>
 							<input type="file" id="imageFile1" name="imageFile1" accept=".jpg,.png,.jpeg"
 								onchange="loadImg(this);" class="photo">
 						</div>
@@ -159,14 +159,14 @@
 							<div class="img-box">
 							</div>
 							<img src="" class="img-view">
-							<label for="imageFile2" class="btn btn-sm btn-mono">등록</label>
+							<label for="imageFile2" class="btn btn-sm btn-mono">변경</label>
 							<input type="file" id="imageFile2" name="imageFile2" accept=".jpg,.png,.jpeg"
 								onchange="loadImg(this);" class="photo">
 						</div>
 					</div>
 				</div>
 				<div class="submit-btn">
-					<button type="submit" id="submit" class="btn btn-point btn-lg">등 록</button>
+					<button type="submit" id="submit" class="btn btn-point btn-lg">수 정</button>
 					<button type="button" id="cancel" class="btn btn-mono btn-lg">취 소</button>
 				</div>
 			</form>
