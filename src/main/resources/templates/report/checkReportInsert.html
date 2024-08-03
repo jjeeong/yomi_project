@@ -1,13 +1,98 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 </head>
+
 <body>
 	<!-- 진짜 있는 페이지는 아니고 신고창 미리 디자인 해놓는 중입니다아 -->
 	<th:block th:include="common/header"></th:block>
-	<main class="main"></main>
+	<main class="main">
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+			Launch static backdrop modal
+		</button>
+
+		<!-- Modal -->
+		<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-div modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="staticBackdropLabel">신고 하기</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form action="" method="get">
+							<div class="respondent-info">
+								<div class="report-board-type">
+									<span class="info-name">글 유형</span>
+									<span class="info-dot"> : </span>
+									<span class="info-content">댓글/ 맛집 추천 게시글</span>
+								</div>
+								<div class="respondent-id">
+									<span class="info-name">작성자</span>
+									<span class="info-dot"> : </span>
+									<span class="info-content">작성자 ID</span>
+								</div>
+							</div>
+							<div class="input-box report-type">
+								<div class="info-name-box">
+									<span class="info-name">신고 사유 : </span>
+								</div>
+								<div class="info-content">
+									<div class="input">
+										<input type="radio" name="reportType" id="reportType1" value="스팸 홍보/도배">
+										<label for="reportType1">스팸 홍보/도배</label>
+									</div>
+									<div class="input">
+										<input type="radio" name="reportType" id="reportType2" value="음란물">
+										<label for="reportType2">음란물</label>
+									</div>
+									<div class="input">
+										<input type="radio" name="reportType" id="reportType3" value="불법 정보 포함">
+										<label for="reportType3">불법 정보 포함</label>
+
+									</div>
+									<div class="input">
+										<input type="radio" name="reportType" id="reportType4" value="불쾌한 내용 포함">
+										<label for="reportType4">불쾌한 내용 포함</label>
+									</div>
+									<div class="input">
+										<input type="radio" name="reportType" id="reportType5" value="잘못된 정보 포함">
+										<label for="reportType5">잘못된 정보 포함</label>
+									</div>
+									<div class="input">
+										<input type="radio" name="reportType" id="reportType6" value="">
+										<label for="reportType6">기타</label>
+										<input type="text">
+									</div>
+								</div>
+							</div>
+							<div class="input-box report-content">
+								<div class="info-name-box">
+									<span class="info-name">신고 사유 : </span>
+								</div>
+								<div class="info-content">
+									<textarea name="reportContent" id="reportContent"
+										placeholder="자세한 신고 사유를 입력하세요."></textarea>
+								</div>
+							</div>
+							<input type="submit" class="submit">
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-mono" data-bs-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-point">신고</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</main>
 	<th:block th:include="common/footer"></th:block>
 </body>
+
 </html>
