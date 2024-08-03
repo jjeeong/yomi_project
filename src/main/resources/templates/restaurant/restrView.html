@@ -150,12 +150,15 @@
         .stars2 {
             text-align: center;
             margin-bottom: 10px;
+            margin-top: 20px;
         }
 
         textarea {
             width: 700px;
             height: 200px;
-            margin-bottom: 20px;
+            box-sizing: border-box;
+            resize: none;
+            margin: 0 auto 20px auto;
         }
 
         .upload {
@@ -163,16 +166,17 @@
             margin-bottom: 10px;
         }
 
-        .upload-btn, .tag-btn {
+        .tag-btn {
             margin-right: 5px;
             padding: 10px;
+            margin-left: 50px;
         }
 
         .submit-btn {
             width: 200px;
-            margin: 0 auto;
+            border-radius: 30px;
             padding: 10px;
-            background-color: orange;
+            background-color: #FC7A1E;
             border: none;
             color: white;
             cursor: pointer;
@@ -193,9 +197,14 @@
         .collapsed .submit-btn {
             display: none;
         }
-
-        .collapsed {
+        
+        /* 그래프 */
+        .review-form {
+            border-top: 1px solid #ccc;
             text-align: center;
+        }
+        .review-header {
+            height: 400px;
         }
 
     </style>
@@ -272,11 +281,18 @@
                 <h2>리뷰</h2>
                 <h4>(10명의 평가)</h4>
             </div>
-			<div>
-			
-			</div>
             <div class="review-content">
-                <div class="review-form">
+                <div class="review-header">
+                    <div class="graph">
+                        
+                    </div>
+                    <div class="review-tags">
+
+                    </div>
+                </div>
+
+
+                <div class="review-form collapsed">
                     <div class="stars2">
                         <div class="star-rating">
                             <span class="material-icons">grade</span>
@@ -290,8 +306,10 @@
                     <div class="upload">
                         <button class="tag-btn">태그 추가</button>
                     </div>
-                    <button type="submit" class="submit-btn">등록</button>
-                    <button class="toggle-btn">접기</button>
+                    <div class="button-container">
+                        <button type="submit" class="submit-btn">등록</button>
+                    </div>
+                    <button class="toggle-btn">리뷰 작성</button>
                 </div>
             </div>
 
