@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>페이지를 찾을 수 없습니다.</title>
+	<link rel="stylesheet" href="/css/sujin.css">
+</head>
+
+<body>
+	<th:block th:include="common/header"></th:block>
+	<main class="main error">
+		<section class="round-box shadow">
+			<div class="error-name">
+				<h2>서버 오류</h2>
+			</div>
+			<div class="error-content">
+				<div class="error-text">
+					<p>시스템 오류가 발생했습니다.</p>
+					<p>잠시 후 다시 시도해주세요.</p>
+				</div>
+				<div class="img">
+					<img src="/image/error 페이지용.jpg">
+					<span class="logo">YOMIYOMI</span>
+				</div>
+			</div>
+		</section>
+	</main>
+	<th:block th:include="common/footer"></th:block>
+</body>
+
+</html>
