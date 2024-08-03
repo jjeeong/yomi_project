@@ -29,4 +29,9 @@ public class RestrController {
 			return "restaurant/restrView";
 		}
 	}
+	
+	@GetMapping(value="/restrFrm")
+	public String restrFrm() {
+		return "restaurant/restrWriteFrm";
+	}//restFrm()
 }

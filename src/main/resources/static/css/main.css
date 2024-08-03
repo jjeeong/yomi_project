@@ -1,0 +1,478 @@
+:root {
+    --point1: #F24C00;
+    --point2: #FC7A1E;
+    --sub: #F7B788;
+    --bgcolor: #F3F3F3;
+    --color1: #EBEBEB;
+    --color2: #D9D9D9;
+    --pointFont: #010E47;
+    --mainFont: #5E6276;
+    --monocolor: #FFF8F5;
+    --monocolor2: #EDE4E1;
+}
+
+html,
+body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+body>* {
+    color: var(--mainFont);
+    font-family: g_r;
+}
+
+header {
+    background-color: #fff;
+}
+
+header a {
+    text-decoration: none;
+    color: var(--pointfont);
+}
+
+.header-top {
+    display: flex;
+}
+
+.header-top>div {
+    height: 50px;
+    background-color: #fff;
+}
+
+.header-top>.logo {
+    width: 20%;
+    color: var(--point1);
+    text-align: center;
+}
+
+.header-top>.logo>a {
+    line-height: 50px;
+    font-size: 24px;
+}
+
+.header-top>.search {
+    width: 60%;
+    padding: 5px 0;
+    margin: 0 200px;
+    min-width: 300px;
+}
+
+header .search>form {
+    display: flex;
+    justify-content: center;
+}
+
+header .search input {
+    border: none;
+    border-bottom: 2px solid var(--point1);
+    border-radius: 0;
+    outline: none;
+    display: inline-block;
+    min-width: 330px;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+header .search .none-btn {
+    position: relative;
+    border: none;
+    background-color: transparent;
+}
+
+header .search span {
+    position: absolute;
+    top: 10px;
+    right: 13px;
+    color: var(--point1);
+    font-weight: bold;
+}
+
+header .header-top>.text-end {
+    width: 20%;
+    line-height: 50px;
+    font-size: 15px;
+    padding-right: 50px;
+    min-width: 200px;
+}
+
+header .text-end>a {
+    padding: 0 10px;
+}
+
+header .header-top {
+    background-color: #fff;
+}
+
+
+header nav ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+header nav>.navi {
+    display: flex;
+    background-color: var(--point1);
+    min-width: 450px;
+}
+
+header nav>ul>li {
+    width: 20%;
+    text-align: center;
+    min-width: 110px;
+}
+
+header nav>ul>li>a {
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    color: var(--monocolor);
+}
+
+header nav>ul>li:hover>a {
+    font-size: 1.3em;
+    font-weight: 500;
+}
+
+header nav>ul>.nav-bar>ul {
+    display: none;
+}
+
+header nav>ul>.nav-bar:hover>ul {
+    display: block;
+}
+
+header nav>.navi>li:last-child {
+    position: relative;
+}
+
+header nav>.navi>li:last-child>.nav-sub {
+    position: absolute;
+    width: 100%;
+    border-bottom-left-radius: 5%;
+    border-bottom-right-radius: 5%;
+    border: 1px solid var(--point1);
+    border-top: none;
+}
+
+header .nav-sub>li>a {
+    display: inline-block;
+    height: 50px;
+    width: 100%;
+    line-height: 50px;
+    background-color: var(--monocolor);
+}
+
+header .nav-sub>li:last-child>a {
+    border-bottom-left-radius: 5%;
+    border-bottom-right-radius: 5%;
+}
+
+header .nav-sub>li:hover>a {
+    font-size: 1.05em;
+    font-weight: 500;
+}
+
+header .nav-sub>li:last-child>a {
+    border-top: 1px solid var(--point1);
+}
+
+/* 메인 */
+.main {
+    flex: 1;
+}
+
+main.main .round-box {
+    border-radius: 3%;
+}
+
+main.main h2.page-title {
+    text-align: center;
+    margin: 20px 0;
+    font-family: g_black;
+    color: var(--pointFont);
+}
+
+main.main .btn-sub {
+    background-color: var(--sub);
+    color: var(--mainFont);
+}
+
+main.main .btn-point {
+    background-color: var(--point1);
+    color: var(--monocolor2);
+}
+
+main.main .btn-mono {
+    background-color: var(--monocolor2);
+    color: var(--mainFont);
+}
+
+main.main button.none-btn {
+    position: relative;
+    border: none;
+    background-color: transparent;
+}
+
+/* 푸터 */
+footer.footer {
+    height: 100px;
+    min-height: 100px;
+    background-color: var(--monocolor);
+    margin-bottom: 0;
+}
+
+/* 맛짐 등록용 main*/
+main.restrFrm {
+    background-color: var(--bgcolor);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding: 50px 0;
+}
+
+main.restrFrm div.frm {
+    width: 900px;
+    background-color: #fff;
+    padding: 50px 50px;
+    padding-top: 0px;
+}
+
+main.restrFrm h2.page-title {
+    margin: 50px 0;
+    font-size: 40px;
+}
+
+main.restrFrm div.frm div.info {
+    background-color: var(--bgcolor);
+    padding: 20px 40px;
+}
+
+main.restrFrm span.inputName,
+main.restrFrm h3 {
+    color: var(--pointFont);
+    font-family: g_b;
+}
+
+main.restrFrm h3 {
+    margin-top: 10px;
+}
+
+main.restrFrm span.inputName {
+    display: inline-block;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+main.restrFrm div.input-content {
+    padding: 0 10px;
+}
+
+main.restrFrm div.input-list {
+    margin: 30px 0;
+}
+
+main.restrFrm div.input-list>div.input-box {
+    width: 100%;
+}
+
+
+main.restrFrm div.input-box>.input-lg {
+    display: block;
+    width: 90%;
+    height: 40px;
+    padding: 5px 10px;
+    margin: 0 auto;
+    font-size: 15px;
+    line-height: 30px;
+}
+
+main.restrFrm div.input-box>textarea.input-lg {
+    height: 120px;
+    resize: none;
+    outline: none;
+    border-color: transparent;
+    border-radius: 5%;
+}
+
+main.restrFrm div.restrAddr input#restrAddr1 {
+    margin-bottom: 10px;
+}
+
+main.restrFrm .btn-sm {
+    height: 25px;
+    font-size: 13px;
+    line-height: 25px;
+    padding: 0 7px;
+}
+
+main.restrFrm .btn-reg {
+    height: 30px;
+    font-size: 17px;
+    font-family: g_b;
+    line-height: 30px;
+    padding: 0 10px;
+}
+
+main.restrFrm span.inputName+button.btn {
+    margin-left: 10px;
+}
+
+main.restrFrm div.info {
+    margin-bottom: 50px;
+}
+
+
+main.restrFrm .tbl {
+    border-top: 1px solid var(--point1);
+    border-bottom: 1px solid var(--point1);
+    width: 90%;
+    margin: 0 auto;
+    table-layout: fixed;
+}
+
+main.restrFrm .tbl>* {
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+}
+
+
+main.restrFrm table.table>thead>tr>th {
+    background-color: var(--sub);
+    color: var(--pointFont);
+}
+
+main.restrFrm table.table>tbody>tr>td {
+    color: var(--mainFont);
+}
+
+main.restrFrm .tbl>tbody>tr {
+    border-top: 1px solid var(--point1);
+}
+
+
+main.restrFrm .tbl div.btn-box>button {
+    margin: 2px 0;
+    flex-shrink: 0;
+}
+
+main.restrFrm .tbl .input-box {
+    padding: 13px 0;
+}
+
+main.restrFrm .tbl input.input-td {
+    width: 60%;
+    height: 30px;
+    text-align: center;
+    border: 1px solid var(--point1);
+    border-radius: 5%;
+    outline: none;
+}
+
+main.restrFrm .tbl input.input-td:focus {
+    border: 2px solid var(--point1);
+}
+
+main.restrFrm .tbl th:last-child {
+    width: 30%;
+}
+
+main.restrFrm .tbl td span {
+    margin-left: 5px;
+}
+
+main.restrFrm div.restrTag input {
+    margin-left: 23px;
+
+}
+
+main.restrFrm input {
+    border-radius: 5%;
+    border-color: transparent;
+    outline: none;
+}
+
+main.restrFrm div.tag-box {
+    margin-top: 10px;
+    padding: 0 23px;
+}
+
+main.restrFrm div.tag-box>div.tag {
+    background-color: var(--sub);
+    border-radius: 10%;
+    display: inline-block;
+    height: 25px;
+    padding-left: 15px;
+    padding-right: 30px;
+    position: relative;
+    margin-right: 10px;
+}
+
+main.restrFrm div.tag-box>div.tag>span.tag-name {
+    line-height: 25px;
+    font-size: 15px;
+}
+
+
+
+main.restrFrm div.tag-box>div.tag>.material-symbols-outlined {
+    font-size: 20px;
+    color: var(--mainFont);
+    position: absolute;
+    right: 5px;
+    top: 2px;
+}
+
+main.restrFrm input#restrTag {
+    margin-right: 5px;
+}
+
+main.restrFrm div.photo>.input-content {
+    display: flex;
+    justify-content: center;
+}
+
+main.restrFrm input.photo {
+    display: none;
+}
+
+main.restrFrm div.img {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+main.restrFrm div.img-box {
+    width: 90%;
+    height: 300px;
+    background-color: var(--color2);
+}
+
+main.restrFrm img.img-view {
+    flex-grow: 1;
+}
+
+main.restrFrm div.submit-btn {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+main.restrFrm .btn-lg {
+    width: 40%;
+    height: 60px;
+    font-size : 24px;
+    font-family : g_b;
+}
