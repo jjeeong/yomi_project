@@ -292,7 +292,16 @@ main.restrFrm div.input-box>.input-lg {
     padding: 5px 10px;
     margin: 0 auto;
     font-size: 15px;
-    line-height: 30px;
+    line-height: 40px;
+}
+
+main.restrFrm div.input-box>.input-reg {
+    width: 50%;
+    height: 40px;
+    padding: 5px 10px;
+    font-size: 15px;
+    line-height: 40px;
+
 }
 
 main.restrFrm div.input-box>textarea.input-lg {
@@ -315,11 +324,11 @@ main.restrFrm .btn-sm {
 }
 
 main.restrFrm .btn-reg {
-    height: 30px;
+    height: 40px;
     font-size: 17px;
     font-family: g_b;
-    line-height: 30px;
-    padding: 0 10px;
+    line-height: 40px;
+    padding: 0 15px;
 }
 
 main.restrFrm span.inputName+button.btn {
@@ -362,7 +371,6 @@ main.restrFrm .tbl>tbody>tr {
 
 main.restrFrm .tbl div.btn-box>button {
     margin: 2px 0;
-    flex-shrink: 0;
 }
 
 main.restrFrm .tbl .input-box {
@@ -473,6 +481,6 @@ main.restrFrm div.submit-btn {
 main.restrFrm .btn-lg {
     width: 40%;
     height: 60px;
-    font-size : 24px;
-    font-family : g_b;
+    font-size: 24px;
+    font-family: g_b;
 }

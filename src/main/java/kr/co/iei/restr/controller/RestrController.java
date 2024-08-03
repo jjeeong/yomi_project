@@ -30,8 +30,13 @@ public class RestrController {
 		}
 	}
 	
-	@GetMapping(value="/restrFrm")
-	public String restrFrm() {
+	@GetMapping(value="/writeFrm")
+	public String writeFrm() {
 		return "restaurant/restrWriteFrm";
+	}//restFrm()
+	
+	@GetMapping(value="/updateFrm")
+	public String updateFrm() {
+		return "restaurant/restrUpdateFrm";
 	}//restFrm()
 }
