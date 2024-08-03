@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>맛집 등록</title>
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+	<th:block th:include="common/header"></th:block>
+	<main class="main restrFrm">
+		<div class="round-box frm">
+			<h2 class="page-title">맛집 등록</h2>
+			<form action="/restaurant/restrWrite" method="post" enctype="multipart/form-data">
+				<div class="info basic round-box shadow">
+					<h3>1. 기본 정보</h3>
+					<div class="input-content">
+						<div class="input-list restrName">
+							<label for="restrName">
+								<span class="inputName">▪ 음식점 이름</span>
+							</label>
+							<div class="input-box">
+								<input type="text" name="restrName" id="restrName" class="input-lg"
+									placeholder="업체명을 입력하세요">
+							</div>
+						</div>
+						<div class="input-list restrAddr">
+							<span class="inputName">▪ 주소</span><button type="button"
+								class="btn btn-point btn-sm round-box">검색</button>
+							<div class="input-box">
+								<input type="text" name="restrAddr1" id="restrAddr1" class="input-lg" readonly
+									placeholder="주소를 입력하세요">
+								<input type="text" name="restrAddr2" id="restrAddr2" class="input-lg" readonly
+									placeholder="상세 주소를 입력하세요">
+							</div>
+						</div>
+						<div class="input-list restrTel">
+							<label for="restrTel">
+								<span class="inputName">▪ 전화번호</span>
+							</label>
+							<div class="input-box">
+								<input type="text" name="restrTel" id="restrTel" class="input-lg"
+									placeholder="업체 번호를 입력하세요 (02-0000-0000)">
+							</div>
+						</div>
+						<div class="input-list restrContent">
+							<label for="restrContent">
+								<span class="inputName">▪ 설명</span>
+							</label>
+							<div class="input-box">
+								<textarea name="restrName" id="restrName" class="input-lg"
+									placeholder="간략한 설명을 입력하세요 (최대 100자)"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="info sub round-box shadow">
+					<h3>2. 부가 정보</h3>
+					<div class="input-content">
+						<div class="input-list restrMenu">
+							<span class="inputName">▪ 메뉴</span><button type="button"
+								class="btn btn-point btn-sm round-box">항목 추가</button>
+							<div class="tbl-box">
+								<table class="tbl table">
+									<thead>
+										<tr>
+											<th>메뉴 이름</th>
+											<th>가격</th>
+											<th>추가/삭제</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>메뉴 이름</td>
+											<td>가격</td>
+											<td>
+												<button class="btn btn-sm btn-mono">
+													수정
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="input-box">
+													<input type="text" class="input-td round-box" name="menuName"
+														placeholder="메뉴 이름">
+												</div>
+											</td>
+											<td>
+												<div class="input-box">
+													<input type="text" class="input-td round-box" name="menuPrice"
+														placeholder="가격"><span>원</span>
+												</div>
+											</td>
+											<td>
+												<div class="btn-box">
+													<button class="btn btn-sm btn-sub">
+														추가
+													</button><br>
+													<button class="btn btn-sm btn-mono">
+														삭제
+													</button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="input-list restrTag">
+							<label for="restrTel">
+								<span class="inputName">▪ 태그 추가</span>
+							</label>
+							<div class="input-content">
+								<div class="input-box">
+									<input type="text" name="restrTag" id="restrTag" class="input-reg"
+										placeholder="추가할 태그를 입력하세요">
+									<button type="button" class="btn btn-point btn-reg">추가</button>
+								</div>
+								<div class="tag-box">
+									<div class="tag">
+										<span class="tag-name">태그 이름</span>
+										<span class="material-symbols-outlined">
+											cancel
+										</span>
+									</div>
+									<div class="tag">
+										<span class="tag-name">태그 이름</span>
+										<span class="material-symbols-outlined">
+											cancel
+										</span>
+									</div>
+									<div class="tag">
+										<span class="tag-name">태그 이름</span>
+										<span class="material-symbols-outlined">
+											cancel
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="info photo round-box shadow">
+					<h3>3. 사진 등록 (첫번째 사진이 썸네일로 들어갑니다.)</h3>
+					<div class="input-content">
+						<div class="img">
+							<div class="img-box">
+							</div>
+							<img src="" class="img-view">
+							<label for="imageFile1" class="btn btn-sm btn-mono">등록</label>
+							<input type="file" id="imageFile1" name="imageFile1" accept=".jpg,.png,.jpeg"
+								onchange="loadImg(this);" class="photo">
+						</div>
+						<div class="img">
+							<div class="img-box">
+							</div>
+							<img src="" class="img-view">
+							<label for="imageFile2" class="btn btn-sm btn-mono">등록</label>
+							<input type="file" id="imageFile2" name="imageFile2" accept=".jpg,.png,.jpeg"
+								onchange="loadImg(this);" class="photo">
+						</div>
+					</div>
+				</div>
+				<div class="submit-btn">
+					<button type="submit" id="submit" class="btn btn-point btn-lg">등 록</button>
+					<button type="button" id="cancel" class="btn btn-mono btn-lg">취 소</button>
+				</div>
+			</form>
+		</div>
+	</main>
+	<th:block th:include="common/footer"></th:block>
+</body>
+
+</html>
