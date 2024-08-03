@@ -187,6 +187,7 @@ header .nav-sub>li:last-child>a {
 /* 메인 */
 .main {
     flex: 1;
+    background-color: var(--bgcolor);
 }
 
 main.main .round-box {
