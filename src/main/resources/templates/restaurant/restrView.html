@@ -9,24 +9,127 @@
     
     <link rel="stylesheet" href="/css/font.css">
     <style>
+        * {
+            text-decoration: none;
+            list-style:none;
+            padding: 0px;
+            margin: 0px;
+        }
         body, html {
             background-color: #F3F3F3;
             height: 100%;
         }
         .star-rating .material-icons {
             font-size: 50px;
-            cursor: pointer;
             color: #FC7A1E;
         }
         .shop-img {
-           width: 350px;
-           height: 350px;
-           border: 1px solid black;
-           border-radius: 30px;
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+            border-radius: 30px;
+        }
+        .shop-title {
+            font-family: g_b;
+            font-size: 35px;
+        }
+
+        .restr-wrap {
+            width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px 0px gray;
+            margin-top: 70px;
+            border-radius: 30px;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .shop-imgs {
+            padding-top: 30px;
+            display: flex;
+            padding-bottom: 30px;
+        }
+        .shop-likes .material-icons{
+            color: #B3B3B3;
+            font-size: 50px;
+            cursor: pointer;
+        }
+        .shop-likes {
+            padding-left: 120px;
+        }
+        .restr-wrap-content {          
+            margin: 30px;
+        }
+        .stars1 {
+            display: flex;
+        }
+        .stars1 p {
+            margin-top: 12px;
+            font-size: 25px;
+            color: #A3A3A3;
+        }
+        .shop-information {
+            height: 150px;
+            border-bottom: 1px solid black;
+        }
+        .shop-information span {
+            font-size: 20px;
+        }
+        .shop-information .material-icons {
+            font-size: 30px;
+        }
+
+        .menu-and-tag {
+            display: flex;
+        }
+        .menu-and-tag>div {
+            width: 50%;
+            padding: 20px;
+        }
+        .menu-and-tag h3 {
+            font-family: g_m;
+        }
+        .menu {
+            border-right: 1px solid black;
+        }
+        .shop-content {
+            border: 1px solid black;
+            margin: 20px;
+            height: 200px;
+            margin-top: 50px;
+        }
+        .shop-content>h3 {
+            font-family: g_m;
+            padding-left: 20px;
+            padding-top: 20px;
+        }
+        .shop-content>p {
+            font-size: 25px;
+            padding-left: 20px;
+        }
+        .menu>ul {
+            padding-left: 0px;
+        }
+        .menu>ul>li {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        /* ----------- 리뷰 ---------------- */
+
+        .review-wrap {
+            background-color: #EBEBEB;
+            width: 900px;
+            height: 1000px;
+            margin: 0 auto;
+            margin-top: 30px;
+            box-shadow: 0px 0px 10px 0px gray;
+            border-radius: 30px;
         }
 
     </style>
 </head>
+<link rel="stylesheet" href="css/restr_css/restr_view_css.css">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zzl0s76r4r&submodules=geocoder"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
@@ -35,62 +138,63 @@
     <th:block th:include="common/header"></th:block>
 
     
-    <div class="restr-wrap">
-        <div>
-            <div class="shop-imgs">
-                <div class="shop-img"></div>
-                <div class="shop-img"></div>
-                <div class="shop-likes">
-                    <span class="material-icons">favorite</span>
-                    <span class="material-icons">bookmark</span>
-                </div>
-            </div>
-            <div>
-                <h2 class="card-title" th:text="${r.restrName}"></h2>
-            </div>
-            <div>
-                <div class="star-rating">
-                    <span class="material-icons">grade</span>
-                    <span class="material-icons">grade</span>
-                    <span class="material-icons">grade</span>
-                    <span class="material-icons">grade</span>
-                    <span class="material-icons">grade</span>
-                </div>
-                <p>4.0 (10명의 평가)</p>
-            </div>
-            <div>
-                <div>
-                    <span class="material-icons">location_on</span><span th:text="${r.restrAddr1}"></span>
-                    <span th:text="${r.restrAddr2}"></span>
+    <div>
+        <div class="restr-wrap">
+            <div class="restr-wrap-content">
+                <div class="shop-imgs">
+                    <div class="shop-img"></div>
+                    <div class="shop-img"></div>
+                    <div class="shop-likes">
+                        <span class="material-icons">favorite</span>
+                        <span class="material-icons">bookmark</span>
+                    </div>
                 </div>
                 <div>
-                    <span class="material-icons">call</span>
-                    <span th:text="${r.restrTel}"></span>
+                    <h2 class="shop-title" th:text="${r.restrName}"></h2>
                 </div>
-            </div>
-            <div class="menu-and-tag">
-                <div class="menu">
-                    <h2>메뉴</h2>
-                    <ul>
-                        <li>메뉴명 ------------ 80,000원</li>
-                        <li>메뉴명 ------------ 80,000원</li>
-                        <li>메뉴명 ------------ 80,000원</li>
-                    </ul>
+                <div class="stars1">
+                    <div class="star-rating">
+                        <span class="material-icons">grade</span>
+                        <span class="material-icons">grade</span>
+                        <span class="material-icons">grade</span>
+                        <span class="material-icons">grade</span>
+                        <span class="material-icons">grade</span>
+                    </div>
+                    <p>4.0 (10명의 평가)</p>
                 </div>
-                <div class="tag">
-                    <h2>메뉴명</h2>
-                    <div class="tags"></div>
+                <div class="shop-information">
+                    <div>
+                        <span class="material-icons">location_on</span><span th:text="${r.restrAddr1}"></span>
+                        <span th:text="${r.restrAddr2}"></span>
+                    </div>
+                    <div>
+                        <span class="material-icons">call</span>
+                        <span th:text="${r.restrTel}"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="content">
-                <h2>매장 소개</h2>
-                <p>설명</p>
+                <div class="menu-and-tag">
+                    <div class="menu">
+                        <h3>메뉴</h3>
+                        <ul>
+                            <li>메뉴명 ------------ 80,000원</li>
+                            <li>메뉴명 ------------ 80,000원</li>
+                            <li>메뉴명 ------------ 80,000원</li>
+                        </ul>
+                    </div>
+                    <div class="tag">
+                        <h3>태그</h3>
+                        <div class="tags"></div>
+                    </div>
+                </div>
+                <div class="shop-content">
+                    <h3>매장 소개</h3>
+                    <p>설명</p>
+                </div>
             </div>
         </div>
 
-        <div class="map">
-            <div id="map"></div>
-        </div>
+        <div id="map" style="width:100%; height:400px;"></div>
+
 
         <div class="review-wrap">
 
