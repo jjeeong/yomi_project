@@ -47,4 +47,10 @@ public class RestrDao {
 		int likeCount = jdbc.queryForObject(query, Integer.class , params);
 		return likeCount;
 	}
+
+	public List selectRestrList() {
+		String query = "select * from restaurant";
+		List list = jdbc.query(query, restaurantRowMapper);
+		return list;
+	}
 }

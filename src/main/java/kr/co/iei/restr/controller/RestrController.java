@@ -30,6 +30,7 @@ public class RestrController {
 	@Value("${file.root}")
 	private String root; // application.properties에 설정되어있는 file.root값을 가지고와서 문자열로 지정
 
+	//맛집 상세 페이지
 	@GetMapping(value = "/restrView")
     public String restrView(Model model) {
         Restaurant r = restrService.selectOneRestr(1); // 테스트용으로 1번 쿼리를 검색하도록 설정해둠.
@@ -45,6 +46,7 @@ public class RestrController {
         }
     }
 
+	//블로그 검색 결과
     private List<BlogSearchResult> parseSearchResults(String searchResult) {
         List<BlogSearchResult> results = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
@@ -66,6 +68,13 @@ public class RestrController {
             e.printStackTrace();
         }
         return results;
+    }
+    
+    //맛집 리스트
+    @GetMapping(value = "/restrList")
+    public String restrList(Model model) {
+        List list = restrService.selectRestrList(); //테스트용으로 전체 결과를 받아옴
+        return "restaurant/restrList";
     }
 
 	@ResponseBody
