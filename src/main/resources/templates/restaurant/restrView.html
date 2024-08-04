@@ -286,6 +286,27 @@
             font-size: 12px;
         }
 
+        /* 블로그 */
+        .blog-wrap {
+            background-color: #fff;
+            width: 900px;
+            border-radius: 30px;
+            margin: 0 auto 30px auto;
+            box-shadow: 0px 0px 10px 0px gray;
+        }
+        .blog-list {
+            padding: 20px;
+        }
+        .blog-header {
+            font-size: 25px;
+            font-family: g_b;
+            color: #FC7A1E;
+            border-bottom: 1px solid #ccc;
+        }
+        .blog-results {
+            margin-top: 30px;
+        }
+
     </style>
 </head>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -420,9 +441,10 @@
         </div>
 
 
-        <div>
-            <div>
-                <div th:each="result : ${searchResults}">
+        <div class="blog-wrap">
+            <div class="blog-list">
+                <div class="blog-header"><p>블로그 후기</p></div>
+                <div class="blog-results" th:each="result : ${searchResults}">
                     <div class="blog-result">
                         <a th:href="${result.link}"><h4 th:utext="${result.title}"></h4></a>
                         <p th:utext="${result.description}"></p>
