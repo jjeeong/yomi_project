@@ -137,19 +137,23 @@ header nav>ul>li {
     width: 20%;
     text-align: center;
     min-width: 110px;
+    padding-top : 0;
+    padding-bottom : 0;
 }
 
 header nav>ul>li>a {
     display: inline-block;
     height: 50px;
+    padding-top : 0;
+    padding-bottom : 0;
     line-height: 50px;
     font-size: 20px;
     color: var(--monocolor);
 }
 
 header nav>ul>li:hover>a {
-    font-size: 1.3em;
-    font-weight: 500;
+    color : #fff;
+    font-weight: bold;
 }
 
 header nav>ul>.nav-bar>ul {
@@ -169,8 +173,6 @@ header nav>.navi>li:last-child>.nav-sub {
     width: 100%;
     border-bottom-left-radius: 5%;
     border-bottom-right-radius: 5%;
-    border: 1px solid var(--point1);
-    border-top: none;
 }
 
 header .nav-sub>li>a {
@@ -178,7 +180,8 @@ header .nav-sub>li>a {
     height: 50px;
     width: 100%;
     line-height: 50px;
-    background-color: var(--monocolor);
+    background-color: var(--point1);
+    color : var(--monocolor);
 }
 
 header .nav-sub>li:last-child>a {
@@ -187,7 +190,7 @@ header .nav-sub>li:last-child>a {
 }
 
 header .nav-sub>li:hover>a {
-    font-size: 1.05em;
+    color : #fff;
     font-weight: 500;
 }
 
@@ -399,9 +402,9 @@ main.index .best-restr button.control-btn {
     width: 5%;
 }
 
-main.index section.main-content{
-	display : flex;
-	justify-content: space-between;
+main.index section.main-content {
+    display: flex;
+    justify-content: space-between;
 }
 
 main.index div.content {
@@ -538,57 +541,176 @@ main.index div.content>div.best-review>div.best-review-btn button>span {
 
 main.index aside.recent {
     width: 15%;
-    min-width : 185px;
-    display : flex;
+    min-width: 185px;
+    display: flex;
     justify-content: center;
-    
+
 }
 
 main.index aside.recent>.recent-wrap {
     width: 150px;
     height: 600px;
-    position : sticky;
+    position: sticky;
     top: 150px;
-    margin-top : 20px;
+    margin-top: 20px;
 }
 
-main.index aside.recent>.recent-wrap>div.recent-title{
-	text-align : center;
-	margin : 5px 0;
+main.index aside.recent>.recent-wrap>div.recent-title {
+    text-align: center;
+    margin: 5px 0;
 }
 
-main.index aside.recent>.recent-wrap>div.recent-title>span{
-	font-family : g_b;
-	color : var(--pointFont);
+main.index aside.recent>.recent-wrap>div.recent-title>span {
+    font-family: g_b;
+    color: var(--pointFont);
 }
 
-main.index aside.recent>.recent-wrap>div.recent-box{
+main.index aside.recent>.recent-wrap>div.recent-box {
     background-color: #fff;
-    padding : 15px;
-    border : 1px solid var(--point1);
-    display : flex;
-    flex-direction : column;
+    padding: 15px;
+    border: 1px solid var(--point1);
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    gap : 5px;
-}
-main.index aside.recent>.recent-wrap div.img-box{
-	width : 100px;
-	height : 100px;
-	overflow: hidden;
-	margin: 0 auto;
+    gap: 5px;
 }
 
-main.index aside.recent>.recent-wrap div.img-box>img{
-	height:100%;
-	object-fit : cover;
-	object-position : center;
+main.index aside.recent>.recent-wrap div.img-box {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    margin: 0 auto;
 }
-main.index aside.recent>.recent-wrap div.recent-name{
-	height : 24px;
-	margin-top : 5px;
-	text-align : center;
+
+main.index aside.recent>.recent-wrap div.img-box>img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
-main.index aside.recent>.recent-wrap div.recent-name>span{
-	line-height : 24px;
-	color : var(--pointFont);
+
+main.index aside.recent>.recent-wrap div.recent-name {
+    height: 24px;
+    margin-top: 5px;
+    text-align: center;
+}
+
+main.index aside.recent>.recent-wrap div.recent-name>span {
+    line-height: 24px;
+    color: var(--pointFont);
+}
+
+/* 신고 현황 */
+main.report-list {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding: 50px 0;
+}
+
+main.report-list>section {
+    margin: 0 auto;
+    background-color: #fff;
+    width: 900px;
+    background-color: #fff;
+    padding: 30px 0;
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main.report-list h2.page-title {
+    font-size: 40px;
+    margin-top: 50px;
+}
+
+main.report-list div.tbl {
+    flex-grow: 1;
+}
+
+main.report-list table.report-list {
+    margin: 0 auto;
+    width: 850px;
+}
+
+main.report-list table.report-list>thead>tr {
+    text-align: center;
+    background-color: var(--sub);
+    border-top: 1px solid var(--point1);
+    color: var(--pointFont);
+    height: 40px;
+}
+
+main.report-list table.report-list>tbody>tr {
+    text-align: center;
+    border-top: 1px solid var(--point1);
+    height: 60px;
+}
+
+main.report-list table.report-list td.report-content,
+main.report-list table.report-list td.report-board-content{
+	font-size: 0.9em;
+}
+
+main.report-list table.report-list div.btn-box{
+	display : flex;
+	flex-direction : column;
+	justify-content : center;
+	align-items: center;
+	gap : 3px;
+}
+
+main.report-list section>div.btn-box {
+	display : flex;
+	justify-content: center;
+	gap : 10px;
+}
+
+main.report-list section .btn-sm {
+    height: 25px;
+    font-size: 13px;
+    line-height: 25px;
+    padding: 0 7px;
+}
+
+main.report-list section>div.btn-box>button.btn-lg {
+    height: 60px;
+    font-size: 24px;
+    font-family: g_b;
+    padding-top : 0;
+    padding-bottom : 0;
+    line-height : 60px;
+}
+
+main.report-list div.dropdown>button{
+	font-weight : bold;
+	width: 100%;
+	position : relative;
+}
+
+main.report-list div.dropdown>button.dropdown-custom::after{
+	position : absolute;
+	right : 10px;
+	top : 14px;
+} 
+
+main.report-list div.search{
+	align-self : flex-end;
+	margin-right : 17px;
+	margin-bottom : 10px;
+}
+
+main.report-list div.search input{
+	outline : none;
+	border : 1px solid var(--point1);
+	padding : 2px 5px;
+	font-size : 15px;
+	color : var(--mainFont);
+}
+
+main.report-list div.search button{
+	height : 30px;
+	padding-top : 0;
+	padding-bottom : 0;
+	line-height : 30px;
 }
