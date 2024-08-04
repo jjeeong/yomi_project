@@ -420,14 +420,25 @@
         </div>
 
 
-        <div class="blog-wrap">
-
+        <div class="card mb-4">
+            <div class="card-body">
+                <div th:each="result : ${searchResults}">
+                    <div class="blog-result">
+                         <a th:href="${result.link}"><h4 th:text="${result.title}"></h4></a>
+                        <p th:text="${result.description}"></p>
+                        <p><strong>닉네임:</strong> <span th:text="${result.bloggerName}"></span></p>
+                        <p><strong>작성일:</strong> <span th:text="${result.postDate}"></span></p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
         </div>
     </div>
 
    <th:block th:include="common/footer"></th:block>
 
     <script>
+    
        document.addEventListener("DOMContentLoaded", function() {
         const toggleBtn = document.querySelector(".toggle-btn");
         const reviewForm = document.querySelector(".review-form");
