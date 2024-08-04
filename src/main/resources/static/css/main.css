@@ -24,8 +24,19 @@ body>* {
     font-family: g_r;
 }
 
-header {
+header.header {
+    padding-top: 100px;
+    min-width: 1240px;
     background-color: #fff;
+    z-index: 999;
+    width: 100%;
+}
+
+header>div.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    min-width: 1240px;
 }
 
 header a {
@@ -328,4 +339,190 @@ main.main div.modal-div>.modal-footer>.btn {
 
 main.main div.modal-div>.modal-body input[type=submit] {
     display: none;
+}
+
+/* 메인 페이지 */
+main.index .best-restr div.carousel-inner {
+    width: 100%;
+    min-width: 1240px;
+    background-image: url(/image/main\ 페이지용.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+}
+
+main.index div.carousel-inner>div.bg-fade {
+    width: 100%;
+    height: 350px;
+    padding: 10px;
+    z-index: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+main.index div.carousel-inner div.active-box {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+main.index div.carousel-inner div.restr-box {
+    width: 24%;
+    min-width: 270px;
+    max-width: 300px;
+    background-color: rgba(255, 248, 245, 0.8);
+    padding: 5px 10px;
+    padding-bottom: 0;
+}
+
+main.index div.carousel-inner div.restr-box>.img-box {
+    height: 250px;
+    display: flex;
+    align-items: center;
+}
+
+main.index div.carousel-inner div.restr-box>.img-box>img {
+    width: 100%;
+    object-position: center center;
+}
+
+main.index div.carousel-inner div.restr-box>div.restr-name {
+    height: 75px;
+}
+
+main.index div.carousel-inner div.restr-box>div.restr-name>span {
+    font-family: g_b;
+    color: var(--pointFont);
+    line-height: 75px;
+}
+
+main.index .best-restr button.control-btn {
+    width: 5%;
+}
+
+main.index div.content {
+    width: 85%;
+    min-width: 1000px;
+    padding: 30px 0;
+    padding-right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+main.index div.content>div.ad {
+    width: 1000px;
+    background-color: var(--point1);
+    height: 200px;
+}
+
+main.index div.content>div.best-review {
+    width: 1000px;
+    background-color: #fff;
+    border-top: 3px solid var(--point1);
+    padding: 10px 20px;
+}
+
+main.index div.content>div.best-review>div.best-review-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+main.index div.content>div.best-review>div.best-review-title>span:first-child {
+    font-family: g_b;
+    color: var(--pointFont);
+    font-size: 1.1em;
+}
+
+main.index div.content>div.best-review>div.best-review-title a {
+    text-decoration: none;
+    color: var(--mainFont);
+}
+
+main.index div.content>div.best-review>div.best-review-title a:hover {
+    text-decoration: underline;
+    color: var(--pointFont);
+}
+
+main.index div.content>div.best-review div.content-page {
+    width: 100%;
+    padding: 10px;
+    overflow: hidden;
+}
+
+main.index div.content>div.best-review div.content-list {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    overflow: hidden;
+}
+
+main.index div.content>div.best-review div.content-list>div {
+    float: left;
+    height: 195px;
+}
+
+main.index div.content>div.best-review div.content-list>div.restr-info {
+    width: 35%;
+    padding: 5px;
+}
+
+main.index div.best-review div.img-box {
+    height: 140px;
+    display: flex;
+    align-items: center;
+}
+
+main.index div.best-review div.img-box>img {
+    width: 100%;
+    object-fit: cover;
+    object-position: bottom;
+}
+
+main.index div.best-review div.span-box {
+    height: 55px;
+    line-height: 55px;
+    color: var(--pointFont);
+    font-family: g_b;
+}
+
+main.index div.content>div.best-review div.content-list>div.reviewer-info {
+    width: 65%;
+    padding-top: 5px;
+    padding-left: 5px;
+    color: var(--pointFont);
+}
+
+main.index div.content>div.best-review div.content-list div.review-content {
+    height: 135px;
+    width: 100%;
+    background-color: var(--monocolor);
+    color: var(--mainFont);
+    padding: 5px;
+}
+
+main.index div.content>div.best-review>div.best-review-btn {
+    overflow: hidden;
+}
+
+main.index div.content>div.best-review>div.best-review-btn>div {
+    float: right;
+}
+
+main.index div.content>div.best-review>div.best-review-btn button {
+    border: 1px solid var(--point1);
+    color: var(--point1);
+    height: 30px;
+    padding: 0 2px;
+    cursor: pointer;
+}
+
+main.index div.content>div.best-review>div.best-review-btn button>span {
+    line-height: 30px;
+}
+
+main.index aside.recent {
+    width: 15%;
 }
