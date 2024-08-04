@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>맛집 목록</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+            background-color: #f4f4f4;
+        }
+        .search-wrap {
+            background-color: #fff;
+            box-shadow: 0px 0px 10px 0px gray;
+            width: 900px;
+            height: 170px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .search-wrap input {
+            background-color: transparent;
+            width: 700px;
+            border: none;
+            border-bottom: solid 2px black;
+            font-size: 18px;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        .search-wrap button {
+            padding: 10px 20px;
+            background-color: #FF6F00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .search-wrap button:hover {
+            background-color: #e65c00;
+        }
+        .restr-list {
+            max-width: 900px;
+            margin: 20px auto;
+        }
+        .restr-item {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            width: 900px;
+        }
+        .restr-item img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            margin-right: 15px;
+            background-color: #e0e0e0; /* Placeholder background color */
+        }
+        .restr-info {
+            flex: 1;
+        }
+        .restr-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .restr-rating {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+        }
+        .restr-rating .material-icons {
+            color: #FF6F00;
+            margin-right: 2px;
+        }
+        .restr-details {
+            font-size: 14px;
+            color: #666;
+        }
+        .more-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            background-color: #FF6F00;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .more-btn:hover {
+            background-color: #e65c00;
+        }
+    </style>
+</head>
+<body>
+    <th:block th:include="common/header"></th:block>
+    <div class="search-bar">
+        <div class="search-wrap">
+            <input type="text" placeholder="가게명, 음식명, 태그 등으로 검색">
+            <button>검색하기</button>
+        </div>
+    </div>
+    <div class="restr-list">
+        <div class="restr-item">
+            <img>
+            <div class="restr-info">
+                <div class="restr-name">가게명</div>
+                <div class="restr-rating">
+                    <span class="material-icons">grade</span>
+                    4.0(100)
+                </div>
+                <div class="restr-details">카페, 강남구</div>
+            </div>
+        </div>
+        <a href="#" class="more-btn">맛집 더보기</a>
+    </div>
+    <th:block th:include="common/footer"></th:block>
+</body>
+</html>

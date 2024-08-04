@@ -1,8 +1,16 @@
 package kr.co.iei.restr.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import kr.co.iei.restr.model.dao.RestrDao;
 import kr.co.iei.restr.model.dto.Restaurant;
@@ -17,6 +25,29 @@ public class RestrService {
 		Restaurant r = restrDao.selectOneRestr(restrNo);
 		return r;
 	}
+	
+	 @Value("${naver.client-id}")
+	    private String clientId;
+
+	 @Value("${naver.client-secret}")
+	 private String clientSecret;
+
+	 private static final String API_URL = "https://openapi.naver.com/v1/search/blog.json?query=";
+
+	    public String searchBlog(String query) {
+	        RestTemplate restTemplate = new RestTemplate();
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.set("X-Naver-Client-Id", clientId);
+	        headers.set("X-Naver-Client-Secret", clientSecret);
+
+	        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+	        String url = API_URL + query;
+	        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+	        return response.getBody();
+	    }
+
 
 	@Transactional
 	public int likePush(int restrNo, int isLike, int memberNo) {
@@ -35,6 +66,12 @@ public class RestrService {
 		} else {
 			return -1;
 		}
+	}
+
+
+	public List selectRestrList() {
+		List list = restrDao.selectRestrList();
+		return list;
 	}
 
 }
