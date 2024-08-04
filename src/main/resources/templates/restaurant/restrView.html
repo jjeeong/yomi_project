@@ -420,14 +420,14 @@
         </div>
 
 
-        <div class="card mb-4">
-            <div class="card-body">
+        <div>
+            <div>
                 <div th:each="result : ${searchResults}">
                     <div class="blog-result">
-                         <a th:href="${result.link}"><h4 th:text="${result.title}"></h4></a>
-                        <p th:text="${result.description}"></p>
-                        <p><strong>닉네임:</strong> <span th:text="${result.bloggerName}"></span></p>
-                        <p><strong>작성일:</strong> <span th:text="${result.postDate}"></span></p>
+                        <a th:href="${result.link}"><h4 th:utext="${result.title}"></h4></a>
+                        <p th:utext="${result.description}"></p>
+                        <p><strong>닉네임:</strong> <span th:utext="${result.bloggerName}"></span></p>
+                        <p><strong>작성일:</strong> <span th:utext="${result.postDate}"></span></p>
                     </div>
                     <hr>
                 </div>
