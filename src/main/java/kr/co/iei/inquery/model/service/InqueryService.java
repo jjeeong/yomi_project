@@ -4,8 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.iei.inquery.model.dao.InqueryDao;
+import kr.co.iei.inquery.model.dto.Inquery;
+import kr.co.iei.inquery.model.dto.InqueryComment;
+import kr.co.iei.inquery.model.dto.InqueryFile;
 import kr.co.iei.inquery.model.dto.InqueryListData;
 
 
@@ -25,7 +29,7 @@ public class InqueryService {
 		int start = end - numPerPage + 1;
 		// start : 1(10-10+1), 11(20-10+1), 21(30-10+1), ... / end : : 10(1*10), 20(2*10), 30(3*10), ...
 		List list = inqueryDao.selectInqueryList(start, end);
-		
+		System.out.println("리스트"+list);
 		//페이지 네비게이션
 		int totalCount = inqueryDao.selectInqueryTotalCount();
 		//totalPage : 전체 페이지 수
@@ -50,8 +54,8 @@ public class InqueryService {
 		// 이전버튼(1페이지로 시작안하면)
 		if(pageNo != 1) {
 			pageNavi += "<li>";
-			pageNavi += "<a href='/notice/list?reqPage=" + (pageNo - 1) + "'>";
-			pageNavi += "<span>chevron_left</span>";
+			pageNavi += "<a class='page-item' href='/inquery/list?reqPage=" + (pageNo - 1) + "'>";
+			pageNavi += "<span class='material-icons'>chevron_left</span>";
 			pageNavi += "</a></li>";
 		}
 		
@@ -61,10 +65,10 @@ public class InqueryService {
 		for (int i = 0; i < pageNaviSize; i++) {
 			pageNavi += "<li>";
 			if (pageNo == reqPage) {
-				pageNavi += "<a class='page-item active-page' href='/notice/list?reqPage=" + pageNo + "'>";
+				pageNavi += "<a class='page-item active-page' href='/inquery/list?reqPage=" + pageNo + "'>";
 				//pageNavi += "<a href='/inquery/list?reqPage=" + pageNo + "'>";
 			} else {
-				pageNavi += "<a class='page-item' href='/notice/list?reqPage=" + pageNo + "'>";
+				pageNavi += "<a class='page-item' href='/inquery/list?reqPage=" + pageNo + "'>";
 			}
 			pageNavi += pageNo;
 			pageNavi += "</a></li>";
@@ -77,7 +81,7 @@ public class InqueryService {
 		// 다음버튼(최종페이지를 출력하지 않았으면)
 		if (pageNo <= totalPage) {
 			pageNavi += "<li>";
-			pageNavi += "<a class='page-item' href='/notice/list?reqPage=" + pageNo + "'>";
+			pageNavi += "<a class='page-item' href='/inquery/list?reqPage=" + pageNo + "'>";
 			pageNavi += "<span class='material-icons'>chevron_right</span>";
 			
 			
@@ -93,7 +97,52 @@ public class InqueryService {
 		
 		return Ild;
 	}
+
+	@Transactional
+	public int insertInquery(Inquery inq, List<InqueryFile> fileList) {
+		int result = inqueryDao.insertInquery(inq);
+		if(result > 0) {
+			int inqueryNo = inqueryDao.selectInqueryNo();
+			for(InqueryFile inqueryFile : fileList) {
+				inqueryFile.setInqueryNo(inqueryNo);
+				result += inqueryDao.insertInqueryFile(inqueryFile);
+			}
+		}				
+		return result;
+	}
+	
+	@Transactional
+	public Inquery selectOneInquery(int inqueryNo, String check) {
+		//문의글 조회
+		Inquery inq = inqueryDao.selectOneInquery(inqueryNo);
+		if(inq != null) {
+			//조회수 증가
+			if(check == null) {
+				int result = inqueryDao.updateReadCount(inqueryNo);
+			}
+			//해당게시글의 첨부파일을 조회
+			List fileList = inqueryDao.selectInqueryFile(inqueryNo);
+			inq.setFileList(fileList);
+			//댓글조회(문의사항 상세보기 할때 해당 문의사항의 댓글을 같이 조회) - 기본댓글만
+			List<InqueryComment> commentList = inqueryDao.selectCommentList(inqueryNo);
+		
+		
+		inq.setCommentList(commentList);
+		//댓글 조회 - 대댓글만 조회
+		List reCommentList = inqueryDao.selectReCommentList(inqueryNo);
+		inq.setCommentList(reCommentList); 
+		}
+		return inq;
+	}
 }
+
+
+
+
+
+
+
+
 
 
 
