@@ -13,6 +13,6 @@ public class Inquery {
 	private String inqueryTitle;
 	private String inuqueryContent;
 	private int inqueryReadCount;
-	private int inqueryOpen;
+	private int inqueryOpen; // 공개 : 1 / 비공개 : 0 (기본:0)
 	private String inqueryRegDate;
 }
