@@ -79,11 +79,32 @@ public class InqueryController {
 			model.addAttribute("loc","/notice/list?reqPage=1");
 			return "common/msg";
 		}
-		
-		
-		
 		return "redirect:/inquery/editorFrm";
 	}
+	
+	@GetMapping(value = "/view")
+	public String view(int inqueryNo, String check, Model model, @SessionAttribute(required = false) Member member) {
+		int memberNo = 0;
+		if(member != null) {
+			memberNo = member.getMemberNo();
+		}
+		//로그인이 되어있지않으면 memberNo = 0 / 로그인이 되어있으면 memberNo = 로그인한 회원번호
+		Inquery inq = inqueryService.selectOneInquery(inqueryNo,check);
+		if(inq== null) {
+			model.addAttribute("title","조회실패");
+			model.addAttribute("msg","해당 게시글이 존재하지 않습니다.");
+			model.addAttribute("icon","info");
+			model.addAttribute("loc","/notice/list?regPage=1");
+			return "common/msg";
+		}else {
+			System.out.println(inq);
+			model.addAttribute("inq",inq);		
+			return "inquery/view";
+		}		
+	}
+	
+	
+	
 }
 
 

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.iei.inquery.model.dao.InqueryDao;
 import kr.co.iei.inquery.model.dto.Inquery;
+import kr.co.iei.inquery.model.dto.InqueryComment;
 import kr.co.iei.inquery.model.dto.InqueryFile;
 import kr.co.iei.inquery.model.dto.InqueryListData;
 
@@ -109,7 +110,39 @@ public class InqueryService {
 		}				
 		return result;
 	}
+	
+	@Transactional
+	public Inquery selectOneInquery(int inqueryNo, String check) {
+		//문의글 조회
+		Inquery inq = inqueryDao.selectOneInquery(inqueryNo);
+		if(inq != null) {
+			//조회수 증가
+			if(check == null) {
+				int result = inqueryDao.updateReadCount(inqueryNo);
+			}
+			//해당게시글의 첨부파일을 조회
+			List fileList = inqueryDao.selectInqueryFile(inqueryNo);
+			inq.setFileList(fileList);
+			//댓글조회(문의사항 상세보기 할때 해당 문의사항의 댓글을 같이 조회) - 기본댓글만
+			List<InqueryComment> commentList = inqueryDao.selectCommentList(inqueryNo);
+		
+		
+		inq.setCommentList(commentList);
+		//댓글 조회 - 대댓글만 조회
+		List reCommentList = inqueryDao.selectReCommentList(inqueryNo);
+		inq.setCommentList(reCommentList); 
+		}
+		return inq;
+	}
 }
+
+
+
+
+
+
+
+
 
 
 

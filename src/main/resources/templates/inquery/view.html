@@ -11,6 +11,10 @@
 	.noticeContent{
 		min-height:300px;
 	}
+	
+	.inputCommentBox{
+		margin:50px;
+}
 </style>
 </head>
 <body>
@@ -63,8 +67,28 @@
 				<button class="btn-secondary" th:onclick="inqueryDelete([[${n.inqueryNo}]]);">삭제</button>
 			</td>
 		</tr>
-		</table>		
+		</table>	
 		
+		<!-- 댓글입력 -->
+		<div th:if="${session.member != null}" class="inputCommentBox">
+			<form action="inquery/insertComment" method="post">
+				<ul>
+					<li>
+					
+					</li>
+				</ul>
+				
+			</form>	
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		</section>
 	</main>
 

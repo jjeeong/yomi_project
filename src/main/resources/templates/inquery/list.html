@@ -147,7 +147,7 @@ section.section.bg-section {
 				<!--  			
 				<a th:if="${session.member != null && session.member.memberGrade == 1}" class="btn-point" href="/inquery/writeFrm">글쓰기</a>
 				-->
-				<a th:if="${session.member != null && !session.member.memberGrade == 3}" class="btn-point" id="write-btn" href="/inquery/editorFrm">글쓰기</a>
+				<a th:if="${session.member != null && session.member.memberGrade != 3}" class="btn-point" id="write-btn" href="/inquery/editorFrm">글쓰기</a>
 				<form action="/inquery/search" method="get" id="searchFrm">
 					<div class="input-item">
 						<div class="select">
