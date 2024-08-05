@@ -16,51 +16,50 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
 <!-- 구글 아이콘 -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <header class="header">
-	<div class="header">
-    <div class="header-top">
-        <div class="logo">
-            <a class="logo" href="/">YOMIYOMI</a>
+    <div class="header">
+        <div class="header-top">
+            <div class="logo">
+                <a class="logo" href="/">YOMIYOMI</a>
+            </div>
+            <div class="search">
+                <form class="col-12 mb-3 me-lg-3" action="" method="">
+                    <input type="text" name="search">
+                    <button class="none-btn" type="submit">
+                        <span class="material-icons-outlined">
+                            search
+                        </span>
+                    </button>
+                </form>
+            </div>
+            <div class="text-end">
+                <!-- 회원가입, 멤버 생기면 구현 -->
+                <th:block th:if="${session.member == null}">
+                    <a href="/member/loginFrm" class="">로그인</a>
+                    <a href="/member/joinFrm">회원가입</a>
+                </th:block>
+                <th:block th:if="${session.member != null}">
+                    <a href="#" th:text="${session.member.memberName}"></a>
+                    <a href="/member/logout">로그아웃</a>
+                </th:block>
+            </div>
         </div>
-        <div class="search">
-            <form class="col-12 mb-3 me-lg-3" action="" method="">
-                <input type="text" name="search">
-                <button class="none-btn" type="submit">
-                    <span class="material-icons-outlined">
-                        search
-                    </span>
-                </button>
-            </form>
-        </div>
-        <div class="text-end">
-            <!-- 회원가입, 멤버 생기면 구현 -->
-            <th:block th:if="${session.member == null}">
-            <a href="/member/loginFrm" class="">로그인</a>
-            <a href="/member/joinFrm">회원가입</a>
-            </th:block>
-            <th:block th:if="${session.member != null}">
-					<a href="#" th:text="${session.member.memberName}"></a>
-					<a href="/member/logout">로그아웃</a>
-			</th:block>
-        </div>
+        <nav>
+            <ul class="navi">
+                <li><a href="/restaurant/restrList">맛집 리스트</a></li>
+                <li><a href="/board/list">맛집 게시판</a></li>
+                <li><a href="#">리뷰 리스트</a></li>
+                <li class="nav-bar"><a href="#">고객센터</a>
+                    <ul class="nav-sub">
+                        <li><a href="#">공지사항</a></li>
+                        <li><a href="/inquery/list?reqPage=1">문의사항</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
     </div>
-    <nav>
-        <ul class="navi">
-            <li><a href="/restaurant/restrList">맛집 리스트</a></li>
-            <li><a href="/board/list">맛집 게시판</a></li>
-            <li><a href="#">리뷰 리스트</a></li>
-            <li class="nav-bar"><a href="#">고객센터</a>
-                <ul class="nav-sub">
-                    <li><a href="#">공지사항</a></li>
-                    <li><a href="/inquery/list?reqPage=1">문의사항</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-	</div>
 </header>
 
 </html>
