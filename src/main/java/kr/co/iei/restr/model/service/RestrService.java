@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.restr.model.dao.RestrDao;
 import kr.co.iei.restr.model.dto.Restaurant;
+import kr.co.iei.restr.model.dto.Review;
 
 @Service
 public class RestrService {
@@ -85,6 +87,12 @@ public class RestrService {
 	public List selectRestrMenu(int restrNo) {
 		List list = restrDao.selectRestrMenu(restrNo);
 		return list;
+	}
+
+
+	public int writeReview(int memberNo, Review review, int restrNo) {
+		int result = restrDao.writeReview(memberNo, review, restrNo);
+		return result;
 	}
 
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import kr.co.iei.restr.model.dto.Restaurant;
 import kr.co.iei.restr.model.dto.RestaurantRowMapper;
 import kr.co.iei.restr.model.dto.RestrMenuRowMapper;
+import kr.co.iei.restr.model.dto.Review;
 
 @Repository
 public class RestrDao {
@@ -70,5 +71,12 @@ public class RestrDao {
 		Object[] params = {restrNo};
 		List list = jdbc.query(query, restrMenuRowMapper ,params);
 		return list;
+	}
+
+	public int writeReview(int memberNo, Review review, int restrNo) {
+		String query = "insert into review values(review_seq.nextval, ?, ?, ?, to_char(sysdate, 'yyyy-mm-dd')), ?, ?)";
+		Object[] params = {review.getReviewStar(), review.getReviewContent(), memberNo, restrNo};
+		int result = jdbc.update(query, params);
+		return result;
 	}
 }

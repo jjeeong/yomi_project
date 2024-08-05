@@ -323,7 +323,7 @@
     <th:block th:include="common/header"></th:block>
     
     <div>
-    	<input id="restrNo" th:value="${r.restrName}">
+    	
         <div class="restr-wrap">
             <div class="restr-wrap-content">
                 <div class="shop-imgs">
@@ -400,7 +400,6 @@
                 <div class="review-form collapsed">
                 
 				<form action="/restaurant/writeReview" method="post" id="review-frm">
-					
                     <div class="stars2">
                         <div class="star-rating" id="star-rating">
                             <span class="material-icons">grade</span>
@@ -410,7 +409,7 @@
                             <span class="material-icons">grade</span>
                         </div>
                     </div>
-                    <input type="hidden" id="reviewStar" name="reviewStar">
+                    <input type="text" id="reviewStar" name="reviewStar">
                     
                     <textarea placeholder="리뷰를 작성하세요." name="reviewContent"></textarea>
                     <div class="upload">

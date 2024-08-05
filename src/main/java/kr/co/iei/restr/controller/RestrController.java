@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.restr.model.dto.BlogSearchResult;
 import kr.co.iei.restr.model.dto.Restaurant;
+import kr.co.iei.restr.model.dto.Review;
 import kr.co.iei.restr.model.service.RestrService;
 
 @Controller
@@ -118,9 +119,10 @@ public class RestrController {
 	
 	
 	@PostMapping(value = "/writeReview")
-	public String writeReview() {
-//		int result = restrService.writeReview();
-		return "/restaurant/restrView?restrNo=21";
+	public String writeReview(@SessionAttribute(required = false) Member member, Review review, int restrNo) {
+		int memberNo = member.getMemberNo();
+		int result = restrService.writeReview(memberNo, review, restrNo);
+		return "/restaurant/restrView?restrNo="+review.getRestrNo();
 	}
 	
 	@ResponseBody
