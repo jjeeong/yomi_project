@@ -22,4 +22,5 @@ public class Member {
 	private String memberEmail;
 	private String memberPhoto;
 	private String memberRegDate;
+	private int memberBirthDate;
 }
