@@ -37,4 +37,11 @@ public class MemberController {
 		session.invalidate(); //현재 세션 정보를 파기
 		return "redirect:/";
 	}
+	
+	@GetMapping(value="/joinFrm")
+	public String joinFrm() {
+		return "member/joinFrm";
+	}
+	
+	
 }
