@@ -235,6 +235,7 @@ main.restrFrm div.img-box {
     width: 90%;
     height: 300px;
     background-color: var(--color2);
+    overflow: hidden;
 }
 
 main.restrFrm img.img-view {

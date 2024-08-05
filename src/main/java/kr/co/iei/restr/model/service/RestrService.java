@@ -14,6 +14,11 @@ import org.springframework.web.client.RestTemplate;
 
 import kr.co.iei.restr.model.dao.RestrDao;
 import kr.co.iei.restr.model.dto.Restaurant;
+<<<<<<< Updated upstream
+=======
+import kr.co.iei.restr.model.dto.RestrMenu;
+import kr.co.iei.restr.model.dto.Review;
+>>>>>>> Stashed changes
 
 @Service
 public class RestrService {
@@ -74,4 +79,43 @@ public class RestrService {
 		return list;
 	}
 
+<<<<<<< Updated upstream
+=======
+
+	public int selectRestrTotalCount() {
+		int restrTotalCount = restrDao.selectRestrTotalCount();
+		return restrTotalCount;
+	}
+
+
+	public List selectRestrMenu(int restrNo) {
+		List list = restrDao.selectRestrMenu(restrNo);
+		return list;
+	}
+
+
+	public int writeReview(Review review) {
+		int result = restrDao.writeReview(review);
+		return result;
+	}
+
+	@Transactional
+	public int insertRestr(Restaurant r, List<RestrMenu> menuList, String[] tagName) {
+		int result = restrDao.insertWrite(r);
+		if(result>0) {
+			int restrNo = restrDao.getRecentNo();
+			for(RestrMenu menu : menuList) {
+				result += restrDao.insertRestrMenu(menu, restrNo);
+			}
+			for(int i=0; i<tagName.length; i++) {
+				result += restrDao.insertRestrTag(tagName[i], restrNo);
+			}
+			if(result == 1+menuList.size()+tagName.length) {
+				return result;
+			}
+		}
+		return 0;
+	}
+
+>>>>>>> Stashed changes
 }

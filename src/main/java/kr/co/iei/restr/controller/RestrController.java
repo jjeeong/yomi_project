@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.restr.model.dto.BlogSearchResult;
 import kr.co.iei.restr.model.dto.Restaurant;
+<<<<<<< Updated upstream
+=======
+import kr.co.iei.restr.model.dto.RestrMenu;
+import kr.co.iei.restr.model.dto.RestrTag;
+import kr.co.iei.restr.model.dto.Review;
 import kr.co.iei.restr.model.service.RestrService;
 
 @Controller
@@ -100,6 +106,22 @@ public class RestrController {
 		return "restaurant/restrWriteFrm";
 	}// restFrm()
 
+	@PostMapping(value="/restrWrite")
+	public String write(Restaurant r, String[] menuName, int[] menuPrice, String[] tagName, MultipartFile imageFile1, MultipartFile imageFile2, Model model) {
+		List<RestrMenu> menuList = new ArrayList<RestrMenu>();
+		for(int i=0; i<menuName.length; i++) {
+			RestrMenu rm = new RestrMenu();
+			rm.setRestrMenuName(menuName[i]);
+			rm.setRestrMenuPrice(menuPrice[i]);
+			menuList.add(rm);
+		}
+		//이미지 파일 업로드 하는거 까지 해야함 + 이제 늦출수 없다 sw 적용...
+		int result = restrService.insertRestr(r, menuList,tagName);
+		if(result>0) {}else {}
+		return null;
+	}
+	
+	
 	@GetMapping(value = "/updateFrm")
 	public String updateFrm() {
 		return "restaurant/restrUpdateFrm";
