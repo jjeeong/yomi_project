@@ -119,10 +119,16 @@ public class RestrController {
 	
 	
 	@PostMapping(value = "/writeReview")
-	public String writeReview(@SessionAttribute(required = false) Member member, Review review, int restrNo) {
+	public String writeReview(@SessionAttribute(required = false) Member member, Review review, Restaurant restaurant, Double reviewStar) {
+		
+		System.out.println(restaurant.getRestrNo());
+		
 		int memberNo = member.getMemberNo();
-		int result = restrService.writeReview(memberNo, review, restrNo);
-		return "/restaurant/restrView?restrNo="+review.getRestrNo();
+		review.setMemberNo(memberNo);
+		review.setRestrNo(restaurant.getRestrNo());
+		review.setReviewStar(reviewStar);
+		int result = restrService.writeReview(review);
+		return "redirect:/restaurant/restrView?restrNo="+restaurant.getRestrNo();
 	}
 	
 	@ResponseBody

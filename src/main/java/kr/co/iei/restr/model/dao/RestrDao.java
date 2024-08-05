@@ -73,9 +73,9 @@ public class RestrDao {
 		return list;
 	}
 
-	public int writeReview(int memberNo, Review review, int restrNo) {
-		String query = "insert into review values(review_seq.nextval, ?, ?, ?, to_char(sysdate, 'yyyy-mm-dd')), ?, ?)";
-		Object[] params = {review.getReviewStar(), review.getReviewContent(), memberNo, restrNo};
+	public int writeReview(Review review) {
+		String query = "insert into review values(review_seq.nextval, ?, ?, TO_CHAR(SYSDATE, 'yyyy-mm-dd'), ?, ?)";
+		Object[] params = {review.getReviewStar(), review.getReviewContent(), review.getMemberNo(), review.getRestrNo()};
 		int result = jdbc.update(query, params);
 		return result;
 	}

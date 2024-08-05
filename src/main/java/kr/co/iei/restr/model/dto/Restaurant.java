@@ -21,6 +21,6 @@ public class Restaurant {
 	private String restrImg1;
 	private String restrImg2;
 	private List<RestrMenu> restrMenu;
-	private int star;
+	private Double star;
 	private int reviewCount;
 }

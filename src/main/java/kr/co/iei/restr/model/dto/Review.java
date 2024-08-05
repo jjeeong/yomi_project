@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Review {
 	private int reviewNo;
-	private int reviewStar;
+	private Double reviewStar;
 	private String reviewContent;
 	private String reviewRegDate;
 	private int memberNo;

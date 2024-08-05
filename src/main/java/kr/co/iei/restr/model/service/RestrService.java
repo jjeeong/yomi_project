@@ -90,8 +90,8 @@ public class RestrService {
 	}
 
 
-	public int writeReview(int memberNo, Review review, int restrNo) {
-		int result = restrDao.writeReview(memberNo, review, restrNo);
+	public int writeReview(Review review) {
+		int result = restrDao.writeReview(review);
 		return result;
 	}
 

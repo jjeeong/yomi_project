@@ -409,7 +409,7 @@
                             <span class="material-icons">grade</span>
                         </div>
                     </div>
-                    <input type="text" id="reviewStar" name="reviewStar">
+                    <input type="text" id="reviewStar" name="reviewStar" value="5">
                     
                     <textarea placeholder="리뷰를 작성하세요." name="reviewContent"></textarea>
                     <div class="upload">
@@ -417,7 +417,8 @@
                     </div>
                     <div class="button-container">
                         <button type="submit" class="submit-btn">등록</button>
-                    </div>                    
+                    </div>      
+                    <input id="restrNo" name="restrNo" th:value="${r.restrNo}">             
 				</form>
 				
                 <button class="toggle-btn">리뷰 작성</button>
