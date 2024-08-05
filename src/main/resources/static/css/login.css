@@ -1,20 +1,20 @@
 @font-face {
     font-family: g_b;
-    src: url(/css/font/css/Gothic_A1/GothicA1-Bold.ttf)
+/*     src: url(/css/Gothic_A1/GothicA1-Bold.ttf) */
 }
 
 @font-face {
     font-family: g_black;
-    src: url(/css/font/css/Gothic_A1/GothicA1-Black.ttf)
+    src: url(/css/Gothic_A1/GothicA1-Black.ttf)
 }
 
 @font-face {
     font-family: g_r;
-    src: url(/css/font/css/Gothic_A1/GothicA1-Regular.ttf)
+    src: url(/css/Gothic_A1/GothicA1-Regular.ttf)
 }
 @font-face {
     font-family: g_m;
-    src: url(/css/font/css/Gothic_A1/GothicA1-Medium.ttf)
+    src: url(/css/Gothic_A1/GothicA1-Medium.ttf)
 }
 
 :root {
@@ -36,7 +36,7 @@ body{
     background-color: var(--bgcolor)
 }
 .login-container{
-    padding-top: 300px;
+    padding-top: 120px;
     margin: 0 auto;
     width: 800px;
     height: 600px;
@@ -76,6 +76,11 @@ body{
     color: var(--color1);
 }
 
+.login-btn:hover{
+	background-color: var(--point2);
+	border: none;
+}
+
 .find-links>a{
     text-decoration: none;
     color: black;
@@ -88,3 +93,4 @@ body{
 .find-links>a[id=find-pw]{
     margin-left: 90px;
 }
+

@@ -5,6 +5,7 @@ main.restrFrm {
     justify-content: center;
     align-content: center;
     padding: 50px 0;
+    min-width : 1000px;
 }
 
 main.restrFrm div.frm {

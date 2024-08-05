@@ -6,15 +6,12 @@
 	<title>맛집 등록</title>
 	<link rel="stylesheet" href="/css/sujin.css">
 	<link rel="stylesheet"
-<<<<<<< Updated upstream
-		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-=======
 		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 	<!--
 	--정원이가 한 api인증
 	<script type="text/javascript"
 		src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zzl0s76r4r&submodules=geocoder"></script>
-	  -->
+-->
 	<script type="text/javascript"
 		src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=z03gy10mtv&submodules=geocoder"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -33,7 +30,6 @@
 			cursor: pointer;
 		}
 	</style>
->>>>>>> Stashed changes
 </head>
 
 <body>
@@ -41,7 +37,7 @@
 	<main class="main restrFrm">
 		<div class="round-box frm">
 			<h2 class="page-title">맛집 등록</h2>
-			<form action="/restaurant/restrWrite" method="post" enctype="multipart/form-data">
+			<form action="/restaurant/restrWrite" method="post" enctype="multipart/form-data" id="restrFrm">
 				<div class="info basic round-box shadow">
 					<h3>1. 기본 정보</h3>
 					<div class="input-content">
@@ -56,13 +52,16 @@
 						</div>
 						<div class="input-list restrAddr">
 							<span class="inputName">▪ 주소</span><button type="button"
-								class="btn btn-point btn-sm round-box">검색</button>
+								class="btn btn-point btn-sm round-box" id="addrSearch">검색</button>
 							<div class="input-box">
 								<input type="text" name="restrAddr1" id="restrAddr1" class="input-lg" readonly
 									placeholder="주소를 입력하세요">
-								<input type="text" name="restrAddr2" id="restrAddr2" class="input-lg" readonly
+								<input type="text" name="restrAddr2" id="restrAddr2" class="input-lg"
 									placeholder="상세 주소를 입력하세요">
+								<input type="hidden" name="restrMapx" id="mapX">
+								<input type="hidden" name="restrMapY" id="mapY">
 							</div>
+							<div id="map" style="width:90%; height:300px; margin: 0 auto;margin-top : 30px;"></div>
 						</div>
 						<div class="input-list restrTel">
 							<label for="restrTel">
@@ -89,7 +88,7 @@
 					<div class="input-content">
 						<div class="input-list restrMenu">
 							<span class="inputName">▪ 메뉴</span><button type="button"
-								class="btn btn-point btn-sm round-box">항목 추가</button>
+								class="btn btn-point btn-sm round-box" onclick="insertTr();">항목 추가</button>
 							<div class="tbl-box">
 								<table class="tbl table">
 									<thead>
@@ -100,39 +99,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>메뉴 이름</td>
-											<td>가격</td>
-											<td>
-												<button class="btn btn-sm btn-mono">
-													수정
-												</button>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div class="input-box">
-													<input type="text" class="input-td round-box" name="menuName"
-														placeholder="메뉴 이름">
-												</div>
-											</td>
-											<td>
-												<div class="input-box">
-													<input type="text" class="input-td round-box" name="menuPrice"
-														placeholder="가격"><span>원</span>
-												</div>
-											</td>
-											<td>
-												<div class="btn-box">
-													<button class="btn btn-sm btn-sub">
-														추가
-													</button><br>
-													<button class="btn btn-sm btn-mono">
-														삭제
-													</button>
-												</div>
-											</td>
-										</tr>
+
 									</tbody>
 								</table>
 							</div>
@@ -143,29 +110,12 @@
 							</label>
 							<div class="input-content">
 								<div class="input-box">
-									<input type="text" name="restrTag" id="restrTag" class="input-reg"
+									<input type="text" name="restrTags" id="restrTag" class="input-reg"
 										placeholder="추가할 태그를 입력하세요">
-									<button type="button" class="btn btn-point btn-reg">추가</button>
+									<button type="button" id="insertTag" class="btn btn-point btn-reg">추가</button>
 								</div>
 								<div class="tag-box">
-									<div class="tag">
-										<span class="tag-name">태그 이름</span>
-										<span class="material-symbols-outlined">
-											cancel
-										</span>
-									</div>
-									<div class="tag">
-										<span class="tag-name">태그 이름</span>
-										<span class="material-symbols-outlined">
-											cancel
-										</span>
-									</div>
-									<div class="tag">
-										<span class="tag-name">태그 이름</span>
-										<span class="material-symbols-outlined">
-											cancel
-										</span>
-									</div>
+
 								</div>
 							</div>
 						</div>
@@ -192,15 +142,17 @@
 						</div>
 					</div>
 				</div>
+				<input type="submit" style="display:none;" id="submit-input">
 				<div class="submit-btn">
-					<button type="submit" id="submit" class="btn btn-point btn-lg">등 록</button>
+					<button type="button" id="submit" class="btn btn-point btn-lg">등 록</button>
 					<button type="button" id="cancel" class="btn btn-mono btn-lg">취 소</button>
 				</div>
 			</form>
 		</div>
+
+
+
 	</main>
-<<<<<<< Updated upstream
-=======
 	<script>
 		//사진 썸네일
 		function loadImg(obj) {
@@ -565,7 +517,6 @@
 				const input = $("<input>");
 				input.attr("name", "menuName");
 				input.attr("type", "hidden");
-				console.log($(item).text());
 				input.val($(item).text());
 				$("form#restrFrm").append(input);
 			});
@@ -574,7 +525,6 @@
 				input.attr("name", "menuPrice");
 				input.attr("type", "hidden");
 				input.val($(item).text());
-				console.log($(item).text());
 				$("form#restrFrm").append(input);
 			});
 			tags.each(function (index, item) {
@@ -582,7 +532,6 @@
 				input.attr("name", "tagName");
 				input.attr("type", "hidden");
 				input.val($(item).text());
-				console.log($(item).text());
 				$("form#restrFrm").append(input);
 			});
 			//$("form#restrFrm").submit();
@@ -592,9 +541,8 @@
 		$("#cancel").on("click", function () {
 			//취소 시 sw 구현하기.. 
 		});
-
 	</script>
->>>>>>> Stashed changes
+
 	<th:block th:include="common/footer"></th:block>
 </body>
 

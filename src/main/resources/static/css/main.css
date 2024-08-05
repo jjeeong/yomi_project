@@ -13,6 +13,7 @@
 
 html,
 body {
+	background-color: #F3F3F3;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -27,7 +28,6 @@ body>* {
 header.header {
     padding-top: 100px;
     min-width: 1240px;
-    background-color: #fff;
     z-index: 999;
     width: 100%;
 }
@@ -46,11 +46,11 @@ header a {
 
 .header-top {
     display: flex;
+    background-color: #fff;
 }
 
 .header-top>div {
     height: 50px;
-    background-color: #fff;
 }
 
 .header-top>.logo {
@@ -116,10 +116,6 @@ header .text-end>a {
     padding: 0 10px;
 }
 
-header .header-top {
-    background-color: #fff;
-}
-
 
 header nav ul {
     margin: 0;
@@ -137,22 +133,22 @@ header nav>ul>li {
     width: 20%;
     text-align: center;
     min-width: 110px;
-    padding-top : 0;
-    padding-bottom : 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 header nav>ul>li>a {
     display: inline-block;
     height: 50px;
-    padding-top : 0;
-    padding-bottom : 0;
+    padding-top: 0;
+    padding-bottom: 0;
     line-height: 50px;
     font-size: 20px;
     color: var(--monocolor);
 }
 
 header nav>ul>li:hover>a {
-    color : #fff;
+    color: #fff;
     font-weight: bold;
 }
 
@@ -181,7 +177,7 @@ header .nav-sub>li>a {
     width: 100%;
     line-height: 50px;
     background-color: var(--point1);
-    color : var(--monocolor);
+    color: var(--monocolor);
 }
 
 header .nav-sub>li:last-child>a {
@@ -190,7 +186,7 @@ header .nav-sub>li:last-child>a {
 }
 
 header .nav-sub>li:hover>a {
-    color : #fff;
+    color: #fff;
     font-weight: 500;
 }
 
@@ -411,10 +407,10 @@ main.index div.content {
     width: 85%;
     min-width: 1000px;
     padding: 30px 0;
-    padding-right: 30px;
+    padding-left: calc((100% - 1000px) * 0.5);
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 30px;
 }
@@ -648,22 +644,22 @@ main.report-list table.report-list>tbody>tr {
 }
 
 main.report-list table.report-list td.report-content,
-main.report-list table.report-list td.report-board-content{
-	font-size: 0.9em;
+main.report-list table.report-list td.report-board-content {
+    font-size: 0.9em;
 }
 
-main.report-list table.report-list div.btn-box{
-	display : flex;
-	flex-direction : column;
-	justify-content : center;
-	align-items: center;
-	gap : 3px;
+main.report-list table.report-list div.btn-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
 }
 
 main.report-list section>div.btn-box {
-	display : flex;
-	justify-content: center;
-	gap : 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
 main.report-list section .btn-sm {
@@ -677,40 +673,40 @@ main.report-list section>div.btn-box>button.btn-lg {
     height: 60px;
     font-size: 24px;
     font-family: g_b;
-    padding-top : 0;
-    padding-bottom : 0;
-    line-height : 60px;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 60px;
 }
 
-main.report-list div.dropdown>button{
-	font-weight : bold;
-	width: 100%;
-	position : relative;
+main.report-list div.dropdown>button {
+    font-weight: bold;
+    width: 100%;
+    position: relative;
 }
 
-main.report-list div.dropdown>button.dropdown-custom::after{
-	position : absolute;
-	right : 10px;
-	top : 14px;
-} 
-
-main.report-list div.search{
-	align-self : flex-end;
-	margin-right : 17px;
-	margin-bottom : 10px;
+main.report-list div.dropdown>button.dropdown-custom::after {
+    position: absolute;
+    right: 10px;
+    top: 14px;
 }
 
-main.report-list div.search input{
-	outline : none;
-	border : 1px solid var(--point1);
-	padding : 2px 5px;
-	font-size : 15px;
-	color : var(--mainFont);
+main.report-list div.search {
+    align-self: flex-end;
+    margin-right: 17px;
+    margin-bottom: 10px;
 }
 
-main.report-list div.search button{
-	height : 30px;
-	padding-top : 0;
-	padding-bottom : 0;
-	line-height : 30px;
+main.report-list div.search input {
+    outline: none;
+    border: 1px solid var(--point1);
+    padding: 2px 5px;
+    font-size: 15px;
+    color: var(--mainFont);
+}
+
+main.report-list div.search button {
+    height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 30px;
 }

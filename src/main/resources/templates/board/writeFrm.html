@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Store Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .thumbnail {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 0 auto 20px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .thumbnail-img {
+            color: #999;
+            font-size: 1.2rem;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f2f2f2;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .store-content {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: white;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .text-center {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <th:block th:include="common/header"></th:block>
+    
+    <script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
+	
+    <main class="main-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="thumbnail">
+                        <div class="thumbnail-img" id="thumbnailPreview">
+                            <span>썸네일 이미지</span>
+                        </div>
+                        <input type="file" id="thumbnailInput" class="form-control" accept="image/*" onchange="previewThumbnail()">
+                    </div>
+                    
+                    <div class="content-detail">
+                        <div class="form-group">
+                            <label for="storeName">가게명:</label>
+                            <input type="text" id="storeName" class="form-control" placeholder="가게명을 입력하세요">
+                        </div>
+                        <div class="form-group">
+                            <label for="storeLocation">위치:</label>
+                            <input type="text" id="storeLocation" class="form-control" placeholder="위치를 입력하세요">
+                        </div>
+                    </div>
+                    <form id="storeForm" class="store-content">
+                        <div class="form-group">
+                            <label for="storeDescription">내용</label>
+                            <textarea id="storeDescription" class="form-control" rows="6" placeholder="가게 소개를 작성해주세요."></textarea>
+                            
+                        </div>
+                    </form>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" onclick="submitForm()">작성완료</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <th:block th:include="common/footer"></th:block>
+
+    <script>
+        function previewThumbnail() {
+            var file = document.getElementById('thumbnailInput').files[0];
+            var reader = new FileReader();
+            
+            reader.onloadend = function () {
+                var preview = document.getElementById('thumbnailPreview');
+                preview.style.backgroundImage = 'url(' + reader.result + ')';
+                preview.style.backgroundSize = 'cover';
+                preview.style.backgroundPosition = 'center';
+                preview.innerHTML = ''; // Text remove
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('thumbnailPreview').style.backgroundImage = 'none';
+            }
+        }
+
+        function submitForm() {
+            // Form submission logic here
+            alert('작성완료 버튼이 클릭되었습니다.');
+        }
+        
+       
+		$("#storeDescription").summernote({
+			height:500,
+			lang : "ko-KR",
+			disableResize : true,
+			disableResizeEditor :true,
+			resize : false,
+			callbacks : {
+				//사용자가 이미지를 올리면 동작할 함수 지정
+				onImageUpload : function(files){
+					//이미지를 선택하면 해당 파일을 매개변수로 받음
+					//이미지를 처리할 함수를 실행  -> 이때 매개변수로 첨푸한 파일, 에디터객체를 전송
+					uploadImage(files[0],this);
+				}
+			}
+		});
+		
+		function uploadImage(file, editor){
+		    // Create a new FormData object
+		    const form = new FormData();
+		    form.append("upfile", file);
+		    
+		    $.ajax({
+		        url: "/board/editorImage", // Server endpoint for image upload
+		        type: "post",
+		        data: form,
+		        processData: false,
+		        contentType: false,
+		        success: function(data){
+		            // Assuming 'data' contains the URL of the uploaded image
+		            const imageUrl = data; // If data is a direct URL string
+		            // Or if data is an object containing the URL
+		            // const imageUrl = data.url;
+		            
+		            // Insert the image into Summernote editor
+		            $(editor).summernote("insertImage", imageUrl);
+		        },
+		        error: function(){
+		            console.error("Image upload failed");
+		        }
+		    });
+		}
+
+    </script>
+</body>
+</html>
