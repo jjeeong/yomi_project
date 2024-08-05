@@ -34,20 +34,20 @@ public class RestrDao {
 	}
 
 	public int insertNoticeRestrLike(int restrNo, int memberNo) {
-		String query = "insert into restr_like values(?,?)";
+		String query = "insert into restaurant_like values(?,?)";
 		Object[] params = {restrNo, memberNo};
 		int result = jdbc.update(query, params);
 		return result;
 	}
 
 	public int deleteNoticeRestrLike(int restrNo, int memberNo) {
-		String query = "delete from restr_like where restr_no = ? and member_no = ?";
+		String query = "delete from restaurant_like where restr_no = ? and member_no = ?";
 		Object[] params = {restrNo, memberNo};
 		int result = jdbc.update(query, params);
 		return result;
 	}
 	public int selectNoticeRestrLikeCount(int restrNo) {
-		String query = "select count(*) from restr_like where restr_no = ?";
+		String query = "select count(*) from restaurant_like where restr_no = ?";
 		Object[] params = {restrNo};
 		int likeCount = jdbc.queryForObject(query, Integer.class , params);
 		return likeCount;

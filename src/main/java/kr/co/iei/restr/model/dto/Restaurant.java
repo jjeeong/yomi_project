@@ -23,4 +23,6 @@ public class Restaurant {
 	private List<RestrMenu> restrMenu;
 	private Double star;
 	private int reviewCount;
+	private int isLike;
+	private int likeCount;
 }

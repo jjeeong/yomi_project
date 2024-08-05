@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -330,7 +331,10 @@
                     <div class="shop-img"></div>
                     <div class="shop-img"></div>
                     <div class="shop-likes">
-                        <span class="material-icons" id="like-none" th:onclick="likePush(this,[[${r.restrNo}]]);">favorite</span>
+
+                        <span th:if="${r.isLike == 0}" class="material-icons" id="like-none" th:onclick="likePush(this,[[${r.restrNo}]]);">favorite</span>
+                        <span th:if="${r.isLike == 1}" style="color: red;" class="material-icons" id="like-none" th:onclick="likePush(this,[[${r.restrNo}]]);">favorite</span>
+                        <span th:text="${r.likeCount}">0</span>
                         <span class="material-icons">bookmark</span>
                     </div>
                 </div>
@@ -417,6 +421,7 @@
                     </div>
                     <div class="button-container">
                         <button type="submit" class="submit-btn">등록</button>
+                    </div>                    
                     </div>      
                     <input id="restrNo" name="restrNo" th:value="${r.restrNo}">             
 				</form>
@@ -424,8 +429,6 @@
                 <button class="toggle-btn">리뷰 작성</button>
 				
                 </div>
-            </div>
-
             <div class="review-list">
                 <div class="review">
                     <div class="review-head">
@@ -452,6 +455,8 @@
 
                 </div>
             </div>
+            </div>
+
         </div>
 
 
@@ -567,11 +572,22 @@
                 center: new naver.maps.LatLng(mapx, mapy),
                 zoom: 20
             });
+            
+            const marker = new naver.maps.Marker({
+    			position : new naver.maps.LatLng(mapx, mapy),
+    			map : map
+    		});
+
         }
+        
+        
 
 
         
         function likePush(obj, restrNo) {
+        	//현재 상태를 구분-> 지금 클릭한 행동이 좋아요를 누른건지/좋아요 취소를 누른건지 구분
+			const currentText = $(obj).text();
+			
             const likeId = $(obj).attr('id');
             const isLike = (likeId === "like-none") ? 0 : 1;
             console.log(isLike);
@@ -595,14 +611,24 @@
                         });
                     } else {
                         if (isLike === 0) {
+                        	Swal.fire({
+                                title: "좋아요 완료",
+                                text: "좋아요를 누르셨습니다.",
+                                icon: "success"
+                            });
                             $(obj).css("color", "red"); 
                             $(obj).attr("id", "like-yes"); 
                         } else {
-                            $(obj).css("color", "gray");
+                        	Swal.fire({
+                                title: "좋아요 취소",
+                                text: "좋아요를 취소하셨습니다.",
+                                icon: "warning"
+                            });
+                            $(obj).css("color", "#B3B3B3");
                             $(obj).attr("id", "like-none");
                         }
-                        // 현재 좋아요 갯수 변경
-                        $(obj).nextAll().last().text(data);
+                      	//현재 좋아요 갯수 변경
+						$(obj).nextAll().last().text(data);
                     }
                 },
                 error: function(xhr, status, error) {

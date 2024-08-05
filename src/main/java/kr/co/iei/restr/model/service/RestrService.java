@@ -61,7 +61,7 @@ public class RestrService {
 			//현재 좋아요를 누른 상태에서 클릭 -> 좋아요 취소 -> delete
 			result = restrDao.deleteNoticeRestrLike(restrNo, memberNo);
 		}
-		if(result>0) {
+		if(result > 0) {
 			//좋아요,좋아요 취소 로직을 수행하고나면 현재 좋아요 갯수를 조회해서 리턴
 			int likeCount = restrDao.selectNoticeRestrLikeCount(restrNo);
 			return likeCount;
