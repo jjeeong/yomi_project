@@ -25,5 +25,9 @@ public class MemberDao {
 			return (Member)list.get(0);	
 		}
 	}
+	public int insertMember(Member m) {
+		//String queyr = "insert into member_tbl values(member_seq.nextval,?,?,?,?,?,?,null,to_char(sysdate,'yyyy-mm-dd'),to_number(?)"
+		return 0;
+	}
 	
 }

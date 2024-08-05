@@ -96,12 +96,14 @@
                                     <input type="password" name="memberPwRe"placeholder="비밀번호 확인">
                                 </div>
                                 <div class="form-group2 email-group">
-                                    <input type="text" name="memberEmail" placeholder="이메일">
+                                    <input type="text" name="memberEmail1" placeholder="이메일">
                                     <span>@</span>
-                                    <input type="text" name="memberEmail" id="inputBox">
+                                    <input type="text" name="memberEmail2" id="inputBox" disabled >
+                                    <input type="hidden" name="memberEmail" >
+                                    
                                     <div class="selectBox">
                                         <select class="select">
-                                            <option value="" disabled selected>선택</option>
+                                            <option value="" selected >선택</option>
                                             <option value="naver.com" id="naver.com">naver.com</option>
                                             <option value="daum.com" id="daum.com">daum.com</option>
                                             <option value="gmail.com" id="gmail.com">gmail.com</option>
@@ -119,7 +121,7 @@
                                     <input type="text" name="memberName" placeholder="이름">
                                 </div>
                                 <div class="form-group2">
-                                    <input type="date" name="memberBirthDate" placeholder="생년월일 YYYY-MM-DD">
+                                    <input type="date" name="memberBirthDate" data-placeholder="생년월일">
                                 </div>
                                 <div class="form-group2 phone-group">
                                     <input type="text" name="memberPhone" placeholder="휴대폰 번호  -없이 입력">
@@ -141,7 +143,7 @@
                             </div>
                         </div>
                         <div class="submit-button">
-                        <button type="submit">가입완료</button>
+                        <button type="submit" >가입완료</button>
                         </div>
                     </form>
                 </div>
@@ -175,10 +177,20 @@
                     $('#inputBox').attr("disabled", false);
                     $('#inputBox').val("");
                     $('#inputBox').focus();
+                    
                 } else {
                     $("#inputBox").attr("disabled", true);
                     $('#inputBox').val($('.select').val());
+                    
                 }
+            });
+            
+            
+            $('.submit-button>button').on("click",function(){
+            	alert($('input[name=memberEmail1]').val() +'@'+ $('#inputBox').val());
+            	alert($('input[name=memberBirthDate]').val());
+            	$('input[name=memberEmail]') = $('input[name=memberEmail1]').val() +'@'+ $('#inputBox').val();
+            	
             });
 
         </script>
