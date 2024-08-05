@@ -257,14 +257,14 @@
 				style : naver.maps.ZoomControlStyle.SMALL
 			}
 		});
-		
+		map.setCursor('pointer');
 		var infoWindow = new naver.maps.InfoWindow({
 			borderWidth : 0,
 			backgroundColor: 'transparent',
 			anchorColor : 'var(--point1)',
 		    anchorSkew: true
 		});
-
+		
 		function searchAddressToCoordinate(address) {
 		    naver.maps.Service.geocode({
 		        query: address
@@ -296,14 +296,41 @@
 		            htmlAddresses.join('<br />'),
 		            '</p></div>'
 		        ].join('\n'));
-		        $("div.round-box-child").parent()
 
 		        map.setCenter(point);
 		        infoWindow.open(map, point);
 		    });
 		}
+		//클릭하면 좌표값+주소값 가져오기
+		function searchCoordinateToAddress(latlng) {
 
+    		infoWindow.close();
 
+    		naver.maps.Service.reverseGeocode({
+        		coords: latlng,
+        		orders: [
+            		naver.maps.Service.OrderType.ADDR,
+            		naver.maps.Service.OrderType.ROAD_ADDR
+        		].join(',')
+    		}, function(status, response) {
+        			if (status === naver.maps.Service.Status.ERROR) {
+            		return alert('Something Wrong!');
+        			}
+			        var items = response.v2.results,
+            		address = '',
+            		htmlAddresses = [];
+           			item = items[0];
+					address = makeAddress(item) || '';
+           			$("#restrAddr1").val(address);
+           			$("#restrAddr2").focus();
+           			searchAddressToCoordinate(address);
+    			});
+		}
+		//클릭 이벤트
+		map.addListener('click', function(e) {
+	        searchCoordinateToAddress(e.coord);
+	    });
+		//주소만들기
 		function makeAddress(item) {
 		    if (!item) {
 		        return;
