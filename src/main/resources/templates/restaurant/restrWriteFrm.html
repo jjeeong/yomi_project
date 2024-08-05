@@ -86,39 +86,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>메뉴 이름</td>
-											<td>가격</td>
-											<td>
-												<button type="button" class="btn btn-sm btn-mono">
-													수정
-												</button>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div class="input-box">
-													<input type="text" class="input-td round-box" name="menuName"
-														placeholder="메뉴 이름">
-												</div>
-											</td>
-											<td>
-												<div class="input-box">
-													<input type="text" class="input-td round-box" name="menuPrice"
-														placeholder="가격"><span>원</span>
-												</div>
-											</td>
-											<td>
-												<div class="btn-box">
-													<button type="button" class="btn btn-sm btn-sub">
-														추가
-													</button><br>
-													<button type="button" class="btn btn-sm btn-mono">
-														삭제
-													</button>
-												</div>
-											</td>
-										</tr>
+
 									</tbody>
 								</table>
 							</div>
@@ -226,11 +194,14 @@
 			const insertBtn = $("<button type='button'>");
 			insertBtn.addClass("btn").addClass("btn-sm").addClass("btn-sub");
 			insertBtn.text("추가");
+			insertBtn.on("click", function () {
+				completeTr(this);
+			});
 			const deleteBtn = $("<button type='button'>");
 			deleteBtn.addClass("btn").addClass("btn-sm").addClass("btn-mono");
 			deleteBtn.text("삭제");
 			deleteBtn.on("click", function () {
-				deleteTr(this)
+				deleteTr(this);
 			});
 			btnDiv.append(insertBtn).append($("<br>")).append(deleteBtn);
 			btnTd.append(btnDiv);
@@ -266,13 +237,56 @@
 						const text = $(item).find("input").val();
 						$(item).text(text);
 					} else {
-						const text = $(item).find("input").val() + " 원";
-						$(item).text(text);
+						const text = "<span>" + $(item).find("input").val() + "</span>" + "<span> 원</span>";
+						$(item).html(text);
 					}
 				});
 
 			}
 		};
+
+		function updateTr(btn) {
+			const tr = $(btn).parents("tr");
+
+			const MenuNameTd = $("<td>");
+			const MenuNameDiv = $("<div>");
+			MenuNameDiv.addClass("input-box");
+			const MenuNameInput = $("<input type='text' name='menuName' placeholder='메뉴 이름'>");
+			MenuNameInput.addClass("input-td").addClass("round-box").val(tr.children().eq(0).text());
+			MenuNameDiv.append(MenuNameInput);
+			MenuNameTd.append(MenuNameDiv);
+			// 가격
+			const MenuPriceTd = $("<td>");
+			const MenuPriceDiv = $("<div>");
+			MenuPriceDiv.addClass("input-box");
+			const MenuPriceInput = $("<input type='text' name='menuPrice' placeholder='가격'>");
+			MenuPriceInput.addClass("input-td").addClass("round-box").val(tr.children().eq(1).children().eq(0).text());
+			const span = $("<span>");
+			span.text("원");
+			MenuPriceDiv.append(MenuPriceInput).append(span);
+			MenuPriceTd.append(MenuPriceDiv);
+			// 버튼
+			const btnTd = $("<td>");
+			const btnDiv = $("<div>");
+			btnDiv.addClass("btn-box");
+			const insertBtn = $("<button type='button'>");
+			insertBtn.addClass("btn").addClass("btn-sm").addClass("btn-sub");
+			insertBtn.text("추가");
+			insertBtn.on("click", function () {
+				completeTr(this);
+			});
+			const deleteBtn = $("<button type='button'>");
+			deleteBtn.addClass("btn").addClass("btn-sm").addClass("btn-mono");
+			deleteBtn.text("삭제");
+			deleteBtn.on("click", function () {
+				deleteTr(this)
+			});
+			btnDiv.append(insertBtn).append($("<br>")).append(deleteBtn);
+			btnTd.append(btnDiv);
+			// 합치기
+			tr.empty();
+			tr.append(MenuNameTd).append(MenuPriceTd).append(btnTd);
+		}
 
 		//주소찾기
 		$("#addrSearch").on("click", function () {
