@@ -32,7 +32,7 @@
 	<main class="main restrFrm">
 		<div class="round-box frm">
 			<h2 class="page-title">맛집 등록</h2>
-			<form action="/restaurant/restrWrite" method="post" enctype="multipart/form-data">
+			<form action="/restaurant/restrWrite" method="post" enctype="multipart/form-data" id="restrFrm">
 				<div class="info basic round-box shadow">
 					<h3>1. 기본 정보</h3>
 					<div class="input-content">
@@ -473,10 +473,38 @@
 			return !!(addition && addition.value);
 		}
 		$("#submit").on("click", function () {
+			console.log($("form#restrFrm"));
 			const menuNames = $("table.table").find("td.menuName");
 			const menuPrices = $("table.table").find("td.menuPrice");
 			const tags = $(".tag-name");
-		})
+			menuNames.each(function (index, item) {
+				const input = $("<input>");
+				input.attr("name", "menuName");
+				input.attr("type", "hidden");
+				input.val($(item).text());
+				$("form#restrFrm").append(input);
+			});
+			menuPrices.each(function (index, item) {
+				const input = $("<input>");
+				input.attr("name", "menuPrice");
+				input.attr("type", "hidden");
+				input.val($(item).text());
+				$("form#restrFrm").append(input);
+			});
+			tags.each(function (index, item) {
+				const input = $("<input>");
+				input.attr("name", "tagName");
+				input.attr("type", "hidden");
+				input.val($(item).text());
+				$("form#restrFrm").append(input);
+			});
+			$("form#restrFrm").submit();
+		});
+		
+		$("#cancel").on("click", function () {
+			//취소 시 sw 구현하기.. 
+		});
+		
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
