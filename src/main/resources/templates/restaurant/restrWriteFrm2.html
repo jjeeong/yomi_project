@@ -7,15 +7,7 @@
 	<link rel="stylesheet" href="/css/sujin.css">
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-	<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zzl0s76r4r&submodules=geocoder"></script>
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<style>
-		.round-box-child{
-			 border-radius : 5px; 
-			 border:1px solid var(--point1); 
-			 background-color:#fff;
-		}
-	</style>
+	<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=z03gy10mtv&submodules=geocoder"></script>
 </head>
 
 <body>
@@ -44,10 +36,7 @@
 									placeholder="주소를 입력하세요">
 								<input type="text" name="restrAddr2" id="restrAddr2" class="input-lg"
 									placeholder="상세 주소를 입력하세요">
-								<input type="hidden" name="restrMapx" id="mapX">
-								<input type="hidden" name="restrMapY" id="mapY">
 							</div>
-							<div id="map" style="width:90%; height:300px; margin: 0 auto;margin-top : 30px;"></div>
 						</div>
 						<div class="input-list restrTel">
 							<label for="restrTel">
@@ -183,9 +172,6 @@
 				</div>
 			</form>
 		</div>
-
-
-		
 	</main>
 	<script>
 		const delBtn = $("table").find("div.btn-box").children(".btn-mono");
@@ -243,140 +229,9 @@
 		        	console.log(data)
 		            $("#restrAddr1").val(data.roadAddress);
 		            $("#restrAddr2").focus();
-		            searchAddressToCoordinate(data.roadAddress);
 		        }
 		    }).open();
 		})
-		//네이버 지도 띄우는 중..
-		const map = new naver.maps.Map("map", {
-			center : new naver.maps.LatLng(37.3595316, 127.1052133),//LatLng : 위도 경도를 다룸
-			zoom : 18, //배율 지정
-			zoomControl : true, //배율을 사용자가 직접 지정할 수 있도록 바를 띄워줌
-			zoomControlOptions : { //배율 지정 바 스타일 변경
-				position : naver.maps.Position.TOP_RIGHT,
-				style : naver.maps.ZoomControlStyle.SMALL
-			}
-		});
-		
-		var infoWindow = new naver.maps.InfoWindow({
-			borderWidth : 0,
-			backgroundColor: 'transparent',
-			anchorColor : 'var(--point1)',
-		    anchorSkew: true
-		});
-
-		function searchAddressToCoordinate(address) {
-		    naver.maps.Service.geocode({
-		        query: address
-		    }, function(status, response) {
-		        if (status === naver.maps.Service.Status.ERROR) {
-		            return alert('Something Wrong!');
-		        }
-
-		        if (response.v2.meta.totalCount === 0) {
-		            return alert('totalCount' + response.v2.meta.totalCount);
-		        }
-
-		        var htmlAddresses = [],
-		            item = response.v2.addresses[0],
-		            point = new naver.maps.Point(item.x, item.y);// item.x : 경도 item.y : 위도
-		            $("#mapX").val(item.y);
-		            $("#mapY").val(item.x);
-		        if (item.roadAddress) {
-		            htmlAddresses.push('<span style="color : var(--pointFont); font-family : g_b;">[도로명 주소] </span>' + item.roadAddress);
-		        }
-
-		        if (item.jibunAddress) {
-		            htmlAddresses.push('<span style="color : var(--pointFont);  font-family : g_b;">[지번 주소] </span>' + item.jibunAddress);
-		        }
-
-		        infoWindow.setContent([
-		            '<div class="round-box-child" style="padding:10px;min-width:100px;line-height:150%;">',
-		            '<h4 style="margin-top:5px;font-size: 15px; font-family : g_b; color : var(--point1);">검색 주소 : '+ address +'</h4><br /><p style="font-size:13px; font-family : g_r">',
-		            htmlAddresses.join('<br />'),
-		            '</p></div>'
-		        ].join('\n'));
-		        $("div.round-box-child").parent()
-
-		        map.setCenter(point);
-		        infoWindow.open(map, point);
-		    });
-		}
-
-
-		function makeAddress(item) {
-		    if (!item) {
-		        return;
-		    }
-
-		    var name = item.name,
-		        region = item.region,
-		        land = item.land,
-		        isRoadAddress = name === 'roadaddr';
-
-		    var sido = '', sigugun = '', dongmyun = '', ri = '', rest = '';
-
-		    if (hasArea(region.area1)) {
-		        sido = region.area1.name;
-		    }
-
-		    if (hasArea(region.area2)) {
-		        sigugun = region.area2.name;
-		    }
-
-		    if (hasArea(region.area3)) {
-		        dongmyun = region.area3.name;
-		    }
-
-		    if (hasArea(region.area4)) {
-		        ri = region.area4.name;
-		    }
-
-		    if (land) {
-		        if (hasData(land.number1)) {
-		            if (hasData(land.type) && land.type === '2') {
-		                rest += '산';
-		            }
-
-		            rest += land.number1;
-
-		            if (hasData(land.number2)) {
-		                rest += ('-' + land.number2);
-		            }
-		        }
-
-		        if (isRoadAddress === true) {
-		            if (checkLastString(dongmyun, '면')) {
-		                ri = land.name;
-		            } else {
-		                dongmyun = land.name;
-		                ri = '';
-		            }
-
-		            if (hasAddition(land.addition0)) {
-		                rest += ' ' + land.addition0.value;
-		            }
-		        }
-		    }
-
-		    return [sido, sigugun, dongmyun, ri, rest].join(' ');
-		}
-
-		function hasArea(area) {
-		    return !!(area && area.name && area.name !== '');
-		}
-
-		function hasData(data) {
-		    return !!(data && data !== '');
-		}
-
-		function checkLastString (word, lastString) {
-		    return new RegExp(lastString + '$').test(word);
-		}
-
-		function hasAddition (addition) {
-		    return !!(addition && addition.value);
-		}
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
