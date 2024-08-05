@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+<script src="js/jquery-3.7.1.js"></script>
+<link rel="stylesheet" href="/css/joinFrm.css">
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+		<main>
+        <div class="main1">
+            <div class="container page1">
+                <div class="title">회원가입</div>
+                
+                    <div class="form-group1 no1">
+                        <input type="checkbox" id="ageCheck">
+                        <label for="ageCheck"><span>만 14세 이상입니다 (필수)</span>&numsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                            <a href="#">내용보기</a></label>
+                    </div>
+                    <div class="form-group1 no2">
+                        <input type="checkbox" id="termsCheck">
+                        <label for="termsCheck">이용약관 동의 (필수)</label>
+                    </div>
+                    <div class="form-group1 no3">
+                        <input type="checkbox" id="personalInfoCheck">
+                        <label for="personalInfoCheck"><span>개인 정보 수집 및 이용 동의 (필수)</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                            <a href="#">내용보기</a></label>
+                    </div>
+                    <table class="PIC-tbl">
+                        <tr>
+                            <th>개인정보 수집</th>
+                        </tr>
+                        <tr>
+                            <th>목적</th>
+                            <td>&emsp;&emsp;개인식별, 서비스 이용을 위한 연락처</td>
+                        </tr>
+                        <tr>
+                            <th>항목</th>
+                            <td>&emsp;&emsp;이름, 아이디, 비밀번호, 이메일</td>
+                        </tr>
+                        <tr>
+                            <th>보유기간</th>
+                            <td>&emsp;&emsp;회원 탈퇴 시 즉시 파기</td>
+                        </tr>
+                    </table>
+                    <div class="form-group1 no4">
+                        <input type="checkbox" id="optionalInfoCheck">
+                        <label for="optionalInfoCheck"><span>선택 정보 수집 및 이용 동의</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                            <a href="#">내용보기</a></label>
+                    </div>
+                    <table class="PIC-tbl">
+                        <tr>
+                            <th>개인정보 수집</th>
+                        </tr>
+                        <tr>
+                            <th>목적</th>
+                            <td>&emsp;&emsp;맞춤 정보 제공, 마케팅</td>
+                        </tr>
+                        <tr>
+                            <th>항목</th>
+                            <td>&emsp;&emsp;성별, 생년월일, 이메일</td>
+                        </tr>
+                        <tr>
+                            <th>보유기간</th>
+                            <td>&emsp;&emsp;회원 탈퇴 시 즉시 파기</td>
+                        </tr>
+                    </table>
+                    <div class="form-group1 no5">
+                        <input type="checkbox" id="emailMarketingCheck">
+                        <label for="emailMarketingCheck">이메일 마케팅 수신 동의</label>
+                    </div>
+                    <div class="form-group1 no6">
+                        <input type="checkbox" id="personalInfoperiodCheck">
+                        <label for="personalInfoperiodCheck">개인정보 유효기간 3년 지정 (미동의 시 1년)</label>
+                    </div>
+                    <div class="next-btn">
+                        <button type="button" >다음 단계 1/2</button>
+                    </div>
+            </div>
+            <div class="main2">
+                <div class="container page2">
+                    <span class="material-icons">arrow_back</span>
+                    <div class="title">회원가입</div>
+                    <form action="/member/join" method="post" id="signupForm" autocomplete="off">
+                        <div class="form-main">
+                            <div class="form-section">
+                                <div class="section-title">회원정보</div>
+                                <div class="form-group2">
+                                    <input type="text" name="memberId" placeholder="아이디">
+                                </div>
+                                <div class="form-group2">
+                                    <input type="password" name="memberPw"placeholder="비밀번호">
+                                </div>
+                                <div class="form-group2">
+                                    <input type="password" name="memberPwRe"placeholder="비밀번호 확인">
+                                </div>
+                                <div class="form-group2 email-group">
+                                    <input type="text" name="memberEmail" placeholder="이메일">
+                                    <span>@</span>
+                                    <input type="text" name="memberEmail" id="inputBox">
+                                    <div class="selectBox">
+                                        <select class="select">
+                                            <option value="" disabled selected>선택</option>
+                                            <option value="naver.com" id="naver.com">naver.com</option>
+                                            <option value="daum.com" id="daum.com">daum.com</option>
+                                            <option value="gmail.com" id="gmail.com">gmail.com</option>
+                                            <option value="hanmail.net" id="hanmail.com">hanmali.net</option>
+                                            <option value="nate.com" id="nate.com">nate.com</option>
+                                            <option value="diretly" id="textEmail">직접 입력하기</option>
+                                        </select>
+                                        <span class="icoArrow"><img src="/image/pngegg.png" alt=""></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-section">
+                                <div class="section-title">개인정보</div>
+                                <div class="form-group2">
+                                    <input type="text" name="memberName" placeholder="이름">
+                                </div>
+                                <div class="form-group2">
+                                    <input type="date" name="memberBirthDate" placeholder="생년월일 YYYY-MM-DD">
+                                </div>
+                                <div class="form-group2 phone-group">
+                                    <input type="text" name="memberPhone" placeholder="휴대폰 번호  -없이 입력">
+                                    <button class="input-btn"type="button">인증하기</button>
+                                </div>
+                                <div class="section-title">주소</div>
+                                <div class="form-group2">
+                                    <input type="text" name="memberAddr" placeholder="주소">
+                                    <button class="input-btn" type="button">검색</button>
+                                </div>
+                                <div class="form-group2">
+                                    <input type="text" name="memberAddr" placeholder="상세주소">
+                                </div>
+                                <div class="section-title">성별</div>
+                                <div class="form-group2 gender-group">
+                                    <input type="button" value="남자">
+                                    <input type="button" value="여자">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="submit-button">
+                        <button type="submit">가입완료</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <script>
+            $(".next-btn>button").on("click",function(){
+                
+                const page1 = $(".page1");
+                const page2 = $(".page2");
+                page1.addClass("close");
+                page2.addClass("show");
+                if(page1.hasClass("show") == true){
+                    page1.removeClass("show");
+                    page1.addClass("close");
+                    page2.removeClass("close");
+                    page2.addClass("show");
+                }
+            });
+            $(".material-icons").on("click",function(){
+                const page2 = $(".page2");
+                page2.removeClass("show");
+                page2.addClass("close");
+                const page1 = $(".page1");
+                page1.removeClass("close");
+                page1.addClass("show");
+            })
+
+            $('.select').change(function() {
+                if ($('.select').val() == 'diretly') {
+                    $('#inputBox').attr("disabled", false);
+                    $('#inputBox').val("");
+                    $('#inputBox').focus();
+                } else {
+                    $("#inputBox").attr("disabled", true);
+                    $('#inputBox').val($('.select').val());
+                }
+            });
+
+        </script>
+    </main>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

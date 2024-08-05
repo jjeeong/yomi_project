@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.restr.model.dto.BlogSearchResult;
 import kr.co.iei.restr.model.dto.Restaurant;
+import kr.co.iei.restr.model.dto.Review;
 import kr.co.iei.restr.model.service.RestrService;
 
 @Controller
@@ -32,14 +34,18 @@ public class RestrController {
 
 	//맛집 상세 페이지
 	@GetMapping(value = "/restrView")
-    public String restrView(Model model) {
-        Restaurant r = restrService.selectOneRestr(1); // 테스트용으로 1번 쿼리를 검색하도록 설정해둠.
+    public String restrView(Model model, int restrNo) {
+        Restaurant r = restrService.selectOneRestr(restrNo); // 테스트용으로 1번 쿼리를 검색하도록 설정해둠.
 
         if (r == null) {
             return "redirect:/";
         } else {
             String searchResult = restrService.searchBlog(r.getRestrName());
             List<BlogSearchResult> searchResults = parseSearchResults(searchResult);
+            
+            List list = restrService.selectRestrMenu(restrNo);
+            r.setRestrMenu(list);
+
             model.addAttribute("r", r);
             model.addAttribute("searchResults", searchResults);
             return "restaurant/restrView";
@@ -73,17 +79,21 @@ public class RestrController {
     //맛집 리스트
     @GetMapping(value = "/restrList")
     public String restrList(Model model) {
-        List list = restrService.selectRestrList(); //테스트용으로 전체 결과를 받아옴
+        int restrTotalCount = restrService.selectRestrTotalCount();
+        model.addAttribute("restrTotalCount", restrTotalCount);
         return "restaurant/restrList";
     }
+    
+    @ResponseBody
+	@GetMapping(value = "/more")
+	public List photoMore(int start, int amount) {
+		List list = restrService.selectRestrList(start, amount);
+		return list;
+	}
 
 	@ResponseBody
 	@PostMapping(value = "/likePush")
 	public int likePush(int restrNo, int isLike, @SessionAttribute(required = false) Member member) {
-		// @SessionAttribute에서 로그인정보를 가지고올 때 required옵션을 명시하지않으면 기본적으로 true
-		// -> 로그인이 되어있지 않으면 에러가 발생
-		// -> 로그인이 되어있지 않은 상태에서 에러를 발생시키지 않으려면 (required = false)옵션을 추가
-		// -> 로그인이 되어있으면 로그인 한 회원정보/로그인이 되어있지 않으면 null
 		if (member == null) {
 			return -10;
 		} else {
@@ -93,8 +103,6 @@ public class RestrController {
 		}
 	}
 	
-	
-
 	@GetMapping(value = "/writeFrm")
 	public String writeFrm() {
 		return "restaurant/restrWriteFrm";
@@ -104,4 +112,29 @@ public class RestrController {
 	public String updateFrm() {
 		return "restaurant/restrUpdateFrm";
 	}// restFrm()
+	
+	
+	@PostMapping(value = "/writeReview")
+	public String writeReview(@SessionAttribute(required = false) Member member, Review review, Restaurant restaurant, Double reviewStar) {
+		
+		System.out.println(restaurant.getRestrNo());
+		
+		int memberNo = member.getMemberNo();
+		review.setMemberNo(memberNo);
+		review.setRestrNo(restaurant.getRestrNo());
+		review.setReviewStar(reviewStar);
+		int result = restrService.writeReview(review);
+		return "redirect:/restaurant/restrView?restrNo="+restaurant.getRestrNo();
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/writeReviewFrm")
+	public int writeReviewFrm(@RequestParam int restrNo, @SessionAttribute(required = false) Member member) {
+	    if (member == null) {
+	        return -10;
+	    } else {
+	        return 1;
+	    }
+	}
 }
+

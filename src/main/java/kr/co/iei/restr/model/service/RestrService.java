@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.restr.model.dao.RestrDao;
 import kr.co.iei.restr.model.dto.Restaurant;
+import kr.co.iei.restr.model.dto.Review;
 
 @Service
 public class RestrService {
@@ -59,7 +61,7 @@ public class RestrService {
 			//현재 좋아요를 누른 상태에서 클릭 -> 좋아요 취소 -> delete
 			result = restrDao.deleteNoticeRestrLike(restrNo, memberNo);
 		}
-		if(result>0) {
+		if(result > 0) {
 			//좋아요,좋아요 취소 로직을 수행하고나면 현재 좋아요 갯수를 조회해서 리턴
 			int likeCount = restrDao.selectNoticeRestrLikeCount(restrNo);
 			return likeCount;
@@ -69,9 +71,28 @@ public class RestrService {
 	}
 
 
-	public List selectRestrList() {
-		List list = restrDao.selectRestrList();
+	public List selectRestrList(int start, int amount) {
+		int end = start + amount - 1;
+		List list = restrDao.selectRestrList(start, end);
 		return list;
+	}
+
+
+	public int selectRestrTotalCount() {
+		int restrTotalCount = restrDao.selectRestrTotalCount();
+		return restrTotalCount;
+	}
+
+
+	public List selectRestrMenu(int restrNo) {
+		List list = restrDao.selectRestrMenu(restrNo);
+		return list;
+	}
+
+
+	public int writeReview(Review review) {
+		int result = restrDao.writeReview(review);
+		return result;
 	}
 
 }

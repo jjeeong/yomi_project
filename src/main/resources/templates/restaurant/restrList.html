@@ -109,6 +109,10 @@
         .more-btn:hover {
             background-color: #e65c00;
         }
+        .more-btn {
+        	width: 900px;
+        	margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -120,6 +124,7 @@
         </div>
     </div>
     <div class="restr-list">
+	<!-- 
         <div class="restr-item">
             <img>
             <div class="restr-info">
@@ -131,8 +136,87 @@
                 <div class="restr-details">카페, 강남구</div>
             </div>
         </div>
-        <a href="#" class="more-btn">맛집 더보기</a>
+         -->
     </div>
+    <button class="more-btn" id="more-btn">맛집 더보기</button>
+    
+    
+    
+    
+    <script th:inline="javascript">
+		const restrTotalCount = [[${restrTotalCount}]]; 
+		let currentCount = 0;
+		let start = 1;
+		$("#more-btn").on("click", function(){
+			const amount = 1;		//더보기 한 번 클릭할 때마다 추가로 가져올 게시물 수
+			$.ajax({
+				url : "/restaurant/more",
+				type : "get",
+				data : {start : start , amount : amount},
+				success : function(data) {
+					console.log(data);
+					for(let i=0; i<data.length; i++) {
+						const r = data[i];
+						/*
+						<div class="restr-item">
+				            <img>
+				            <div class="restr-info">
+				                <div class="restr-name">가게명</div>
+				                <div class="restr-rating">
+				                    <span class="material-icons">grade</span>
+				                    <span>4.0(100)</span>
+				                </div>
+				                <div class="restr-details">카페, 강남구</div>
+				            </div>
+				        </div>
+						*/
+						
+						const restrDiv = $("<div>");
+						restrDiv.addClass("restr-item");
+						const img = $("<img>");
+						img.attr("src", "/yomi/"+r.restrImg1);
+						const restrInfoDiv = $("<div>");
+						restrInfoDiv.addClass("restr-info");
+						
+						const restrNameDiv = $("<a>");
+						restrNameDiv.addClass("restr-name");
+						restrNameDiv.text(r.restrName);
+						restrNameDiv.attr("href","/restaurant/restrView?restrNo="+r.restrNo);
+						const restrRestrRatingDiv = $("<div>");
+						restrRestrRatingDiv.addClass("restr-rating");
+						const starSpan = $("<span>");
+						starSpan.addClass("material-icons");
+						starSpan.text("grade");
+						const gradeSpan = $("<span>")
+						gradeSpan.text("4.0(100)");
+						const restrDetailsDiv = $("<div>");
+						restrDetailsDiv.addClass("restr-details");
+						restrDetailsDiv.text(r.restrAddr1 + " " + r.restrAddr2);
+						
+						restrRestrRatingDiv.append(starSpan).append(gradeSpan);
+						restrInfoDiv.append(restrNameDiv).append(restrRestrRatingDiv).append(restrDetailsDiv);
+						restrDiv.append(img).append(restrInfoDiv);
+						
+						$(".restr-list").append(restrDiv);
+						
+					}
+
+					start = start + amount;
+					currentCount = currentCount + data.length;
+
+					if(currentCount == restrTotalCount) {
+						$("#more-btn").remove();	
+					}
+				},
+				error : function() {
+					console.log("error");
+				}
+			});
+		});
+		$("#more-btn").click();
+	</script>
+
     <th:block th:include="common/footer"></th:block>
+    
 </body>
 </html>
