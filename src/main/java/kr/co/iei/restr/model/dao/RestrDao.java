@@ -48,9 +48,16 @@ public class RestrDao {
 		return likeCount;
 	}
 
-	public List selectRestrList() {
-		String query = "select * from restaurant";
-		List list = jdbc.query(query, restaurantRowMapper);
+	public List selectRestrList(int start, int end) {
+		String query = "select * from (select rownum as rnum, r.* from (select * from restaurant order by restr_no desc)r) where rnum between ? and ?";
+		Object[] params = {start, end};
+		List list = jdbc.query(query, restaurantRowMapper, params);
 		return list;
+	}
+
+	public int selectRestrTotalCount() {
+		String query = "select count(*) from restaurant";
+		int restrTotalCount = jdbc.queryForObject(query, Integer.class);
+		return restrTotalCount;
 	}
 }

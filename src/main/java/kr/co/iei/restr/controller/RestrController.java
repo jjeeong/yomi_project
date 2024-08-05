@@ -20,6 +20,7 @@ import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.restr.model.dto.BlogSearchResult;
 import kr.co.iei.restr.model.dto.Restaurant;
 import kr.co.iei.restr.model.service.RestrService;
+import kr.co.iei.util.FileUtils;
 
 @Controller
 @RequestMapping(value = "/restaurant")
@@ -32,8 +33,8 @@ public class RestrController {
 
 	//맛집 상세 페이지
 	@GetMapping(value = "/restrView")
-    public String restrView(Model model) {
-        Restaurant r = restrService.selectOneRestr(1); // 테스트용으로 1번 쿼리를 검색하도록 설정해둠.
+    public String restrView(Model model, int restrNo) {
+        Restaurant r = restrService.selectOneRestr(restrNo); // 테스트용으로 1번 쿼리를 검색하도록 설정해둠.
 
         if (r == null) {
             return "redirect:/";
@@ -73,9 +74,17 @@ public class RestrController {
     //맛집 리스트
     @GetMapping(value = "/restrList")
     public String restrList(Model model) {
-        List list = restrService.selectRestrList(); //테스트용으로 전체 결과를 받아옴
+        int restrTotalCount = restrService.selectRestrTotalCount();
+        model.addAttribute("restrTotalCount", restrTotalCount);
         return "restaurant/restrList";
     }
+    
+    @ResponseBody
+	@GetMapping(value = "/more")
+	public List photoMore(int start, int amount) {
+		List list = restrService.selectRestrList(start, amount);
+		return list;
+	}
 
 	@ResponseBody
 	@PostMapping(value = "/likePush")

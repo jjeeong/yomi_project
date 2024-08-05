@@ -459,8 +459,7 @@
 
    <th:block th:include="common/footer"></th:block>
 
-    <script>
-    
+    <script> 
        document.addEventListener("DOMContentLoaded", function() {
         const toggleBtn = document.querySelector(".toggle-btn");
         const reviewForm = document.querySelector(".review-form");
@@ -488,7 +487,7 @@
                 position: naver.maps.Position.TOP_RIGHT,
                 style: naver.maps.ZoomControlStyle.SMALL
               },
-              center : new naver.maps.LatLng(37.552758094502494, 126.98732600494576),
+              center : new naver.maps.LatLng(r.restrMapx, r.restrMapy),
               zoom: 15
            });
         }

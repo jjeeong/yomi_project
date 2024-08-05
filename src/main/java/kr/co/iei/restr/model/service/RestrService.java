@@ -69,9 +69,16 @@ public class RestrService {
 	}
 
 
-	public List selectRestrList() {
-		List list = restrDao.selectRestrList();
+	public List selectRestrList(int start, int amount) {
+		int end = start + amount - 1;
+		List list = restrDao.selectRestrList(start, end);
 		return list;
+	}
+
+
+	public int selectRestrTotalCount() {
+		int restrTotalCount = restrDao.selectRestrTotalCount();
+		return restrTotalCount;
 	}
 
 }
