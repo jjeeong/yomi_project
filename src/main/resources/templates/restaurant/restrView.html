@@ -333,7 +333,7 @@
                     <div class="shop-likes">
 
                         <span th:if="${r.isLike == 0}" class="material-icons" id="like-none" th:onclick="likePush(this,[[${r.restrNo}]]);">favorite</span>
-                        <span th:if="${r.isLike == 1}" style="color: red;" class="material-icons" id="like-none" th:onclick="likePush(this,[[${r.restrNo}]]);">favorite</span>
+                        <span th:if="${r.isLike == 1}" style="color: red;" class="material-icons" id="like-yes" th:onclick="likePush(this,[[${r.restrNo}]]);">favorite</span>
                         <span th:text="${r.likeCount}">0</span>
                         <span class="material-icons">bookmark</span>
                     </div>
@@ -586,7 +586,7 @@
         
         function likePush(obj, restrNo) {
         	//현재 상태를 구분-> 지금 클릭한 행동이 좋아요를 누른건지/좋아요 취소를 누른건지 구분
-			const currentText = $(obj).text();
+			const currentText = $(obj).next().text();
 			
             const likeId = $(obj).attr('id');
             const isLike = (likeId === "like-none") ? 0 : 1;
@@ -628,10 +628,10 @@
                             $(obj).attr("id", "like-none");
                         }
                       	//현재 좋아요 갯수 변경
-						$(obj).nextAll().last().text(data);
+						$(obj).next().text(data);
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function() {
                     console.log("Error: " + error);
                 }
             });
