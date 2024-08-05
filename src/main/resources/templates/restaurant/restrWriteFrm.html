@@ -58,7 +58,7 @@
 									placeholder="주소를 입력하세요">
 								<input type="text" name="restrAddr2" id="restrAddr2" class="input-lg"
 									placeholder="상세 주소를 입력하세요">
-								<input type="hidden" name="restrMapx" id="mapX">
+								<input type="hidden" name="restrMapX" id="mapX">
 								<input type="hidden" name="restrMapY" id="mapY">
 							</div>
 							<div id="map" style="width:90%; height:300px; margin: 0 auto;margin-top : 30px;"></div>
@@ -265,7 +265,6 @@
 						$(item).html(text);
 						$(item).addClass("menuPrice");
 					}
-					//이제 back작업시에 할 것들 넣어줘야 함
 				});
 
 			}
@@ -416,7 +415,8 @@
 				].join(',')
 			}, function (status, response) {
 				if (status === naver.maps.Service.Status.ERROR) {
-					return alert('Something Wrong!');
+					return alert('시스템 오류입니다!');
+					//sw 쓸 수 있으면 써도 되고..
 				}
 				var items = response.v2.results,
 					address = '',
@@ -508,6 +508,7 @@
 		}
 		$("#submit").on("click", function () {
 			//console.log($("form#restrFrm"));
+			//시간 되면 중복체크도 신경써주기
 			const menuNames = $("table.table").find("td.menuName");
 			console.log(menuNames);
 			const menuPrices = $("table.table").find("span.menuPrice");
