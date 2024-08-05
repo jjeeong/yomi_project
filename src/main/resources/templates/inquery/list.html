@@ -8,6 +8,68 @@
 	rel="stylesheet">
 <style>
 
+section.section {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--gray8);
+}
+section.section.bg-section {
+  background-color: var(--box-bg);
+}
+
+.btn-point {
+  border: 1px solid var(--main5);
+  background-color: var(--main5);
+  color: var(--gray8);
+}
+.btn-point:hover {
+  background-color: rgba(140, 97, 255, 0.9);
+}
+.btn-point.outline {
+  color: var(--main5);
+  background-color: var(--gray8);
+}
+.btn-point.outline:hover {
+  background-color: rgba(140, 97, 255, 0.2);
+}
+
+.input-item {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-primary {
+  border: 1px solid var(--main3);
+  background-color: var(--main3);
+  color: var(--gray8);
+}
+.btn-primary:hover {
+  background-color: rgba(101, 146, 254, 0.9);
+}
+
+.tbl {
+  border-top: 1px solid var(--main3);
+  width: 100%;
+  border-spacing: 0;
+}
+.tbl th,
+.tbl td {
+  text-align: center;
+  border-bottom: 1px solid var(--line2);
+  padding: 10px 20px;
+}
+.tbl th.left,
+.tbl td.left {
+  text-align: left;
+}
+.tbl th {
+  background-color: rgba(101, 146, 254, 0.2);
+}
+.tbl.tbl-hover tbody > tr:hover {
+  cursor: pointer;
+  background-color: rgba(101, 146, 254, 0.1);
+}
+
 	.inquery-list-wrap{
 		width : 1200px;
 		margin : 0 auto;
@@ -72,11 +134,11 @@
 					</tr>
 					
 					<tr th:each="inquery : ${list}">
-						<td th:text="${inquery.noticeNo}"></td>
-						<td class="left"><a th:href="@{/inquery/view(noticeNo=${inquery.noticeNo})}" th:text="${inquery.noticeTitle}"></a></td>
-						<td th:text="${inquery.noticeWriter}"></td>
-						<td th:text="${inquery.regDate}"></td>
-						<td th:text="${inquery.readCount}"></td>
+						<td th:text="${inquery.inqueryNo}"></td>
+						<td class="left"><a th:href="@{/inquery/view(inqueryNo=${inquery.inqueryNo})}" th:text="${inquery.inqueryTitle}"></a></td>
+						<td th:text="${inquery.inqueryWriter}"></td>
+						<td th:text="${inquery.inqueryRegDate}"></td>
+						<td th:text="${inquery.inqueryReadCount}"></td>
 					</tr>			
 				
 				</table>
