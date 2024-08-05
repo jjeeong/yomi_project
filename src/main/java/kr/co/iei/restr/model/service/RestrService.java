@@ -81,4 +81,10 @@ public class RestrService {
 		return restrTotalCount;
 	}
 
+
+	public List selectRestrMenu(int restrNo) {
+		List list = restrDao.selectRestrMenu(restrNo);
+		return list;
+	}
+
 }

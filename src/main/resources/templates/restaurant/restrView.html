@@ -25,7 +25,7 @@
             background-color: #F3F3F3;
             height: 100%;
         }
-        .star-rating .material-icons {
+        .stars1 .material-icons {
             font-size: 50px;
             color: #FC7A1E;
         }
@@ -150,6 +150,12 @@
             text-align: center;
             margin-bottom: 10px;
             margin-top: 20px;
+            cursor: pointer;
+        }
+        
+        .stars2 .material-icons {
+            font-size: 50px;
+            color: #ccc;
         }
 
         textarea {
@@ -315,9 +321,9 @@
 <body>
     
     <th:block th:include="common/header"></th:block>
-
     
     <div>
+    	<input id="restrNo" th:value="${r.restrName}">
         <div class="restr-wrap">
             <div class="restr-wrap-content">
                 <div class="shop-imgs">
@@ -354,10 +360,8 @@
                 <div class="menu-and-tag">
                     <div class="menu">
                         <h3>메뉴</h3>
-                        <ul>
-                            <li>메뉴명 ------------ 80,000원</li>
-                            <li>메뉴명 ------------ 80,000원</li>
-                            <li>메뉴명 ------------ 80,000원</li>
+                        <ul th:each="menu : ${r.restrMenu}">
+                            <li th:text="${menu.restrMenuName} + ' ----------- ' + ${menu.restrMenuPrice}"></li>
                         </ul>
                     </div>
                     <div class="tag">
@@ -372,6 +376,8 @@
             </div>
         </div>
 
+		<input type="hidden" id="mapx" th:value="${r.restrMapx}">
+		<input type="hidden" id="mapy" th:value="${r.restrMapy}">
         <div id="map" style="width:100%; height:400px; margin: 0 auto; border: solid black 1px;"></div>
 
 
@@ -392,8 +398,11 @@
                 </div>
 
                 <div class="review-form collapsed">
+                
+				<form action="/restaurant/writeReview" method="post" id="review-frm">
+					
                     <div class="stars2">
-                        <div class="star-rating">
+                        <div class="star-rating" id="star-rating">
                             <span class="material-icons">grade</span>
                             <span class="material-icons">grade</span>
                             <span class="material-icons">grade</span>
@@ -401,14 +410,19 @@
                             <span class="material-icons">grade</span>
                         </div>
                     </div>
-                    <textarea placeholder="리뷰를 작성하세요."></textarea>
+                    <input type="hidden" id="reviewStar" name="reviewStar">
+                    
+                    <textarea placeholder="리뷰를 작성하세요." name="reviewContent"></textarea>
                     <div class="upload">
                         <button class="tag-btn">태그 추가</button>
                     </div>
                     <div class="button-container">
                         <button type="submit" class="submit-btn">등록</button>
-                    </div>
-                    <button class="toggle-btn">리뷰 작성</button>
+                    </div>                    
+				</form>
+				
+                <button class="toggle-btn">리뷰 작성</button>
+				
                 </div>
             </div>
 
@@ -460,12 +474,14 @@
    <th:block th:include="common/footer"></th:block>
 
     <script> 
+    /*
        document.addEventListener("DOMContentLoaded", function() {
         const toggleBtn = document.querySelector(".toggle-btn");
         const reviewForm = document.querySelector(".review-form");
 
         toggleBtn.addEventListener("click", function() {
             if (reviewForm.classList.contains("collapsed")) {
+            	
                 reviewForm.classList.remove("collapsed");
                 toggleBtn.textContent = "접기";
             } else {
@@ -474,12 +490,54 @@
             }
           }); 
         });
+    */
+    document.addEventListener("DOMContentLoaded", function() {
+        const toggleBtn = document.querySelector(".toggle-btn");
+        const reviewForm = document.querySelector(".review-form");
+
+        if (toggleBtn && reviewForm) { // 요소가 존재하는지 확인
+            toggleBtn.addEventListener("click", function() {
+                const restrNo = 123; // 실제 restrNo 값을 설정하세요
+
+                if (reviewForm.classList.contains("collapsed")) {
+                    $.ajax({
+                        url: "/restaurant/writeReviewFrm",
+                        type: "POST",
+                        data: { restrNo: restrNo }, // 서버에서 기대하는 형식
+                        success: function(response) {
+                            if (response == -10) {
+                                Swal.fire({
+                                    title: "로그인 필요",
+                                    text: "로그인 후 이용해 주세요",
+                                    icon: "info"
+                                });
+                            } else {
+                                reviewForm.classList.remove("collapsed");
+                                toggleBtn.textContent = "접기";
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error: " + error);
+                        }
+                    });
+                } else {
+                    reviewForm.classList.add("collapsed");
+                    toggleBtn.textContent = "리뷰 작성";
+                }
+            });
+        } else {
+            console.error("버튼 또는 폼 요소를 찾을 수 없습니다.");
+        }
+    });
+
+
 
 
         $(function() {
            initMap();
         });
 
+        /*
         function initMap() {
            var map = new naver.maps.Map('map',{
         	  zoomControl: true,
@@ -491,6 +549,27 @@
               zoom: 15
            });
         }
+        */
+        
+        function initMap() {
+        	const mapxInput = document.getElementById('mapx');
+            const mapyInput = document.getElementById('mapy');
+
+            const mapx = parseFloat(mapxInput.value);
+            const mapy = parseFloat(mapyInput.value);
+
+            var map = new naver.maps.Map('map', {
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: naver.maps.Position.TOP_RIGHT,
+                    style: naver.maps.ZoomControlStyle.SMALL
+                },
+                center: new naver.maps.LatLng(mapx, mapy),
+                zoom: 20
+            });
+        }
+
+
         
         function likePush(obj, restrNo) {
             const likeId = $(obj).attr('id');

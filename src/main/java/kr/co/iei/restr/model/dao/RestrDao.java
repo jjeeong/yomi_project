@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.iei.restr.model.dto.Restaurant;
 import kr.co.iei.restr.model.dto.RestaurantRowMapper;
+import kr.co.iei.restr.model.dto.RestrMenuRowMapper;
 
 @Repository
 public class RestrDao {
@@ -17,6 +18,9 @@ public class RestrDao {
 	
 	@Autowired
 	private RestaurantRowMapper restaurantRowMapper;
+	
+	@Autowired
+	private RestrMenuRowMapper restrMenuRowMapper;
 
 	public Restaurant selectOneRestr(int restrNo) {
 		String query = "select * from restaurant where restr_no = ?";
@@ -59,5 +63,12 @@ public class RestrDao {
 		String query = "select count(*) from restaurant";
 		int restrTotalCount = jdbc.queryForObject(query, Integer.class);
 		return restrTotalCount;
+	}
+
+	public List selectRestrMenu(int restrNo) {
+		String query = "select * from restr_menu where restr_no = ?";
+		Object[] params = {restrNo};
+		List list = jdbc.query(query, restrMenuRowMapper ,params);
+		return list;
 	}
 }

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -20,7 +21,6 @@ import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.restr.model.dto.BlogSearchResult;
 import kr.co.iei.restr.model.dto.Restaurant;
 import kr.co.iei.restr.model.service.RestrService;
-import kr.co.iei.util.FileUtils;
 
 @Controller
 @RequestMapping(value = "/restaurant")
@@ -41,6 +41,10 @@ public class RestrController {
         } else {
             String searchResult = restrService.searchBlog(r.getRestrName());
             List<BlogSearchResult> searchResults = parseSearchResults(searchResult);
+            
+            List list = restrService.selectRestrMenu(restrNo);
+            r.setRestrMenu(list);
+
             model.addAttribute("r", r);
             model.addAttribute("searchResults", searchResults);
             return "restaurant/restrView";
@@ -102,8 +106,6 @@ public class RestrController {
 		}
 	}
 	
-	
-
 	@GetMapping(value = "/writeFrm")
 	public String writeFrm() {
 		return "restaurant/restrWriteFrm";
@@ -113,4 +115,22 @@ public class RestrController {
 	public String updateFrm() {
 		return "restaurant/restrUpdateFrm";
 	}// restFrm()
+	
+	
+	@PostMapping(value = "/writeReview")
+	public String writeReview() {
+//		int result = restrService.writeReview();
+		return "/restaurant/restrView?restrNo=21";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/writeReviewFrm")
+	public int writeReviewFrm(@RequestParam int restrNo, @SessionAttribute(required = false) Member member) {
+	    if (member == null) {
+	        return -10;
+	    } else {
+	        return 1;
+	    }
+	}
 }
+

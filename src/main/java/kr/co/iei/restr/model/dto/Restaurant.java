@@ -1,5 +1,7 @@
 package kr.co.iei.restr.model.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,4 +20,7 @@ public class Restaurant {
 	private String restrContent;
 	private String restrImg1;
 	private String restrImg2;
+	private List<RestrMenu> restrMenu;
+	private int star;
+	private int reviewCount;
 }
