@@ -16,6 +16,14 @@
 			border: 1px solid var(--point1);
 			background-color: #fff;
 		}
+
+		div.tag {
+			margin: 4px;
+		}
+
+		div.tag span.material-symbols-outlined {
+			cursor: pointer;
+		}
 	</style>
 </head>
 
@@ -97,29 +105,12 @@
 							</label>
 							<div class="input-content">
 								<div class="input-box">
-									<input type="text" name="restrTag" id="restrTag" class="input-reg"
+									<input type="text" name="restrTags" id="restrTag" class="input-reg"
 										placeholder="추가할 태그를 입력하세요">
-									<button type="button" class="btn btn-point btn-reg">추가</button>
+									<button type="button" id="insertTag" class="btn btn-point btn-reg">추가</button>
 								</div>
 								<div class="tag-box">
-									<div class="tag">
-										<span class="tag-name">태그 이름</span>
-										<span class="material-symbols-outlined">
-											cancel
-										</span>
-									</div>
-									<div class="tag">
-										<span class="tag-name">태그 이름</span>
-										<span class="material-symbols-outlined">
-											cancel
-										</span>
-									</div>
-									<div class="tag">
-										<span class="tag-name">태그 이름</span>
-										<span class="material-symbols-outlined">
-											cancel
-										</span>
-									</div>
+
 								</div>
 							</div>
 						</div>
@@ -147,7 +138,7 @@
 					</div>
 				</div>
 				<div class="submit-btn">
-					<button type="submit" id="submit" class="btn btn-point btn-lg">등 록</button>
+					<button type="button" id="submit" class="btn btn-point btn-lg">등 록</button>
 					<button type="button" id="cancel" class="btn btn-mono btn-lg">취 소</button>
 				</div>
 			</form>
@@ -240,6 +231,7 @@
 						const text = "<span>" + $(item).find("input").val() + "</span>" + "<span> 원</span>";
 						$(item).html(text);
 					}
+					//이제 back작업시에 할 것들 넣어줘야 함
 				});
 
 			}
@@ -247,7 +239,6 @@
 
 		function updateTr(btn) {
 			const tr = $(btn).parents("tr");
-
 			const MenuNameTd = $("<td>");
 			const MenuNameDiv = $("<div>");
 			MenuNameDiv.addClass("input-box");
@@ -287,7 +278,30 @@
 			tr.empty();
 			tr.append(MenuNameTd).append(MenuPriceTd).append(btnTd);
 		}
+		//태그 추가
+		$("#insertTag").on("click", function () {
+			const tagText = $("#restrTags").val();
+			const tagDiv = $("<div>");
+			tagDiv.addClass("tag");
+			const tagDivHtml = "<span class='tag-name'>" + tagText + "</span><span class='material-symbols-outlined' onclick='deleteTag(this);'>cancel</span>";
+			tagDiv.html(tagDivHtml);
+			$("div.tag-box").append(tagDiv);
+			$("#restrTags").val("");
+			//list에 넣는 작업 필요
+		})
 
+		//태그 삭제
+		const cancels = $("div.tag").children("span.material-symbols-outlined");
+
+		cancels.on("click", function () {
+			deleteTag(this);
+		})
+
+		function deleteTag(span) {
+			const delTag = $(span).parent();
+			delTag.remove();
+			//빼는 작업 따로 필요
+		}
 		//주소찾기
 		$("#addrSearch").on("click", function () {
 			new daum.Postcode({
@@ -458,6 +472,11 @@
 		function hasAddition(addition) {
 			return !!(addition && addition.value);
 		}
+		$("#submit").on("click", function () {
+			const menuNames = $("table.table").find("td.menuName");
+			const menuPrices = $("table.table").find("td.menuPrice");
+			const tags = $(".tag-name");
+		})
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
