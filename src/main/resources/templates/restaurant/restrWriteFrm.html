@@ -137,6 +137,7 @@
 						</div>
 					</div>
 				</div>
+				<input type="submit" style="display:none;" id="submit-input">
 				<div class="submit-btn">
 					<button type="button" id="submit" class="btn btn-point btn-lg">등 록</button>
 					<button type="button" id="cancel" class="btn btn-mono btn-lg">취 소</button>
@@ -498,7 +499,8 @@
 				input.val($(item).text());
 				$("form#restrFrm").append(input);
 			});
-			$("form#restrFrm").submit();
+			//$("form#restrFrm").submit();
+			$("#submit-input").click();
 		});
 		
 		$("#cancel").on("click", function () {
