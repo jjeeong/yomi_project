@@ -127,6 +127,7 @@ body {
 }
 .page2>.material-icons{
     font-size: 30px;
+    cursor: pointer;
 }
 
 .form-main{ /**/
@@ -175,7 +176,7 @@ body {
 .gender-group{
     display: flex;
 }
-.gender-group button{
+.gender-group input{
     width: calc(50%);
     padding: 10px;
     border: 1px solid #ccc;
