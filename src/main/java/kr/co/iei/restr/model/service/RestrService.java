@@ -110,4 +110,20 @@ public class RestrService {
 		return 0;
 	}
 
+	public int reviewCount(int restrNo) {
+		int reviewCount = restrDao.reviewCount(restrNo);
+		return reviewCount;
+	}
+
+	public List selectReviewList(int start, int amount, int restrNo) {
+		int end = start + amount - 1;
+		List reviewList = restrDao.selectReviewList(start, end, restrNo);
+		return reviewList;
+	}
+
+	public List selectRestrTag(int restrNo) {
+		List tagList = restrDao.selectRestrTag(restrNo);
+		return tagList;
+	}
+
 }

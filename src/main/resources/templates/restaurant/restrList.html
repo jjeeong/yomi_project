@@ -114,6 +114,11 @@
         	width: 900px;
         	margin: 0 auto;
         }
+        
+        .restr-name {
+        	color: black;
+        	text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -149,7 +154,7 @@
 		let currentCount = 0;
 		let start = 1;
 		$("#more-btn").on("click", function(){
-			const amount = 1;		//더보기 한 번 클릭할 때마다 추가로 가져올 게시물 수
+			const amount = 5;		//더보기 한 번 클릭할 때마다 추가로 가져올 게시물 수
 			$.ajax({
 				url : "/restaurant/more",
 				type : "get",
@@ -189,7 +194,7 @@
 						starSpan.addClass("material-icons");
 						starSpan.text("grade");
 						const gradeSpan = $("<span>")
-						gradeSpan.text("4.0(100)");
+						gradeSpan.text(r.restrStar);
 						const restrDetailsDiv = $("<div>");
 						restrDetailsDiv.addClass("restr-details");
 						restrDetailsDiv.text(r.restrAddr1 + " " + r.restrAddr2);

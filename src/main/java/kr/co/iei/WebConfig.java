@@ -6,13 +6,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
-/*
-import kr.co.iei.util.AdminInterceptor;
-import kr.co.iei.util.LoginInterceptor;
-*/
+import kr.co.iei.util.LoginInsterceptor;
 
-//스트링부트 설정파일
+//스프링부트 설정파일
 @Configuration
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer{
@@ -22,36 +20,16 @@ public class WebConfig implements WebMvcConfigurer{
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry
-		//안에 폴더가 몇개있던 다가져와 **
-			.addResourceHandler("/**")
-			.addResourceLocations("/classpath:/templates/", "classpath:/static/");
-				
+			.addResourceHandler("/**")		 //별 두개 : 안에 폴더가 몇개있든 모두
+			.addResourceLocations("classpath:/templates", "classpath:/static/");
 		registry
-			.addResourceHandler("/photo/**")
-			.addResourceLocations("file:///"+root+"/photo/");
-		
-		
+			.addResourceHandler("/yomi/**")
+			.addResourceLocations("file:///"+root+"/yomi/");
 		registry
-			.addResourceHandler("/board/editor/**")
-			.addResourceLocations("file:///"+root+"/board/editor/");
+			.addResourceHandler("/notice/editor/**")
+			.addResourceLocations("file:///"+root+"/notice/editor/");
 	}
+
+
+	
 }
-	/*
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new LoginInterceptor())
-				.addPathPatterns("/member/logout",
-								"/member/mypage1",
-								"/member/update1",
-								"/member/update2",
-								"/member/mypage2",
-								"/member/delete",
-								"/notice/**",
-								"/admin/**")
-				.excludePathPatterns("/notice/list","/notice/view","/notice/filedown","/notice/editor/**");
-		
-		registry.addInterceptor(new AdminInterceptor())
-				.addPathPatterns("/admin/**");
-	}
-}
-*/
