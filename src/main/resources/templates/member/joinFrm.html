@@ -14,16 +14,16 @@
                 <div class="title">회원가입</div>
                 
                     <div class="form-group1 no1">
-                        <input type="checkbox" id="ageCheck" >
+                        <input type="checkbox" id="ageCheck" class="essential1">
                         <label for="ageCheck"><span>만 14세 이상입니다 (필수)</span>&numsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                             <a href="#">내용보기</a></label>
                     </div>
                     <div class="form-group1 no2">
-                        <input type="checkbox" id="termsCheck" >
+                        <input type="checkbox" id="termsCheck" class="essential2">
                         <label for="termsCheck">이용약관 동의 (필수)</label>
                     </div>
                     <div class="form-group1 no3">
-                        <input type="checkbox" id="personalInfoCheck" name="check">
+                        <input type="checkbox" id="personalInfoCheck" name="check" class="essential3">
                         <label for="personalInfoCheck"><span>개인 정보 수집 및 이용 동의 (필수)</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                             <a href="#">내용보기</a></label>
                     </div>
@@ -75,7 +75,7 @@
                         <label for="personalInfoperiodCheck">개인정보 유효기간 3년 지정 (미동의 시 1년)</label>
                     </div>
                     <div class="next-btn" >
-                        <button type="button">다음 단계 1/2</button>
+                        <button type="button" disabled>다음 단계 1/2</button>
                     </div>
             </div>
             <div class="main2">
@@ -223,7 +223,39 @@
 
                 $('#memberEmail').val(finalEmail);
             });
-
+            
+        	$(".essential1").on("click",function(){
+				if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
+					$(".next-btn>button").attr("disabled", false);					
+					
+					console.log('true')
+				}else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
+					$(".next-btn>button").attr("disabled", true);
+				}
+			});
+        	$(".essential2").on("click",function(){
+				if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
+					$(".next-btn>button").attr("disabled", false);					
+					
+					console.log('true')
+				}else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
+					$(".next-btn>button").attr("disabled", true);
+				}
+			});
+			$(".essential3").on("click",function(){
+				if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
+					$(".next-btn>button").attr("disabled", false);					
+					
+					console.log('true')
+				}else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
+					$(".next-btn>button").attr("disabled", true);
+				}
+			});
+            
+            
+            
+            
+            
         </script>
     </main>
 	<th:block th:include="common/footer"></th:block>
