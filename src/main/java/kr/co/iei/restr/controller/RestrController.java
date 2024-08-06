@@ -27,6 +27,7 @@ import kr.co.iei.restr.model.dto.RestrTag;
 
 import kr.co.iei.restr.model.dto.Review;
 import kr.co.iei.restr.model.service.RestrService;
+import kr.co.iei.util.FileUtils;
 
 @Controller
 @RequestMapping(value = "/restaurant")
@@ -34,6 +35,9 @@ public class RestrController {
 	@Autowired
 	private RestrService restrService;
 
+	@Autowired
+	private FileUtils fileUtils;
+	
 	@Value("${file.root}")
 	private String root; // application.properties에 설정되어있는 file.root값을 가지고와서 문자열로 지정
 
@@ -123,12 +127,25 @@ public class RestrController {
 			rm.setRestrMenuPrice(menuPrice[i]);
 			menuList.add(rm);
 		}
-		// 이미지 파일 업로드 하는거 까지 해야함 + 이제 늦출수 없다 sw 적용...
+		String savepath = root+"/restr/";
+		String filepath1 = fileUtils.upload(savepath, imageFile1);
+		String filepath2 = fileUtils.upload(savepath, imageFile2);
+		r.setRestrImg1(filepath1);
+		r.setRestrImg2(filepath2);
 		int result = restrService.insertRestr(r, menuList, tagName);
 		if (result > 0) {
+			int restrNo = restrService.getRecentRestrNo();
+			model.addAttribute("title", "등록 성공");
+			model.addAttribute("msg", "맛집 리스트가 추가되었습니다!");
+			model.addAttribute("icon", "success");
+			model.addAttribute("loc", "/restaurant/restrView?restrNo="+restrNo);
 		} else {
+			model.addAttribute("title", "등록 실패");
+			model.addAttribute("msg", "맛집 리스트가 추가되었습니다!");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "/restaurant/restrList");
 		}
-		return null;
+		return "common/msg";
 	}
 
 	@GetMapping(value = "/updateFrm")
