@@ -156,6 +156,156 @@
 	</main>
 	<script src="/js/restr-js.js"></script>
 	<script>
+		//메뉴 추가 버튼
+		function completeTr(btn) {
+	    	const tds = $(btn).parents("tr").children();
+	    	let isCorrect = true;
+	    	tds.each(function (index, item) {
+	        	if (index < 2) {
+	            	if ($(item).find("input").val() == "") {
+	                	swal.fire({
+	                    	title: "태그 추가 불가",
+	                    	text: "메뉴를 모두 입력해주세요",
+	                    	icon: "warning"
+	                	});
+	                	isCorrect = false;
+	                	return;
+	            	} else if (index == 1 && isNaN($(item).find("input").val())) {
+	                	swal.fire({
+	                    	title: "태그 추가 불가",
+	                    	text: "가격은 숫자로만 입력해주세요",
+	                    	icon: "warning"
+	                	});
+	            	}
+	        	}
+	    	});
+	    	if (isCorrect) {
+	        	tds.each(function (index, item) {
+	            	if (index == 2) {
+	                	$(item).html("<button type='button' class='btn btn-sm btn-mono' onclick='updateTr(this);'>수정</button>");
+	            	}
+	            	else if (index == 0) {
+		                const text = $(item).find("input").val();
+		                $(item).text(text);
+		                $(item).addClass("menuName");
+		            } else {
+		                const text = "<span class='menuPrice'>" + $(item).find("input").val() + "</span>" + "<span> 원</span>";
+		                $(item).html(text);
+		                $(item).addClass("menuPrice");
+		            }
+		        });
+		
+		    }
+		};
+	
+	
+	$("#submit").on("click", function () {
+	    //console.log($("form#restrFrm"));
+	    //시간 되면 중복체크도 신경써주기
+	    //메뉴 가격 숫자 아니면 에러표시 해주기
+	    const menuNames = $("table.table").find("td.menuName");
+	    const menuPrices = $("table.table").find("span.menuPrice");
+	    const tags = $(".tag-name");
+	    if ($("input#restrName").val() == "") {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "업체명을 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    if ($("input#restrAddr1").val() == "" || $("input#restrAddr2").val() == "") {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "주소를 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    if ($("input#restrTel").val() == "") {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "전화번호를 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+
+	    if ($("textarea#restrContent").val() == "") {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "설명을 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    if (menuNames.length == 0) {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "메뉴를 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    menuNames.each(function (index, item) {
+	        const input = $("<input>");
+	        input.attr("name", "menuName");
+	        input.attr("type", "hidden");
+	        input.val($(item).text());
+	        $("form#restrFrm").append(input);
+	    });
+	    if (menuPrices.length == 0) {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "메뉴를 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    menuPrices.each(function (index, item) {
+	        const input = $("<input>");
+	        input.attr("name", "menuPrice");
+	        input.attr("type", "hidden");
+	        input.val($(item).text());
+	        $("form#restrFrm").append(input);
+	    });
+	    if (tags.length == 0) {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "태그를 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    tags.each(function (index, item) {
+	        const input = $("<input>");
+	        input.attr("name", "tagName");
+	        input.attr("type", "hidden");
+	        input.val($(item).text());
+	        $("form#restrFrm").append(input);
+	    });
+	    const thumnail = $("input#imageFile1").prev().prev().children("img");
+	    if (thumnail.attr("src") == "") {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "썸네일 사진을 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    const image = $("input#imageFile2").prev().prev().children("img");
+	    if (image.attr("src") == "") {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "사진 하나를 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    $("#submit-input").click();
+	});	
+	
+	
 		$("#cancel").on("click", function () {
 			swal.fire({
 				title : "맛집 등록 취소",

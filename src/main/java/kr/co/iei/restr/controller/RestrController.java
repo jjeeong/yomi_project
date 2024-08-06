@@ -211,5 +211,37 @@ public class RestrController {
 			return "restaurant/restrUpdateFrm";			
 		}
 	}// restFrm()
+	
+	@PostMapping(value="/restrUpdate")
+	public String restrUpdate(Restaurant r, String[] menuName, int[] menuPrice, String[] tagName, MultipartFile imageFile1,
+			MultipartFile imageFile2, int[] delTagNo, String filepath1, String filepath2, int[] delMenuNo, Model model) {
+		String savepath = root+"/yomi/";
+		//delTag, delMenu는 삭제하고 menu, Tag는 다시 삽입할거임(졸려서 기억 안날까봐..)
+		int updateImgCount = 0;
+		List<String> delImgFile = new ArrayList<String>();
+		if(!imageFile1.isEmpty()) {
+			String filepath3 = fileUtils.upload(savepath, imageFile1);
+			r.setRestrImg1(filepath3);
+			updateImgCount++; //1이 더해지면 restrImg1을 바꿔야하는 것
+			delImgFile.add(filepath1);
+		}//if
+		if(!imageFile2.isEmpty()) {
+			String filepath4 = fileUtils.upload(savepath, imageFile2);
+			r.setRestrImg2(filepath4);
+			updateImgCount+=2;//2가 더해지면 restrImg2를 바꿔야하는 것
+			delImgFile.add(filepath2);
+		}//if
+		List<RestrMenu> menuList = new ArrayList<RestrMenu>();
+		for (int i = 0; i < menuName.length; i++) {
+			RestrMenu rm = new RestrMenu();
+			rm.setRestrMenuName(menuName[i]);
+			rm.setRestrMenuPrice(menuPrice[i]);
+			menuList.add(rm);
+		}
+		int result = restrService.updateRestr(r, menuList, tagName, delMenuNo, delTagNo, updateImgCount);
+		//service, dao까지 만들어서 실행해보고 만약 메뉴([]), 태그([]), 삭제할 파일 이름([])배열이 새로 추가된게 없을 시 input이 없어 오류가 날경우, 업데이트 html에 미리 하나씩 [0]넣어두고 다시 작업해보기
+		//만약 잘 되었다면 delImgFile 리스트 안의 파일들 삭제하기, 잘되지 않았으면 방금 업로드한 filepath3, 4 삭제하기
+		return "restaurant/restrView?restrNo="+r.getRestrNo();
+	}
 
 }
