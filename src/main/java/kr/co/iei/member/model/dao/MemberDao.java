@@ -26,6 +26,7 @@ public class MemberDao {
 		}
 	}
 
+
 	public int insertMember(Member m) {
 		String query = "insert into member_tbl values(member_seq.nextval,?,?,?,?,?,?,null,to_char(sysdate,'yyyy-mm-dd'),?,?,default)";
 		Object[] params = {m.getMemberId(),m.getMemberPw(),m.getMemberName(),m.getMemberAddr(),m.getMemberPhone(),m.getMemberEmail(),m.getMemberBirthDate(),m.getMemberGender()};
@@ -33,5 +34,22 @@ public class MemberDao {
 		return result;
 	}
 
-	
+
+	public Member selectOneMember(String checkId) {
+		String query = "select * from member_tbl where member_id=?";
+		Object[] params = {checkId};
+		List list = jdbc.query(query, memberRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return (Member)list.get(0);
+		}
+		
+	}
+	public List selectAllMember() {
+		String query = "select * from member_tbl order by 1";
+		List list = jdbc.query(query, memberRowMapper);
+		return list;
+	}
+
 }

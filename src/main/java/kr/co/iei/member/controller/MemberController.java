@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import jakarta.servlet.http.HttpSession;
 import kr.co.iei.member.model.dto.Member;
@@ -24,7 +25,7 @@ public class MemberController {
 	}
 	
 	@PostMapping(value="/login")
-	public String login(Member m, HttpSession session) {
+	public String login(Member m,HttpSession session) {
 		System.out.println(m.getMemberId());
 		System.out.println(m.getMemberPw());
 		Member member = memberService.selectOneMember(m);
@@ -44,14 +45,4 @@ public class MemberController {
 		return "member/joinFrm";
 	}
 	
-
-	@PostMapping(value="/join")
-	public String join(Member m) {
-		int result = memberService.insertMember(m);
-		
-		
-		return "redirect:/";
-	}
-
-
 }

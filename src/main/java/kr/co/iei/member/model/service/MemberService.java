@@ -1,7 +1,10 @@
 package kr.co.iei.member.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import kr.co.iei.member.model.dao.MemberDao;
 import kr.co.iei.member.model.dto.Member;
@@ -21,5 +24,20 @@ public class MemberService {
 		int result = memberDao.insertMember(m);
 		return result;
 	}
-	
+	public Member selectOneMember(String checkId) {
+		Member member = memberDao.selectOneMember(checkId);
+		return member;
+	}
+
+	public List selectAllMember() {
+		List list = memberDao.selectAllMember();
+		return list;
+	}
+		
 }
+
+	
+				
+	
+	
+
