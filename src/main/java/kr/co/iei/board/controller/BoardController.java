@@ -70,7 +70,7 @@ public class BoardController {
 		int result = boardService.insertBoard(b);
 		if(result > 0) {
 			model.addAttribute("title", "작성성공!");
-			model.addAttribute("msg", "공지사항 작성에 성공했습니다.");
+			model.addAttribute("msg", "게시글 작성에 성공했습니다.");
 			model.addAttribute("icon","success");
 			model.addAttribute("loc","/board/list?reqPage=1");
 		return "common/msg";
@@ -78,6 +78,28 @@ public class BoardController {
 		return "redirect:/board/writreFrm";
 	}
 	
+	@GetMapping(value="/view")
+	public String view(int boardNo, String check, Model model,@SessionAttribute(required = false) Member member) {
+		int memberNo = 0;
+		if(member != null) {
+			memberNo = member.getMemberNo();
+		}
+		System.out.println("check : "+check);
+		Board b = boardService.selectOneBoard(boardNo,check,memberNo);
+		if(b == null) {
+			model.addAttribute("title","조회실패");
+			model.addAttribute("msg","해당 게시글이 존재하지 않습니다.");
+			model.addAttribute("icon","info");
+			model.addAttribute("loc","/board/list?reqPage=1");
+			return "common/msg";
+		}else {
+			model.addAttribute("b",b);
+			return "board/view";
+		}
+		
+		
+	}
+}
+	
 	
 
-}

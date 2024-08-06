@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import kr.co.iei.board.model.dto.Board;
+import kr.co.iei.board.model.dto.BoardComment;
+import kr.co.iei.board.model.dto.BoardCommentRowMapper;
 import kr.co.iei.board.model.dto.BoardFile;
 import kr.co.iei.board.model.dto.BoardFileRowMapper;
 import kr.co.iei.board.model.dto.BoardRowMapper;
@@ -20,6 +22,8 @@ public class BoardDao {
 	private BoardRowMapper boardRowMapper;
 	@Autowired
 	private BoardFileRowMapper boardFileRowMapper;
+	@Autowired
+	private BoardCommentRowMapper boardCommentRowMapper;
 	
 	public List selectBoardList() {
 		String query="select * from board";
@@ -45,6 +49,44 @@ public class BoardDao {
 		Object[] params = {boardFile.getBoardNo(),boardFile.getFileName(),boardFile.getFilePath()};
 		int result = jdbc.update(query,params);
 		return result;
+	}
+
+	public Board selectOneBoard(int boardNo) {
+		String query = "select * from board where board_no=?";
+		Object[] params = {boardNo};
+		List list = jdbc.query(query,boardRowMapper,params);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return (Board)list.get(0);
+		}
+	}
+
+	public int updateReadCount(int boardNo) {
+		String query = "update board set read_count = read_count+1 where board_no=?";
+		Object[] params = {boardNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public List selectBoardFile(int boardNo) {
+		String query = "select & from board_file where board_no=?";
+		Object[] params = {boardNo};
+		List list = jdbc.query(query,boardFileRowMapper,params);
+		return list;
+	}
+
+	public List<BoardComment> selectCommentList(int boardNo, int memberNo) {
+	    String query = "SELECT \r\n" + 
+	                   "    bc.*, \r\n" + 
+	                   "    (SELECT COUNT(*) FROM board_comment_like WHERE board_comment_no=bc.board_comment_no) AS like_count, \r\n" + 
+	                   "    (SELECT COUNT(*) FROM board_comment_like WHERE board_comment_no=bc.board_comment_no AND member_no=?) AS is_like \r\n" + 
+	                   "FROM board_comment bc \r\n" + 
+	                   "WHERE board_ref=? AND board_comment_ref IS NULL ORDER BY 1";
+	    
+	    Object[] params = {memberNo, boardNo};
+	    List<BoardComment> list = jdbc.query(query, boardCommentRowMapper , params);
+	    return list;
 	}
 	
 
