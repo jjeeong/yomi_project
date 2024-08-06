@@ -323,3 +323,29 @@ select::-ms-expand {
 .selectBox .select:focus + .icoArrow img {
 transform: rotate(180deg);
 }
+
+.gender-group input[type=radio]{
+	display: none;
+}
+
+.gender-group input[type=radio]+label{
+	display:inline-block;
+	width:185px;
+	height:40px;
+	border : 1px solid #ccc;
+	border-radius: 10px;
+	font-family: 'g_r';
+	font-size: 18px;
+	text-align : center;
+	padding-top: 10px;
+}
+
+.gender-group input[type=radio]:checked+label{
+	
+	background-color: var(--point1);
+	font-family: 'g_black';
+	font-size: 22px;
+	color: white;
+	border:none;
+	padding-top: 5px;
+}

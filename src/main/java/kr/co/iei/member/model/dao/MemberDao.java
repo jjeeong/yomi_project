@@ -25,5 +25,14 @@ public class MemberDao {
 			return (Member)list.get(0);	
 		}
 	}
+<<<<<<< Updated upstream
+=======
+	public int insertMember(Member m) {
+		String query = "insert into member_tbl values(member_seq.nextval,?,?,?,?,?,?,null,to_char(sysdate,'yyyy-mm-dd'),?,?,default)";
+		Object[] params = {m.getMemberId(),m.getMemberPw(),m.getMemberName(),m.getMemberAddr(),m.getMemberPhone(),m.getMemberEmail(),m.getMemberBirthDate(),m.getMemberGender()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+>>>>>>> Stashed changes
 	
 }
