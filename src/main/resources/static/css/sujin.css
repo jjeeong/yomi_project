@@ -1,3 +1,16 @@
+:root {
+    --point1: #F24C00;
+    --point2: #FC7A1E;
+    --sub: #F7B788;
+    --bgcolor: #F3F3F3;
+    --color1: #EBEBEB;
+    --color2: #D9D9D9;
+    --pointFont: #010E47;
+    --mainFont: #5E6276;
+    --monocolor: #FFF8F5;
+    --monocolor2: #EDE4E1;
+}
+
 /* 맛짐 등록, 수정용 main*/
 main.restrFrm {
     background-color: var(--bgcolor);
@@ -313,4 +326,62 @@ main.error div.error-content>.img>img {
 main.error div.error-content>.img>span {
     font-family: g_b;
     color: var(--point1);
+}
+
+
+/*sw2용*/
+
+
+
+.btn.btn-sub-swal {
+    background-color: var(--sub);
+    color: var(--mainFont);
+    border : 1px solid transparent;
+    margin : 0 5px;
+}
+
+.btn.btn-sub-swal:hover {
+    background-color: #fff;
+    color: var(--sub);
+    border-color : var(--sub);
+    font-weight : 500;
+}
+
+.btn.btn-point-swal {
+    background-color: var(--point1);
+    color: var(--monocolor2);
+    border : 1px solid transparent;
+    margin : 0 5px;
+}
+
+.btn.btn-point-swal:hover{
+	background-color: #fff;
+    color: var(--point1);
+    font-weight : 500;
+    border-color : var(--point1);
+}
+
+.btn.btn-mono-swal {
+    background-color: var(--monocolor2);
+    color: var(--mainFont);
+    border : 1px solid transparent;
+    margin : 0 5px;
+}
+
+.btn.btn-mono-swal:hover{
+	background-color: #fff;
+    color: var(--mainFont);
+    border-color : var(--mainFont);
+    font-weight : 500;
+}
+
+/*
+글씨 색깔 관련 클래스
+*/
+.point{
+	color : var(--point1);
+}
+
+.pointFont{
+	color : var(--pointFont);
 }

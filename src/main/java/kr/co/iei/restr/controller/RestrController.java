@@ -145,7 +145,7 @@ public class RestrController {
 			model.addAttribute("icon", "error");
 			model.addAttribute("loc", "/restaurant/restrList");
 		}
-		return "common/msg";
+		return "common/msg2";
 	}
 
 	@GetMapping(value = "/updateFrm")

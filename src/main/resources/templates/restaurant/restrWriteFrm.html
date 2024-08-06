@@ -539,33 +539,34 @@
 			//$("form#restrFrm").submit();
 			$("#submit-input").click();
 		});
-
+		
+		const swal = Swal.mixin({
+			  customClass: {
+			    confirmButton: "btn btn-point-swal btn-lg",
+			    cancelButton: "btn btn-mono-swal btn-lg swal",
+			    title : "point",
+			  },
+			  buttonsStyling: false
+			});
+		
 		$("#cancel").on("click", function () {
-			swal({
+			swal.fire({
 				title : "맛집 등록 취소",
 				text : "정말 취소 하시겠습니까?",
-				icon : "warning",
-				buttons : {
-					cancel : {
-						text : "돌아가기",
-						value : false,
-						className: "btn-mono btn btn-lg",
-						closeModal:true,
-						visible : true
-					},
-					confirm : {
-						text : "등록 취소",
-						value : true,
-						className: "btn-point btn btn-lg",
-						closeModal:true,
-						visible : true
+				icon : "question",
+				iconColor : "var(--point1)",
+				color : "var(--pointFont)",
+				showCancelButton : true,
+				cancelButtonText : "돌아가기",
+				confirmButtonText : "등록 취소",
+				confirmButtonColor : "var(--point1)",
+				cancelButtonColor : "var(--monocolor)"
+				}).then(result=>{
+					if(result.isConfirmed){
+					location.href="/restaurant/restrList";
+					// /을 쓰면 처음부터 읽음 , /를 안쓰면 현재 들어와있는 /restaurant내에서 찾음
 					}
-				}.then(function(isConfirm){
-					if(isConfrim){
-					location.href="restaurant/restrList";
-					}
-				})
-			});
+				});
 		});
 	</script>
 
