@@ -313,6 +313,10 @@
         .blog-results {
             margin-top: 30px;
         }
+        .blog-result a {
+        	text-decoration: none;
+        	color: #5E6276;
+        }
 
     </style>
 </head>
@@ -328,8 +332,12 @@
         <div class="restr-wrap">
             <div class="restr-wrap-content">
                 <div class="shop-imgs">
-                    <div class="shop-img"></div>
-                    <div class="shop-img"></div>
+                    <div class="shop-img">
+                    	<img th:src="@{'/yomi/' + ${r.restrImg1}}">
+                    </div>
+                    <div class="shop-img">
+                    	<img th:src="'/yomi/' + ${r.restrImg2}">
+                    </div>
                     <div class="shop-likes">
 
                         <span th:if="${r.isLike == 0}" class="material-icons" id="like-none" th:onclick="likePush(this,[[${r.restrNo}]]);">favorite</span>
@@ -417,13 +425,85 @@
                     
                     <textarea placeholder="리뷰를 작성하세요." name="reviewContent"></textarea>
                     <div class="upload">
-                        <button class="tag-btn">태그 추가</button>
+                        <button style="background-color: #FC7A1E; border: none; margin-left: 50px" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						  	키워드 추가
+						</button>
                     </div>
+                    
+                    <!-- 모달 -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h1 class="modal-title fs-5" id="exampleModalLabel">키워드 추가 (0~5개 선택)</h1>
+					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					      </div>
+					      <div class="modal-body">
+						    <h4>음식</h4>
+						    <input type="checkbox" class="btn-check" id="btn-check-1" autocomplete="off">
+						    <label class="btn" for="btn-check-1">맛있어요</label>
+						
+						    <input type="checkbox" class="btn-check" id="btn-check-9" autocomplete="off">
+						    <label class="btn" for="btn-check-9">메뉴가 다양해요</label>
+						
+						    <input type="checkbox" class="btn-check" id="btn-check-17" autocomplete="off">
+						    <label class="btn" for="btn-check-17">반찬이 다양해요</label>
+						    
+						    <input type="checkbox" class="btn-check" id="btn-check-5" autocomplete="off">
+						    <label class="btn" for="btn-check-5">양이 많아요</label>
+						    <hr>
+						
+						    <h4>분위기</h4>
+						    <input type="checkbox" class="btn-check" id="btn-check-3" autocomplete="off">
+						    <label class="btn" for="btn-check-3">분위기가 좋아요</label>
+						
+						    <input type="checkbox" class="btn-check" id="btn-check-11" autocomplete="off">
+						    <label class="btn" for="btn-check-11">인테리어가 예뻐요</label>
+						
+						    <hr>
+						    <h4>서비스</h4>
+						    <input type="checkbox" class="btn-check" id="btn-check-4" autocomplete="off">
+						    <label class="btn" for="btn-check-4">청결해요</label>
+						
+						    <input type="checkbox" class="btn-check" id="btn-check-7" autocomplete="off">
+						    <label class="btn" for="btn-check-7">친절해요</label>
+						
+						    <input type="checkbox" class="btn-check" id="btn-check-13" autocomplete="off">
+						    <label class="btn" for="btn-check-13">예약이 편해요</label>
+						
+						    <input type="checkbox" class="btn-check" id="btn-check-15" autocomplete="off">
+						    <label class="btn" for="btn-check-15">반려동물 동반 가능해요</label>
+						
+						    <input type="checkbox" class="btn-check" id="btn-check-18" autocomplete="off">
+						    <label class="btn" for="btn-check-18">포장이 가능해요</label>
+						
+						    <hr>
+						    <h4>시설</h4>
+						    <input type="checkbox" class="btn-check" id="btn-check-6" autocomplete="off">
+						    <label class="btn" for="btn-check-6">주차가 편해요</label>
+						
+						    <input type="checkbox" class="btn-check" id="btn-check-8" autocomplete="off">
+						    <label class="btn" for="btn-check-8">화장실이 깨끗해요</label>
+						
+						    <input type="checkbox" class="btn-check" id="btn-check-16" autocomplete="off">
+						    <label class="btn" for="btn-check-16">무료 와이파이</label>
+
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+					        <button type="button" class="btn btn-primary" style="background-color: #FC7A1E; border: none;">추가</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+                    
+                    
+                    
                     <div class="button-container">
                         <button type="submit" class="submit-btn">등록</button>
                     </div>                    
                     </div>      
-                    <input id="restrNo" name="restrNo" th:value="${r.restrNo}">             
+                    <input type="hidden" id="restrNo" name="restrNo" th:value="${r.restrNo}">             
 				</form>
 				
                 <button class="toggle-btn">리뷰 작성</button>
@@ -535,9 +615,6 @@
         }
     });
 
-
-
-
         $(function() {
            initMap();
         });
@@ -580,10 +657,7 @@
 
         }
         
-        
-
-
-        
+    
         function likePush(obj, restrNo) {
         	//현재 상태를 구분-> 지금 클릭한 행동이 좋아요를 누른건지/좋아요 취소를 누른건지 구분
 			const currentText = $(obj).next().text();
