@@ -1,5 +1,6 @@
 package kr.co.iei.inquery.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +135,75 @@ public class InqueryService {
 		}
 		return inq;
 	}
+
+	@Transactional
+	public List<InqueryFile> deleteNotice(int inqueryNo) {
+		//1.InqueryFile에서 해당 문의사항의 첨부파일 조회
+		List list = inqueryDao.selectInqueryFile(inqueryNo);
+		//2. Inquery테이블에서  문의사항 삭제(외래키 옵션으로 Inquery에서 삭제되면 Inquery_file은 자동삭제)
+		int result = inqueryDao.deleteInquery(inqueryNo);
+		if(result > 0) {
+			return list;
+		}
+		return null;
+	}
+
+	public Inquery getOneInquery(int inqueryNo) {
+		Inquery inq = inqueryDao.selectOneInquery(inqueryNo);
+		List list = inqueryDao.selectInqueryFile(inqueryNo);
+		inq.setFileList(list); 
+		return inq;
+	}
+
+	@Transactional
+	public List<InqueryFile> updateInquery(Inquery inq, List<InqueryFile> fileList, int[] delFileNo) {
+		List<InqueryFile> delFileList = new ArrayList<InqueryFile>();
+		//inquery업데이트, inquery_file insert(추가한 파일이 있을때만), inquery_file delete(삭제한 파일이 있을때만)
+		int result = inqueryDao.updateNotice(inq);
+		if(result>0) {
+			//추가한 파일이 있는 경우 추가파일 insert
+			for(InqueryFile inqueryFile : fileList) {
+				result += inqueryDao.insertInqueryFile(inqueryFile);
+			}
+			//삭제한 파일이 있는 경우 (파일을 DB에서 조회한 후(실제 폴더에서도 지우기위함) -> 삭제)
+			if(delFileNo != null) {
+				for(int fileNo : delFileNo) {
+					InqueryFile inqueryFile = inqueryDao.selectOneInqueryFile(fileNo);
+					delFileList.add(inqueryFile);
+					result += inqueryDao.deleteInqueryFile(fileNo);
+				}
+			}
+		}
+		int updateTotal = delFileNo == null ? fileList.size() + 1 : fileList.size() + 1 + delFileNo.length;
+		if(updateTotal == result) {
+			return delFileList;
+		}else {
+			return null;			
+		}
+	}
+
+	@Transactional
+	public int insertComment(InqueryComment ic) {
+		int result = inqueryDao.insertComment(ic);
+		return result;
+	}
+
+	@Transactional
+	public int updateComment(InqueryComment ic) {
+		int result = inqueryDao.updateComment(ic);
+		return result;
+	}
+	
+	@Transactional
+	public int deleteComment(InqueryComment ic) {
+		int result = inqueryDao.deleteComment(ic);
+		return result;
+	}
+	
+	
+	
+	
+	
 }
 
 
