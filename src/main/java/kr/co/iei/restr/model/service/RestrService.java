@@ -124,11 +124,11 @@ public class RestrService {
 	public List selectRestrTag(int restrNo) {
 		List tagList = restrDao.selectRestrTag(restrNo);
 		return tagList;
+	}
 
 	public int getRecentRestrNo() {
 		int restrNo = restrDao.getRecentRestrNo();
 		return restrNo;
-
 	}
 
 }

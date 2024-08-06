@@ -32,6 +32,7 @@
         }
 
         .shop-img img {
+        	margin-right: 10px;
         	width: 300px;
             height: 300px;
             border: 1px solid black;
@@ -63,7 +64,7 @@
             cursor: pointer;
         }
         .shop-likes {
-            padding-left: 120px;
+            padding-left: 90px;
         }
         .restr-wrap-content {          
             margin: 30px;
@@ -166,11 +167,20 @@
             box-sizing: border-box;
             resize: none;
             margin: 0 auto 20px auto;
+            padding: 10px
         }
 
         .upload {
+        	width: 700px;
             display: flex;
+			margin: 0 auto;
+            flex-direction: column;
             margin-bottom: 10px;
+        }
+        
+        .upload>button {
+        	height: 40px;
+        	width: 150px;
         }
 
         .tag-btn {
@@ -373,6 +383,38 @@
         	background-color: #B3B3B3;
         }
         
+        .tag {
+        	overflow: hidden;
+        }
+        
+        .restr-tag {
+        	float: left;
+        	padding: 5px 10px 0px 10px;
+        	height: 30px;
+        	background-color: #FC7A1E;
+        	margin: 5px;
+        	color: #fff;
+        	border-radius: 10px;
+        }
+        
+        .keywords {
+        	overflow: hidden;
+        }
+        
+        .keywords>div {
+        	padding: 5px 10px 0px 10px;
+        	height: 30px;
+        	background-color: #F7B788;
+        	margin: 5px;
+        	color: #fff;
+        	border-radius: 10px;
+        	float: left;
+        }
+		
+		.file-input-container {
+		    margin-top: 20px;
+		}
+        
     </style>
 </head>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -391,7 +433,7 @@
                     	<img th:src="@{'/yomi/' + ${r.restrImg1}}">
                     </div>
                     <div class="shop-img">
-                    	<img th:src="'/yomi/' + ${r.restrImg2}">
+                    	<img th:src="@{'/yomi/' + ${r.restrImg2}}">
                     </div>
                     <div class="shop-likes">
 
@@ -433,10 +475,8 @@
                     </div>
                     <div class="tag">
                         <h3>태그</h3>
-                        <div class="tags">
-	                        <ul th:each="tag : ${r.restrTag}">
-	                            <li th:text="${tag.restrTagName}"></li>
-	                        </ul>
+                        <div class="tags" th:each="tag : ${r.restrTag}">
+	                       <div class="restr-tag" th:text="'#' + ${tag.restrTagName}"></div>
                         </div>
                     </div>
                 </div>
@@ -471,9 +511,6 @@
                 <div class="review-form collapsed">
                 
 				<form action="/restaurant/writeReview" method="post" id="review-frm">
-				
-					
-				
                     <div class="stars2">
                         <div class="star-rating" id="star-rating">
                             <span class="material-icons" data-value="1">grade</span>
@@ -487,9 +524,14 @@
                     
                     <textarea placeholder="리뷰를 작성하세요." name="reviewContent"></textarea>
                     <div class="upload">
-                        <button style="background-color: #FC7A1E; border: none; margin-left: 50px" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    	<div class="mb-3">
+						  <input class="form-control" type="file" id="formFile" multiple>
+						</div>
+						
+                        <button style="background-color: #FC7A1E; border: none; margin-bottom: 5px;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						  	키워드 추가
 						</button>
+						<div class="keywords"></div>
                     </div>
                     
                     <!-- 모달 -->
@@ -553,7 +595,7 @@
 					      </div>
 					      <div class="modal-footer">
 					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-					        <button type="button" class="btn btn-primary" style="background-color: #FC7A1E; border: none;">추가</button>
+					        <button id="addKeyword" type="button" class="btn btn-primary" style="background-color: #FC7A1E; border: none;">추가</button>
 					      </div>
 					    </div>
 					  </div>
@@ -702,6 +744,20 @@
    <th:block th:include="common/footer"></th:block>
 
     <script> 
+	  //키워드 추가
+		$("#addKeyword").on("click", function () {
+		    // 기존에 추가된 키워드 항목 삭제
+		    $(".keywords").empty();
+		    
+		    // 체크된 버튼을 순회하며 새로 추가
+		    $(".btn-check:checked").each(function() {
+		        const label = $("label[for='" + this.id + "']").text();
+		        const keywordDiv = $("<div>").addClass("keyword-item").text(label);
+		        $(".keywords").append(keywordDiv);
+		    });
+		});
+    
+    
     	document.addEventListener("DOMContentLoaded", function() {
 	        const toggleBtn = document.querySelector(".toggle-btn");
 	        const reviewForm = document.querySelector(".review-form");
