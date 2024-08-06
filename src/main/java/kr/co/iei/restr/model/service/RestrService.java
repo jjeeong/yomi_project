@@ -129,7 +129,6 @@ public class RestrService {
 	public int getRecentRestrNo() {
 		int restrNo = restrDao.getRecentRestrNo();
 		return restrNo;
-
 	}
 
 	public Restaurant selectOneRestrWith(int restrNo) {

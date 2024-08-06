@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 public class Board {
 	private int boardNo;
+	private String boardWriter;
 	private String boardTitle;
 	private String boardAddr;
 	private String boardContent;
 	private String thumbNailImg;
-	private String boardRegdate;
 	private int readCount;
-	private String boardWriter;
+	private String boardRegdate;
 
 }

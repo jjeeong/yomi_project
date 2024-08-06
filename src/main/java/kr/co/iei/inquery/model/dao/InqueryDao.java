@@ -122,7 +122,7 @@ public class InqueryDao {
 	}
 	public int insertComment(InqueryComment ic) {
 		String query = "insert into inquery_comment values(inquery_comment_seq.nextval,?,?,to_char(sysdate,'yyyy-mm-dd'),?,?)";
-		String inqueryCommentRef = ic.getInqueryCommentRef() == 0 ? null : String.valueOf(ic.getInqueryRef());
+		String inqueryCommentRef = ic.getInqueryCommentRef() == 0 ? null : String.valueOf(ic.getInqueryCommentRef());
 		Object[] params = {ic.getInqueryCommentWriter(),ic.getInqueryCommentContent(),ic.getInqueryRef(),inqueryCommentRef};
 //		Object[] params = {ic.getInqueryCommentWriter(),ic.getInqueryCommentContent(),ic.getInqueryRef(),ic.getInqueryCommentRef()};
 		int result = jdbc.update(query,params);

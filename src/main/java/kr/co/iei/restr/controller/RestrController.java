@@ -128,17 +128,12 @@ public class RestrController {
 	public String writeReview(@SessionAttribute(required = false) Member member, Review review, Restaurant restaurant, Double reviewStar) {
 
 		int memberNo = member.getMemberNo();
-		String memberName = member.getMemberName();
 		
 		System.out.println(memberNo);
-		System.out.println(memberName);
 		
 		review.setMemberNo(memberNo);
 		review.setRestrNo(restaurant.getRestrNo());
 		review.setReviewStar(reviewStar);
-		review.setMemberName(memberName);
-		
-		System.out.println("review는 어케 됐을까요? : " + review);
 		
 		int result = restrService.writeReview(review);
 		return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();

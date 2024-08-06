@@ -6,135 +6,31 @@
 <!-- 구글 아이콘 -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
+<link rel="stylesheet" href="/css/inquery.css">
 <style>
-
-section.section {
-  padding: 20px;
-  border-radius: 10px;
-  background-color: var(--gray8);
+.inquery-list-wrap{
+	width : 1200px;
+	margin : 0 auto;
 }
-section.section.bg-section {
-  background-color: var(--box-bg);
+.inquery-list-wrap>div:nth-child(3){
+	height:500px;
 }
-
-.btn-point {
-  border: 1px solid var(--main5);
-  background-color: var(--main5);
-  color: var(--gray8);
+#pageNavi{
+	margin-top : 30px;
 }
-.btn-point:hover {
-  background-color: rgba(140, 97, 255, 0.9);
+.list-header{
+	padding : 10px 0px;
 }
-.btn-point.outline {
-  color: var(--main5);
-  background-color: var(--gray8);
+#write-btn{
+	display: inline-block;
 }
-.btn-point.outline:hover {
-  background-color: rgba(140, 97, 255, 0.2);
+#searchFrm{
+	display: flex;
+	float : right;
 }
-
-.input-item {
-  display: flex;
-  gap: 10px;
-}
-
-.btn-primary {
-  border: 1px solid var(--main3);
-  background-color: var(--main3);
-  color: var(--gray8);
-}
-.btn-primary:hover {
-  background-color: rgba(101, 146, 254, 0.9);
-}
-
-.tbl {
-  border-top: 1px solid var(--main3);
-  width: 100%;
-  border-spacing: 0;
-}
-.tbl th,
-.tbl td {
-  text-align: center;
-  border-bottom: 1px solid var(--line2);
-  padding: 10px 20px;
-}
-.tbl th.left,
-.tbl td.left {
-  text-align: left;
-}
-.tbl th {
-  background-color: rgba(101, 146, 254, 0.2);
-}
-.tbl.tbl-hover tbody > tr:hover {
-  cursor: pointer;
-  background-color: rgba(101, 146, 254, 0.1);
-}
-
-.page-title {
-  padding: 30px;
-  text-align: center;
-  font-size: 40px;
-  
-}
-
-	.inquery-list-wrap{
-		width : 1200px;
-		margin : 0 auto;
-		
-	}
-	.inquery-list-wrap>div:nth-child(3){
-		height:500px;
-	}
-	#pageNavi{
-		margin-top : 30px;
-	}
-	.list-header{
-		padding : 10px 0px;
-	}
-	#write-btn{
-		display: inline-block;
-	}
-	#searchFrm{
-		display: flex;
-		float : right;
-	}
-	#searchFrm .select{
-		width:90px;
-	}
-	
-	
-	.pagination {
-  list-style-type: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-	
-	.pagination > li {
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  line-height: 40px;
-  overflow: hidden;
-}
-.pagination.circle-style > li {
-  border-radius: 50%;
-}
-.pagination > li > a.page-item {
-  display: block;
-  width: 100%;
-  height: 100%;
-  font-size: 18px;
-}
-.pagination > li > a.page-item > span.material-icons {
-  display: block;
-  width: 100%;
-  height: 100%;
-  line-height: 40px;
-}
-
-	
-	
+#searchFrm .select{
+	width:90px;
+}	
 </style>
 </head>
 <body>
@@ -143,52 +39,56 @@ section.section.bg-section {
 	
 	<main class="content">
 		<section class="section inquery-list-wrap">
-			<div class="page-title">문의사항(QnA)</div>			
-			<div class="list-header">
-				<!--  			
-				<a th:if="${session.member != null && session.member.memberGrade == 1}" class="btn-point" href="/inquery/writeFrm">글쓰기</a>
-				-->
-				<a th:if="${session.member != null && session.member.memberGrade != 3}" class="btn-point" id="write-btn" href="/inquery/editorFrm">글쓰기</a>
-				<form action="/inquery/search" method="get" id="searchFrm">
-					<div class="input-item">
-						<div class="select">
-							<select name="type">
-								<option value="title">제목</option>
-								<option value="writer">작성자</option>
-							</select>						
-						</div>
-						<input type="text" name="keyword">
-						<button type="submit" class="btn-primary">조회</button>
-					</div>
-				</form>						
-			</div>
-			
-			<div>
-				<table class="tbl tbl-hover">
-					
-					<tr>
-						<th style="width:10%;">글번호</th>
-						<th style="width:45%;">제목</th>
-						<th style="width:15%;">작성자</th>
-						<th style="width:20%;">작성일</th>
-						<th style="width:10%;">조회수</th>
-					</tr>
-					
-					<tr th:each="inquery : ${list}">
-						<td th:text="${inquery.inqueryNo}"></td>
-						<td class="left"><a th:href="@{/inquery/view(inqueryNo=${inquery.inqueryNo})}" th:text="${inquery.inqueryTitle}"></a></td>
-						<td th:text="${inquery.inqueryWriter}"></td>
-						<td th:text="${inquery.inqueryRegDate}"></td>
-						<td th:text="${inquery.inqueryReadCount}"></td>
-					</tr>			
+			<div class="totalWrap">
+				<div class="page-title">문의사항(QnA)</div>			
 				
-				</table>
-			</div>	
-			<!-- 
-				th:text로 문자열을 넣으면 태그로 동작하지 않고 문자열로 표현
-				문자열을 태그로 인식시키려면 th:utext를 사용
-			 -->
-			<div id="pageNavi" th:utext="${pageNavi}"></div>	
+				<div class="list-header">					
+					<a th:if="${session.member != null && session.member.memberGrade != 3}" class="btn-point" id="write-btn" href="/inquery/editorFrm">글쓰기</a>
+					<form action="/inquery/search" method="get" id="searchFrm">
+					
+					<!-- 
+						<div class="input-item">
+							<div class="select">							
+								<select name="type">
+									<option value="title">제목</option>
+									<option value="writer">작성자</option>
+								</select>						
+							</div>
+							<input type="text" name="keyword">
+							<button type="submit" class="btn-primary">조회</button>
+						</div>							
+					-->
+					
+					</form>						
+				</div>
+				
+				<div>
+					<table class="tbl tbl-hover">
+						<tr>
+							<th style="width:10%;">글번호</th>
+							<th style="width:45%;">제목</th>
+							<th style="width:15%;">작성자</th>
+							<th style="width:20%;">작성일</th>
+							<th style="width:10%;">조회수</th>
+						</tr>
+						
+						<tr th:each="inquery : ${list}">
+							<td th:text="${inquery.inqueryNo}"></td>
+							<td class="left"><a th:href="@{/inquery/view(inqueryNo=${inquery.inqueryNo})}" th:text="${inquery.inqueryTitle}"></a></td>
+							<td th:text="${inquery.inqueryWriter}"></td>
+							<td th:text="${inquery.inqueryRegDate}"></td>
+							<td th:text="${inquery.inqueryReadCount}"></td>
+						</tr>			
+					
+					</table>
+				</div>	
+				
+				<!-- 
+					th:text로 문자열을 넣으면 태그로 동작하지 않고 문자열로 표현
+					문자열을 태그로 인식시키려면 th:utext를 사용
+				 -->
+				<div id="pageNavi" th:utext="${pageNavi}"></div>				
+			</div>
 		</section>
 	</main>
 	
