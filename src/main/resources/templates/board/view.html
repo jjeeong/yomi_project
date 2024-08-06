@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가게 소개</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.css" rel="stylesheet">
+	<style>
+		<style>
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.main-content {
+    background-color: #fff;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex: 1;
+    box-sizing: border-box;
+}
+
+
+.thumbnail {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.thumbnail-img {
+    color: #999;
+    font-size: 1.2rem;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f2f2f2;
+}
+
+/* 가게 정보 입력 필드 스타일링 */
+.store-info {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.store-content {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: white;
+    width: 100%;
+    margin: 20px 0;
+}
+
+
+.comments-section {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.comments-section h3 {
+    margin-bottom: 15px;
+}
+
+.comments-list .comment {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.comments-list .comment:last-child {
+    border-bottom: none;
+}
+
+.comment-text {
+    margin: 0;
+}
+
+		
+	</style>
+</head>
+<body>
+   
+    <main class="main-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="thumbnail">
+                        <div class="thumbnail-img">
+                            <span>썸네일 이미지</span>
+                        </div>
+                    </div>
+                    <div class="content-detail">
+                        <div class="form-group">
+                            <label for="storeName">가게명:</label>
+                            <input type="text" id="storeName" class="form-control" placeholder="가게명을 입력하세요">
+                        </div>
+                        <div class="form-group">
+                            <label for="storeLocation">위치:</label>
+                            <input type="text" id="storeLocation" class="form-control" placeholder="위치를 입력하세요">
+                        </div>
+                    </div>
+                    <form id="storeForm" class="store-content">
+                        <div class="form-group">
+                            <label for="summernote">내용</label>
+                            <div id="summernote" class="summernote">가게 소개를 작성해주세요.</div>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" onclick="submitForm()">작성완료</button>
+                        </div>
+                    </form>
+
+                    <!-- 댓글 섹션 시작 -->
+                    <div class="comments-section mt-4">
+                        <h3>댓글</h3>
+                        <div id="commentsList" class="comments-list">
+                            <!-- 여기에 댓글들이 추가됩니다 -->
+                        </div>
+                        <div class="comment-form mt-3">
+                            <div class="form-group">
+                                <label for="commentInput">댓글 작성</label>
+                                <textarea id="commentInput" class="form-control" rows="3" placeholder="댓글을 입력하세요"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="addComment()">댓글 달기</button>
+                        </div>
+                    </div>
+                    <!-- 댓글 섹션 끝 -->
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.summernote').summernote({
+                height: 300, 
+                placeholder: '',
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['insert', ['picture', 'link']],
+                    ['view', ['codeview']]
+                ]
+            });
+        });
+
+        function submitForm() {
+            var storeName = $('#storeName').val();
+            var storeLocation = $('#storeLocation').val();
+            var content = $('#summernote').val();
+            alert("가게명: " + storeName + "\n위치: " + storeLocation + "\n내용: " + content);
+        }
+
+        // 댓글 추가 기능
+        function addComment() {
+            var commentText = $('#commentInput').val();
+            if (commentText.trim() === "") {
+                alert("댓글을 입력하세요.");
+                return;
+            }
+
+            var commentHtml = `
+                <div class="comment">
+                    <p class="comment-text">${commentText}</p>
+                </div>
+            `;
+
+            $('#commentsList').append(commentHtml);
+            $('#commentInput').val(""); // 입력 필드 초기화
+        }
+    </script>
+</body>
+</html>
