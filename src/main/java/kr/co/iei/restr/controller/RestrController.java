@@ -23,7 +23,6 @@ import kr.co.iei.restr.model.dto.BlogSearchResult;
 import kr.co.iei.restr.model.dto.Restaurant;
 
 import kr.co.iei.restr.model.dto.RestrMenu;
-import kr.co.iei.restr.model.dto.RestrTag;
 
 import kr.co.iei.restr.model.dto.Review;
 import kr.co.iei.restr.model.service.RestrService;
@@ -49,14 +48,24 @@ public class RestrController {
 		if (r == null) {
 			return "redirect:/";
 		} else {
+			//블로그 API
 			String searchResult = restrService.searchBlog(r.getRestrName());
 			List<BlogSearchResult> searchResults = parseSearchResults(searchResult);
 
-			List list = restrService.selectRestrMenu(restrNo);
-			r.setRestrMenu(list);
+			//메뉴 리스트
+			List menuList = restrService.selectRestrMenu(restrNo);
+			r.setRestrMenu(menuList);
+			
+			List tagList = restrService.selectRestrTag(restrNo);
+			r.setRestrTag(tagList);
 
+			//맛집 정보
 			model.addAttribute("r", r);
 			model.addAttribute("searchResults", searchResults);
+			
+			//리뷰 카운트
+			int reviewCount = restrService.reviewCount(restrNo);
+			model.addAttribute("reviewCount", reviewCount);
 			return "restaurant/restrView";
 		}
 	}
@@ -93,6 +102,7 @@ public class RestrController {
 		return "restaurant/restrList";
 	}
 
+	// 맛집 리스트 더보기
 	@ResponseBody
 	@GetMapping(value = "/more")
 	public List photoMore(int start, int amount) {
@@ -100,6 +110,7 @@ public class RestrController {
 		return list;
 	}
 
+	// 맛집 좋아요
 	@ResponseBody
 	@PostMapping(value = "/likePush")
 	public int likePush(int restrNo, int isLike, @SessionAttribute(required = false) Member member) {
@@ -111,6 +122,49 @@ public class RestrController {
 			return result;
 		}
 	}
+	
+	// 리뷰 작성
+	@PostMapping(value = "/writeReview")
+	public String writeReview(@SessionAttribute(required = false) Member member, Review review, Restaurant restaurant, Double reviewStar) {
+
+		int memberNo = member.getMemberNo();
+		String memberName = member.getMemberName();
+		
+		System.out.println(memberNo);
+		System.out.println(memberName);
+		
+		review.setMemberNo(memberNo);
+		review.setRestrNo(restaurant.getRestrNo());
+		review.setReviewStar(reviewStar);
+		review.setMemberName(memberName);
+		
+		System.out.println("review는 어케 됐을까요? : " + review);
+		
+		int result = restrService.writeReview(review);
+		return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();
+	}
+
+	// 리뷰 작성 페이지 로그인 확인
+	@ResponseBody
+	@PostMapping(value = "/writeReviewFrm")
+	public int writeReviewFrm(@RequestParam int restrNo, @SessionAttribute(required = false) Member member) {
+		if (member == null) {
+			return -10;
+		} else {
+			return 1;
+		}
+	}
+	
+	// 맛집 리뷰 목록 불러오기
+	@ResponseBody
+	@GetMapping(value = "/reviewMore")
+	public List reviewMore(int start, int amount, int restrNo) {
+		List reviewList = restrService.selectReviewList(start, amount, restrNo);
+		
+		System.out.println(reviewList);
+		return reviewList;
+	}
+	
 
 	@GetMapping(value = "/writeFrm")
 	public String writeFrm() {
@@ -153,27 +207,4 @@ public class RestrController {
 		return "restaurant/restrUpdateFrm";
 	}// restFrm()
 
-	@PostMapping(value = "/writeReview")
-	public String writeReview(@SessionAttribute(required = false) Member member, Review review, Restaurant restaurant,
-			Double reviewStar) {
-
-		System.out.println(restaurant.getRestrNo());
-
-		int memberNo = member.getMemberNo();
-		review.setMemberNo(memberNo);
-		review.setRestrNo(restaurant.getRestrNo());
-		review.setReviewStar(reviewStar);
-		int result = restrService.writeReview(review);
-		return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();
-	}
-
-	@ResponseBody
-	@PostMapping(value = "/writeReviewFrm")
-	public int writeReviewFrm(@RequestParam int restrNo, @SessionAttribute(required = false) Member member) {
-		if (member == null) {
-			return -10;
-		} else {
-			return 1;
-		}
-	}
 }
