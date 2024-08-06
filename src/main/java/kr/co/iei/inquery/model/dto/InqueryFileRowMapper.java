@@ -15,7 +15,7 @@ public class InqueryFileRowMapper implements RowMapper<InqueryFile>{
 		inqueryFile.setFilename(rs.getString("filename"));
 		inqueryFile.setFileNo(rs.getInt("file_no"));
 		inqueryFile.setFilepath(rs.getString("filepath"));
-		inqueryFile.setInqueryNo(rs.getInt("notice_no"));	
+		inqueryFile.setInqueryNo(rs.getInt("inquery_no"));	
 		return inqueryFile;
 	}
 

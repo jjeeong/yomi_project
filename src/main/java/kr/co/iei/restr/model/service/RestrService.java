@@ -96,7 +96,7 @@ public class RestrService {
 	public int insertRestr(Restaurant r, List<RestrMenu> menuList, String[] tagName) {
 		int result = restrDao.insertWrite(r);
 		if (result > 0) {
-			int restrNo = restrDao.getRecentNo();
+			int restrNo = restrDao.getRecentRestrNo();
 			for (RestrMenu menu : menuList) {
 				result += restrDao.insertRestrMenu(menu, restrNo);
 			}
@@ -108,6 +108,11 @@ public class RestrService {
 			}
 		}
 		return 0;
+	}
+
+	public int getRecentRestrNo() {
+		int restrNo = restrDao.getRecentRestrNo();
+		return restrNo;
 	}
 
 }
