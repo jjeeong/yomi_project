@@ -91,27 +91,32 @@ public class RestrDao {
 		return result;
 	}
 
-	// 이제 만들어야 할 것들-->수진
 	public int insertWrite(Restaurant r) {
-		// TODO Auto-generated method stub
-		return 0;
+		String query = "insert into restaurant values (restr_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		Object[] params = {r.getRestrName(), r.getRestrAddr1(), r.getRestrAddr2(), r.getRestrMapx(), r.getRestrMapy(), r.getRestrTel(), r.getRestrContent(), r.getRestrImg1(), r.getRestrImg2()};
+		int result = jdbc.update(query, params);
+		return result;
 	}
 
-	public int getRecentNo() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getRecentRestrNo() {
+		String query ="select max(restr_no) from restaurant";
+		int restrNo = jdbc.queryForObject(query, Integer.class);
+		return restrNo;
 	}
 
 	public int insertRestrMenu(RestrMenu menu, int restrNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		String query ="insert into restr_menu values(restr_menu_seq.nextval, ?, ?, ?)";
+		Object[] params= {restrNo, menu.getRestrMenuName(), menu.getRestrMenuPrice()};
+		int result = jdbc.update(query, params);
+		return result;
 	}
 
-	public int insertRestrTag(String string, int restrNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertRestrTag(String tagName, int restrNo) {
+		String query = "insert into restr_tag values (restr_tag_seq.nextval, ?, ?)";
+		Object[] params = {tagName, restrNo};
+		int result = jdbc.update(query, params);
+		return result;
 	}
-	// --여기까지
 
 	public int reviewCount(int restrNo) {
 		String query = "select count(*) from review where restr_no = ?";

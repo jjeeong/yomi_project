@@ -58,8 +58,8 @@
 									placeholder="주소를 입력하세요">
 								<input type="text" name="restrAddr2" id="restrAddr2" class="input-lg"
 									placeholder="상세 주소를 입력하세요">
-								<input type="hidden" name="restrMapX" id="mapX">
-								<input type="hidden" name="restrMapY" id="mapY">
+								<input type="hidden" name="restrMapx" id="mapX">
+								<input type="hidden" name="restrMapy" id="mapY">
 							</div>
 							<div id="map" style="width:90%; height:300px; margin: 0 auto;margin-top : 30px;"></div>
 						</div>
@@ -126,7 +126,7 @@
 					<div class="input-content">
 						<div class="img">
 							<div class="img-box">
-								<img src="" class="img-view" style="object-fit:cover; object-position:center;">
+								<img src="" class="img-view">
 							</div>
 							<label for="imageFile1" class="btn btn-sm btn-mono">등록</label>
 							<input type="file" id="imageFile1" name="imageFile1" accept=".jpg,.png,.jpeg"
@@ -134,7 +134,7 @@
 						</div>
 						<div class="img">
 							<div class="img-box">
-								<img src="" class="img-view" style="object-fit:cover;">
+								<img src="" class="img-view">
 							</div>
 							<label for="imageFile2" class="btn btn-sm btn-mono">등록</label>
 							<input type="file" id="imageFile2" name="imageFile2" accept=".jpg,.png,.jpeg"
@@ -172,11 +172,11 @@
 				reader.onload = function (e) {
 					//=>리더가 정보를 다 읽어오면 동작함>>서버는 그동안 다른 일을 할 수 있음
 					//읽어온 파일 정보가 매개변수에 들어있음
-					$(obj).prev().prev().children("img").attr("src", e.target.result);
+					$(obj).prev().prev().children("img").attr("src", e.target.result).show();
 				}
 			} else {
 				//첨부파일이 사라졌을 때
-				$(obj).prev().prev().attr("src", "");
+				$(obj).prev().prev().attr("src", "").hide();
 			}
 		}
 
@@ -541,7 +541,31 @@
 		});
 
 		$("#cancel").on("click", function () {
-			//취소 시 sw 구현하기.. 
+			swal({
+				title : "맛집 등록 취소",
+				text : "정말 취소 하시겠습니까?",
+				icon : "warning",
+				buttons : {
+					cancel : {
+						text : "돌아가기",
+						value : false,
+						className: "btn-mono btn btn-lg",
+						closeModal:true,
+						visible : true
+					},
+					confirm : {
+						text : "등록 취소",
+						value : true,
+						className: "btn-point btn btn-lg",
+						closeModal:true,
+						visible : true
+					}
+				}.then(function(isConfirm){
+					if(isConfrim){
+					location.href="restaurant/restrList";
+					}
+				})
+			});
 		});
 	</script>
 

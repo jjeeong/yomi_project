@@ -18,7 +18,7 @@ public class InqueryRowMapper implements RowMapper<Inquery> {
 		inq.setInqueryWriter(rs.getString("inquery_writer"));
 		inq.setInqueryOpen(rs.getInt("inquery_open")); // 공개 : 1 / 비공개 : 0 ( 기본값 : 비공개(0) )
 		inq.setInqueryReadCount(rs.getInt("inquery_read_count"));
-		inq.setInuqueryContent(rs.getString("inquery_content"));
+		inq.setInqueryContent(rs.getString("inquery_content"));
 		inq.setInqueryRegDate(rs.getString("Inquery_reg_date"));				
 		return inq;
 	}
