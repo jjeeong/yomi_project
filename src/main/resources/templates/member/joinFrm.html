@@ -14,16 +14,16 @@
                 <div class="title">회원가입</div>
                 
                     <div class="form-group1 no1">
-                        <input type="checkbox" id="ageCheck">
+                        <input type="checkbox" id="ageCheck" class="essential1">
                         <label for="ageCheck"><span>만 14세 이상입니다 (필수)</span>&numsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                             <a href="#">내용보기</a></label>
                     </div>
                     <div class="form-group1 no2">
-                        <input type="checkbox" id="termsCheck">
+                        <input type="checkbox" id="termsCheck" class="essential2">
                         <label for="termsCheck">이용약관 동의 (필수)</label>
                     </div>
                     <div class="form-group1 no3">
-                        <input type="checkbox" id="personalInfoCheck">
+                        <input type="checkbox" id="personalInfoCheck" name="check" class="essential3">
                         <label for="personalInfoCheck"><span>개인 정보 수집 및 이용 동의 (필수)</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                             <a href="#">내용보기</a></label>
                     </div>
@@ -45,7 +45,7 @@
                         </tr>
                     </table>
                     <div class="form-group1 no4">
-                        <input type="checkbox" id="optionalInfoCheck">
+                        <input type="checkbox" id="optionalInfoCheck" name="check">
                         <label for="optionalInfoCheck"><span>선택 정보 수집 및 이용 동의</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                             <a href="#">내용보기</a></label>
                     </div>
@@ -67,15 +67,15 @@
                         </tr>
                     </table>
                     <div class="form-group1 no5">
-                        <input type="checkbox" id="emailMarketingCheck">
+                        <input type="checkbox" id="emailMarketingCheck" name="check">
                         <label for="emailMarketingCheck">이메일 마케팅 수신 동의</label>
                     </div>
                     <div class="form-group1 no6">
-                        <input type="checkbox" id="personalInfoperiodCheck">
+                        <input type="checkbox" id="personalInfoperiodCheck" name="check">
                         <label for="personalInfoperiodCheck">개인정보 유효기간 3년 지정 (미동의 시 1년)</label>
                     </div>
-                    <div class="next-btn">
-                        <button type="button" >다음 단계 1/2</button>
+                    <div class="next-btn" >
+                        <button type="button" disabled>다음 단계 1/2</button>
                     </div>
             </div>
             <div class="main2">
@@ -96,12 +96,16 @@
                                     <input type="password" name="memberPwRe"placeholder="비밀번호 확인">
                                 </div>
                                 <div class="form-group2 email-group">
-                                    <input type="text" name="memberEmail" placeholder="이메일">
+
+                                    <input type="text" id="inputBox1" placeholder="이메일">
                                     <span>@</span>
-                                    <input type="text" name="memberEmail" id="inputBox">
+                                    <input type="text"  id="inputBox2" disabled >
+                                    <input type="hidden" id="memberEmail" name="memberEmail" >
+                                    
+
                                     <div class="selectBox">
                                         <select class="select">
-                                            <option value="" disabled selected>선택</option>
+                                            <option value="" selected >선택</option>
                                             <option value="naver.com" id="naver.com">naver.com</option>
                                             <option value="daum.com" id="daum.com">daum.com</option>
                                             <option value="gmail.com" id="gmail.com">gmail.com</option>
@@ -118,9 +122,14 @@
                                 <div class="form-group2">
                                     <input type="text" name="memberName" placeholder="이름">
                                 </div>
-                                <div class="form-group2">
-                                    <input type="date" name="memberBirthDate" placeholder="생년월일 YYYY-MM-DD">
+
+                                <div class="form-group2 info">
+                                    <input type="text" id="birth-year" placeholder="YYYY">
+                                    <input type="text" id="birth-month" placeholder="MM">
+                                    <input type="text" id="birth-day" placeholder="DD">
+                                    <input type="hidden" id="memberBirthDate" name="memberBirthDate" >
                                 </div>
+
                                 <div class="form-group2 phone-group">
                                     <input type="text" name="memberPhone" placeholder="휴대폰 번호  -없이 입력">
                                     <button class="input-btn"type="button">인증하기</button>
@@ -135,13 +144,13 @@
                                 </div>
                                 <div class="section-title">성별</div>
                                 <div class="form-group2 gender-group">
-                                    <input type="button" value="남자">
-                                    <input type="button" value="여자">
+                                    <input type="radio" id="male" name="memberGender" value="남자"><label for="male">남자</label>
+                                    <input type="radio" id="female" name="memberGender" value="여자"><label for="female">여자</label>
                                 </div>
                             </div>
                         </div>
                         <div class="submit-button">
-                        <button type="submit">가입완료</button>
+                        <button type="submit" >가입완료</button>
                         </div>
                     </form>
                 </div>
@@ -172,15 +181,81 @@
 
             $('.select').change(function() {
                 if ($('.select').val() == 'diretly') {
-                    $('#inputBox').attr("disabled", false);
-                    $('#inputBox').val("");
-                    $('#inputBox').focus();
+                    $('#inputBox2').attr("disabled", false);
+                    $('#inputBox2').val("");
+                    $('#inputBox2').focus();
                 } else {
-                    $("#inputBox").attr("disabled", true);
-                    $('#inputBox').val($('.select').val());
+                    $("#inputBox2").attr("disabled", true);
+                    $('#inputBox2').val($('.select').val());
+                    
                 }
             });
+            
+            
+            $('#signupForm').on('submit', function(event) {
+                // Get values from the input fields
+                var year = $('#birth-year').val();
+                var month = $('#birth-month').val();
+                var day = $('#birth-day').val();
+                
+                // Initialize an empty formatted date string
+                var formattedDate = '';
 
+                // Check if all values are numeric and not empty
+                if ($.isNumeric(year) && $.isNumeric(month) && $.isNumeric(day)) {
+                    // Format the date as YYYYMMDD
+                    // Ensure that year, month, and day are properly padded
+                    formattedDate = year.padStart(4, '0') + month.padStart(2, '0') + day.padStart(2, '0');
+                    
+                    // Set the value of the memberBirthDate field
+                    $('#memberBirthDate').val(formattedDate);
+                } else {
+                    alert('생년월일을 확인해주세요');
+                    // Prevent form submission if the inputs are not valid
+                    event.preventDefault();
+                }
+                var email1 = $('#inputBox1').val();
+                var email2 = $('#inputBox2').val();
+
+                var finalEmail = '';
+                
+                finalEmail = email1 +'@'+ email2 ;
+
+                $('#memberEmail').val(finalEmail);
+            });
+            
+        	$(".essential1").on("click",function(){
+				if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
+					$(".next-btn>button").attr("disabled", false);					
+					
+					console.log('true')
+				}else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
+					$(".next-btn>button").attr("disabled", true);
+				}
+			});
+        	$(".essential2").on("click",function(){
+				if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
+					$(".next-btn>button").attr("disabled", false);					
+					
+					console.log('true')
+				}else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
+					$(".next-btn>button").attr("disabled", true);
+				}
+			});
+			$(".essential3").on("click",function(){
+				if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
+					$(".next-btn>button").attr("disabled", false);					
+					
+					console.log('true')
+				}else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
+					$(".next-btn>button").attr("disabled", true);
+				}
+			});
+            
+            
+            
+            
+            
         </script>
     </main>
 	<th:block th:include="common/footer"></th:block>

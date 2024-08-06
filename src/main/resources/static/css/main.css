@@ -13,6 +13,7 @@
 
 html,
 body {
+    background-color: #F3F3F3;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -27,7 +28,6 @@ body>* {
 header.header {
     padding-top: 100px;
     min-width: 1240px;
-    background-color: #fff;
     z-index: 999;
     width: 100%;
 }
@@ -46,11 +46,11 @@ header a {
 
 .header-top {
     display: flex;
+    background-color: #fff;
 }
 
 .header-top>div {
     height: 50px;
-    background-color: #fff;
 }
 
 .header-top>.logo {
@@ -114,10 +114,6 @@ header .header-top>.text-end {
 
 header .text-end>a {
     padding: 0 10px;
-}
-
-header .header-top {
-    background-color: #fff;
 }
 
 
@@ -346,7 +342,7 @@ main.main div.modal-div>.modal-body input[type=submit] {
 /* 메인 페이지 */
 main.index .best-restr div.carousel-inner {
     width: 100%;
-    min-width: 1240px;
+    min-width: 1420px;
     background-image: url(/image/main\ 페이지용.jpg);
     background-repeat: no-repeat;
     background-position: center center;
@@ -363,6 +359,7 @@ main.index div.carousel-inner>div.bg-fade {
 
 main.index div.carousel-inner div.active-box {
     width: 90%;
+    max-width : 1420px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -405,16 +402,17 @@ main.index .best-restr button.control-btn {
 main.index section.main-content {
     display: flex;
     justify-content: space-between;
+    min-width: 1420px;
 }
 
 main.index div.content {
-    width: 100%;
-    min-width: 1000px;
+    width: 85%;
+    min-width: 1210px;
     padding: 30px 0;
-    padding-right: 30px;
+    padding-left: calc((100% - 1000px) * 0.5);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 30px;
 }
@@ -541,21 +539,19 @@ main.index div.content>div.best-review>div.best-review-btn button>span {
 
 main.index aside.recent {
     width: 15%;
-    min-width: 185px;
+    min-width: 200px;
     display: flex;
     justify-content: center;
-    position: fixed;
-	top: 450px;
-	right : 0;
-
+    padding : 0 25px;
 }
 
 main.index aside.recent>.recent-wrap {
     width: 150px;
     height: 600px;
+    position: sticky;
+    top: 150px;
+    left : calc((100% - 150px) * 0.5);
     margin-top: 20px;
-    position : sticky;
-    top : 0px;
 }
 
 main.index aside.recent>.recent-wrap>div.recent-title {
@@ -716,4 +712,15 @@ main.report-list div.search button {
     padding-top: 0;
     padding-bottom: 0;
     line-height: 30px;
+}
+
+/*
+글씨 색깔 관련 클래스
+*/
+.point{
+	color : var(--point1);
+}
+
+.pointFont{
+	color : var(--pointFont);
 }

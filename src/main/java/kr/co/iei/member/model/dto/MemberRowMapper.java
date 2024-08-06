@@ -23,6 +23,7 @@ public class MemberRowMapper implements RowMapper<Member> {
 		m.setMemberPhoto(rs.getString("member_photo"));
 		m.setMemberPw(rs.getString("member_pw"));
 		m.setMemberRegDate(rs.getString("member_reg_date"));
+		m.setMemberBirthDate(rs.getInt("member_birthdate"));
 		
 		return m;
 	}

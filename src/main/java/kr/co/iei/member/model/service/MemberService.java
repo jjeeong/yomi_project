@@ -16,5 +16,10 @@ public class MemberService {
 			
 		return member;
 	}
+
+	public int insertMember(Member m) {
+		int result = memberDao.insertMember(m);
+		return result;
+	}
 	
 }

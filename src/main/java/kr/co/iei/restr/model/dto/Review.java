@@ -14,4 +14,5 @@ public class Review {
 	private String reviewRegDate;
 	private int memberNo;
 	private int restrNo;
+	private String memberName;
 }

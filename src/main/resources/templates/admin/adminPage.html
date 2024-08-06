@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <link rel="stylesheet" href="/css/adminPage.css">
+<style>
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+		<div class="adminpage">
+	        <div class="memberpage">
+	            <h1>회원 관리</h1>
+	            <table>
+	                <thead>
+	                    <tr>
+	                        <th>선택</th>
+	                        <th>번호</th>
+	                        <th>아이디</th>
+	                        <th>이름</th>
+	                        <th>전화번호</th>
+	                        <th>주소</th>
+	                        <th>가입일</th>
+	                        <th>회원등급</th>
+	                        <th>등급변경</th>
+	                        <th>신고횟수</th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    <tr>
+	                        <td><input type="checkbox" class="checkbox"></td>
+	                        <td>1</td>
+	                        <td>user1</td>
+	                        <td>유저1</td>
+	                        <td>010-1234-5678</td>
+	                        <td>서울시 강남구</td>
+	                        <td>2024-01-01</td>
+	                        <td>관리자</td>
+	                        <td>
+	                            <select class="grade-select">
+	                                <option value="관리자">관리자</option>
+	                                <option value="정회원">정회원</option>
+	                                <option value="블랙">블랙</option>
+	                            </select>
+	                        </td>
+	                        <td>0</td>
+	                    </tr>
+	                    <tr>
+	                        <td><input type="checkbox" class="checkbox"></td>
+	                        <td>2</td>
+	                        <td>user2</td>
+	                        <td>유저2</td>
+	                        <td>010-1234-5678</td>
+	                        <td>서울시 강남구</td>
+	                        <td>2024-01-01</td>
+	                        <td>정회원</td>
+	                        <td>
+	                            <select class="grade-select">
+	                                <option value="관리자">관리자</option>
+	                                <option value="정회원" selected>정회원</option>
+	                                <option value="블랙">블랙</option>
+	                            </select>
+	                        </td>
+	                        <td>0</td>
+	                    </tr>
+	                    <tr>
+	                        <td><input type="checkbox" class="checkbox"></td>
+	                        <td>3</td>
+	                        <td>user3</td>
+	                        <td>유저3</td>
+	                        <td>010-1234-5678</td>
+	                        <td>서울시 강남구</td>
+	                        <td>2024-01-01</td>
+	                        <td>정회원</td>
+	                        <td>
+	                            <select class="grade-select">
+	                                <option value="관리자">관리자</option>
+	                                <option value="정회원" selected>정회원</option>
+	                                <option value="블랙">블랙</option>
+	                            </select>
+	                        </td>
+	                        <td>0</td>
+	                    </tr>
+	                    <tr>
+	                        <td><input type="checkbox" class="checkbox"></td>
+	                        <td>4</td>
+	                        <td>user4</td>
+	                        <td>유저4</td>
+	                        <td>010-1234-5678</td>
+	                        <td>서울시 강남구</td>
+	                        <td>2024-01-01</td>
+	                        <td>정회원</td>
+	                        <td>
+	                            <select class="grade-select">
+	                                <option value="관리자">관리자</option>
+	                                <option value="정회원" selected>정회원</option>
+	                                <option value="블랙">블랙</option>
+	                            </select>
+	                        </td>
+	                        <td>0</td>
+	                    </tr>
+	                    <tr>
+	                        <td><input type="checkbox" class="checkbox"></td>
+	                        <td>5</td>
+	                        <td>user5</td>
+	                        <td>유저5</td>
+	                        <td>010-1234-5678</td>
+	                        <td>서울시 강남구</td>
+	                        <td>2024-01-01</td>
+	                        <td>정회원</td>
+	                        <td>
+	                            <select class="grade-select">
+	                                <option value="관리자">관리자</option>
+	                                <option value="정회원" selected>정회원</option>
+	                                <option value="블랙">블랙</option>
+	                            </select>
+	                        </td>
+	                        <td>0</td>
+	                    </tr>                                               
+	                </tbody>
+	            </table>
+	            <div class="buttons">
+	                <button onclick="location.href='report_page.html'">신고 처리 페이지</button>
+	                <button onclick="changeMemberGrade()">선택 회원 등급 변경</button>
+	                <button onclick="filterBlackGrade()">블랙 등급만 보기</button>
+	                <div class="pagination">
+	                    <a href="#" class="disabled">&laquo; 이전</a>
+	                    <a href="#" class="active">1</a>
+	                    <a href="#" class="disabled">2</a>
+	                    <a href="#" class="disabled">3</a>
+	                    <a href="#" class="disabled">4</a>
+	                    <a href="#" class="disabled">5</a>
+	                    <a href="#" class="disabled">다음 &raquo;</a>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	
+	    <script>
+	        function changeMemberGrade() {          
+	            const checkboxes = document.querySelectorAll('.checkbox:checked');
+	            if (checkboxes.length === 0) {
+	                alert('선택 버튼을 확인해주세요.');
+	                return;
+	            }
+	            checkboxes.forEach(checkbox => {
+	                const row = checkbox.closest('tr');
+	                const gradeSelect = row.querySelector('.grade-select');
+	                const selectedGrade = gradeSelect.value;
+	                const gradeCell = row.cells[7];
+	                gradeCell.textContent = selectedGrade;
+	
+	                // 체크박스 해제
+	                checkbox.checked = false;
+	            });
+	            alert('선택 회원의 등급이 변경되었습니다.');
+	        }
+	
+	        function filterBlackGrade() {
+	            const rows = document.querySelectorAll('tbody tr');
+	            rows.forEach(row => {
+	                const gradeCell = row.cells[7];
+	                const grade = gradeCell.textContent.trim();
+	                if (grade !== '블랙') {
+	                    row.classList.add('hidden');
+	                } else {
+	                    row.classList.remove('hidden');
+	                }
+	            });
+	        }
+	    </script>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>
