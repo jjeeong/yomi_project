@@ -181,7 +181,7 @@ public class RestrController {
 			rm.setRestrMenuPrice(menuPrice[i]);
 			menuList.add(rm);
 		}
-		String savepath = root+"/restr/";
+		String savepath = root+"/yomi/";
 		String filepath1 = fileUtils.upload(savepath, imageFile1);
 		String filepath2 = fileUtils.upload(savepath, imageFile2);
 		r.setRestrImg1(filepath1);
@@ -203,8 +203,18 @@ public class RestrController {
 	}
 
 	@GetMapping(value = "/updateFrm")
-	public String updateFrm() {
-		return "restaurant/restrUpdateFrm";
+	public String updateFrm(int restrNo, Model model) {
+		Restaurant r = restrService.selectOneRestrWith(restrNo);
+		if(r==null) {
+			model.addAttribute("title", "수정 불가");
+			model.addAttribute("msg", "존재하지 않는 게시물 입니다.");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "/restaurant/restrList");
+			return "/common/msg2";
+		}else {
+			model.addAttribute("r", r);
+			return "restaurant/restrUpdateFrm";			
+		}
 	}// restFrm()
 
 }

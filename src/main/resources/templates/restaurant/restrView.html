@@ -702,6 +702,15 @@
    <th:block th:include="common/footer"></th:block>
 
     <script> 
+    	//수진 : 삭제, 수정하기 버튼 클릭하려고 function 조금 만들게요...
+    	$("button.delete-btn").on("click",function(){
+    		location.href="/restaurant/deleteRestr?restrNo="+[[${r.restrNo}]];
+    	})
+    	$("button.update-btn").on("click",function(){
+    		location.href="/restaurant/updateFrm?restrNo="+[[${r.restrNo}]];
+    	})
+    	//여기까지가 수진
+    
     	document.addEventListener("DOMContentLoaded", function() {
 	        const toggleBtn = document.querySelector(".toggle-btn");
 	        const reviewForm = document.querySelector(".review-form");

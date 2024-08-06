@@ -124,11 +124,24 @@ public class RestrService {
 	public List selectRestrTag(int restrNo) {
 		List tagList = restrDao.selectRestrTag(restrNo);
 		return tagList;
+	}
 
 	public int getRecentRestrNo() {
 		int restrNo = restrDao.getRecentRestrNo();
 		return restrNo;
 
+	}
+
+	public Restaurant selectOneRestrWith(int restrNo) {
+		Restaurant r = restrDao.selectOneRestr(restrNo);
+		if(r!=null) {
+			List tagList = restrDao.selectRestrTag(restrNo);
+			List menuList = restrDao.selectRestrMenu(restrNo);
+			r.setRestrMenu(menuList);
+			r.setRestrTag(tagList);
+			return r;
+		}
+		return null;
 	}
 
 }
