@@ -48,9 +48,7 @@ public class InqueryController {
 	
 	@GetMapping(value = "/editorFrm")
 	public String editorFrm(@SessionAttribute(required = false) Member member) {
-		if(member == null) {
-			return "redirect:/member/loginFrm";
-		}
+		
 		return "inquery/editorFrm";
 	}
 	
@@ -87,7 +85,7 @@ public class InqueryController {
 			model.addAttribute("title","작성성공!");
 			model.addAttribute("msg","공지사항 작성에 성공했습니다.");
 			model.addAttribute("icon","success");
-			model.addAttribute("loc","/notice/list?reqPage=1");
+			model.addAttribute("loc","/inquery/list?reqPage=1");
 			return "common/msg";
 		}
 		return "redirect:/inquery/editorFrm";
@@ -176,11 +174,11 @@ public class InqueryController {
 			model.addAttribute("loc", "/inquery/list?reqPage=1");
 			return "common/msg";
 		}else {
-			for (InqueryFile noticeFile : delFileList) {
-				File delFile = new File(savepath + noticeFile.getFilepath());
+			for (InqueryFile inqueryFile : delFileList) {
+				File delFile = new File(savepath + inqueryFile.getFilepath());
 				delFile.delete();
 			}
-			return "redirect:/inquery/view?noticeNo=" + inq.getInqueryNo();
+			return "redirect:/inquery/view?inqueryNo=" + inq.getInqueryNo();
 		}
 	}
 	
