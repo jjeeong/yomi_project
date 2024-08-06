@@ -99,6 +99,8 @@
 	<script src="/summernote/lang/summernote-ko-KR.js"></script>
 	<link rel="stylesheet" href="/summernote/summernote-lite.css">
 	
+	
+	<form action="/board/write" method="post" enctype="multipart/form-data">
     <main class="main-content">
         <div class="container">
             <div class="row justify-content-center">
@@ -107,31 +109,39 @@
                         <div class="thumbnail-img" id="thumbnailPreview">
                             <span>썸네일 이미지</span>
                         </div>
-                        <input type="file" id="thumbnailInput" class="form-control" accept="image/*" onchange="previewThumbnail()">
+                        <input type="file" name="upfile" id="thumbnailInput" class="form-control" onchange="previewThumbnail()" required>
                     </div>
                     
                     <div class="content-detail">
+                    
+                            <input type="hidden"name="boardWriter" id="storeName" class="form-control" placeholder="작성자를 입력하세요" th:value="${session.member.memberId}">
+                    	
                         <div class="form-group">
                             <label for="storeName">가게명:</label>
-                            <input type="text" id="storeName" class="form-control" placeholder="가게명을 입력하세요">
+                            <input type="text"	name="boardName" id="storeName" class="form-control" placeholder="가게명을 입력하세요">
+                        </div>
+                        <div class="form-group">
+                            <label for="storeName">제목:</label>
+                            <input type="text"	name="boardTitle" id="storeName" class="form-control" placeholder="제목을 입력하세요">
                         </div>
                         <div class="form-group">
                             <label for="storeLocation">위치:</label>
-                            <input type="text" id="storeLocation" class="form-control" placeholder="위치를 입력하세요">
+                            <input type="text" name="boardAddr" id="storeLocation" class="form-control" placeholder="위치를 입력하세요">
                         </div>
                     </div>
                     <form id="storeForm" class="store-content">
                         <div class="form-group">
                             <label for="storeDescription">내용</label>
-                            <textarea id="storeDescription" class="form-control" rows="6" placeholder="가게 소개를 작성해주세요."></textarea>
+                            <textarea id="storeDescription" name="boardContent" class="form-control" rows="6" placeholder="가게 소개를 작성해주세요."></textarea>
                             
                         </div>
                     </form>
                     <div class="text-center">
-                        <button type="button" class="btn btn-primary" onclick="submitForm()">작성완료</button>
+                        <button type="submit" class="btn btn-primary">작성완료</button>
                     </div>
                 </div>
             </div>
+        	</form>
         </div>
     </main>
     <th:block th:include="common/footer"></th:block>
@@ -148,7 +158,7 @@
                 preview.style.backgroundPosition = 'center';
                 preview.innerHTML = ''; // Text remove
             }
-
+				
             if (file) {
                 reader.readAsDataURL(file);
             } else {
@@ -179,23 +189,20 @@
 		});
 		
 		function uploadImage(file, editor){
-		    // Create a new FormData object
+		 
 		    const form = new FormData();
 		    form.append("upfile", file);
 		    
 		    $.ajax({
-		        url: "/board/editorImage", // Server endpoint for image upload
+		        url: "/board/editorImage",
 		        type: "post",
 		        data: form,
 		        processData: false,
 		        contentType: false,
 		        success: function(data){
-		            // Assuming 'data' contains the URL of the uploaded image
-		            const imageUrl = data; // If data is a direct URL string
-		            // Or if data is an object containing the URL
-		            // const imageUrl = data.url;
-		            
-		            // Insert the image into Summernote editor
+		           
+		            const imageUrl = data; 
+		           
 		            $(editor).summernote("insertImage", imageUrl);
 		        },
 		        error: function(){
@@ -203,7 +210,9 @@
 		        }
 		    });
 		}
-
+		
+		
+		
     </script>
 </body>
 </html>
