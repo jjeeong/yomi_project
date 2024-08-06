@@ -40,7 +40,7 @@ public class InqueryDao {
 	}
 	public int insertInquery(Inquery inq) {
 		String query = "insert into inquery values(inquery_seq.nextval,?,?,?,0,0,to_char(sysdate,'yyyy-mm-dd'))";
-		Object[] params = {inq.getInqueryWriter(), inq.getInqueryTitle(), inq.getInuqueryContent()};
+		Object[] params = {inq.getInqueryWriter(), inq.getInqueryTitle(), inq.getInqueryContent()};
 		int result = jdbc.update(query,params);
 		return result;
 	}
@@ -65,7 +65,7 @@ public class InqueryDao {
 		return (Inquery)list.get(0); 
 	}
 	public int updateReadCount(int inqueryNo) {
-		String query = "update notice set inquery_read_count = inquery_read_count+1 where inquery_no = ?";
+		String query = "update inquery set inquery_read_count = inquery_read_count+1 where inquery_no = ?";
 		Object[] params = {inqueryNo};
 		int result = jdbc.update(query,params);
 		return result;
@@ -93,13 +93,56 @@ public class InqueryDao {
 		List list = jdbc.query(query, inqueryCommentRowMapper, params);
 		return list;
 	}
+	public int deleteInquery(int inqueryNo) {
+		String query = "delete from inquery where inquery_no=?";
+		Object[] params = {inqueryNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public int updateNotice(Inquery inq) {
+		String query = "update inquery set inquery_title=?, inquery_content=?, inquery_read_count = inquery_read_count -1 where inquery_no=?";
+		Object[] params = {inq.getInqueryTitle(), inq.getInqueryContent(), inq.getInqueryNo()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public InqueryFile selectOneInqueryFile(int fileNo) {
+		String query = "select * from inquery_file where file_no=?";
+		Object[] params = {fileNo};
+		List list = jdbc.query(query, inqueryFileRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}
+		return (InqueryFile)list.get(0);
+	}
+	public int deleteInqueryFile(int fileNo) {
+		String query = "delete from inquery_file where file_no=?";
+		Object[] params = {fileNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public int insertComment(InqueryComment ic) {
+		String query = "insert into inquery_comment values(inquery_comment_seq.nextval,?,?,to_char(sysdate,'yyyy-mm-dd'),?,?)";
+		String inqueryCommentRef = ic.getInqueryCommentRef() == 0 ? null : String.valueOf(ic.getInqueryRef());
+		Object[] params = {ic.getInqueryCommentWriter(),ic.getInqueryCommentContent(),ic.getInqueryRef(),inqueryCommentRef};
+//		Object[] params = {ic.getInqueryCommentWriter(),ic.getInqueryCommentContent(),ic.getInqueryRef(),ic.getInqueryCommentRef()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	
+	public int updateComment(InqueryComment ic) {
+		String query = "delete from inquery_comment where inquery_comment_no=?";
+		Object[] params = {ic.getInqueryCommentNo()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public int deleteComment(InqueryComment ic) {
+		String query = "delete from inquery_comment where inquery_comment_no=?";
+		Object[] params = {ic.getInqueryCommentNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
 	
 }
-
-
-
-
-
 
 
 

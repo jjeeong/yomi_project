@@ -19,6 +19,142 @@
 	.notice-write-wrap .input-item>textarea{
 		height: 300px
 	}
+	.page-title{
+		margin : 30px;
+		font-size: 30px;
+		text-align : center;
+		
+	}
+	.inqueryWrite{
+		width : 800px;
+		margin : 30px auto;
+	}
+	
+section.section {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--gray8);
+}
+section.section.bg-section {
+  background-color: var(--box-bg);
+}
+
+.btn-point {
+  border: 1px solid var(--main5);
+  background-color: var(--main5);
+  color: var(--gray8);
+}
+.btn-point:hover {
+  background-color: rgba(140, 97, 255, 0.9);
+}
+.btn-point.outline {
+  color: var(--main5);
+  background-color: var(--gray8);
+}
+.btn-point.outline:hover {
+  background-color: rgba(140, 97, 255, 0.2);
+}
+
+.input-item {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-primary {
+  border: 1px solid var(--main3);
+  background-color: var(--main3);
+  color: var(--gray8);
+}
+.btn-primary:hover {
+  background-color: rgba(101, 146, 254, 0.9);
+}
+
+.tbl {
+  border-top: 1px solid var(--main3);
+  width: 100%;
+  border-spacing: 0;
+}
+.tbl th,
+.tbl td {
+  text-align: center;
+  border-bottom: 1px solid var(--line2);
+  padding: 10px 20px;
+}
+.tbl th.left,
+.tbl td.left {
+  text-align: left;
+}
+.tbl th {
+  background-color: rgba(101, 146, 254, 0.2);
+}
+.tbl.tbl-hover tbody > tr:hover {
+  cursor: pointer;
+  background-color: rgba(101, 146, 254, 0.1);
+}
+
+.page-title {
+  padding: 30px;
+  text-align: center;
+  font-size: 40px;
+  
+}
+
+	.inquery-list-wrap{
+		width : 1200px;
+		margin : 0 auto;
+		
+	}
+	.inquery-list-wrap>div:nth-child(3){
+		height:500px;
+	}
+	#pageNavi{
+		margin-top : 30px;
+	}
+	.list-header{
+		padding : 10px 0px;
+	}
+	#write-btn{
+		display: inline-block;
+	}
+	#searchFrm{
+		display: flex;
+		float : right;
+	}
+	#searchFrm .select{
+		width:90px;
+	}
+	
+	
+	.pagination {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+	
+	.pagination > li {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  overflow: hidden;
+}
+.pagination.circle-style > li {
+  border-radius: 50%;
+}
+.pagination > li > a.page-item {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+}
+.pagination > li > a.page-item > span.material-icons {
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 40px;
+}
+	
 </style>
 </head>
 <body>
@@ -29,54 +165,56 @@
 	<main class="content inquery-write-container">
 		<section class="section inquery-write-wrap">
 			<div class="page-title">문의사항 작성</div>
-			<!-- 
-				첨부파일을 포함해서 데이터를 전송하는 경우
-				method = "post"
-				enctype="multipart/form-data"
-				두 값이 반드시 명시되어야 함
-			 -->
-			 <form action="/inquery/write" method="post" enctype="multipart/form-data">
-			 	<table class="tbl">
-			 	
-			 	<tr>
-					<th>제목</th>
-					<td colspan="3">
-						<div class="input-item">
-							<input type="text" name="inqueryTitle">
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<th style="width:10%;">작성자</th>
-					<td style="width:40%;">
-						<span th:text="${session.member.memberId}"></span>
-						<input type="hidden" name="inqueryWriter" th:value="${session.member.memberId}">
-					</td>
-					<th style="width:10%;">첨부파일</th>
-					<td style="width:40%;">
-						<!-- input type=file의 name은 반드시 vo의 변수명과 다르게 작성 -->
-						<input type="file" name="upfile" multiple>
-					</td>				
-				</tr>			
-				
-				<tr>
-					<td colspan="4" class="left">
-						
-							<!-- 본문은 여러줄의 값을 입력하므로 input이 아닌 textarea로 받음 -->
-							<textarea name="inqueryContent" id="inqueryContent"></textarea>								
-						
-					</td>
-				</tr>
-				
-			 	<tr>
-					<td colspan="4">							
-						<button type="submit" class="btn-primary lg">공지사항 작성</button>
-					</td>
-				</tr>
-				
-			 	</table>
-			 </form>
+			<div class="inqueryWrite">
+				<!-- 
+					첨부파일을 포함해서 데이터를 전송하는 경우
+					method = "post"
+					enctype="multipart/form-data"
+					두 값이 반드시 명시되어야 함
+				 -->
+				 <form action="/inquery/write" method="post" enctype="multipart/form-data">
+				 	<table class="tbl">
+				 	
+				 	<tr>
+						<th>제목</th>
+						<td colspan="3">
+							<div class="input-item">
+								<input type="text" name="inqueryTitle">
+							</div>
+						</td>
+					</tr>
+					
+					<tr>
+						<th style="width:10%;">작성자</th>
+						<td style="width:40%;">
+							<span th:text="${session.member.memberId}"></span>
+							<input type="hidden" name="inqueryWriter" th:value="${session.member.memberId}">
+						</td>
+						<th style="width:10%;">첨부파일</th>
+						<td style="width:40%;">
+							<!-- input type=file의 name은 반드시 vo의 변수명과 다르게 작성 -->
+							<input type="file" name="upfile" multiple>
+						</td>				
+					</tr>			
+					
+					<tr>
+						<td colspan="4" class="left">
+							
+								<!-- 본문은 여러줄의 값을 입력하므로 input이 아닌 textarea로 받음 -->
+								<textarea name="inqueryContent" id="inqueryContent"></textarea>								
+							
+						</td>
+					</tr>
+					
+				 	<tr>
+						<td colspan="4">							
+							<button type="submit" class="btn-primary lg">공지사항 작성</button>
+						</td>
+					</tr>
+					
+				 	</table>
+				 </form>
+			</div>
 		</section>
 	</main>
 	
@@ -120,10 +258,11 @@
 				processData:false,
 				contentType:false,
 				success:function(data){
-					$(editor).summernote("insertImage",data);
+					const imageUrl = data;
+					$(editor).summernote("insertImage",imageUrl);
 				},
 				error:function(){
-					console.log("에러");
+					console.log("Image upload failed");
 				}
 			});
 			//processData:데이터 전송 시 기본적으로 문자열로 전송하게 세팅 -> 그 기본 세팅을 무효화

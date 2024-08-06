@@ -15,12 +15,146 @@
 	.inputCommentBox{
 		margin:50px;
 }
+.page-title {
+  padding: 30px;
+  text-align: center;
+  font-size: 40px;
+  
+}
+
+
+section.section {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--gray8);
+}
+section.section.bg-section {
+  background-color: var(--box-bg);
+}
+
+.btn-point {
+  border: 1px solid var(--main5);
+  background-color: var(--main5);
+  color: var(--gray8);
+}
+.btn-point:hover {
+  background-color: rgba(140, 97, 255, 0.9);
+}
+.btn-point.outline {
+  color: var(--main5);
+  background-color: var(--gray8);
+}
+.btn-point.outline:hover {
+  background-color: rgba(140, 97, 255, 0.2);
+}
+
+.input-item {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-primary {
+  border: 1px solid var(--main3);
+  background-color: var(--main3);
+  color: var(--gray8);
+}
+.btn-primary:hover {
+  background-color: rgba(101, 146, 254, 0.9);
+}
+
+.tbl {
+  border-top: 1px solid var(--main3);
+  width: 100%;
+  border-spacing: 0;
+}
+.tbl th,
+.tbl td {
+  text-align: center;
+  border-bottom: 1px solid var(--line2);
+  padding: 10px 20px;
+}
+.tbl th.left,
+.tbl td.left {
+  text-align: left;
+}
+.tbl th {
+  background-color: rgba(101, 146, 254, 0.2);
+}
+.tbl.tbl-hover tbody > tr:hover {
+  cursor: pointer;
+  background-color: rgba(101, 146, 254, 0.1);
+}
+
+.page-title {
+  padding: 30px;
+  text-align: center;
+  font-size: 40px;
+  
+}
+
+	.inquery-list-wrap{
+		width : 1200px;
+		margin : 0 auto;
+		
+	}
+	.inquery-list-wrap>div:nth-child(3){
+		height:500px;
+	}
+	#pageNavi{
+		margin-top : 30px;
+	}
+	.list-header{
+		padding : 10px 0px;
+	}
+	#write-btn{
+		display: inline-block;
+	}
+	#searchFrm{
+		display: flex;
+		float : right;
+	}
+	#searchFrm .select{
+		width:90px;
+	}
+	
+	
+	.pagination {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+	
+	.pagination > li {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  overflow: hidden;
+}
+.pagination.circle-style > li {
+  border-radius: 50%;
+}
+.pagination > li > a.page-item {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+}
+.pagination > li > a.page-item > span.material-icons {
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 40px;
+}
+
 </style>
 </head>
 <body>
+	<th:block th:include="common/header"></th:block>
 	<main class="content">
 		<section class="section notice-view-wrap">
-		<div class="page-title">공지사항</div>
+		<div class="page-title">문의사항(QnA)</div>
 		<table class="tbl notice-view">
 		<tr>
 			<th colspan="6" th:text="${inq.inqueryTitle}"></th>
@@ -63,7 +197,7 @@
 		</tr>
 		<tr th:if="${session.member != null && session.member.memberId == inq.inqueryWriter}">
 			<td colspan="6">
-				<a th:href="@{/inquery/updateFrm(noticeNo=${inq.noticeNo})}" class="btn-primary">수정</a>
+				<a th:href="@{/inquery/updateFrm(inqueryNo=${inq.inqueryNo})}" class="btn-primary">수정</a>
 				<button class="btn-secondary" th:onclick="inqueryDelete([[${inq.inqueryNo}]]);">삭제</button>
 			</td>
 		</tr>
@@ -89,48 +223,209 @@
 				</ul>	
 			</form>
 		</div>
-		
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
+		<!-- 댓글 출력 -->
+		<div class="commentBox">
+			<th:block th:each="ic : ${inq.commentList}">
+				<ul class="posting-comment">
+					<li>
+						<span class="material-icons">account_box</span>
+					</li>
+					<li>
+						<p class="comment-info">
+							<span th:text="${ic.inqueryCommentWriter}"></span>
+							<span th:text="${ic.inqueryCommentDate}"></span>					
+						</p>
+						<p class="comment-content" th:text="${ic.inqueryCommentContent}"></p>
+						<div class="input-item">
+							<textarea name="inqueryCommentContent" th:text="${ic.inqueryCommentContent}"></textarea>
+						</div>
+						<p class="comment-link">
+							<th:block th:if="${session.member != null}">
+								<th:block th:if="${session.member.memberId == ic.inqueryCommentWriter}">
+									<a href="javascript:void(0)" th:onclick="modifyComment(this,[[${ic.inqueryCommentNo}]],[[${inq.inqueryNo}]]);">수정</a>
+									<a href="javascript:void(0)" th:onclick="deleteComment(this,[[${ic.inqueryCommentNo}]],[[${inq.inqueryNo}]]);">삭제</a>
+								</th:block>
+								<a href="javascript:void(0)" class="recShow">답글달기</a>
+							</th:block>
+						</p>
+					</li>
+				</ul>
+				
+				
+				
+				<!-- 대댓글 작성 양식 -->
+				<div th:if="${session.member != null}" class="inputCommentBox inputRecommentBox">
+					<form action="/inquery/insertComment" method="post">
+						<ul>
+							<li>
+								<span class="material-icons">subdirectory_arrow_right</span>
+							</li>
+							<li>
+								<input type="hidden" name="inqueryCommentWriter" th:value="${session.member.memberId}">
+								<input type="hidden" name="inqueryRef" th:value="${inq.inqueryNo}">
+								<input type="hidden" name="inqueryCommentRef" th:value="${ic.inqueryCommentNo}">
+								<div class="input-item">
+									<textarea name="inqueryCommentContent"></textarea>
+								</div>
+							</li>
+							<li>
+								<button type="submit" class="btn-primary">등록</button>
+							</li>
+						</ul>
+					</form>
+				</div>
+				
+				
+				
+				<!--  출력한 댓글의 대댓글 출력 -->																		
+				<ul class="posting-comment reply" th:each="icc : ${inq.reCommentList}" th:if="${ic.inqueryCommentNo == icc.inqueryCommentRef}">
+					<li>
+						<span class="material-icons">subdirectory_arrow_right</span>
+						<span class="material-icons">account_box</span>
+					</li>
+					<li>
+						<p class="comment-info">
+							<span th:text="${icc.inqueryCommentWriter}"></span>
+							<span th:text="${icc.inqueryCommentDate}"></span>							
+						</p>
+						<p class="comment-content" th:text="${icc.inqueryCommentContent}"></p>
+						<div class="input-item" style="display:none;">
+							<textarea name="inqueryCommentContent" th:text="${icc.inqueryCommentContent}"></textarea>
+						</div>
+						<p class="comment-link">
+							<th:block th:if="${session.member != null && session.member.memberId == icc.inqueryCommentWriter}">
+								<a href="javascript:void(0)" th:onclick="modifyComment(this,[[${icc.inqueryCommentNo}]],[[${inq.inqueryNo}]])">수정</a>
+								<a href="javascript:void(0)" th:onclick="deleteComment(this,[[${icc.inqueryCommentNo}]],[[${inq.inqueryNo}]]);">삭제</a>
+							</th:block>
+						</p>
+					</li>
+				</ul>
+				
+				
+				
+			</th:block>
+			</div>
 		</section>
 	</main>
 
 
+	<script>
+		function modifyComment(obj,inqueryCommentNo, inqueryNo){
+			//숨겨놓은 textarea를 화면에 보여줌
+			$(obj).parent().prev().show();
+			//화면에 보이던 댓글내용 숨김
+			$(obj).parent().prev().prev().hide();
+			
+			//수정버튼 -> 수정완료 버튼으로 변경
+			$(obj).text("수정완료");
+			$(obj).attr("onclick","modifyComplete(this,"+inqueryCommentNo+","+inqueryNo+");");
+			
+			//삭제버튼 -> 수정취소 버튼으로 변경
+			$(obj).next().text("수정취소");
+			$(obj).next().attr("onclick","modifyCancel(this,"+inqueryCommentNo+","+inqueryNo+");");
+		
+			//답글달기 버튼이 있는 경우 화면에서 안보이게 처리
+			$(obj).next().next().hide();
+		
+		}
+		function modifyComplete(obj,inqueryCommentNo, inqueryNo){
+			//자바스크립트에서 form태그를 생성해서 전송하는 작업
+			//1. form태그 생성
+			const form = $("<form>");
+			//1-1. form태그의 속성 설정
+			form.attr("action","/inquery/updateComment");
+			form.attr("method","post");
+			form.hide();
+			//2. form태그 내부에 전송하고 싶은 데이터를 생성해서 추가
+			const inqueryCommentNoInput = $("<input>");
+			inqueryCommentNoInput.attr("type","text");
+			inqueryCommentNoInput.attr("name","inqueryCommentNo");
+			inqueryCommentNoInput.val(inqueryCommentNo);
+			const inqueryRefInput = $("<input type='text' name='inqueryRef'>");
+			noticeRefInput.val(inqueryNo);
+			//3. 수정된 댓글이 입력되어있는 textarea(textarea를 감싼 div) 가져옴
+			const inqueryCommentContent = $(obj).parent().prev().clone();
+			//4. form태그에 추가
+			form.append(inqueryCommentNoInput).append(inqueryRefInput).append(inqueryCommentContent);
+		
+			//5. 만들어진 form태그를 현재 문서 내부에 포함
+			$("body").append(form);
+			//6. form태그 submit
+			form.submit();
+		}
+		function modifyCancel(obj,inqueryCommentNo, inqueryNo){
+			//textarea 숨김
+			$(obj).parent().prev().hide();
+			//기존 댓글내용을 다시 보여줌
+			$(obj).parent().prev().prev().show();
+			
+			//수정완료 -> 수정
+			$(obj).prev().text("수정");
+			$(obj).prev().attr("onclick","modifyComment(this,"+inqueryCommentNo+","+inqueryNo+");");
+			
+			//수정취소 -> 삭제
+			$(obj).text("삭제");
+			$(obj).attr("onclick","deleteComment(this,"+inqueryCommentNo+","+inqueryNo+");");
+		
+			
+			$(obj).next().show();
+			
+		}
+		function deleteComment(obj,inqueryCommentNo, inqueryNo){
+			if(confirm("댓글을 삭제하시겠습니까?")){
+				location.href="/inquery/deleteComment?inqueryCommentNo="+inqueryCommentNo+"&inqueryRef="+inqueryNo;
+			}
+		}
+		
+	
+		$(".recShow").on("click",function(){
+			//답글달기 버튼 중 클릭한 답글달기 버튼이 몇번째 버튼인지 조회
+			const index = $(".recShow").index(this);
+			if($(this).text()==="답글달기"){
+				$(this).text("취소");
+			}else{
+				$(this).text("답글달기");
+			}
+			$(".inputRecommentBox").eq(index).toggle();
+		});
+	</script>
+
+	<script>				
+		function inqueryDelete(inqueryNo){
+			swal({
+				title:"게시글 삭제",
+				text:"게시글을 삭제하시겠습니까?",
+				icon:"warning",
+				buttons:{
+					cancel:{
+						text:"취소",
+						value:false,
+						visible:true,
+						className:"btn-secondary",
+						closeModal:true
+					},
+					confirm:{
+						text:"삭제",
+						value:true,
+						visible:true,
+						className:"btn-point",
+						closeModal:true
+					}
+				}					
+			}).then(function(isConfirm){
+				if(isConfirm){
+					location.href="/inquery/delete?inqueryNo="+inqueryNo;
+				}
+			});
+		}
+		
+		
+	</script>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<th:block th:include="common/footer"></th:block>
 </body>
 </html>
 
