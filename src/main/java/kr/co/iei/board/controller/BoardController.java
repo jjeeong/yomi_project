@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.iei.board.model.dto.Board;
 import kr.co.iei.board.model.dto.BoardFile;
+import kr.co.iei.board.model.dto.BoardListData;
 import kr.co.iei.board.model.service.BoardService;
 import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.util.FileUtils;
@@ -34,11 +35,11 @@ public class BoardController {
 	private String root;
 	
 	@GetMapping(value="/list")
-	public String list(Model model) {
-		List list = boardService.selectBoardList();
-		model.addAttribute("list",list);
-		
-		return "/board/list";
+	public String list(Model model, int reqPage) {
+		BoardListData bld  = boardService.selectBoardList(reqPage);
+		model.addAttribute("list",bld.getList());
+		model.addAttribute("pageNavi", bld.getPageNavi());
+		return "board/list";
 	}
 	
 	@GetMapping(value="/writeFrm")
@@ -61,8 +62,8 @@ public class BoardController {
 		
 		List<BoardFile> fileList = new ArrayList<BoardFile>();
 		
-					//C:/Temp/upload/notice/
-			String savepath = root+"/notice/";
+					
+			String savepath = root+"/board/";
 			
 				//사용자가 업로드한 파일 이름 출력 
 				String filepath = fileUtils.upload(savepath, upfile);

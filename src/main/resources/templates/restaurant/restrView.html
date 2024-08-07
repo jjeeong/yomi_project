@@ -176,7 +176,6 @@
             text-align: center;
             margin-bottom: 10px;
             margin-top: 20px;
-            cursor: pointer;
         }
 
         .stars2 .material-icons {
@@ -279,6 +278,7 @@
         .author-info {
             display: flex;
             flex-direction: column;
+            width: 700px;
         }
 
         .author-name {
@@ -286,6 +286,7 @@
         }
 
         .review-date {
+        	float: left;
             color: #888;
         }
 
@@ -310,8 +311,9 @@
         }
 
         .review-image {
-            flex-direction: column;
+        	display: inline;
             margin-top: 10px;
+            overflow: hidden;
         }
 
         .review-image img {
@@ -320,6 +322,8 @@
             background-color: #eee;
             border: 1px solid #ddd;
             margin-bottom: 5px;
+            margin-right: 5px;
+            float: left;
         }
 
         .write-tag span {
@@ -446,6 +450,36 @@
         .file-input-container {
             margin-top: 20px;
         }
+        
+        .tag {
+        	margin-right: 10px;
+        }
+        
+        .review-more-btn {
+        	width: 400px;
+        	height: 50px;
+        	border-radius: 10px;
+        	background-color: #FC7A1E;
+        	border: none;
+        	font-size: 20px;
+        	margin: 0 auto;
+        	display: flex;
+        	justify-content: center;
+        	align-items: center;
+        	color: #fff;        
+        	font-family: g_b;	
+        }
+        
+        .report-btn {
+        	border: none;
+        	background-color: #F7B788;
+        	float: right;
+        	width: 60px;
+        	height: 30px;
+        	font-size: 14px;
+        	border-radius: 10px;
+        }
+        
     </style>
 </head>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -490,7 +524,8 @@
                         <span class="material-icons">grade</span>
                         <span class="material-icons">grade</span>
                     </div>
-                    <p>4.0 (10명의 평가)</p>
+                    <p th:text="${starAvg}"></p>
+                    <p th:text="'(' + ${reviewCount}+'명의 평가)'"></p>
                 </div>
                 <div class="shop-information">
                     <div>
@@ -532,7 +567,7 @@
         <div class="review-wrap">
             <div class="review-title">
                 <h2>리뷰</h2>
-                <h4>(10명의 평가)</h4>
+                <h4 th:text="'(' + ${reviewCount}+'명의 평가)'"></h4>
             </div>
             <div class="review-content">
                 <div class="review-header">
@@ -546,7 +581,7 @@
 
                 <div class="review-form collapsed">
 
-                    <form action="/restaurant/writeReview" method="post" id="review-frm">
+                    <form action="/restaurant/writeReview" method="post" id="review-frm" enctype="multipart/form-data">
                         <div class="stars2">
                             <div class="star-rating" id="star-rating">
                                 <span class="material-icons" data-value="1">grade</span>
@@ -558,15 +593,15 @@
                         </div>
                         <input type="hidden" id="reviewStar" name="reviewStar">
 
-                        <textarea placeholder="리뷰를 작성하세요." name="reviewContent"></textarea>
+                        <textarea placeholder="리뷰를 작성하세요." name="reviewContent" id="reviewContent"></textarea>
                         <div class="upload">
                             <div class="mb-3">
-                                <input class="form-control" type="file" id="formFile" multiple>
+                                <input class="form-control" type="file" name="upfile" id="formFile" multiple>
                             </div>
 
                             <button style="background-color: #FC7A1E; border: none; margin-bottom: 5px;" type="button"
                                 class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                키워드 추가
+                               		 키워드 추가
                             </button>
                             <div class="keywords"></div>
                         </div>
@@ -582,56 +617,55 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <h4>음식</h4>
-                                        <input type="checkbox" class="btn-check" id="btn-check-1" autocomplete="off">
-                                        <label class="btn" for="btn-check-1">맛있어요</label>
-
-                                        <input type="checkbox" class="btn-check" id="btn-check-2" autocomplete="off">
-                                        <label class="btn" for="btn-check-2">메뉴가 다양해요</label>
-
-                                        <input type="checkbox" class="btn-check" id="btn-check-3" autocomplete="off">
-                                        <label class="btn" for="btn-check-3">반찬이 다양해요</label>
-
-                                        <input type="checkbox" class="btn-check" id="btn-check-4" autocomplete="off">
-                                        <label class="btn" for="btn-check-4">양이 많아요</label>
-                                        <hr>
-
-                                        <h4>분위기</h4>
-                                        <input type="checkbox" class="btn-check" id="btn-check-5" autocomplete="off">
-                                        <label class="btn" for="btn-check-5">분위기가 좋아요</label>
-
-                                        <input type="checkbox" class="btn-check" id="btn-check-6" autocomplete="off">
-                                        <label class="btn" for="btn-check-6">인테리어가 예뻐요</label>
-
-                                        <hr>
-                                        <h4>서비스</h4>
-                                        <input type="checkbox" class="btn-check" id="btn-check-7" autocomplete="off">
-                                        <label class="btn" for="btn-check-7">청결해요</label>
-
-                                        <input type="checkbox" class="btn-check" id="btn-check-8" autocomplete="off">
-                                        <label class="btn" for="btn-check-8">친절해요</label>
-
-                                        <input type="checkbox" class="btn-check" id="btn-check-9" autocomplete="off">
-                                        <label class="btn" for="btn-check-9">예약이 편해요</label>
-
-                                        <input type="checkbox" class="btn-check" id="btn-check-10" autocomplete="off">
-                                        <label class="btn" for="btn-check-10">반려동물 동반 가능해요</label>
-
-                                        <input type="checkbox" class="btn-check" id="btn-check-11" autocomplete="off">
-                                        <label class="btn" for="btn-check-11">포장이 가능해요</label>
-
-                                        <hr>
-                                        <h4>시설</h4>
-                                        <input type="checkbox" class="btn-check" id="btn-check-12" autocomplete="off">
-                                        <label class="btn" for="btn-check-12">주차가 편해요</label>
-
-                                        <input type="checkbox" class="btn-check" id="btn-check-13" autocomplete="off">
-                                        <label class="btn" for="btn-check-13">화장실이 깨끗해요</label>
-
-                                        <input type="checkbox" class="btn-check" id="btn-check-14" autocomplete="off">
-                                        <label class="btn" for="btn-check-14">무료 와이파이</label>
-
-                                    </div>
+								        <h4>음식</h4>
+								        <input type="checkbox" class="btn-check" id="btn-check-1" autocomplete="off" name="keywords" value="맛있어요">
+								        <label class="btn" for="btn-check-1">맛있어요</label>
+								
+								        <input type="checkbox" class="btn-check" id="btn-check-2" autocomplete="off" name="keywords" value="메뉴가 다양해요">
+								        <label class="btn" for="btn-check-2">메뉴가 다양해요</label>
+								
+								        <input type="checkbox" class="btn-check" id="btn-check-3" autocomplete="off" name="keywords" value="반찬이 다양해요">
+								        <label class="btn" for="btn-check-3">반찬이 다양해요</label>
+								
+								        <input type="checkbox" class="btn-check" id="btn-check-4" autocomplete="off" name="keywords" value="양이 많아요">
+								        <label class="btn" for="btn-check-4">양이 많아요</label>
+								
+								        <hr>
+								        <h4>분위기</h4>
+								        <input type="checkbox" class="btn-check" id="btn-check-5" autocomplete="off" name="keywords" value="분위기가 좋아요">
+								        <label class="btn" for="btn-check-5">분위기가 좋아요</label>
+								
+								        <input type="checkbox" class="btn-check" id="btn-check-6" autocomplete="off" name="keywords" value="인테리어가 예뻐요">
+								        <label class="btn" for="btn-check-6">인테리어가 예뻐요</label>
+								
+								        <hr>
+								        <h4>서비스</h4>
+								        <input type="checkbox" class="btn-check" id="btn-check-7" autocomplete="off" name="keywords" value="청결해요">
+								        <label class="btn" for="btn-check-7">청결해요</label>
+								
+								        <input type="checkbox" class="btn-check" id="btn-check-8" autocomplete="off" name="keywords" value="친절해요">
+								        <label class="btn" for="btn-check-8">친절해요</label>
+								
+								        <input type="checkbox" class="btn-check" id="btn-check-9" autocomplete="off" name="keywords" value="예약이 편해요">
+								        <label class="btn" for="btn-check-9">예약이 편해요</label>
+								
+								        <input type="checkbox" class="btn-check" id="btn-check-10" autocomplete="off" name="keywords" value="반려동물 동반 가능해요">
+								        <label class="btn" for="btn-check-10">반려동물 동반 가능해요</label>
+								
+								        <input type="checkbox" class="btn-check" id="btn-check-11" autocomplete="off" name="keywords" value="포장이 가능해요">
+								        <label class="btn" for="btn-check-11">포장이 가능해요</label>
+								
+								        <hr>
+								        <h4>시설</h4>
+								        <input type="checkbox" class="btn-check" id="btn-check-12" autocomplete="off" name="keywords" value="주차가 편해요">
+								        <label class="btn" for="btn-check-12">주차가 편해요</label>
+								
+								        <input type="checkbox" class="btn-check" id="btn-check-13" autocomplete="off" name="keywords" value="화장실이 깨끗해요">
+								        <label class="btn" for="btn-check-13">화장실이 깨끗해요</label>
+								
+								        <input type="checkbox" class="btn-check" id="btn-check-14" autocomplete="off" name="keywords" value="무료 와이파이">
+								        <label class="btn" for="btn-check-14">무료 와이파이</label>
+								    </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">닫기</button>
@@ -646,9 +680,9 @@
                         <div class="button-container">
                             <button type="submit" class="submit-btn">등록</button>
                         </div>
-                </div>
                 <input type="hidden" id="restrNo" name="restrNo" th:value="${r.restrNo}">
                 </form>
+                </div>
 
                 <button class="toggle-btn">리뷰 작성</button>
 
@@ -684,8 +718,9 @@
 	            </div>
             -->
             </div>
-
-            <button class="btn" id="review-more-btn">더보기</button>
+            <div class="more-btn-wrap">
+	            <button class="review-more-btn" id="review-more-btn">더보기</button>
+            </div>
         </div>
 
         <script th:inline="javascript">
@@ -713,9 +748,11 @@
                             const authorInfoDiv = $("<div>").addClass("author-info");
                             const authorNameSpan = $("<span>").addClass("author-name").text(review.memberName);
                             const reviewDateSpan = $("<span>").addClass("review-date").text(review.reviewRegDate);
+                            
+                            const reportButton = $("<button>").addClass("report-btn").text("신고");
 
                             authorInfoDiv.append(authorNameSpan).append(reviewDateSpan);
-                            reviewHeadDiv.append(authorIconDiv).append(authorInfoDiv);
+                            reviewHeadDiv.append(authorIconDiv).append(authorInfoDiv).append(reportButton);
 
                             const reviewRatingDiv = $("<div>").addClass("review-rating");
                             const starSpan = $("<span>").addClass("material-icons star").text("grade");
@@ -725,19 +762,27 @@
 
                             const reviewContentDiv = $("<div>").addClass("write-review-content");
                             const contentParagraph = $("<p>").text(review.reviewContent);
-                            const reviewImageDiv = $("<div>").addClass("review-image");
-                            const reviewImage = $("<img>");
-
-                            reviewImageDiv.append(reviewImage);
-                            reviewContentDiv.append(contentParagraph).append(reviewImageDiv);
+                            
+                            reviewContentDiv.append(contentParagraph);
+                            
+                            console.log(review.reviewImg);
+  
+                            if(review.reviewImg != null) {                            	
+	                            review.reviewImg.forEach(img => {                            	
+		                            const reviewImageDiv = $("<div>").addClass("review-image");
+		                            const reviewImage = $("<img>");
+		                            reviewImage.attr("src", "/review/"+img.reviewFilePath);
+		                            reviewImageDiv.append(reviewImage);
+		                            reviewContentDiv.append(reviewImageDiv);
+	                            });
+                            }
 
                             const tagDiv = $("<div>").addClass("write-tag");
-                            /*
-                            r.tags.forEach(tag => {
-                                const tagSpan = $("<span>").text(tag);
+
+                            review.reviewTag.forEach(tag => {
+                                const tagSpan = $("<span>").addClass("tag").text(tag.reviewTagName);
                                 tagDiv.append(tagSpan);
                             });
-                            */
 
                             reviewDiv.append(reviewHeadDiv).append(reviewRatingDiv).append(reviewContentDiv).append(tagDiv);
 
@@ -819,6 +864,9 @@
             location.href = "/restaurant/updateFrm?restrNo=" + [[${ r.restrNo }]];
         })
         //여기까지가 수진
+        
+        
+        
         //키워드 추가
         $("#addKeyword").on("click", function () {
             // 기존에 추가된 키워드 항목 삭제
@@ -990,6 +1038,53 @@
                     star.classList.toggle('half', isHalf && !isFull);
                 });
             }
+            
+        });
+        
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('review-frm');
+            const reviewStarInput = document.getElementById('reviewStar');
+            const starRating = document.getElementById('star-rating');
+            const reviewContent = document.getElementById('reviewContent');
+            let selectedRating = 0;
+
+            starRating.addEventListener('click', (event) => {
+                if (event.target.classList.contains('material-icons')) {
+                    selectedRating = event.target.getAttribute('data-value');
+                    reviewStarInput.value = selectedRating;
+                    updateStars(selectedRating);
+                }
+            });
+
+            function updateStars(rating) {
+                const stars = starRating.querySelectorAll('.material-icons');
+                stars.forEach((star, index) => {
+                    if (index < rating) {
+                        star.classList.add('selected');
+                    } else {
+                        star.classList.remove('selected');
+                    }
+                });
+            }
+            
+            form.addEventListener('submit', (event) => {
+                if (!selectedRating) {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '별점 선택',
+                        text: '별점을 선택하세요.',
+                    });
+                } else if (reviewContent.value.trim() === '') {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '리뷰 작성',
+                        text: '리뷰를 작성하세요.',
+                    });
+                }
+            });
         });
     </script>
 </body>

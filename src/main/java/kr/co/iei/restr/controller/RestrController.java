@@ -26,6 +26,8 @@ import kr.co.iei.restr.model.dto.Restaurant;
 import kr.co.iei.restr.model.dto.RestrMenu;
 import kr.co.iei.restr.model.dto.RestrTag;
 import kr.co.iei.restr.model.dto.Review;
+import kr.co.iei.restr.model.dto.ReviewImg;
+import kr.co.iei.restr.model.dto.ReviewTag;
 import kr.co.iei.restr.model.service.RestrService;
 import kr.co.iei.util.FileUtils;
 
@@ -44,7 +46,7 @@ public class RestrController {
 	// 맛집 상세 페이지
 	@GetMapping(value = "/restrView")
 	public String restrView(Model model, int restrNo) {
-		Restaurant r = restrService.selectOneRestr(restrNo); // 테스트용으로 1번 쿼리를 검색하도록 설정해둠.
+		Restaurant r = restrService.selectOneRestr(restrNo);
 
 		if (r == null) {
 			return "redirect:/";
@@ -57,6 +59,7 @@ public class RestrController {
 			List menuList = restrService.selectRestrMenu(restrNo);
 			r.setRestrMenu(menuList);
 			
+			//태그 리스트
 			List tagList = restrService.selectRestrTag(restrNo);
 			r.setRestrTag(tagList);
 
@@ -67,6 +70,11 @@ public class RestrController {
 			//리뷰 카운트
 			int reviewCount = restrService.reviewCount(restrNo);
 			model.addAttribute("reviewCount", reviewCount);
+			
+			//맛집 별점
+			Double starAvg = restrService.RestrStarAvg(restrNo);
+			model.addAttribute("starAvg", starAvg);
+			
 			return "restaurant/restrView";
 		}
 	}
@@ -126,17 +134,46 @@ public class RestrController {
 	
 	// 리뷰 작성
 	@PostMapping(value = "/writeReview")
-	public String writeReview(@SessionAttribute(required = false) Member member, Review review, Restaurant restaurant, Double reviewStar) {
-
-		int memberNo = member.getMemberNo();
-		
-		System.out.println(memberNo);
-		
+	public String writeReview(@SessionAttribute(required = false) Member member, Review review, Restaurant restaurant, Double reviewStar,  
+			@RequestParam(value = "keywords", required = false) String[] keywords, MultipartFile[] upfile) {
+		// 작성자 번호
+		int memberNo = member.getMemberNo();	
 		review.setMemberNo(memberNo);
 		review.setRestrNo(restaurant.getRestrNo());
 		review.setReviewStar(reviewStar);
 		
-		int result = restrService.writeReview(review);
+		//이미지 삽입
+		int restrNo = restaurant.getRestrNo();		
+		List<ReviewImg> reviewImgList = new ArrayList<ReviewImg>();
+		
+		System.out.println("upfile : "+upfile);
+		
+		//리뷰 번호 불러오기
+		int reviewNo = restrService.selectOneReview(restrNo) + 1;
+		
+		review.setReviewNo(reviewNo);
+		
+		if(!upfile[0].isEmpty()) {
+			String savepath = root+"/review/";
+			for (MultipartFile file : upfile) {
+				String reviewFilename = file.getOriginalFilename();
+				String reviewFilePath = fileUtils.upload(savepath, file);
+				ReviewImg reviewImg = new ReviewImg();
+				reviewImg.setReviewFilename(reviewFilename);
+				reviewImg.setReviewFilePath(reviewFilePath);
+				reviewImgList.add(reviewImg);
+				System.out.println("reviewImg : "+reviewImgList);
+			}
+		}
+		
+		//작성 결과 (img list도 함께 삽입)
+		int result = restrService.writeReview(review, reviewImgList);
+		
+		//리뷰 키워드 삽입
+		if (result > 0 && keywords != null) {			
+			int tagResult = restrService.insertKeyword(reviewNo, keywords);
+		}
+	
 		return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();
 	}
 
@@ -155,9 +192,19 @@ public class RestrController {
 	@ResponseBody
 	@GetMapping(value = "/reviewMore")
 	public List reviewMore(int start, int amount, int restrNo) {
-		List reviewList = restrService.selectReviewList(start, amount, restrNo);
+		//리뷰 리스트 불러오기
+		List<Review> reviewList = restrService.selectReviewList(start, amount, restrNo);
 		
-		System.out.println(reviewList);
+		for(Review review : reviewList) {
+			int reviewNo = review.getReviewNo();
+			List reviewTagList = restrService.selectReviewTagList(reviewNo);
+			
+			List reviewImgList = restrService.selectReviewImgList(reviewNo);
+			
+			review.setReviewTag(reviewTagList);
+			review.setReviewImg(reviewImgList);
+		}
+		
 		return reviewList;
 	}
 	
