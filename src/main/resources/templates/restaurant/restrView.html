@@ -885,9 +885,19 @@
             $("#review-more-btn").click();
             
             //수진 : 신고 모달 함수
+            //0.sw2 설정
+            var reportSwal = Swal.mixin({
+            				customClass: {
+            					confirmButton: "btn btn-point-swal btn-lg",
+            					cancelButton: "btn btn-mono-swal btn-lg",
+            					title: "point",
+            				},
+            				confirmButtonText: "확인",
+            				buttonsStyling: false
+            			});
             //1. 모달에 정보 전달하기
             function insertReport(review){
-            	console.log(review);
+            	//console.log(review);
             	$("input#reportReviewNo").val(review.reviewNo);
             	$("input#respondentNo").val(review.memberNo);
             	$("input#respondentNo").prev().text(review.memberName);
@@ -901,12 +911,25 @@
             	const reportBoardType = $("input#reportBoardType").val();
             	const reportReviewNo = $("input#reportReviewNo").val();
             	const respondentNo = $("input#respondentNo").val();
-            	const reportType = $("input[name=reportType]").val();
+            	const reportType = $("input[name=reportType]:checked").val();
+            	//console.log(reportType);
             	const reportContent = $("textarea#reportContent").val();
             	if(reportType == ""){
-            		alert("신고 사유를 정확히 체크해주세요.");
+            		reportSwal.fire({
+            			title: "신고 불가",
+            			text: "필수 입력 정보가 누락되었습니다. 신고 사유를 정확히 체크해주세요.",
+            			icon:"info",
+            			color : "var(--mainFont)"
+            		});
+            		//alert("신고 사유를 정확히 체크해주세요.");
             	}else if(reportContent==""){
-            		alert("자세한 신고 이유를 작성해주세요.")
+            		reportSwal.fire({
+            			title: "신고 불가",
+            			text: "필수 입력 정보가 누락되었습니다. 자세한 신고 이유를 작성해주세요.",
+            			icon:"info",
+            			color : "var(--mainFont)"
+            		});
+            		//alert("자세한 신고 이유를 작성해주세요.")
             	}else{
             		$.ajax({
             			url : "/report/insertReviewReport",
@@ -919,24 +942,22 @@
             				reportContent : reportContent
             			},
             			success : function(data){
-            				var swal = Swal.mixin({
-            				    customClass: {
-            				        confirmButton: "btn btn-point-swal btn-lg",
-            				        cancelButton: "btn btn-mono-swal btn-lg",
-            				        title: "point",
-            				    },
-            				    confirmButtonText: "확인",
-            				    buttonsStyling: false
-            				});
             				if(data>0){
-            					swal.fire({
+            					reportSwal.fire({
             						title : "신고 완료",
             						text : "성공적으로 신고가 접수되었습니다.",
             						icon : "success",
             						color : "var(--mainFont)"
             					});
+            				}else if(data == -1){
+            					reportSwal.fire({
+            						title : "신고  불가",
+            						text : "자기 자신을 신고할 수 없습니다.",
+            						icon : "error",
+            						color : "var(--mainFont)"
+            					});
             				}else{
-            					swal.fire({
+            					reportSwal.fire({
             						title : "신고  불가",
             						text : "해당 게시글을 신고할 수 없습니다.",
             						icon : "error",
@@ -945,7 +966,7 @@
             				}
             			},
             			error : function(){
-            				swal.fire({
+            				reportSwal.fire({
             					title : "신고 실패",
             					text : "시스템 오류가 발생했습니다. 잠시후 다시 시도해주세요",
             					icon : "error",
