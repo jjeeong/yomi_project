@@ -139,4 +139,51 @@ public class RestrDao {
 		return tagList;
 	}
 
+	public int deleteMenu(int restrMenuNo) {
+		String query = "delete from restr_menu where restr_menu_no =?";
+		Object[] params = {restrMenuNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int deleteTag(int restrTagNo) {
+		String query = "delete from restr_tag where restr_tag_no = ?";
+		Object[] params = {restrTagNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int updateRestr(Restaurant r) {
+		String query = "update restaurant set restr_name=?, restr_addr1=?, restr_addr2=?, restr_mapx=?, restr_mapy=?, restr_tel=?, restr_content=? where restr_no=?";
+		Object[] params= {r.getRestrName(), r.getRestrAddr1(), r.getRestrAddr2(), r.getRestrMapx(), r.getRestrMapy(), r.getRestrTel(), r.getRestrContent(), r.getRestrNo()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int updateRestrWithOne(Restaurant r, int updateImgCount) {
+		int result=0;
+		String query="";
+		Object[] params= {r.getRestrName(), r.getRestrAddr1(), r.getRestrAddr2(), r.getRestrMapx(), r.getRestrMapy(), r.getRestrTel(), r.getRestrContent(), null,r.getRestrNo()};
+		switch(updateImgCount) {
+		case 1:
+			query="update restaurant set restr_name=?, restr_addr1=?, restr_addr2=?, restr_mapx=?, restr_mapy=?, restr_tel=?, restr_content=?, restr_img1=? where restr_no=?";
+			params[7] = r.getRestrImg1(); 
+			break;
+		case 2:
+			query="update restaurant set restr_name=?, restr_addr1=?, restr_addr2=?, restr_mapx=?, restr_mapy=?, restr_tel=?, restr_content=?, restr_img2=? where restr_no=?";
+			params[7] = r.getRestrImg2(); 
+			break;
+		}
+		result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int updateRestrWithAll(Restaurant r) {
+		String query = "update restaurant set restr_name=?, restr_addr1=?, restr_addr2=?, restr_mapx=?, restr_mapy=?, restr_tel=?, restr_content=?, restr_img1=?, restr_img2=? where restr_no=?";
+		Object[] params= {r.getRestrName(), r.getRestrAddr1(), r.getRestrAddr2(), r.getRestrMapx(), r.getRestrMapy(), r.getRestrTel(), r.getRestrContent(), r.getRestrImg1(), r.getRestrImg2(), r.getRestrNo()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+
 }

@@ -1,5 +1,6 @@
 package kr.co.iei.restr.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,7 +167,7 @@ public class RestrController {
 		return "restaurant/restrWriteFrm";
 	}// restFrm()
 
-	@PostMapping(value = "/restrWrite")
+	@PostMapping(value = "/restrWrite")//실험 결과 : 여러개 쓸거면 그냥 일일이 받아서 합치자.. 뭔가 더 복잡해진다..
 	public String write(Restaurant r, String[] menuName, int[] menuPrice, String[] tagName, MultipartFile imageFile1,
 			MultipartFile imageFile2, Model model) {
 		List<RestrMenu> menuList = new ArrayList<RestrMenu>();
@@ -205,7 +206,7 @@ public class RestrController {
 			model.addAttribute("msg", "존재하지 않는 게시물 입니다.");
 			model.addAttribute("icon", "error");
 			model.addAttribute("loc", "/restaurant/restrList");
-			return "/common/msg2";
+			return "common/msg2";
 		}else {
 			model.addAttribute("r", r);
 			return "restaurant/restrUpdateFrm";			
@@ -239,9 +240,34 @@ public class RestrController {
 			menuList.add(rm);
 		}
 		int result = restrService.updateRestr(r, menuList, tagName, delMenuNo, delTagNo, updateImgCount);
-		//service, dao까지 만들어서 실행해보고 만약 메뉴([]), 태그([]), 삭제할 파일 이름([])배열이 새로 추가된게 없을 시 input이 없어 오류가 날경우, 업데이트 html에 미리 하나씩 [0]넣어두고 다시 작업해보기
+		//service, dao까지 만들어서 실행해보고 만약 메뉴([]), 태그([]), 삭제할 파일 이름([])배열이 새로 추가된게 없을 시 input이 없어 오류가 날경우
+		//=> 질문 결과, 배열의 경우 안들어오면 null로 들어오므로 상관 ㄴㄴ 하다고 함 
+		//(단, int 변수 하나만 받아온다고 했을때, 안들어오면 null이 들어오고, null을 int로 형변환 할 수 없으므로 에러가 남)
 		//만약 잘 되었다면 delImgFile 리스트 안의 파일들 삭제하기, 잘되지 않았으면 방금 업로드한 filepath3, 4 삭제하기
-		return "restaurant/restrView?restrNo="+r.getRestrNo();
+		if(result>0) {
+			for(String delfilepath : delImgFile) {
+				File delFile = new File(savepath+delfilepath);
+				delFile.delete();
+			}
+			model.addAttribute("title", "수정 성공");
+			model.addAttribute("msg", "수정에 성공하셨습니다.");
+			model.addAttribute("icon", "success");
+		}else {
+			if(r.getRestrImg1() !=null) {
+				File delFile = new File(savepath+r.getRestrImg1());
+				delFile.delete();
+			}
+			if(r.getRestrImg2() !=null) {
+				File delFile = new File(savepath+r.getRestrImg2());
+				delFile.delete();
+			}
+			model.addAttribute("title", "수정 실패");
+			model.addAttribute("msg", "시스템 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+			model.addAttribute("icon", "error");
+		}
+		model.addAttribute("loc", "/restaurant/restrView?restrNo="+r.getRestrNo());
+		//정원이와 협의 후에 조회수 안올리는거 생각하기
+		return "common/msg2";
 	}
 
 }

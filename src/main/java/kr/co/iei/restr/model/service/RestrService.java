@@ -142,13 +142,40 @@ public class RestrService {
 		}
 		return null;
 	}
-
+	@Transactional
 	public int updateRestr(Restaurant r, List<RestrMenu> menuList, String[] tagName, int[] delMenuNo, int[] delTagNo,
 			int updateImgCount) {
 		//1. restaurant 테이블을 업데이트 한다
+		int result=0;
+		switch(updateImgCount) {
+		case 0:
+			result = restrDao.updateRestr(r);
+			break;
+		case 1: case 2:
+			result = restrDao.updateRestrWithOne(r, updateImgCount);
+			break;
+		case 3:
+			result = restrDao.updateRestrWithAll(r);
+			break;
+		}
 		//2. menu, tag 삭제할 것들을 삭제한다
+		for(int i=0; i<delMenuNo.length; i++) {
+			result+=restrDao.deleteMenu(delMenuNo[i]);
+		}
+		for(int i=0; i<delTagNo.length; i++) {
+			result+=restrDao.deleteTag(delTagNo[i]);
+		}
 		//3. menu, tag 추가할것들을 추가한다
+		for(RestrMenu menu : menuList) {
+			result += restrDao.insertRestrMenu(menu, r.getRestrNo());
+		}
+		for(int i=0; i<tagName.length;i++) {
+			result += restrDao.insertRestrTag(tagName[i], r.getRestrNo());
+		}
 		//4. int result가 괜찮은지 확인하는 if문을 작성, 맞으면 그 값을, 아니면 0을 반환한다.
+		if(result == 1 + menuList.size()+tagName.length+delMenuNo.length+delTagNo.length) {
+			return result;
+		}
 		return 0;
 	}
 
