@@ -34,11 +34,11 @@ public class AdminController {
 		model.addAttribute("m", m);
 		return "admin/adminMypage";
 	}
-	@GetMapping(value="/admin_page")
+	@GetMapping(value="/adminPage")
 	public String admin_page(Model model) {
 		List list = memberService.selectAllMember();
 		model.addAttribute("list", list);
-		return "admin/admin_page";
+		return "admin/adminPage";
 		 
 	}
 	

@@ -8,15 +8,6 @@
 <link rel="stylesheet" href="/css/font.css">
 <link rel="stylesheet" href="/css/main.css">
 
-<!-- <link rel="stylesheet" href="/static/css/main.css"> -->
-<!-- <link rel="stylesheet" href="/static/css/font.css"> -->
-
-<link rel="stylesheet" href="/css/font.css">
-<link rel="stylesheet" href="/css/main.css">
-<link
-    href="https://fonts.googleapis.com/css?family=Material+Icons%7CMaterial+Icons+Outlined%7CMaterial+Icons+Two+Tone%7CMaterial+Icons+Round%7CMaterial+Icons+Sharp"
-    rel="stylesheet">
-
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
 <!-- sweetalert -->
@@ -29,6 +20,8 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css
     href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
     rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
 
 <header class="header">
 
@@ -48,6 +41,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css
                 </form>
             </div>
             <div class="text-end">
+            	<a href="/restaurant/writeFrm" th:if="${session.member!=null && session.member.memberGrade == 1}">맛집 등록</a>
                 <!-- 회원가입, 멤버 생기면 구현 -->
                 <!-- 헤더가 옆으로 길어진 문제 고쳤습니다 주석 처리 하시면서 div태그 닫는걸 하나 빼신거 같아요.. -->
                 <!-- 여기 고치실때 태그 닫힌거 여부 확인하면서 해주시고 코드 들여쓰기 좀 해주세요... 고치기 힘들어요..-->
@@ -94,7 +88,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css
         <nav>
             <ul class="navi">
                 <li><a href="/restaurant/restrList">맛집 리스트</a></li>
-                <li><a href="/board/list">맛집 게시판</a></li>
+                <li><a href="/board/list?reqPage=1">맛집 게시판</a></li>
                 <li><a href="#">리뷰 리스트</a></li>
                 <li class="nav-bar"><a href="#">고객센터</a>
                     <ul class="nav-sub">

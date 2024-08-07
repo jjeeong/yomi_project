@@ -1,5 +1,6 @@
 package kr.co.iei.restr.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import kr.co.iei.restr.model.dto.Restaurant;
 
 import kr.co.iei.restr.model.dto.RestrMenu;
 import kr.co.iei.restr.model.dto.Review;
+import kr.co.iei.restr.model.dto.ReviewImg;
 
 @Service
 public class RestrService {
@@ -57,14 +59,14 @@ public class RestrService {
 		int result = 0;
 		if (isLike == 0) {
 			// 현재 좋아요를 누르지 않은 상태에서 클릭 -> 좋아요 -> insert
-			result = restrDao.insertNoticeRestrLike(restrNo, memberNo);
+			result = restrDao.insertRestrLike(restrNo, memberNo);
 		} else if (isLike == 1) {
 			// 현재 좋아요를 누른 상태에서 클릭 -> 좋아요 취소 -> delete
-			result = restrDao.deleteNoticeRestrLike(restrNo, memberNo);
+			result = restrDao.deleteRestrLike(restrNo, memberNo);
 		}
 		if (result > 0) {
 			// 좋아요,좋아요 취소 로직을 수행하고나면 현재 좋아요 갯수를 조회해서 리턴
-			int likeCount = restrDao.selectNoticeRestrLikeCount(restrNo);
+			int likeCount = restrDao.selectRestrLikeCount(restrNo);
 			return likeCount;
 		} else {
 			return -1;
@@ -87,8 +89,16 @@ public class RestrService {
 		return list;
 	}
 
-	public int writeReview(Review review) {
+	public int writeReview(Review review, List<ReviewImg> reviewImgList) {
 		int result = restrDao.writeReview(review);
+		if(result > 0) {
+			
+			
+			for(ReviewImg reviewImg : reviewImgList) {
+				reviewImg.setReviewNo(review.getReviewNo()); 
+				int imgResult = restrDao.insertReviewImg(reviewImg);
+			}
+		}
 		return result;
 	}
 
@@ -142,14 +152,97 @@ public class RestrService {
 		}
 		return null;
 	}
-
+	@Transactional
 	public int updateRestr(Restaurant r, List<RestrMenu> menuList, String[] tagName, int[] delMenuNo, int[] delTagNo,
 			int updateImgCount) {
 		//1. restaurant 테이블을 업데이트 한다
+		int result=0;
+		int delCount=0;
+		int insertCount=0;
+		switch(updateImgCount) {
+		case 0:
+			result = restrDao.updateRestr(r);
+			break;
+		case 1: case 2:
+			result = restrDao.updateRestrWithOne(r, updateImgCount);
+			break;
+		case 3:
+			result = restrDao.updateRestrWithAll(r);
+			break;
+		}
 		//2. menu, tag 삭제할 것들을 삭제한다
+		if(delMenuNo!=null) {
+			for(int i=0; i<delMenuNo.length; i++) {
+				result+=restrDao.deleteMenu(delMenuNo[i]);
+			}
+			delCount+=delMenuNo.length;
+		}
+		if(delTagNo!=null) {
+			for(int i=0; i<delTagNo.length; i++) {
+				result+=restrDao.deleteTag(delTagNo[i]);
+			}
+			delCount+=delTagNo.length;
+		}
 		//3. menu, tag 추가할것들을 추가한다
+		for(RestrMenu menu : menuList) {
+			result += restrDao.insertRestrMenu(menu, r.getRestrNo());
+		}
+		insertCount+=menuList.size();
+		if(tagName!=null) {
+			for(int i=0; i<tagName.length;i++) {
+				result += restrDao.insertRestrTag(tagName[i], r.getRestrNo());
+			}
+			insertCount+=tagName.length;
+		}
 		//4. int result가 괜찮은지 확인하는 if문을 작성, 맞으면 그 값을, 아니면 0을 반환한다.
+		if(result == 1 + delCount + insertCount) {
+			return result;
+		}
 		return 0;
+	}
+
+	public List<String> deleteRestr(int restrNo) {
+		List<String>delFilepath = new ArrayList<String>();
+		Restaurant r = selectOneRestr(restrNo);
+		if(r!=null) {
+			delFilepath.add(r.getRestrImg1());
+			delFilepath.add(r.getRestrImg2());
+			int result = restrDao.deleteRestr(restrNo);
+			if(result>0) {
+				return delFilepath;
+			}
+		}
+		return null;
+	}
+
+	public int selectOneReview(int restrNo) {
+		int reviewNo = restrDao.selectOneReview(restrNo);
+		return reviewNo;
+	}
+
+	@Transactional
+	public int insertKeyword(int reviewNo, String[] keywords) {
+		int result = 0;
+		for (String keyword : keywords) {
+	        System.out.println("keyword: " + keyword);
+	        result = restrDao.insertKeyword(reviewNo, keyword);
+	    }
+		return result;
+	}
+
+	public List selectReviewTagList(int reviewNo) {
+		List list = restrDao.selectReviewTagList(reviewNo);
+		return list;
+	}
+
+	public List selectReviewImgList(int reviewNo) {
+		List list = restrDao.selectReviewImgList(reviewNo);
+		return list;
+	}
+
+	public Double RestrStarAvg(int restrNo) {
+		Double starAvg = restrDao.RestrStarAvg(restrNo);
+		return starAvg;
 	}
 
 }

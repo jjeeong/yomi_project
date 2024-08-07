@@ -25,15 +25,23 @@ public class BoardDao {
 	@Autowired
 	private BoardCommentRowMapper boardCommentRowMapper;
 	
-	public List selectBoardList() {
-		String query="select * from board";
-		List list = jdbc.query(query, boardRowMapper);
+	public List selectBoardList(int start, int end) {
+		String query = 
+	"select * from(select rownum as rnum, n.* from (select * from board order by 1 desc)n)where rnum between ? and ?";
+		Object[] params = {start,end};
+		List list = jdbc.query(query, boardRowMapper,params);
 		return list;
+	}
+	
+	public int selectBoardToTalCount() {
+		String query= "select count(*) from board";
+		int totalCount = jdbc.queryForObject(query, Integer.class);
+		return totalCount;
 	}
 
 	public int insertBoard(Board b) {
-		String query = "insert into board values(board_seq.nextval,?,?,?,?,to_char(sysdate,'yyyy-mm-dd'),0,?)";
-		Object[] params = {b.getBoardTitle(),b.getBoardAddr(),b.getBoardContent(),b.getThumbNailImg(),b.getBoardWriter()};
+		String query = "insert into board values(board_seq.nextval,?,?,?,?,to_char(sysdate,'yyyy-mm-dd'),0,?,?)";
+		Object[] params = {b.getBoardTitle(),b.getBoardAddr(),b.getBoardContent(),b.getThumbNailImg(),b.getBoardWriter(),b.getBoardStoreName()};
 		int result = jdbc.update(query,params);
 		return result;
 	}
@@ -88,6 +96,10 @@ public class BoardDao {
 	    List<BoardComment> list = jdbc.query(query, boardCommentRowMapper , params);
 	    return list;
 	}
+
+	
+
+	
 	
 
 }
