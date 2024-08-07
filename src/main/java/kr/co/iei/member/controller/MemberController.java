@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import kr.co.iei.member.model.dto.Member;
@@ -28,6 +29,7 @@ public class MemberController {
 	public String login(Member m,HttpSession session) {
 		System.out.println(m.getMemberId());
 		System.out.println(m.getMemberPw());
+	public String login(Member m, HttpSession session) {
 		Member member = memberService.selectOneMember(m);
 		
 		session.setAttribute("member", member);
@@ -45,4 +47,33 @@ public class MemberController {
 		return "member/joinFrm";
 	}
 	
+
+	@PostMapping(value="/join")
+	public String join(Member m) {
+		int result = memberService.insertMember(m);
+		
+		
+		return "redirect:/";
+	}
+	@ResponseBody
+	@GetMapping(value="/ajaxCheckId")
+	public int selectOneMemberId(String memberId) {
+		Member member = memberService.selectOneMemberId(memberId);
+		if(member == null) {
+			return 0;
+		}else {
+			return 1;
+		}
+	}
+	@ResponseBody
+	@GetMapping(value="/ajaxCheckEmail")
+	public int selectOneMemberEmail(String memberEmail) {
+		Member member = memberService.selectOneMemberEmail(memberEmail);
+		if(member == null) {
+			return 0;
+		}else {
+			return 1;
+		}
+	}
+
 }

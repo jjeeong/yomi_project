@@ -34,6 +34,18 @@ public class MemberService {
 		return list;
 	}
 		
+
+	public Member selectOneMemberId(String memberId) {
+		Member member = memberDao.selectOneMemberId(memberId);
+		
+		return member;
+	}
+
+	public Member selectOneMemberEmail(String memberEmail) {
+		Member member = memberDao.selectOneMemberEmail(memberEmail);
+		return member;
+	}
+	
 }
 
 	
