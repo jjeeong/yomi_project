@@ -47,8 +47,7 @@ public class InqueryController {
 	}
 	
 	@GetMapping(value = "/editorFrm")
-	public String editorFrm(@SessionAttribute(required = false) Member member) {
-		
+	public String editorFrm(@SessionAttribute(required = false) Member member) {		
 		return "inquery/editorFrm";
 	}
 	
@@ -98,15 +97,15 @@ public class InqueryController {
 			memberNo = member.getMemberNo();
 		}
 		//로그인이 되어있지않으면 memberNo = 0 / 로그인이 되어있으면 memberNo = 로그인한 회원번호
-		Inquery inq = inqueryService.selectOneInquery(inqueryNo,check);
+		Inquery inq = inqueryService.selectOneInquery(inqueryNo,check,memberNo);
+		System.out.println("inq:"+inq);
 		if(inq== null) {
 			model.addAttribute("title","조회실패");
 			model.addAttribute("msg","해당 게시글이 존재하지 않습니다.");
 			model.addAttribute("icon","info");
-			model.addAttribute("loc","/notice/list?regPage=1");
+			model.addAttribute("loc","/inquery/list?regPage=1");
 			return "common/msg";
 		}else {
-			System.out.println(inq);
 			model.addAttribute("inq",inq);		
 			return "inquery/view";
 		}		
@@ -185,6 +184,8 @@ public class InqueryController {
 	@PostMapping(value = "/insertComment")
 	public String insertComment(InqueryComment ic, Model model) {
 		int result = inqueryService.insertComment(ic);
+		System.out.println(ic);
+		System.out.println(result);
 		if (result > 0) {
 			model.addAttribute("title", "댓글 작성 성공");
 			model.addAttribute("msg", "댓글이 작성 되었습니다");
