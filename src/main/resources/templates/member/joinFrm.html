@@ -8,256 +8,358 @@
 </head>
 <body>
 	<th:block th:include="common/header"></th:block>
-		<main>
-        <div class="main1">
-            <div class="container page1">
-                <div class="title">회원가입</div>
-                
-                    <div class="form-group1 no1">
-                        <input type="checkbox" id="ageCheck" class="essential1">
-                        <label for="ageCheck"><span>만 14세 이상입니다 (필수)</span>&numsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                            <a href="#">내용보기</a></label>
-                    </div>
-                    <div class="form-group1 no2">
-                        <input type="checkbox" id="termsCheck" class="essential2">
-                        <label for="termsCheck">이용약관 동의 (필수)</label>
-                    </div>
-                    <div class="form-group1 no3">
-                        <input type="checkbox" id="personalInfoCheck" name="check" class="essential3">
-                        <label for="personalInfoCheck"><span>개인 정보 수집 및 이용 동의 (필수)</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                            <a href="#">내용보기</a></label>
-                    </div>
-                    <table class="PIC-tbl">
-                        <tr>
-                            <th>개인정보 수집</th>
-                        </tr>
-                        <tr>
-                            <th>목적</th>
-                            <td>&emsp;&emsp;개인식별, 서비스 이용을 위한 연락처</td>
-                        </tr>
-                        <tr>
-                            <th>항목</th>
-                            <td>&emsp;&emsp;이름, 아이디, 비밀번호, 이메일</td>
-                        </tr>
-                        <tr>
-                            <th>보유기간</th>
-                            <td>&emsp;&emsp;회원 탈퇴 시 즉시 파기</td>
-                        </tr>
-                    </table>
-                    <div class="form-group1 no4">
-                        <input type="checkbox" id="optionalInfoCheck" name="check">
-                        <label for="optionalInfoCheck"><span>선택 정보 수집 및 이용 동의</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                            <a href="#">내용보기</a></label>
-                    </div>
-                    <table class="PIC-tbl">
-                        <tr>
-                            <th>개인정보 수집</th>
-                        </tr>
-                        <tr>
-                            <th>목적</th>
-                            <td>&emsp;&emsp;맞춤 정보 제공, 마케팅</td>
-                        </tr>
-                        <tr>
-                            <th>항목</th>
-                            <td>&emsp;&emsp;성별, 생년월일, 이메일</td>
-                        </tr>
-                        <tr>
-                            <th>보유기간</th>
-                            <td>&emsp;&emsp;회원 탈퇴 시 즉시 파기</td>
-                        </tr>
-                    </table>
-                    <div class="form-group1 no5">
-                        <input type="checkbox" id="emailMarketingCheck" name="check">
-                        <label for="emailMarketingCheck">이메일 마케팅 수신 동의</label>
-                    </div>
-                    <div class="form-group1 no6">
-                        <input type="checkbox" id="personalInfoperiodCheck" name="check">
-                        <label for="personalInfoperiodCheck">개인정보 유효기간 3년 지정 (미동의 시 1년)</label>
-                    </div>
-                    <div class="next-btn" >
-                        <button type="button" disabled>다음 단계 1/2</button>
-                    </div>
-            </div>
-            <div class="main2">
-                <div class="container page2">
-                    <span class="material-icons">arrow_back</span>
-                    <div class="title">회원가입</div>
-                    <form action="/member/join" method="post" id="signupForm" autocomplete="off">
-                        <div class="form-main">
-                            <div class="form-section">
-                                <div class="section-title">회원정보</div>
-                                <div class="form-group2">
-                                    <input type="text" name="memberId" placeholder="아이디">
-                                </div>
-                                <div class="form-group2">
-                                    <input type="password" name="memberPw"placeholder="비밀번호">
-                                </div>
-                                <div class="form-group2">
-                                    <input type="password" name="memberPwRe"placeholder="비밀번호 확인">
-                                </div>
-                                <div class="form-group2 email-group">
-
-                                    <input type="text" id="inputBox1" placeholder="이메일">
-                                    <span>@</span>
-                                    <input type="text"  id="inputBox2" disabled >
-                                    <input type="hidden" id="memberEmail" name="memberEmail" >
-                                    
-
-                                    <div class="selectBox">
-                                        <select class="select">
-                                            <option value="" selected >선택</option>
-                                            <option value="naver.com" id="naver.com">naver.com</option>
-                                            <option value="daum.com" id="daum.com">daum.com</option>
-                                            <option value="gmail.com" id="gmail.com">gmail.com</option>
-                                            <option value="hanmail.net" id="hanmail.com">hanmali.net</option>
-                                            <option value="nate.com" id="nate.com">nate.com</option>
-                                            <option value="diretly" id="textEmail">직접 입력하기</option>
-                                        </select>
-                                        <span class="icoArrow"><img src="/image/pngegg.png" alt=""></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-section">
-                                <div class="section-title">개인정보</div>
-                                <div class="form-group2">
-                                    <input type="text" name="memberName" placeholder="이름">
-                                </div>
-
-                                <div class="form-group2 info">
-                                    <input type="text" id="birth-year" placeholder="YYYY">
-                                    <input type="text" id="birth-month" placeholder="MM">
-                                    <input type="text" id="birth-day" placeholder="DD">
-                                    <input type="hidden" id="memberBirthDate" name="memberBirthDate" >
-                                </div>
-
-                                <div class="form-group2 phone-group">
-                                    <input type="text" name="memberPhone" placeholder="휴대폰 번호  -없이 입력">
-                                    <button class="input-btn"type="button">인증하기</button>
-                                </div>
-                                <div class="section-title">주소</div>
-                                <div class="form-group2">
-                                    <input type="text" name="memberAddr" placeholder="주소">
-                                    <button class="input-btn" type="button">검색</button>
-                                </div>
-                                <div class="form-group2">
-                                    <input type="text" name="memberAddr" placeholder="상세주소">
-                                </div>
-                                <div class="section-title">성별</div>
-                                <div class="form-group2 gender-group">
-                                    <input type="radio" id="male" name="memberGender" value="남자"><label for="male">남자</label>
-                                    <input type="radio" id="female" name="memberGender" value="여자"><label for="female">여자</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="submit-button">
-                        <button type="submit" >가입완료</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </section>
-        <script>
-            $(".next-btn>button").on("click",function(){
-                
-                const page1 = $(".page1");
-                const page2 = $(".page2");
-                page1.addClass("close");
-                page2.addClass("show");
-                if(page1.hasClass("show") == true){
-                    page1.removeClass("show");
-                    page1.addClass("close");
-                    page2.removeClass("close");
-                    page2.addClass("show");
-                }
-            });
-            $(".material-icons").on("click",function(){
-                const page2 = $(".page2");
-                page2.removeClass("show");
-                page2.addClass("close");
-                const page1 = $(".page1");
-                page1.removeClass("close");
-                page1.addClass("show");
-            })
-
-            $('.select').change(function() {
-                if ($('.select').val() == 'diretly') {
-                    $('#inputBox2').attr("disabled", false);
-                    $('#inputBox2').val("");
-                    $('#inputBox2').focus();
-                } else {
-                    $("#inputBox2").attr("disabled", true);
-                    $('#inputBox2').val($('.select').val());
-                    
-                }
-            });
-            
-            
-            $('#signupForm').on('submit', function(event) {
-                // Get values from the input fields
-                var year = $('#birth-year').val();
-                var month = $('#birth-month').val();
-                var day = $('#birth-day').val();
-                
-                // Initialize an empty formatted date string
-                var formattedDate = '';
-
-                // Check if all values are numeric and not empty
-                if ($.isNumeric(year) && $.isNumeric(month) && $.isNumeric(day)) {
-                    // Format the date as YYYYMMDD
-                    // Ensure that year, month, and day are properly padded
-                    formattedDate = year.padStart(4, '0') + month.padStart(2, '0') + day.padStart(2, '0');
-                    
-                    // Set the value of the memberBirthDate field
-                    $('#memberBirthDate').val(formattedDate);
-                } else {
-                    alert('생년월일을 확인해주세요');
-                    // Prevent form submission if the inputs are not valid
-                    event.preventDefault();
-                }
-                var email1 = $('#inputBox1').val();
-                var email2 = $('#inputBox2').val();
-
-                var finalEmail = '';
-                
-                finalEmail = email1 +'@'+ email2 ;
-
-                $('#memberEmail').val(finalEmail);
-            });
-            
-        	$(".essential1").on("click",function(){
-				if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
-					$(".next-btn>button").attr("disabled", false);					
-					
-					console.log('true')
-				}else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
-					$(".next-btn>button").attr("disabled", true);
+	<main>
+		<div class="main1">
+	        <div class="container page1">
+	            <div class="title">회원가입</div>
+	            
+	                <div class="form-group1 no1">
+	                    <input type="checkbox" id="ageCheck" class="essential1">
+	                    <label for="ageCheck"><span>만 14세 이상입니다 (필수)</span>&numsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+	                        <a href="#">내용보기</a></label>
+	                </div>
+	                <div class="form-group1 no2">
+	                    <input type="checkbox" id="termsCheck" class="essential2">
+	                    <label for="termsCheck">이용약관 동의 (필수)</label>
+	                </div>
+	                <div class="form-group1 no3">
+	                    <input type="checkbox" id="personalInfoCheck" name="check" class="essential3">
+	                    <label for="personalInfoCheck"><span>개인 정보 수집 및 이용 동의 (필수)</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+	                        <a href="#">내용보기</a></label>
+	                </div>
+	                <table class="PIC-tbl">
+	                    <tr>
+	                        <th>개인정보 수집</th>
+	                    </tr>
+	                    <tr>
+	                        <th>목적</th>
+	                        <td>&emsp;&emsp;개인식별, 서비스 이용을 위한 연락처</td>
+	                    </tr>
+	                    <tr>
+	                        <th>항목</th>
+	                        <td>&emsp;&emsp;이름, 아이디, 비밀번호, 이메일</td>
+	                    </tr>
+	                    <tr>
+	                        <th>보유기간</th>
+	                        <td>&emsp;&emsp;회원 탈퇴 시 즉시 파기</td>
+	                    </tr>
+	                </table>
+	                <div class="form-group1 no4">
+	                    <input type="checkbox" id="optionalInfoCheck" name="check">
+	                    <label for="optionalInfoCheck"><span>선택 정보 수집 및 이용 동의</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+	                        <a href="#">내용보기</a></label>
+	                </div>
+	                <table class="PIC-tbl">
+	                    <tr>
+	                        <th>개인정보 수집</th>
+	                    </tr>
+	                    <tr>
+	                        <th>목적</th>
+	                        <td>&emsp;&emsp;맞춤 정보 제공, 마케팅</td>
+	                    </tr>
+	                    <tr>
+	                        <th>항목</th>
+	                        <td>&emsp;&emsp;성별, 생년월일, 이메일</td>
+	                    </tr>
+	                    <tr>
+	                        <th>보유기간</th>
+	                        <td>&emsp;&emsp;회원 탈퇴 시 즉시 파기</td>
+	                    </tr>
+	                </table>
+	                <div class="form-group1 no5">
+	                    <input type="checkbox" id="emailMarketingCheck" name="check">
+	                    <label for="emailMarketingCheck">이메일 마케팅 수신 동의</label>
+	                </div>
+	                <div class="form-group1 no6">
+	                    <input type="checkbox" id="personalInfoperiodCheck" name="check">
+	                    <label for="personalInfoperiodCheck">개인정보 유효기간 3년 지정 (미동의 시 1년)</label>
+	                </div>
+	                <div class="next-btn" >
+	                    <button type="button" disabled>다음 단계 1/2</button>
+	                </div>
+	        </div>
+	        <div class="main2">
+	            <div class="container page2">
+	                <span class="material-icons">arrow_back</span>
+	                <div class="title">회원가입</div>
+	                <form action="/member/join" method="post" id="signupForm" autocomplete="off">
+	                    <div class="form-main">
+	                        <div class="form-section">
+	                            <div class="section-title">회원정보</div>
+	                            <div class="form-group2">
+	                                <input type="text" name="memberId" placeholder="아이디">
+	                            </div>
+	                            <p class="input-msg id-check-msg"></p>
+	                            <div class="form-group2">
+	                                <input type="password" name="memberPw"placeholder="비밀번호">
+	                            </div>
+	                            <p class="input-msg pw-check-msg"></p>
+	                            <div class="form-group2">
+	                                <input type="password" name="memberPwRe"placeholder="비밀번호 확인">
+	                            </div>
+	                            <p class="input-msg pwRe-check-msg "></p>
+	                            <div class="form-group2 email-group">
+	                                <input type="text" id="inputBox1" placeholder="이메일">
+	                                <span>@</span>
+	                                <input type="text"  id="inputBox2" disabled >
+	                                <input type="hidden" id="memberEmail" name="memberEmail" >
+	                                <div class="selectBox">
+	                                    <select class="select">
+	                                        <option value="" selected >선택</option>
+	                                        <option value="naver.com" id="naver.com">naver.com</option>
+	                                        <option value="daum.com" id="daum.com">daum.com</option>
+	                                        <option value="gmail.com" id="gmail.com">gmail.com</option>
+	                                        <option value="hanmail.net" id="hanmail.com">hanmali.net</option>
+	                                        <option value="nate.com" id="nate.com">nate.com</option>
+	                                        <option value="diretly" id="textEmail">직접 입력하기</option>
+	                                    </select>
+	                                    <span class="icoArrow"><img src="/image/pngegg.png" alt=""></span>
+	                                </div>
+	                            </div>
+	                            <p class="input-msg email-check-msg"></p>
+	                        </div>
+	                        <div class="form-section">
+	                            <div class="section-title">개인정보</div>
+	                            <div class="form-group2">
+	                                <input type="text" name="memberName" placeholder="이름">
+	                            </div>
+	                            <p class="input-msg "></p>
+	                            <div class="form-group2 info">
+	                                <input type="text" id="birth-year" placeholder="YYYY" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="4" >
+	                                <input type="text" id="birth-month" placeholder="MM" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="2">
+	                                <input type="text" id="birth-day" placeholder="DD" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="2">
+	                                <input type="hidden" id="memberBirthDate" name="memberBirthDate" >
+	                            </div>
+	                            <p class="input-msg birth-check-msg"></p>
+	                            <div class="form-group2 phone-group">
+	                                <input type="text" name="memberPhone" placeholder="휴대폰 번호  -없이 입력" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="11">
+	                                <button class="input-btn"type="button">인증하기</button>
+	                            </div>
+	                            <p class="input-msg "></p>
+	                            <div class="section-title">주소</div>
+	                            <div class="form-group2">
+	                                <input type="text" name="memberAddr" placeholder="주소">
+	                                <button class="input-btn" type="button">검색</button>
+	                            </div>
+	                            <div class="form-group2">
+	                                <input type="text" name="memberAddr" placeholder="상세주소">
+	                            </div>
+	                            <p class="input-msg "></p>
+	                            <div class="section-title">성별</div>
+	                            <div class="form-group2 gender-group">
+	                                <input type="radio" id="male" name="memberGender" value="남자"><label for="male">남자</label>
+	                                <input type="radio" id="female" name="memberGender" value="여자"><label for="female">여자</label>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="submit-button">
+	                    <button type="submit" >가입완료</button>
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+		</section>
+	    <script>
+	        $(".next-btn>button").on("click",function(){
+	            
+	            const page1 = $(".page1");
+	            const page2 = $(".page2");
+	            page1.addClass("close");
+	            page2.addClass("show");
+	            if(page1.hasClass("show") == true){
+	                page1.removeClass("show");
+	                page1.addClass("close");
+	                page2.removeClass("close");
+	                page2.addClass("show");
+	            }
+	        });
+	        $(".material-icons").on("click",function(){
+	            const page2 = $(".page2");
+	            page2.removeClass("show");
+	            page2.addClass("close");
+	            const page1 = $(".page1");
+	            page1.removeClass("close");
+	            page1.addClass("show");
+	        })
+	
+	        $('.select').change(function() {
+	            if ($('.select').val() == 'diretly') {
+	                $('#inputBox2').attr("disabled", false);
+	                $('#inputBox2').val("");
+	                $('#inputBox2').focus();
+	            } else {
+	                $("#inputBox2").attr("disabled", true);
+	                $('#inputBox2').val($('.select').val());
+	                
+	            }
+	        });
+	        
+	        
+	        $('#signupForm').on('submit', function(event) {
+	            // Get values from the input fields
+	            var year = $('#birth-year').val();
+	            var month = $('#birth-month').val();
+	            var day = $('#birth-day').val();
+	            
+	            // Initialize an empty formatted date string
+	            var formattedDate = '';
+	
+	            // Check if all values are numeric and not empty
+	            if ($.isNumeric(year) && $.isNumeric(month) && $.isNumeric(day)) {
+	                // Format the date as YYYYMMDD
+	                // Ensure that year, month, and day are properly padded
+	                formattedDate = year.padStart(4, '0') + month.padStart(2, '0') + day.padStart(2, '0');
+	                
+	                // Set the value of the memberBirthDate field
+	                $('#memberBirthDate').val(formattedDate);
+	            } else {
+	                alert('생년월일을 확인해주세요');
+	                // Prevent form submission if the inputs are not valid
+	                event.preventDefault();
+	            }
+	            var email1 = $('#inputBox1').val();
+	            var email2 = $('#inputBox2').val();
+	
+	            var finalEmail = '';
+	            
+	            finalEmail = email1 +'@'+ email2 ;
+	
+	            $('#memberEmail').val(finalEmail);
+	        });
+	        
+	      $(".essential1").on("click",function(){
+	    if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
+	      $(".next-btn>button").attr("disabled", false);					
+	      
+	      console.log('true')
+	    }else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
+	      $(".next-btn>button").attr("disabled", true);
+	    }
+	  });
+	      $(".essential2").on("click",function(){
+	    if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
+	      $(".next-btn>button").attr("disabled", false);					
+	      
+	      console.log('true')
+	    }else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
+	      $(".next-btn>button").attr("disabled", true);
+	    }
+	  });
+	  $(".essential3").on("click",function(){
+	    if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
+	      $(".next-btn>button").attr("disabled", false);					
+	      
+	      console.log('true')
+	    }else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
+	      $(".next-btn>button").attr("disabled", true);
+	    }
+	  });
+	      
+	  $("input[name=memberId]").on("keyup",function(){
+				$(".id-check-msg").removeClass("valid").removeClass("invalid");
+				const memberId = $(this).val();
+				//정규표현식
+				const idReg = /^[a-zA-Z0-9]{4,20}$/;
+				if(idReg.test(memberId)){
+					//정규표현식에 만족 -> ajax로 아이디 중복체크
+					$.ajax({
+						url:"/member/ajaxCheckId",
+						type:"get",
+						data:{memberId:memberId},
+						success:function(data){
+							console.log(data)
+							if(data == 0){
+								$(".id-check-msg").text("사용 가능한 아이디 입니다.");
+								$(".id-check-msg").addClass("valid");
+							}else{
+								$(".id-check-msg").text("이미 사용중인 아이디 입니다.");
+								$(".id-check-msg").addClass("invalid");
+							}
+						},
+						error:function(){
+							console.log("에러 발생");
+						}
+					});
+				}else{
+					//정규표현식에 만족 못한 경우
+					$(".id-check-msg").text("아이디는 영어+숫자로 4~20글자 입니다.");
+					$(".id-check-msg").addClass("invalid");
 				}
 			});
-        	$(".essential2").on("click",function(){
-				if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
-					$(".next-btn>button").attr("disabled", false);					
-					
-					console.log('true')
-				}else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
-					$(".next-btn>button").attr("disabled", true);
-				}
-			});
-			$(".essential3").on("click",function(){
-				if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
-					$(".next-btn>button").attr("disabled", false);					
-					
-					console.log('true')
-				}else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
-					$(".next-btn>button").attr("disabled", true);
-				}
-			});
-            
-            
-            
-            
-            
-        </script>
-    </main>
+	  $("input[name=memberPwRe]").on("change",function(){
+		  const pwValue = $("input[name=memberPw]").val();
+		  if(pwValue==""){
+			  $(".pw-check-msg").text("비밀번호를 입력해주세요.");
+				$(".pw-check-msg").addClass("invalid");
+		  }else{
+			  $(".pw-check-msg").removeClass("invalid");
+			  $(".pw-check-msg").text("");
+		  }
+	  });
+	  
+	  
+	  	$("input[name=memberPwRe]").on("change",function(){
+			$(".pwRe-check-msg").removeClass("valid").removeClass("invalid");
+			const pwValue = $("input[name=memberPw]").val();
+			const pwReValue = $("input[name=memberPwRe]").val();
+			if(pwReValue==""){
+				$(".pwRe-check-msg").removeClass("valid").removeClass("invalid");
+				$(".pwRe-check-msg").text("");
+			}else if(pwValue === pwReValue){
+				$(".pwRe-check-msg").text("비밀번호가 일치합니다.");
+				$(".pwRe-check-msg").addClass("valid");
+			}else{
+				$(".pwRe-check-msg").text("비밀번호가 일치하지 않습니다.");
+				$(".pwRe-check-msg").addClass("invalid");
+			}
+		});	  
+	  
+		$("#inputBox1").on("change",function(){
+			$(".email-check-msg").removeClass("valid").removeClass("invalid");
+			const memberEmail = $(this).val();
+			//정규표현식
+			const emailReg = /^[a-zA-Z0-9._%+-]{4,20}$/ ;
+			if(emailReg.test(memberEmail)){
+				//정규표현식에 만족 -> ajax로 아이디 중복체크
+				$.ajax({
+					url:"/member/ajaxCheckEmail",
+					type:"get",
+					data:{memberEmail:memberEmail},
+					success:function(data){
+						console.log(data)
+						if(data == 0){
+							$(".email-check-msg").text("사용 가능한 이메일 입니다.");
+							$(".email-check-msg").addClass("valid");
+						}else{
+							$(".email-check-msg").text("이미 사용중인 이메일 입니다.");
+							$(".email-check-msg").addClass("invalid");
+						}
+					},
+					error:function(){
+						console.log("에러 발생");
+					}
+				});
+			}else{
+				//정규표현식에 만족 못한 경우
+				$(".email-check-msg").text("이메일을 확인해주세요.");
+				$(".email-check-msg").addClass("invalid");
+			}
+		});
+		
+		$("#birth-year,#birth-month,#birth-day").on("change",function(){
+			console.log('asdasd')
+			const birth = $("#birth-year");
+			if(1900<birth&&birth<2025){
+				$(".birth-check-msg").text("연도는 1900년~2024년사이를 입력해주세요.");
+				$(".birth-check-msg").addClass("invalid");
+			}
+		});
+		
+		
+	        
+        
+    </script>
+</main>
 	<th:block th:include="common/footer"></th:block>
 </body>
 </html>

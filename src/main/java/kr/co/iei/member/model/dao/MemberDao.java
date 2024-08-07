@@ -33,5 +33,30 @@ public class MemberDao {
 		return result;
 	}
 
+	public Member selectOneMemberId(String memberId) {
+		String query = "select * from member_tbl where member_id = ?";
+		Object[] params = {memberId};
+		List list = jdbc.query(query, memberRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return (Member)list.get(0);
+		}
+	}
+
+	public Member selectOneMemberEmail(String memberEmail) {
+		String query = "select * from member_tbl where member_email = ?";
+		Object[] params = {memberEmail};
+		List list = jdbc.query(query, memberRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return (Member)list.get(0);
+		}
+		
+		
+		
+	}
+
 	
 }
