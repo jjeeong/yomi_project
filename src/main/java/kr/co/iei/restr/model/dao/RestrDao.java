@@ -78,7 +78,7 @@ public class RestrDao {
 	}
 
 	public List selectRestrMenu(int restrNo) {
-		String query = "select * from restr_menu where restr_no = ?";
+		String query = "select * from restr_menu where restr_no = ? order by 1";
 		Object[] params = {restrNo};
 		List list = jdbc.query(query, restrMenuRowMapper, params);
 		return list;
@@ -133,7 +133,7 @@ public class RestrDao {
 	}
 
 	public List selectRestrTag(int restrNo) {
-		String query = "select * from restr_tag where restr_no = ?";
+		String query = "select * from restr_tag where restr_no = ? order by 1";
 		Object[] params = {restrNo};
 		List tagList = jdbc.query(query, restrTagRowMapper, params);
 		return tagList;
@@ -181,6 +181,13 @@ public class RestrDao {
 	public int updateRestrWithAll(Restaurant r) {
 		String query = "update restaurant set restr_name=?, restr_addr1=?, restr_addr2=?, restr_mapx=?, restr_mapy=?, restr_tel=?, restr_content=?, restr_img1=?, restr_img2=? where restr_no=?";
 		Object[] params= {r.getRestrName(), r.getRestrAddr1(), r.getRestrAddr2(), r.getRestrMapx(), r.getRestrMapy(), r.getRestrTel(), r.getRestrContent(), r.getRestrImg1(), r.getRestrImg2(), r.getRestrNo()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int deleteRestr(int restrNo) {
+		String query = "delete from restaurant where restr_no = ?";
+		Object[] params = {restrNo};
 		int result = jdbc.update(query, params);
 		return result;
 	}

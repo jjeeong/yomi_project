@@ -1,5 +1,6 @@
 package kr.co.iei.restr.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -189,6 +190,20 @@ public class RestrService {
 			return result;
 		}
 		return 0;
+	}
+
+	public List<String> deleteRestr(int restrNo) {
+		List<String>delFilepath = new ArrayList<String>();
+		Restaurant r = selectOneRestr(restrNo);
+		if(r!=null) {
+			delFilepath.add(r.getRestrImg1());
+			delFilepath.add(r.getRestrImg2());
+			int result = restrDao.deleteRestr(restrNo);
+			if(result>0) {
+				return delFilepath;
+			}
+		}
+		return null;
 	}
 
 }

@@ -213,7 +213,7 @@ public class RestrController {
 		}
 	}// restFrm()
 	
-	@PostMapping(value="/restrUpdate")
+	@PostMapping(value="/restrUpdate")//시간 남으면...? 메뉴 수정할때 수정한 메뉴는 순서 유지되게끔 해보기 ( 현재는 기존거는 수정버튼 누르면 아예 지우는 걸로 되어있음 )
 	public String restrUpdate(Restaurant r, String[] menuName, int[] menuPrice, String[] tagName, MultipartFile imageFile1,
 			MultipartFile imageFile2, int[] delTagNo, String filepath1, String filepath2, int[] delMenuNo, Model model) {
 		String savepath = root+"/yomi/";
@@ -268,7 +268,28 @@ public class RestrController {
 			model.addAttribute("icon", "error");
 		}
 		model.addAttribute("loc", "/restaurant/restrView?restrNo="+r.getRestrNo());
-		//정원이와 협의 후에 조회수 안올리는거 생각하기
+		return "common/msg2";
+	}
+	@GetMapping(value="/deleteRestr")
+	public String deleteRestr(int restrNo, Model model) {
+		List<String> delFilepath = new ArrayList<String>();
+		
+		delFilepath = restrService.deleteRestr(restrNo);
+		if(delFilepath==null) {
+			model.addAttribute("title", "맛집 삭제 실패!");
+			model.addAttribute("msg", "존재하지 않는 게시물입니다.");
+			model.addAttribute("icon", "error");
+		}else {
+			String savepath = root+"/yomi/";
+			for(String filepath : delFilepath) {
+				File delFile = new File(savepath+filepath);
+				delFile.delete();
+			}
+			model.addAttribute("title", "맛집 삭제 성공!");
+			model.addAttribute("msg", "성공적으로 삭제가 완료되었습니다.");
+			model.addAttribute("icon", "success");
+		}
+		model.addAttribute("loc", "/restaurant/restrList");
 		return "common/msg2";
 	}
 
