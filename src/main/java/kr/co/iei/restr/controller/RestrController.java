@@ -125,17 +125,20 @@ public class RestrController {
 	
 	// 리뷰 작성
 	@PostMapping(value = "/writeReview")
-	public String writeReview(@SessionAttribute(required = false) Member member, Review review, Restaurant restaurant, Double reviewStar) {
-
-		int memberNo = member.getMemberNo();
-		
-		System.out.println(memberNo);
-		
+	public String writeReview(@SessionAttribute(required = false) Member member, Review review, Restaurant restaurant, Double reviewStar,  @RequestParam(value = "keywords", required = false) String[] keywords) {
+		int memberNo = member.getMemberNo();	
 		review.setMemberNo(memberNo);
 		review.setRestrNo(restaurant.getRestrNo());
 		review.setReviewStar(reviewStar);
 		
 		int result = restrService.writeReview(review);
+		int restrNo = review.getRestrNo();
+		int reviewNo = restrService.selectOneReview(restrNo);
+		
+		if (result > 0 && keywords != null) {			
+			//리뷰 키워드 삽입
+			int tagResult = restrService.insertKeyword(reviewNo, keywords);
+		}
 		return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();
 	}
 

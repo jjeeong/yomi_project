@@ -152,4 +152,18 @@ public class RestrService {
 		return 0;
 	}
 
+	public int selectOneReview(int restrNo) {
+		int reviewNo = restrDao.selectOneReview(restrNo);
+		return reviewNo;
+	}
+
+	public int insertKeyword(int reviewNo, String[] keywords) {
+		int result = 0;
+		for (String keyword : keywords) {
+	        System.out.println("keyword: " + keyword);
+	        result = restrDao.insertKeyword(reviewNo, keyword);
+	    }
+		return result;
+	}
+
 }

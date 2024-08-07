@@ -139,4 +139,18 @@ public class RestrDao {
 		return tagList;
 	}
 
+	public int selectOneReview(int restrNo) {
+	    String query = "select review_no from (select rownum as rnum, review.* from (select * from review where restr_no = ? order by review_no desc) review) where rnum = 1";
+	    Object[] params = {restrNo};
+	    Integer reviewNo = jdbc.queryForObject(query, Integer.class, params);
+	    return reviewNo;
+	}
+
+	public int insertKeyword(int reviewNo, String keyword) {
+		String query = "insert into review values(review_tag_seq.nextval, ?, ?)";
+		Object[] params = {keyword, reviewNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
 }
