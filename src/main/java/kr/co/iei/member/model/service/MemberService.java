@@ -29,10 +29,6 @@ public class MemberService {
 		return member;
 	}
 
-	public List selectAllMember() {
-		List list = memberDao.selectAllMember();
-		return list;
-	}
 		
 
 	public Member selectOneMemberId(String memberId) {

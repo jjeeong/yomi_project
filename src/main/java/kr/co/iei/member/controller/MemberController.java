@@ -27,9 +27,6 @@ public class MemberController {
 	
 	@PostMapping(value="/login")
 	public String login(Member m,HttpSession session) {
-		System.out.println(m.getMemberId());
-		System.out.println(m.getMemberPw());
-	public String login(Member m, HttpSession session) {
 		Member member = memberService.selectOneMember(m);
 		
 		session.setAttribute("member", member);

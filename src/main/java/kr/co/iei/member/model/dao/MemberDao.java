@@ -38,6 +38,14 @@ public class MemberDao {
 	public Member selectOneMember(String checkId) {
 		String query = "select * from member_tbl where member_id=?";
 		Object[] params = {checkId};
+		List list = jdbc.query(query, memberRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return (Member)list.get(0);
+		}
+	}
+	
 	public Member selectOneMemberId(String memberId) {
 		String query = "select * from member_tbl where member_id = ?";
 		Object[] params = {memberId};
@@ -60,7 +68,7 @@ public class MemberDao {
 		}
 		
 	}
-	public List selectAllMember() {
+	public List<Member> selectAllMember() {
 		String query = "select * from member_tbl order by 1";
 		List list = jdbc.query(query, memberRowMapper);
 		return list;
@@ -70,5 +78,9 @@ public class MemberDao {
 		
 	}
 
+
+
+
+
+
 	
-}
