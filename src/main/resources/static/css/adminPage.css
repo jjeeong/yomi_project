@@ -13,7 +13,8 @@ body {
     background-color: #ffe0b2;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 100px;
+    margin-top: -20px;
+    
 }
 
 .memberpage h1 {
@@ -83,11 +84,29 @@ select {
     background-color: #ff5722;
 }
 .pagination a, .pagination button {
-    margin: 0 5px;
+   margin: 0 5px;
     text-decoration: none;
     color: black;
     border: 1px solid #d84315;
     padding: 8px 16px;
     display: inline-block;
+    background-color: white;
+    border-radius: 5px;
+}
+.changeGrade{
+	text-decoration: none;
+    color: black;
+    border: 1px solid #d84315;
+    padding: 5px 13px;
+    background-color: white;
+    border-radius: 5px;
+}
+.pagination {
+	text-align: center;
+    margin: 0 320px;
     margin-top: 20px;
+}
+.pagination a:hover, .pagination button:hover {
+    background-color: #ff5722; /* Change color on hover if needed */
+    color: white; /* Change text color on hover */
 }

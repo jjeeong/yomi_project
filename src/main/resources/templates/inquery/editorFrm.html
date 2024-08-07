@@ -3,158 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <title>문의사항 작성</title>
+<link rel="stylesheet" href="/css/inquery.css">
 <style>
-	.notice-write-container{
-		display: flex;
-		justify-content: center;
-		align-items : center;
-	}
-	.notice-write-wrap{
-		width:1000px;
-	}
-	.notice-write-wrap .input-item>input[type=text]{
-		border-bottom : none;
-		padding: 0;
-	}
-	.notice-write-wrap .input-item>textarea{
-		height: 300px
-	}
-	.page-title{
-		margin : 30px;
-		font-size: 30px;
-		text-align : center;
-		
-	}
-	.inqueryWrite{
-		width : 800px;
-		margin : 30px auto;
-	}
-	
-section.section {
-  padding: 20px;
-  border-radius: 10px;
-  background-color: var(--gray8);
-}
-section.section.bg-section {
-  background-color: var(--box-bg);
-}
-
-.btn-point {
-  border: 1px solid var(--main5);
-  background-color: var(--main5);
-  color: var(--gray8);
-}
-.btn-point:hover {
-  background-color: rgba(140, 97, 255, 0.9);
-}
-.btn-point.outline {
-  color: var(--main5);
-  background-color: var(--gray8);
-}
-.btn-point.outline:hover {
-  background-color: rgba(140, 97, 255, 0.2);
-}
-
-.input-item {
-  display: flex;
-  gap: 10px;
-}
-
-.btn-primary {
-  border: 1px solid var(--main3);
-  background-color: var(--main3);
-  color: var(--gray8);
-}
-.btn-primary:hover {
-  background-color: rgba(101, 146, 254, 0.9);
-}
-
-.tbl {
-  border-top: 1px solid var(--main3);
-  width: 100%;
-  border-spacing: 0;
-}
 .tbl th,
 .tbl td {
   text-align: center;
-  border-bottom: 1px solid var(--line2);
   padding: 10px 20px;
-}
-.tbl th.left,
-.tbl td.left {
-  text-align: left;
-}
-.tbl th {
-  background-color: rgba(101, 146, 254, 0.2);
-}
-.tbl.tbl-hover tbody > tr:hover {
-  cursor: pointer;
-  background-color: rgba(101, 146, 254, 0.1);
+  border-bottom: 1px solid var(--pointFont);
 }
 
-.page-title {
-  padding: 30px;
-  text-align: center;
-  font-size: 40px;
-  
+.inquery-write-container{
+	display: flex;
+	justify-content: center;
+	align-items : center;
 }
-
-	.inquery-list-wrap{
-		width : 1200px;
-		margin : 0 auto;
-		
-	}
-	.inquery-list-wrap>div:nth-child(3){
-		height:500px;
-	}
-	#pageNavi{
-		margin-top : 30px;
-	}
-	.list-header{
-		padding : 10px 0px;
-	}
-	#write-btn{
-		display: inline-block;
-	}
-	#searchFrm{
-		display: flex;
-		float : right;
-	}
-	#searchFrm .select{
-		width:90px;
-	}
-	
-	
-	.pagination {
-  list-style-type: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.inquery-write-wrap{
+	width:1000px;
 }
-	
-	.pagination > li {
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  line-height: 40px;
-  overflow: hidden;
+.inquery-write-wrap .input-item>input[type=text]{
+	border-bottom : none;
+	padding: 0;
 }
-.pagination.circle-style > li {
-  border-radius: 50%;
+.inquery-write-wrap .input-item>textarea{
+	height: 300px
 }
-.pagination > li > a.page-item {
-  display: block;
-  width: 100%;
-  height: 100%;
-  font-size: 18px;
-}
-.pagination > li > a.page-item > span.material-icons {
-  display: block;
-  width: 100%;
-  height: 100%;
-  line-height: 40px;
-}
-	
 </style>
 </head>
 <body>
@@ -164,8 +36,9 @@ section.section.bg-section {
 	<link rel="stylesheet" href="/summernote/summernote-lite.css">
 	<main class="content inquery-write-container">
 		<section class="section inquery-write-wrap">
-			<div class="page-title">문의사항 작성</div>
-			<div class="inqueryWrite">
+		<div class="totalWrap">
+			<div class="page-title">문의사항(QnA) 작성</div>
+			
 				<!-- 
 					첨부파일을 포함해서 데이터를 전송하는 경우
 					method = "post"
@@ -176,10 +49,10 @@ section.section.bg-section {
 				 	<table class="tbl">
 				 	
 				 	<tr>
-						<th>제목</th>
-						<td colspan="3">
+						<th style="border-top:1px solid black;">제목</th>
+						<td colspan="3" style="border-top:1px solid black;">
 							<div class="input-item">
-								<input type="text" name="inqueryTitle">
+								<input type="text" name="inqueryTitle" style="outline:none;">
 							</div>
 						</td>
 					</tr>
@@ -190,7 +63,7 @@ section.section.bg-section {
 							<span th:text="${session.member.memberId}"></span>
 							<input type="hidden" name="inqueryWriter" th:value="${session.member.memberId}">
 						</td>
-						<th style="width:10%;">첨부파일</th>
+						<th style="width:10%; ">첨부파일</th>
 						<td style="width:40%;">
 							<!-- input type=file의 name은 반드시 vo의 변수명과 다르게 작성 -->
 							<input type="file" name="upfile" multiple>
@@ -199,16 +72,14 @@ section.section.bg-section {
 					
 					<tr>
 						<td colspan="4" class="left">
-							
-								<!-- 본문은 여러줄의 값을 입력하므로 input이 아닌 textarea로 받음 -->
-								<textarea name="inqueryContent" id="inqueryContent"></textarea>								
-							
+							<!-- 본문은 여러줄의 값을 입력하므로 input이 아닌 textarea로 받음 -->
+							<textarea name="inqueryContent" id="inqueryContent"></textarea>								
 						</td>
 					</tr>
 					
 				 	<tr>
 						<td colspan="4">							
-							<button type="submit" class="btn-primary lg">공지사항 작성</button>
+							<button type="submit" class="btn-primary">공지사항 작성</button>
 						</td>
 					</tr>
 					
@@ -217,6 +88,9 @@ section.section.bg-section {
 			</div>
 		</section>
 	</main>
+	
+	
+	
 	
 	<script>
 		$("#inqueryContent").summernote({
@@ -237,6 +111,7 @@ section.section.bg-section {
 				}
 			}
 		});
+		
 		function uploadImage(file, editor){
 			//ajax로 서버에 이미지 업로드
 			//업로드 결과로 업로드된 파일의 filepath를 받아옴
@@ -257,12 +132,11 @@ section.section.bg-section {
 				data:form,
 				processData:false,
 				contentType:false,
-				success:function(data){
-					const imageUrl = data;
-					$(editor).summernote("insertImage",imageUrl);
+				success:function(data){					
+					$(editor).summernote("insertImage",data);
 				},
 				error:function(){
-					console.log("Image upload failed");
+					console.log("에러");
 				}
 			});
 			//processData:데이터 전송 시 기본적으로 문자열로 전송하게 세팅 -> 그 기본 세팅을 무효화
@@ -271,7 +145,12 @@ section.section.bg-section {
 			//processData, contentType 기본설정을 해제해야 파일 전송 가능
 			//enctype="multipart/form-data"
 		}
+		
+    
+		
 	</script>
+	
+	
 	<th:block th:include="common/footer"></th:block>
 	
 	

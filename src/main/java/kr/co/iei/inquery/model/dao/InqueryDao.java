@@ -28,9 +28,6 @@ public class InqueryDao {
 		String query = "select * from (select rownum as rnum, n.* from(select * from inquery order by 1 desc)n) where rnum between ? and ?";
 		Object[] params = {start, end};
 		List list = jdbc.query(query, inqueryRowMapper, params);
-				System.out.println("dao"+list);
-				System.out.println("start"+start);
-				System.out.println("end"+end);
 		return list;
 	}
 	public int selectInqueryTotalCount() {
@@ -80,19 +77,23 @@ public class InqueryDao {
 	
 	
 	
-	public List<InqueryComment> selectCommentList(int inqueryNo) {
+	public List<InqueryComment> selectCommentList(int inqueryNo,int memberNo) {
 		String query="select * from inquery_comment where inquery_ref=? and inquery_comment_ref is null order by 1";
+		Object[] params = {inqueryNo};
+		List list = jdbc.query(query, inqueryCommentRowMapper, params);
+		System.out.println("list:"+list);
+		System.out.println(inqueryNo);
+		System.out.println(memberNo);
+		return list;
+	}
+	
+	public List selectReCommentList(int inqueryNo, int memberNo) {
+		String query="select * from inquery_comment where inquery_ref=? and inquery_comment_ref is not null order by 1";
 		Object[] params = {inqueryNo};
 		List list = jdbc.query(query, inqueryCommentRowMapper, params);
 		return list;
 	}
 	
-	public List selectReCommentList(int inqueryNo) {
-		String query="select * from inquery_comment where inquery_ref=? and inquery_comment_ref is null order by 1";
-		Object[] params = {inqueryNo};
-		List list = jdbc.query(query, inqueryCommentRowMapper, params);
-		return list;
-	}
 	public int deleteInquery(int inqueryNo) {
 		String query = "delete from inquery where inquery_no=?";
 		Object[] params = {inqueryNo};
@@ -122,7 +123,7 @@ public class InqueryDao {
 	}
 	public int insertComment(InqueryComment ic) {
 		String query = "insert into inquery_comment values(inquery_comment_seq.nextval,?,?,to_char(sysdate,'yyyy-mm-dd'),?,?)";
-		String inqueryCommentRef = ic.getInqueryCommentRef() == 0 ? null : String.valueOf(ic.getInqueryRef());
+		String inqueryCommentRef = ic.getInqueryCommentRef() == 0 ? null : String.valueOf(ic.getInqueryCommentRef());
 		Object[] params = {ic.getInqueryCommentWriter(),ic.getInqueryCommentContent(),ic.getInqueryRef(),inqueryCommentRef};
 //		Object[] params = {ic.getInqueryCommentWriter(),ic.getInqueryCommentContent(),ic.getInqueryRef(),ic.getInqueryCommentRef()};
 		int result = jdbc.update(query,params);

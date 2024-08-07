@@ -126,7 +126,7 @@ public class RestrDao {
 	}
 
 	public List selectReviewList(int start, int end, int restrNo) {
-		String query = "select * from (select rownum as rnum, review.* from (select * from review where restr_no = ? order by review_no desc)review) where rnum between ? and ?";
+		String query = "select * from (select rownum as rnum, review.* from (select * from review where restr_no = ? order by review_no desc)review) join member_tbl using (member_no) where rnum between ? and ?";
 		Object[] params = {restrNo, start, end};
 		List reviewList = jdbc.query(query, reviewRowMapper, params);
 		return reviewList;

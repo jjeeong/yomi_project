@@ -1,42 +1,46 @@
-
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>맛집 상세 페이지</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-	<!-- 구글 아이콘 -->
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-		rel="stylesheet">
-	
+    <!-- 구글 아이콘 -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <link rel="stylesheet" href="/css/font.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-	
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
     <style>
         * {
             text-decoration: none;
-            list-style:none;
+            list-style: none;
             padding: 0px;
             margin: 0px;
         }
-        body, html {
+
+        body,
+        html {
             background-color: #F3F3F3;
             height: 100%;
         }
+
         .stars1 .material-icons {
             font-size: 50px;
             color: #FC7A1E;
         }
 
         .shop-img img {
-        	width: 300px;
+            margin-right: 10px;
+            width: 300px;
             height: 300px;
             border: 1px solid black;
             border-radius: 30px;
         }
+
         .shop-title {
             font-family: g_b;
             font-size: 35px;
@@ -52,37 +56,46 @@
             padding-bottom: 10px;
             margin-bottom: 30px;
         }
+
         .shop-imgs {
             padding-top: 30px;
             display: flex;
             padding-bottom: 30px;
         }
-        .shop-likes .material-icons{
+
+        .shop-likes .material-icons {
             color: #B3B3B3;
             font-size: 50px;
             cursor: pointer;
         }
+
         .shop-likes {
-            padding-left: 120px;
+            padding-left: 90px;
         }
-        .restr-wrap-content {          
+
+        .restr-wrap-content {
             margin: 30px;
         }
+
         .stars1 {
             display: flex;
         }
+
         .stars1 p {
             margin-top: 12px;
             font-size: 25px;
             color: #A3A3A3;
         }
+
         .shop-information {
             height: 150px;
             border-bottom: 1px solid black;
         }
+
         .shop-information span {
             font-size: 20px;
         }
+
         .shop-information .material-icons {
             font-size: 30px;
         }
@@ -90,34 +103,42 @@
         .menu-and-tag {
             display: flex;
         }
+
         .menu-and-tag>div {
             width: 50%;
             padding: 20px;
         }
+
         .menu-and-tag h3 {
             font-family: g_m;
         }
+
         .menu {
             border-right: 1px solid black;
         }
+
         .shop-content {
             border: 1px solid black;
             margin: 20px;
             height: 200px;
             margin-top: 50px;
         }
+
         .shop-content>h3 {
             font-family: g_m;
             padding-left: 20px;
             padding-top: 20px;
         }
+
         .shop-content>p {
             font-size: 20px;
             padding-left: 20px;
         }
+
         .menu>ul {
             padding-left: 0px;
         }
+
         .menu>ul>li {
             font-size: 20px;
             text-align: center;
@@ -133,14 +154,17 @@
             box-shadow: 0px 0px 10px 0px gray;
             border-radius: 30px;
         }
+
         .review-title {
             display: flex;
             margin: 20px;
             padding-top: 20px;
         }
+
         .review-title h4 {
             padding-top: 10px;
         }
+
         .review-content {
             background-color: #fff;
             width: 800px;
@@ -154,7 +178,7 @@
             margin-top: 20px;
             cursor: pointer;
         }
-        
+
         .stars2 .material-icons {
             font-size: 50px;
             color: #ccc;
@@ -166,11 +190,20 @@
             box-sizing: border-box;
             resize: none;
             margin: 0 auto 20px auto;
+            padding: 10px
         }
 
         .upload {
+            width: 700px;
             display: flex;
+            margin: 0 auto;
+            flex-direction: column;
             margin-bottom: 10px;
+        }
+
+        .upload>button {
+            height: 40px;
+            width: 150px;
         }
 
         .tag-btn {
@@ -204,17 +237,18 @@
         .collapsed .submit-btn {
             display: none;
         }
-        
+
         /* 그래프 */
         .review-form {
             border-top: 1px solid #ccc;
             text-align: center;
         }
+
         .review-header {
             height: 400px;
         }
 
-       /* 리뷰 리스트 */
+        /* 리뷰 리스트 */
         .review-list {
             width: 800px;
             background-color: #fff;
@@ -227,13 +261,13 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         .review-head {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
         }
-        
+
         .author-icon {
             border-radius: 30px;
             width: 50px;
@@ -287,6 +321,7 @@
             border: 1px solid #ddd;
             margin-bottom: 5px;
         }
+
         .write-tag span {
             background-color: #f0f0f0;
             border: none;
@@ -302,29 +337,34 @@
             margin: 0 auto 30px auto;
             box-shadow: 0px 0px 10px 0px gray;
         }
+
         .blog-list {
             padding: 20px;
         }
+
         .blog-header {
             font-size: 25px;
             font-family: g_b;
             color: #FC7A1E;
             border-bottom: 1px solid #ccc;
         }
+
         .blog-results {
             margin-top: 30px;
         }
+
         .blog-result a {
-        	text-decoration: none;
-        	color: #5E6276;
+            text-decoration: none;
+            color: #5E6276;
         }
 
 
-		/* 리뷰 별점 */
-		.stars2 {
-		    display: flex;
-		    justify-content: center;
-		}
+        /* 리뷰 별점 */
+        .stars2 {
+            display: flex;
+            justify-content: center;
+        }
+
         .stars2 .star-rating {
             display: flex;
             cursor: pointer;
@@ -353,50 +393,88 @@
         .stars2 .star-rating .material-icons.selected::before {
             width: 100%;
         }
-        
+
         .buttons {
-        	width: 900px;
-        	margin: 0 auto;
+            width: 900px;
+            margin: 0 auto;
         }
+
         .buttons button {
-        	float: right;
-        	margin-left: 10px;
-        	margin-bottom: 10px;
-        	border: none;
-        	background-color: #FC7A1E;
-        	width: 120px;
-        	height: 40px;
-        	color: #fff;
-        	border-radius: 30px;
+            float: right;
+            margin-left: 10px;
+            margin-bottom: 10px;
+            border: none;
+            background-color: #FC7A1E;
+            width: 120px;
+            height: 40px;
+            color: #fff;
+            border-radius: 30px;
         }
+
         .buttons .delete-btn {
-        	background-color: #B3B3B3;
+            background-color: #B3B3B3;
         }
-        
+
+        .tag {
+            overflow: hidden;
+        }
+
+        .restr-tag {
+            float: left;
+            padding: 5px 10px 0px 10px;
+            height: 30px;
+            background-color: #FC7A1E;
+            margin: 5px;
+            color: #fff;
+            border-radius: 10px;
+        }
+
+        .keywords {
+            overflow: hidden;
+        }
+
+        .keywords>div {
+            padding: 5px 10px 0px 10px;
+            height: 30px;
+            background-color: #F7B788;
+            margin: 5px;
+            color: #fff;
+            border-radius: 10px;
+            float: left;
+        }
+
+        .file-input-container {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zzl0s76r4r&submodules=geocoder"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script type="text/javascript"
+    src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zzl0s76r4r&submodules=geocoder"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+
 <body>
-    
+
     <th:block th:include="common/header"></th:block>
-    
+
     <div>
-    	
+
         <div class="restr-wrap">
             <div class="restr-wrap-content">
                 <div class="shop-imgs">
                     <div class="shop-img">
-                    	<img th:src="@{'/yomi/' + ${r.restrImg1}}">
+                        <img th:src="@{'/yomi/' + ${r.restrImg1}}">
                     </div>
                     <div class="shop-img">
-                    	<img th:src="'/yomi/' + ${r.restrImg2}">
+                        <img th:src="@{'/yomi/' + ${r.restrImg2}}">
                     </div>
                     <div class="shop-likes">
 
-                        <span th:if="${r.isLike == 0}" class="material-icons" id="like-none" th:onclick="likePush(this,[[${r.restrNo}]]);">favorite</span>
-                        <span th:if="${r.isLike == 1}" style="color: red;" class="material-icons" id="like-yes" th:onclick="likePush(this,[[${r.restrNo}]]);">favorite</span>
+                        <span th:if="${r.isLike == 0}" class="material-icons" id="like-none"
+                            th:onclick="likePush(this,[[${r.restrNo}]]);">favorite</span>
+                        <span th:if="${r.isLike == 1}" style="color: red;" class="material-icons" id="like-yes"
+                            th:onclick="likePush(this,[[${r.restrNo}]]);">favorite</span>
                         <span th:text="${r.likeCount}">0</span>
                         <span class="material-icons">bookmark</span>
                     </div>
@@ -433,10 +511,8 @@
                     </div>
                     <div class="tag">
                         <h3>태그</h3>
-                        <div class="tags">
-	                        <ul th:each="tag : ${r.restrTag}">
-	                            <li th:text="${tag.restrTagName}"></li>
-	                        </ul>
+                        <div class="tags" th:each="tag : ${r.restrTag}">
+                            <div class="restr-tag" th:text="'#' + ${tag.restrTagName}"></div>
                         </div>
                     </div>
                 </div>
@@ -447,21 +523,21 @@
             </div>
         </div>
 
-		<input type="hidden" id="mapx" th:value="${r.restrMapx}">
-		<input type="hidden" id="mapy" th:value="${r.restrMapy}">
+        <input type="hidden" id="mapx" th:value="${r.restrMapx}">
+        <input type="hidden" id="mapy" th:value="${r.restrMapy}">
         <div id="map" style="width:100%; height:400px; margin: 0 auto; border: solid black 1px;"></div>
 
 
         <!-- 리뷰 -->
         <div class="review-wrap">
-			<div class="review-title">
+            <div class="review-title">
                 <h2>리뷰</h2>
                 <h4>(10명의 평가)</h4>
             </div>
             <div class="review-content">
                 <div class="review-header">
                     <div class="graph">
-                        
+
                     </div>
                     <div class="review-tags">
 
@@ -469,111 +545,118 @@
                 </div>
 
                 <div class="review-form collapsed">
-                
-				<form action="/restaurant/writeReview" method="post" id="review-frm">
-				
-					
-				
-                    <div class="stars2">
-                        <div class="star-rating" id="star-rating">
-                            <span class="material-icons" data-value="1">grade</span>
-				            <span class="material-icons" data-value="2">grade</span>
-				            <span class="material-icons" data-value="3">grade</span>
-				            <span class="material-icons" data-value="4">grade</span>
-				            <span class="material-icons" data-value="5">grade</span>
+
+                    <form action="/restaurant/writeReview" method="post" id="review-frm">
+                        <div class="stars2">
+                            <div class="star-rating" id="star-rating">
+                                <span class="material-icons" data-value="1">grade</span>
+                                <span class="material-icons" data-value="2">grade</span>
+                                <span class="material-icons" data-value="3">grade</span>
+                                <span class="material-icons" data-value="4">grade</span>
+                                <span class="material-icons" data-value="5">grade</span>
+                            </div>
                         </div>
-                    </div>
-                    <input type="hidden" id="reviewStar" name="reviewStar">
-                    
-                    <textarea placeholder="리뷰를 작성하세요." name="reviewContent"></textarea>
-                    <div class="upload">
-                        <button style="background-color: #FC7A1E; border: none; margin-left: 50px" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						  	키워드 추가
-						</button>
-                    </div>
-                    
-                    <!-- 모달 -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					  <div class="modal-dialog">
-					    <div class="modal-content">
-					      <div class="modal-header">
-					        <h1 class="modal-title fs-5" id="exampleModalLabel">키워드 추가 (0~5개 선택)</h1>
-					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					      </div>
-					      <div class="modal-body">
-						    <h4>음식</h4>
-						    <input type="checkbox" class="btn-check" id="btn-check-1" autocomplete="off">
-						    <label class="btn" for="btn-check-1">맛있어요</label>
-						
-						    <input type="checkbox" class="btn-check" id="btn-check-2" autocomplete="off">
-						    <label class="btn" for="btn-check-2">메뉴가 다양해요</label>
-						
-						    <input type="checkbox" class="btn-check" id="btn-check-3" autocomplete="off">
-						    <label class="btn" for="btn-check-3">반찬이 다양해요</label>
-						    
-						    <input type="checkbox" class="btn-check" id="btn-check-4" autocomplete="off">
-						    <label class="btn" for="btn-check-4">양이 많아요</label>
-						    <hr>
-						
-						    <h4>분위기</h4>
-						    <input type="checkbox" class="btn-check" id="btn-check-5" autocomplete="off">
-						    <label class="btn" for="btn-check-5">분위기가 좋아요</label>
-						
-						    <input type="checkbox" class="btn-check" id="btn-check-6" autocomplete="off">
-						    <label class="btn" for="btn-check-6">인테리어가 예뻐요</label>
-						
-						    <hr>
-						    <h4>서비스</h4>
-						    <input type="checkbox" class="btn-check" id="btn-check-7" autocomplete="off">
-						    <label class="btn" for="btn-check-7">청결해요</label>
-						
-						    <input type="checkbox" class="btn-check" id="btn-check-8" autocomplete="off">
-						    <label class="btn" for="btn-check-8">친절해요</label>
-						
-						    <input type="checkbox" class="btn-check" id="btn-check-9" autocomplete="off">
-						    <label class="btn" for="btn-check-9">예약이 편해요</label>
-						
-						    <input type="checkbox" class="btn-check" id="btn-check-10" autocomplete="off">
-						    <label class="btn" for="btn-check-10">반려동물 동반 가능해요</label>
-						
-						    <input type="checkbox" class="btn-check" id="btn-check-11" autocomplete="off">
-						    <label class="btn" for="btn-check-11">포장이 가능해요</label>
-						
-						    <hr>
-						    <h4>시설</h4>
-						    <input type="checkbox" class="btn-check" id="btn-check-12" autocomplete="off">
-						    <label class="btn" for="btn-check-12">주차가 편해요</label>
-						
-						    <input type="checkbox" class="btn-check" id="btn-check-13" autocomplete="off">
-						    <label class="btn" for="btn-check-13">화장실이 깨끗해요</label>
-						
-						    <input type="checkbox" class="btn-check" id="btn-check-14" autocomplete="off">
-						    <label class="btn" for="btn-check-14">무료 와이파이</label>
+                        <input type="hidden" id="reviewStar" name="reviewStar">
 
-					      </div>
-					      <div class="modal-footer">
-					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-					        <button type="button" class="btn btn-primary" style="background-color: #FC7A1E; border: none;">추가</button>
-					      </div>
-					    </div>
-					  </div>
-					</div>
+                        <textarea placeholder="리뷰를 작성하세요." name="reviewContent"></textarea>
+                        <div class="upload">
+                            <div class="mb-3">
+                                <input class="form-control" type="file" id="formFile" multiple>
+                            </div>
 
-                    
-                    <div class="button-container">
-                        <button type="submit" class="submit-btn">등록</button>
-                    </div>                    
-                    </div>      
-                    <input type="hidden" id="restrNo" name="restrNo" th:value="${r.restrNo}">             
-				</form>
-				
-                <button class="toggle-btn">리뷰 작성</button>
-				
+                            <button style="background-color: #FC7A1E; border: none; margin-bottom: 5px;" type="button"
+                                class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                키워드 추가
+                            </button>
+                            <div class="keywords"></div>
+                        </div>
+
+                        <!-- 모달 -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">키워드 추가 (0~5개 선택)</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>음식</h4>
+                                        <input type="checkbox" class="btn-check" id="btn-check-1" autocomplete="off">
+                                        <label class="btn" for="btn-check-1">맛있어요</label>
+
+                                        <input type="checkbox" class="btn-check" id="btn-check-2" autocomplete="off">
+                                        <label class="btn" for="btn-check-2">메뉴가 다양해요</label>
+
+                                        <input type="checkbox" class="btn-check" id="btn-check-3" autocomplete="off">
+                                        <label class="btn" for="btn-check-3">반찬이 다양해요</label>
+
+                                        <input type="checkbox" class="btn-check" id="btn-check-4" autocomplete="off">
+                                        <label class="btn" for="btn-check-4">양이 많아요</label>
+                                        <hr>
+
+                                        <h4>분위기</h4>
+                                        <input type="checkbox" class="btn-check" id="btn-check-5" autocomplete="off">
+                                        <label class="btn" for="btn-check-5">분위기가 좋아요</label>
+
+                                        <input type="checkbox" class="btn-check" id="btn-check-6" autocomplete="off">
+                                        <label class="btn" for="btn-check-6">인테리어가 예뻐요</label>
+
+                                        <hr>
+                                        <h4>서비스</h4>
+                                        <input type="checkbox" class="btn-check" id="btn-check-7" autocomplete="off">
+                                        <label class="btn" for="btn-check-7">청결해요</label>
+
+                                        <input type="checkbox" class="btn-check" id="btn-check-8" autocomplete="off">
+                                        <label class="btn" for="btn-check-8">친절해요</label>
+
+                                        <input type="checkbox" class="btn-check" id="btn-check-9" autocomplete="off">
+                                        <label class="btn" for="btn-check-9">예약이 편해요</label>
+
+                                        <input type="checkbox" class="btn-check" id="btn-check-10" autocomplete="off">
+                                        <label class="btn" for="btn-check-10">반려동물 동반 가능해요</label>
+
+                                        <input type="checkbox" class="btn-check" id="btn-check-11" autocomplete="off">
+                                        <label class="btn" for="btn-check-11">포장이 가능해요</label>
+
+                                        <hr>
+                                        <h4>시설</h4>
+                                        <input type="checkbox" class="btn-check" id="btn-check-12" autocomplete="off">
+                                        <label class="btn" for="btn-check-12">주차가 편해요</label>
+
+                                        <input type="checkbox" class="btn-check" id="btn-check-13" autocomplete="off">
+                                        <label class="btn" for="btn-check-13">화장실이 깨끗해요</label>
+
+                                        <input type="checkbox" class="btn-check" id="btn-check-14" autocomplete="off">
+                                        <label class="btn" for="btn-check-14">무료 와이파이</label>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">닫기</button>
+                                        <button id="addKeyword" type="button" class="btn btn-primary"
+                                            style="background-color: #FC7A1E; border: none;">추가</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="button-container">
+                            <button type="submit" class="submit-btn">등록</button>
+                        </div>
                 </div>
-                
-			<div class="review-list-wrap">
+                <input type="hidden" id="restrNo" name="restrNo" th:value="${r.restrNo}">
+                </form>
 
-			<!--			
+                <button class="toggle-btn">리뷰 작성</button>
+
+            </div>
+
+            <div class="review-list-wrap">
+
+                <!--			
 	            <div class="review-list">
 	                <div class="review">
 	                    <div class="review-head">
@@ -600,122 +683,148 @@
 	                </div>
 	            </div>
             -->
-			</div>
-            
+            </div>
+
             <button class="btn" id="review-more-btn">더보기</button>
-         	</div>
-         	
-         	<script th:inline="javascript">
-	         	const restrNoInput = document.getElementById('restrNo');
-				const restrNo = parseFloat(restrNoInput.value);			
-				const reviewCount = [[${reviewCount}]];
-				
-				let currentCount = 0;
-				let start = 1;
-				$("#review-more-btn").on("click", function(){
-					const amount = 4;
-					$.ajax({
-						url : "/restaurant/reviewMore",
-						type : "get",
-						data : {start : start, amount : amount, restrNo : restrNo},
-						success : function(data) {
-							console.log(data);
-							for(let i=0; i<data.length; i++) {
-								const review = data[i];
-								
-								const reviewDiv = $("<div>").addClass("review");
-							    
-							    const reviewHeadDiv = $("<div>").addClass("review-head");
-							    const authorIconDiv = $("<div>").addClass("author-icon");
-							    const authorInfoDiv = $("<div>").addClass("author-info");
-							    const authorNameSpan = $("<span>").addClass("author-name").text(review.memberName);
-							    const reviewDateSpan = $("<span>").addClass("review-date").text(review.reviewRegDate);
-							    
-							    authorInfoDiv.append(authorNameSpan).append(reviewDateSpan);
-							    reviewHeadDiv.append(authorIconDiv).append(authorInfoDiv);
-							    
-							    const reviewRatingDiv = $("<div>").addClass("review-rating");
-							    const starSpan = $("<span>").addClass("material-icons star").text("grade");
-							    const ratingScoreSpan = $("<span>").addClass("rating-score").text(review.reviewStar);
-
-							    reviewRatingDiv.append(starSpan).append(ratingScoreSpan);
-
-							    const reviewContentDiv = $("<div>").addClass("write-review-content");
-							    const contentParagraph = $("<p>").text(review.reviewContent);
-							    const reviewImageDiv = $("<div>").addClass("review-image");
-							    const reviewImage = $("<img>");
-
-							    reviewImageDiv.append(reviewImage);
-							    reviewContentDiv.append(contentParagraph).append(reviewImageDiv);
-							    
-							    const tagDiv = $("<div>").addClass("write-tag");
-							    /*
-							    r.tags.forEach(tag => {
-							        const tagSpan = $("<span>").text(tag);
-							        tagDiv.append(tagSpan);
-							    });
-							    */
-							    
-							    reviewDiv.append(reviewHeadDiv).append(reviewRatingDiv).append(reviewContentDiv).append(tagDiv);
-
-							    const reviewList = $("<div>").addClass("review-list").append(reviewDiv);
-							    
-							    $(".review-list-wrap").append(reviewList);
-							}
-							start = start + amount;
-							currentCount = currentCount + data.length;
-
-							if(currentCount == reviewCount) {
-								$("#review-more-btn").remove();	
-							}
-						},
-						error : function() {
-							console.log("error");
-						}
-					});
-				});
-				//최초에 페이지에 접속하면 더보기버튼을 강제로 한 번 클릭
-				$("#review-more-btn").click();
-			</script>
-         	
         </div>
 
-        <div class="blog-wrap">
-            <div class="blog-list">
-                <div class="blog-header"><p>블로그 후기</p></div>
-                <div class="blog-results" th:each="result : ${searchResults}">
-                    <div class="blog-result">
-                        <a th:href="${result.link}"><h4 th:utext="${result.title}"></h4></a>
-                        <p th:utext="${result.description}"></p>
-                        <p><strong>닉네임:</strong> <span th:utext="${result.bloggerName}"></span></p>
-                        <p><strong>작성일:</strong> <span th:utext="${result.postDate}"></span></p>
-                    </div>
-                    <hr>
+        <script th:inline="javascript">
+            const restrNoInput = document.getElementById('restrNo');
+            const restrNo = parseFloat(restrNoInput.value);
+            const reviewCount = [[${ reviewCount }]];
+
+            let currentCount = 0;
+            let start = 1;
+            $("#review-more-btn").on("click", function () {
+                const amount = 4;
+                $.ajax({
+                    url: "/restaurant/reviewMore",
+                    type: "get",
+                    data: { start: start, amount: amount, restrNo: restrNo },
+                    success: function (data) {
+                        console.log(data);
+                        for (let i = 0; i < data.length; i++) {
+                            const review = data[i];
+
+                            const reviewDiv = $("<div>").addClass("review");
+
+                            const reviewHeadDiv = $("<div>").addClass("review-head");
+                            const authorIconDiv = $("<div>").addClass("author-icon");
+                            const authorInfoDiv = $("<div>").addClass("author-info");
+                            const authorNameSpan = $("<span>").addClass("author-name").text(review.memberName);
+                            const reviewDateSpan = $("<span>").addClass("review-date").text(review.reviewRegDate);
+
+                            authorInfoDiv.append(authorNameSpan).append(reviewDateSpan);
+                            reviewHeadDiv.append(authorIconDiv).append(authorInfoDiv);
+
+                            const reviewRatingDiv = $("<div>").addClass("review-rating");
+                            const starSpan = $("<span>").addClass("material-icons star").text("grade");
+                            const ratingScoreSpan = $("<span>").addClass("rating-score").text(review.reviewStar);
+
+                            reviewRatingDiv.append(starSpan).append(ratingScoreSpan);
+
+                            const reviewContentDiv = $("<div>").addClass("write-review-content");
+                            const contentParagraph = $("<p>").text(review.reviewContent);
+                            const reviewImageDiv = $("<div>").addClass("review-image");
+                            const reviewImage = $("<img>");
+
+                            reviewImageDiv.append(reviewImage);
+                            reviewContentDiv.append(contentParagraph).append(reviewImageDiv);
+
+                            const tagDiv = $("<div>").addClass("write-tag");
+                            /*
+                            r.tags.forEach(tag => {
+                                const tagSpan = $("<span>").text(tag);
+                                tagDiv.append(tagSpan);
+                            });
+                            */
+
+                            reviewDiv.append(reviewHeadDiv).append(reviewRatingDiv).append(reviewContentDiv).append(tagDiv);
+
+                            const reviewList = $("<div>").addClass("review-list").append(reviewDiv);
+
+                            $(".review-list-wrap").append(reviewList);
+                        }
+                        start = start + amount;
+                        currentCount = currentCount + data.length;
+
+                        if (currentCount == reviewCount) {
+                            $("#review-more-btn").remove();
+                        }
+                    },
+                    error: function () {
+                        console.log("error");
+                    }
+                });
+            });
+            //최초에 페이지에 접속하면 더보기버튼을 강제로 한 번 클릭
+            $("#review-more-btn").click();
+        </script>
+
+    </div>
+
+    <div class="blog-wrap">
+        <div class="blog-list">
+            <div class="blog-header">
+                <p>블로그 후기</p>
+            </div>
+            <div class="blog-results" th:each="result : ${searchResults}">
+                <div class="blog-result">
+                    <a th:href="${result.link}">
+                        <h4 th:utext="${result.title}"></h4>
+                    </a>
+                    <p th:utext="${result.description}"></p>
+                    <p><strong>닉네임:</strong> <span th:utext="${result.bloggerName}"></span></p>
+                    <p><strong>작성일:</strong> <span th:utext="${result.postDate}"></span></p>
                 </div>
+                <hr>
             </div>
         </div>
-        <div class="buttons">
-        	<button class="delete-btn">삭제하기</button>
-        	<button class="update-btn">수정하기</button>
-        </div>
+    </div>
+    <div class="buttons">
+        <button class="delete-btn">삭제하기</button>
+        <button class="update-btn">수정하기</button>
+    </div>
 
-   <th:block th:include="common/footer"></th:block>
+    <th:block th:include="common/footer"></th:block>
 
-    <script> 
-    	document.addEventListener("DOMContentLoaded", function() {
-	        const toggleBtn = document.querySelector(".toggle-btn");
-	        const reviewForm = document.querySelector(".review-form");
+    <script>
+        //수진 : 삭제, 수정하기 버튼 클릭하려고 function 조금 만들게요...
+        $("button.delete-btn").on("click", function () {
+            location.href = "/restaurant/deleteRestr?restrNo=" + [[${ r.restrNo }]];
+        })
+        $("button.update-btn").on("click", function () {
+            location.href = "/restaurant/updateFrm?restrNo=" + [[${ r.restrNo }]];
+        })
+        //여기까지가 수진
+        //키워드 추가
+        $("#addKeyword").on("click", function () {
+            // 기존에 추가된 키워드 항목 삭제
+            $(".keywords").empty();
 
-            toggleBtn.addEventListener("click", function() {
-            	const restrNoInput = document.getElementById('restrNo');
-				const restrNo = parseFloat(restrNoInput.value);
+            // 체크된 버튼을 순회하며 새로 추가
+            $(".btn-check:checked").each(function () {
+                const label = $("label[for='" + this.id + "']").text();
+                const keywordDiv = $("<div>").addClass("keyword-item").text(label);
+                $(".keywords").append(keywordDiv);
+            });
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleBtn = document.querySelector(".toggle-btn");
+            const reviewForm = document.querySelector(".review-form");
+
+            toggleBtn.addEventListener("click", function () {
+                const restrNoInput = document.getElementById('restrNo');
+                const restrNo = parseFloat(restrNoInput.value);
 
                 if (reviewForm.classList.contains("collapsed")) {
                     $.ajax({
                         url: "/restaurant/writeReviewFrm",
                         type: "POST",
                         data: { restrNo: restrNo }, // 서버에서 기대하는 형식
-                        success: function(response) {
+                        success: function (response) {
                             if (response == -10) {
                                 Swal.fire({
                                     title: "로그인 필요",
@@ -727,7 +836,7 @@
                                 toggleBtn.textContent = "접기";
                             }
                         },
-                        error: function(xhr, status, error) {
+                        error: function (xhr, status, error) {
                             console.error("Error: " + error);
                         }
                     });
@@ -736,15 +845,15 @@
                     toggleBtn.textContent = "리뷰 작성";
                 }
             });
-    	});
-
-        $(function() {
-           initMap();
         });
-        
+
+        $(function () {
+            initMap();
+        });
+
         //네이버 지도 api 띄우기
         function initMap() {
-        	const mapxInput = document.getElementById('mapx');
+            const mapxInput = document.getElementById('mapx');
             const mapyInput = document.getElementById('mapy');
 
             const mapx = parseFloat(mapxInput.value);
@@ -759,19 +868,19 @@
                 center: new naver.maps.LatLng(mapx, mapy),
                 zoom: 20
             });
-            
+
             const marker = new naver.maps.Marker({
-    			position : new naver.maps.LatLng(mapx, mapy),
-    			map : map
-    		});
+                position: new naver.maps.LatLng(mapx, mapy),
+                map: map
+            });
 
         }
-        
-    
+
+
         function likePush(obj, restrNo) {
-        	//현재 상태를 구분-> 지금 클릭한 행동이 좋아요를 누른건지/좋아요 취소를 누른건지 구분
-			const currentText = $(obj).next().text();
-			
+            //현재 상태를 구분-> 지금 클릭한 행동이 좋아요를 누른건지/좋아요 취소를 누른건지 구분
+            const currentText = $(obj).next().text();
+
             const likeId = $(obj).attr('id');
             const isLike = (likeId === "like-none") ? 0 : 1;
             console.log(isLike);
@@ -780,9 +889,9 @@
                 url: "/restaurant/likePush",
                 data: { restrNo: restrNo, isLike: isLike },
                 type: "post",
-                success: function(data) {
+                success: function (data) {
                     if (data == -10) {
-                         Swal.fire({
+                        Swal.fire({
                             title: "로그인 필요",
                             text: "로그인 후 이용해 주세요",
                             icon: "info"
@@ -795,15 +904,15 @@
                         });
                     } else {
                         if (isLike === 0) {
-                        	Swal.fire({
+                            Swal.fire({
                                 title: "좋아요 완료",
                                 text: "좋아요를 누르셨습니다.",
                                 icon: "success"
                             });
-                            $(obj).css("color", "red"); 
-                            $(obj).attr("id", "like-yes"); 
+                            $(obj).css("color", "red");
+                            $(obj).attr("id", "like-yes");
                         } else {
-                        	Swal.fire({
+                            Swal.fire({
                                 title: "좋아요 취소",
                                 text: "좋아요를 취소하셨습니다.",
                                 icon: "warning"
@@ -811,27 +920,27 @@
                             $(obj).css("color", "#B3B3B3");
                             $(obj).attr("id", "like-none");
                         }
-                      	//현재 좋아요 갯수 변경
-						$(obj).next().text(data);
+                        //현재 좋아요 갯수 변경
+                        $(obj).next().text(data);
                     }
                 },
-                error: function() {
+                error: function () {
                     console.log("error : " + error);
                 }
             });
         }
-        
+
         //별 선택
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const starRating = document.querySelector('.stars2 .star-rating');
             const reviewStarInput = document.getElementById('reviewStar');
 
-            starRating.addEventListener('click', function(event) {
+            starRating.addEventListener('click', function (event) {
                 if (event.target.classList.contains('material-icons')) {
                     const star = event.target;
                     const value = parseFloat(star.getAttribute('data-value'));
 
- 
+
                     const rect = star.getBoundingClientRect();
                     const clickX = event.clientX;
                     const starWidth = rect.width;
@@ -862,4 +971,5 @@
         });
     </script>
 </body>
+
 </html>

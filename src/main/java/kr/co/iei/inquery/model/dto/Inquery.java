@@ -1,6 +1,6 @@
 package kr.co.iei.inquery.model.dto;
 
-import java.util.List;
+import java.util.List;	
 
 
 import lombok.AllArgsConstructor;

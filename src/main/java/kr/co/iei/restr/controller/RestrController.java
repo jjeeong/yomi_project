@@ -128,17 +128,12 @@ public class RestrController {
 	public String writeReview(@SessionAttribute(required = false) Member member, Review review, Restaurant restaurant, Double reviewStar) {
 
 		int memberNo = member.getMemberNo();
-		String memberName = member.getMemberName();
 		
 		System.out.println(memberNo);
-		System.out.println(memberName);
 		
 		review.setMemberNo(memberNo);
 		review.setRestrNo(restaurant.getRestrNo());
 		review.setReviewStar(reviewStar);
-		review.setMemberName(memberName);
-		
-		System.out.println("review는 어케 됐을까요? : " + review);
 		
 		int result = restrService.writeReview(review);
 		return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();
@@ -181,7 +176,7 @@ public class RestrController {
 			rm.setRestrMenuPrice(menuPrice[i]);
 			menuList.add(rm);
 		}
-		String savepath = root+"/restr/";
+		String savepath = root+"/yomi/";
 		String filepath1 = fileUtils.upload(savepath, imageFile1);
 		String filepath2 = fileUtils.upload(savepath, imageFile2);
 		r.setRestrImg1(filepath1);
@@ -203,8 +198,50 @@ public class RestrController {
 	}
 
 	@GetMapping(value = "/updateFrm")
-	public String updateFrm() {
-		return "restaurant/restrUpdateFrm";
+	public String updateFrm(int restrNo, Model model) {
+		Restaurant r = restrService.selectOneRestrWith(restrNo);
+		if(r==null) {
+			model.addAttribute("title", "수정 불가");
+			model.addAttribute("msg", "존재하지 않는 게시물 입니다.");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "/restaurant/restrList");
+			return "/common/msg2";
+		}else {
+			model.addAttribute("r", r);
+			return "restaurant/restrUpdateFrm";			
+		}
 	}// restFrm()
+	
+	@PostMapping(value="/restrUpdate")
+	public String restrUpdate(Restaurant r, String[] menuName, int[] menuPrice, String[] tagName, MultipartFile imageFile1,
+			MultipartFile imageFile2, int[] delTagNo, String filepath1, String filepath2, int[] delMenuNo, Model model) {
+		String savepath = root+"/yomi/";
+		//delTag, delMenu는 삭제하고 menu, Tag는 다시 삽입할거임(졸려서 기억 안날까봐..)
+		int updateImgCount = 0;
+		List<String> delImgFile = new ArrayList<String>();
+		if(!imageFile1.isEmpty()) {
+			String filepath3 = fileUtils.upload(savepath, imageFile1);
+			r.setRestrImg1(filepath3);
+			updateImgCount++; //1이 더해지면 restrImg1을 바꿔야하는 것
+			delImgFile.add(filepath1);
+		}//if
+		if(!imageFile2.isEmpty()) {
+			String filepath4 = fileUtils.upload(savepath, imageFile2);
+			r.setRestrImg2(filepath4);
+			updateImgCount+=2;//2가 더해지면 restrImg2를 바꿔야하는 것
+			delImgFile.add(filepath2);
+		}//if
+		List<RestrMenu> menuList = new ArrayList<RestrMenu>();
+		for (int i = 0; i < menuName.length; i++) {
+			RestrMenu rm = new RestrMenu();
+			rm.setRestrMenuName(menuName[i]);
+			rm.setRestrMenuPrice(menuPrice[i]);
+			menuList.add(rm);
+		}
+		int result = restrService.updateRestr(r, menuList, tagName, delMenuNo, delTagNo, updateImgCount);
+		//service, dao까지 만들어서 실행해보고 만약 메뉴([]), 태그([]), 삭제할 파일 이름([])배열이 새로 추가된게 없을 시 input이 없어 오류가 날경우, 업데이트 html에 미리 하나씩 [0]넣어두고 다시 작업해보기
+		//만약 잘 되었다면 delImgFile 리스트 안의 파일들 삭제하기, 잘되지 않았으면 방금 업로드한 filepath3, 4 삭제하기
+		return "restaurant/restrView?restrNo="+r.getRestrNo();
+	}
 
 }

@@ -3,10 +3,33 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>맛집 등록</title>
+	<title>맛집 수정</title>
 	<link rel="stylesheet" href="/css/sujin.css">
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<!--
+	--정원이가 한 api인증
+	<script type="text/javascript"
+		src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zzl0s76r4r&submodules=geocoder"></script>
+-->
+	<script type="text/javascript"
+		src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=z03gy10mtv&submodules=geocoder"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<style>
+		.round-box-child {
+			border-radius: 5px;
+			border: 1px solid var(--point1);
+			background-color: #fff;
+		}
+
+		div.tag {
+			margin: 4px;
+		}
+
+		div.tag span.material-symbols-outlined {
+			cursor: pointer;
+		}
+	</style>
 </head>
 
 <body>
@@ -14,7 +37,7 @@
 	<main class="main restrFrm">
 		<div class="round-box frm">
 			<h2 class="page-title">맛집 수정</h2>
-			<form action="/restaurant/restrWrite" method="post" enctype="multipart/form-data">
+			<form action="/restaurant/restrUpdate" method="post" enctype="multipart/form-data" id="updateFrm">
 				<div class="info basic round-box shadow">
 					<h3>1. 기본 정보</h3>
 					<div class="input-content">
@@ -24,7 +47,7 @@
 							</label>
 							<div class="input-box">
 								<input type="text" name="restrName" id="restrName" class="input-lg"
-									placeholder="업체명을 입력하세요">
+									th:value="${r.restrName}" placeholder="업체명을 입력하세요">
 							</div>
 						</div>
 						<div class="input-list restrAddr">
@@ -32,10 +55,13 @@
 								class="btn btn-point btn-sm round-box">검색</button>
 							<div class="input-box">
 								<input type="text" name="restrAddr1" id="restrAddr1" class="input-lg" readonly
-									placeholder="주소를 입력하세요">
+									placeholder="주소를 입력하세요" th:value="${r.restrAddr1}">
 								<input type="text" name="restrAddr2" id="restrAddr2" class="input-lg" readonly
-									placeholder="상세 주소를 입력하세요">
+									placeholder="상세 주소를 입력하세요" th:value="${r.restrAddr2}">
+								<input type="hidden" name="restrMapx" id="mapX" th:value="${r.restrMapx}">
+								<input type="hidden" name="restrMapy" id="mapY" th:value="${r.restrMapy}">
 							</div>
+							<div id="map" style="width:90%; height:300px; margin: 0 auto;margin-top : 30px;"></div>
 						</div>
 						<div class="input-list restrTel">
 							<label for="restrTel">
@@ -43,7 +69,7 @@
 							</label>
 							<div class="input-box">
 								<input type="text" name="restrTel" id="restrTel" class="input-lg"
-									placeholder="업체 번호를 입력하세요 (02-0000-0000)">
+									placeholder="업체 번호를 입력하세요 (02-0000-0000)" th:value="${r.restrTel}">
 							</div>
 						</div>
 						<div class="input-list restrContent">
@@ -51,8 +77,8 @@
 								<span class="inputName">▪ 설명</span>
 							</label>
 							<div class="input-box">
-								<textarea name="restrName" id="restrName" class="input-lg"
-									placeholder="간략한 설명을 입력하세요 (최대 100자)"></textarea>
+								<textarea name="restrContent" id="restrContent" class="input-lg"
+									placeholder="간략한 설명을 입력하세요 (최대 100자)" th:text="${r.restrContent}"></textarea>
 							</div>
 						</div>
 					</div>
@@ -62,7 +88,7 @@
 					<div class="input-content">
 						<div class="input-list restrMenu">
 							<span class="inputName">▪ 메뉴</span><button type="button"
-								class="btn btn-point btn-sm round-box">항목 추가</button>
+								class="btn btn-point btn-sm round-box"  onclick="insertTr();">항목 추가</button>
 							<div class="tbl-box">
 								<table class="tbl table">
 									<thead>
@@ -73,39 +99,19 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>메뉴 이름</td>
-											<td>가격</td>
-											<td>
-												<button class="btn btn-sm btn-mono">
-													수정
-												</button>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div class="input-box">
-													<input type="text" class="input-td round-box" name="menuName"
-														placeholder="메뉴 이름">
-												</div>
-											</td>
-											<td>
-												<div class="input-box">
-													<input type="text" class="input-td round-box" name="menuPrice"
-														placeholder="가격"><span>원</span>
-												</div>
-											</td>
-											<td>
-												<div class="btn-box">
-													<button class="btn btn-sm btn-sub">
-														추가
-													</button><br>
-													<button class="btn btn-sm btn-mono">
-														삭제
+										<th:block th:each="m : ${r.restrMenu}">
+											<tr>
+												<td th:text="${m.restrMenuName}" class="menuName"></td>
+												<td>
+													<span class="menuPrice" th:text="${m.restrMenuPrice}"></span><span> 원</span>
+												</td>
+												<td>
+													<button class="btn btn-sm btn-mono" th:onclick="updateTr(this,[[${m.restrMenuNo}]]);">
+														수정
 													</button>
-												</div>
-											</td>
-										</tr>
+												</td>
+											</tr>
+										</th:block>
 									</tbody>
 								</table>
 							</div>
@@ -118,24 +124,12 @@
 								<div class="input-box">
 									<input type="text" name="restrTag" id="restrTag" class="input-reg"
 										placeholder="추가할 태그를 입력하세요">
-									<button type="button" class="btn btn-point btn-reg">추가</button>
+									<button type="button" id="insertTag" class="btn btn-point btn-reg">추가</button>
 								</div>
 								<div class="tag-box">
-									<div class="tag">
-										<span class="tag-name">태그 이름</span>
-										<span class="material-symbols-outlined">
-											cancel
-										</span>
-									</div>
-									<div class="tag">
-										<span class="tag-name">태그 이름</span>
-										<span class="material-symbols-outlined">
-											cancel
-										</span>
-									</div>
-									<div class="tag">
-										<span class="tag-name">태그 이름</span>
-										<span class="material-symbols-outlined">
+									<div class="tag" th:each="tag : ${r.restrTag}">
+										<span class="tag-name" th:text="${tag.restrTagName}"></span>
+										<span class="material-symbols-outlined" th:onclick='deleteTag(this, [[${tag.restrTagNo]]);'>
 											cancel
 										</span>
 									</div>
@@ -149,19 +143,19 @@
 					<div class="input-content">
 						<div class="img">
 							<div class="img-box">
+								<img th:src="@{'/yomi/' + ${r.restrImg1}}" class="img-view">
 							</div>
-							<img src="" class="img-view">
 							<label for="imageFile1" class="btn btn-sm btn-mono">변경</label>
 							<input type="file" id="imageFile1" name="imageFile1" accept=".jpg,.png,.jpeg"
-								onchange="loadImg(this);" class="photo">
+								th:onchange="loadImg(this, [[${r.restrImg1}]],1);" class="photo">
 						</div>
 						<div class="img">
 							<div class="img-box">
+								<img th:src="@{'/yomi/' + ${r.restrImg2}}" class="img-view">
 							</div>
-							<img src="" class="img-view">
 							<label for="imageFile2" class="btn btn-sm btn-mono">변경</label>
 							<input type="file" id="imageFile2" name="imageFile2" accept=".jpg,.png,.jpeg"
-								onchange="loadImg(this);" class="photo">
+								th:onchange="loadImg(this, [[${r.restrImg2}]],2);" class="photo">
 						</div>
 					</div>
 				</div>
@@ -172,6 +166,162 @@
 			</form>
 		</div>
 	</main>
+	<script src="/js/restr-js.js"></script>
+	<script>
+		function completeTr(btn) {
+		    const tds = $(btn).parents("tr").children();
+		    let isCorrect = true;
+		    tds.each(function (index, item) {
+		        if (index < 2) {
+		            if ($(item).find("input").val() == "") {
+		                swal.fire({
+		                    title: "태그 추가 불가",
+		                    text: "메뉴를 모두 입력해주세요",
+		                    icon: "warning"
+		                });
+		                isCorrect = false;
+		                return;
+		            } else if (index == 1 && isNaN($(item).find("input").val())) {
+		                swal.fire({
+		                    title: "태그 추가 불가",
+		                    text: "가격은 숫자로만 입력해주세요",
+		                    icon: "warning"
+		                });
+		            }
+		        }
+		    });
+		    if (isCorrect) {
+		        tds.each(function (index, item) {
+		            if (index == 2) {
+		                $(item).html("<button type='button' class='btn btn-sm btn-mono' onclick='updateTr(this);'>수정</button>");
+		            }
+		            else if (index == 0) {
+		                const text = $(item).find("input").val();
+		                $(item).text(text);
+		                $(item).addClass("updateMenuName").addClass("menuName");
+		            } else {
+		                const text = "<span class='updateMenuPrice menuPrice'>" + $(item).find("input").val() + "</span>" + "<span> 원</span>";
+		                $(item).html(text);
+		                $(item).addClass("updateMenuPrice");
+		            }
+		        });
+	
+		    }
+		};
+			
+	$("#submit").on("click", function () {
+	    //console.log($("form#restrFrm"));
+	    //시간 되면 중복체크도 신경써주기
+	    //메뉴 가격 숫자 아니면 에러표시 해주기
+	    const menuNames = $("table.table").find("td.menuName");
+	    const menuPrices = $("table.table").find("span.menuPrice");
+	    const tags = $(".tag-name");
+	    const updateMenuNames = $("table.table").find("td.updateMenuName");
+	    const updateMenuPrices = $("table.table").find("span.updateMenuPrice");
+	    const updateTags = $(".update-tag-name");
+	    if ($("input#restrName").val() == "") {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "업체명을 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    if ($("input#restrAddr1").val() == "" || $("input#restrAddr2").val() == "") {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "주소를 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    if ($("input#restrTel").val() == "") {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "전화번호를 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+
+	    if ($("textarea#restrContent").val() == "") {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "설명을 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    if (menuNames.length == 0) {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "메뉴를 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    updateMenuNames.each(function (index, item) {
+	        const input = $("<input>");
+	        input.attr("name", "menuName");
+	        input.attr("type", "hidden");
+	        input.val($(item).text());
+	        $("form#restrFrm").append(input);
+	    });
+	    if (menuPrices.length == 0) {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "메뉴를 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    updateMenuPrices.each(function (index, item) {
+	        const input = $("<input>");
+	        input.attr("name", "menuPrice");
+	        input.attr("type", "hidden");
+	        input.val($(item).text());
+	        $("form#restrFrm").append(input);
+	    });
+	    if (tags.length == 0) {
+	        swal.fire({
+	            title: "등록 불가",
+	            text: "태그를 입력하지 않으셨습니다",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    updateTags.each(function (index, item) {
+	        const input = $("<input>");
+	        input.attr("name", "tagName");
+	        input.attr("type", "hidden");
+	        input.val($(item).text());
+	        $("form#restrFrm").append(input);
+	    });
+	    
+	    $("#submit-input").click();
+	});	
+	
+	
+		$("#cancel").on("click", function () {
+			swal.fire({
+				title : "맛집 수정 취소",
+				text : "정말 취소 하시겠습니까?",
+				icon : "question",
+				iconColor : "var(--point1)",
+				color : "var(--pointFont)",
+				showCancelButton : true,
+				cancelButtonText : "돌아가기",
+				confirmButtonText : "수정 취소",
+				confirmButtonColor : "var(--point1)",
+				cancelButtonColor : "var(--monocolor)"
+				}).then(result=>{
+					if(result.isConfirmed){
+					location.href="/restaurant/restrView"+[[${r.restrNo}]];
+					// /을 쓰면 처음부터 읽음 , /를 안쓰면 현재 들어와있는 /restaurant내에서 찾음
+					}
+				});
+		});
+	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
 
