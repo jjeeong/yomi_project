@@ -29,11 +29,19 @@ public class MemberService {
 		return member;
 	}
 
-	public List selectAllMember() {
-		List list = memberDao.selectAllMember();
-		return list;
-	}
 		
+
+	public Member selectOneMemberId(String memberId) {
+		Member member = memberDao.selectOneMemberId(memberId);
+		
+		return member;
+	}
+
+	public Member selectOneMemberEmail(String memberEmail) {
+		Member member = memberDao.selectOneMemberEmail(memberEmail);
+		return member;
+	}
+	
 }
 
 	

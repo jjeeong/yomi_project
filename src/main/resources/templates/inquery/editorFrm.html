@@ -5,6 +5,13 @@
 <title>문의사항 작성</title>
 <link rel="stylesheet" href="/css/inquery.css">
 <style>
+.tbl th,
+.tbl td {
+  text-align: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--pointFont);
+}
+
 .inquery-write-container{
 	display: flex;
 	justify-content: center;
@@ -19,12 +26,6 @@
 }
 .inquery-write-wrap .input-item>textarea{
 	height: 300px
-}
-.page-title{
-	margin : 30px;
-	font-size: 30px;
-	text-align : center;
-	
 }
 </style>
 </head>
@@ -48,10 +49,10 @@
 				 	<table class="tbl">
 				 	
 				 	<tr>
-						<th>제목</th>
-						<td colspan="3">
+						<th style="border-top:1px solid black;">제목</th>
+						<td colspan="3" style="border-top:1px solid black;">
 							<div class="input-item">
-								<input type="text" name="inqueryTitle">
+								<input type="text" name="inqueryTitle" style="outline:none;">
 							</div>
 						</td>
 					</tr>
@@ -62,7 +63,7 @@
 							<span th:text="${session.member.memberId}"></span>
 							<input type="hidden" name="inqueryWriter" th:value="${session.member.memberId}">
 						</td>
-						<th style="width:10%;">첨부파일</th>
+						<th style="width:10%; ">첨부파일</th>
 						<td style="width:40%;">
 							<!-- input type=file의 name은 반드시 vo의 변수명과 다르게 작성 -->
 							<input type="file" name="upfile" multiple>
@@ -88,6 +89,9 @@
 		</section>
 	</main>
 	
+	
+	
+	
 	<script>
 		$("#inqueryContent").summernote({
 			height:500,
@@ -107,6 +111,7 @@
 				}
 			}
 		});
+		
 		function uploadImage(file, editor){
 			//ajax로 서버에 이미지 업로드
 			//업로드 결과로 업로드된 파일의 filepath를 받아옴
@@ -127,12 +132,11 @@
 				data:form,
 				processData:false,
 				contentType:false,
-				success:function(data){
-					const imageUrl = data;
-					$(editor).summernote("insertImage",imageUrl);
+				success:function(data){					
+					$(editor).summernote("insertImage",data);
 				},
 				error:function(){
-					console.log("Image upload failed");
+					console.log("에러");
 				}
 			});
 			//processData:데이터 전송 시 기본적으로 문자열로 전송하게 세팅 -> 그 기본 세팅을 무효화
@@ -142,41 +146,6 @@
 			//enctype="multipart/form-data"
 		}
 		
-		
-		//Summernote의 onChange 콜백을 사용하여 HTML 콘텐츠에서 <p> 태그를 제거
-		$(document).ready(function() {
-            $('#summernote').summernote({
-                callbacks: {
-                    onChange: function(contents, $editable) {
-                        // 콘텐츠에서 <p> 태그 제거
-                        var modifiedHtml = contents.replace(/<\/?p>/g, '');
-                        $('#summernote').summernote('code', modifiedHtml);
-                    }
-                }
-            });
-        });
-		
-		//서버에서 HTML을 처리하여 <p> 태그를 제거하는 방법
-		//클라이언트 측에서 html 전송
-        $(document).ready(function() {
-            $('#summernote').summernote();
-
-            $('#save').click(function() {
-                var content = $('#summernote').summernote('code');
-                
-                $.ajax({
-                    url: '/save-content',
-                    method: 'POST',
-                    data: { htmlContent: content },
-                    success: function(response) {
-                        alert('Content saved!');
-                    },
-                    error: function(error) {
-                        console.error('Error saving content:', error);
-                    }
-                });
-            });
-        });
     
 		
 	</script>
