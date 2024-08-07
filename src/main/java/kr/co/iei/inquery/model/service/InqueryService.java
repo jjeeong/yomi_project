@@ -113,7 +113,7 @@ public class InqueryService {
 	}
 	
 	@Transactional
-	public Inquery selectOneInquery(int inqueryNo, String check) {
+	public Inquery selectOneInquery(int inqueryNo, String check, int memberNo) {
 		//문의글 조회
 		Inquery inq = inqueryDao.selectOneInquery(inqueryNo);
 		if(inq != null) {
@@ -125,13 +125,12 @@ public class InqueryService {
 			List fileList = inqueryDao.selectInqueryFile(inqueryNo);
 			inq.setFileList(fileList);
 			//댓글조회(문의사항 상세보기 할때 해당 문의사항의 댓글을 같이 조회) - 기본댓글만
-			List<InqueryComment> commentList = inqueryDao.selectCommentList(inqueryNo);
-		
-		
+			List<InqueryComment> commentList = inqueryDao.selectCommentList(inqueryNo,memberNo);
+			System.out.println("comlist:"+commentList);
 		inq.setCommentList(commentList);
 		//댓글 조회 - 대댓글만 조회
-		List reCommentList = inqueryDao.selectReCommentList(inqueryNo);
-		inq.setCommentList(reCommentList); 
+		List reCommentList = inqueryDao.selectReCommentList(inqueryNo,memberNo);
+		inq.setReCommentList(reCommentList); 
 		}
 		return inq;
 	}

@@ -16,5 +16,5 @@ public class Board {
 	private String thumbNailImg;
 	private int readCount;
 	private String boardRegdate;
-
+	private String boardStoreName;
 }
