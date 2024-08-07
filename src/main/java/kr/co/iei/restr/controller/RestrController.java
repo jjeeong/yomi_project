@@ -24,7 +24,7 @@ import kr.co.iei.restr.model.dto.BlogSearchResult;
 import kr.co.iei.restr.model.dto.Restaurant;
 
 import kr.co.iei.restr.model.dto.RestrMenu;
-
+import kr.co.iei.restr.model.dto.RestrTag;
 import kr.co.iei.restr.model.dto.Review;
 import kr.co.iei.restr.model.service.RestrService;
 import kr.co.iei.util.FileUtils;
@@ -233,11 +233,13 @@ public class RestrController {
 			delImgFile.add(filepath2);
 		}//if
 		List<RestrMenu> menuList = new ArrayList<RestrMenu>();
-		for (int i = 0; i < menuName.length; i++) {
-			RestrMenu rm = new RestrMenu();
-			rm.setRestrMenuName(menuName[i]);
-			rm.setRestrMenuPrice(menuPrice[i]);
-			menuList.add(rm);
+		if(menuName!=null) {
+			for (int i = 0; i < menuName.length; i++) {
+				RestrMenu rm = new RestrMenu();
+				rm.setRestrMenuName(menuName[i]);
+				rm.setRestrMenuPrice(menuPrice[i]);
+				menuList.add(rm);
+			}			
 		}
 		int result = restrService.updateRestr(r, menuList, tagName, delMenuNo, delTagNo, updateImgCount);
 		//service, dao까지 만들어서 실행해보고 만약 메뉴([]), 태그([]), 삭제할 파일 이름([])배열이 새로 추가된게 없을 시 input이 없어 오류가 날경우

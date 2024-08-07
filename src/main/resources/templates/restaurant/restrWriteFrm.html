@@ -154,8 +154,46 @@
 
 
 	</main>
+	<script>
+	//주소찾기
+		$("#addrSearch").on("click", function () {
+		    new daum.Postcode({
+		        oncomplete: function (data) {
+		            $("#restrAddr1").val(data.roadAddress);
+		            $("#restrAddr2").focus();
+		            searchAddressToCoordinate(data.roadAddress);
+		        }
+		    }).open();
+		})
+		//네이버 지도 띄워서 위치 표시, 클릭하면 주소 변경 가능하도록..
+		const map = new naver.maps.Map("map", {
+		    center: new naver.maps.LatLng(37.3595316, 127.1052133),//LatLng : 위도 경도를 다룸
+		    zoom: 18, //배율 지정
+		    zoomControl: true, //배율을 사용자가 직접 지정할 수 있도록 바를 띄워줌
+		    zoomControlOptions: { //배율 지정 바 스타일 변경
+		        position: naver.maps.Position.TOP_RIGHT,
+		        style: naver.maps.ZoomControlStyle.SMALL
+		    }
+		});
+	</script>
 	<script src="/js/restr-js.js"></script>
 	<script>
+		//태그 추가
+		$("#insertTag").on("click", function () {
+		    const tagText = $("#restrTag").val();
+		    if (tagText == "") {
+		        alert("태그를 입력해주세요");
+		        return;
+		    }
+		    const tagDiv = $("<div>");
+		    tagDiv.addClass("tag");
+		    const tagDivHtml = "<span class='tag-name'>" + tagText + "</span><span class='material-symbols-outlined' onclick='deleteTag(this);'>cancel</span>";
+		    tagDiv.html(tagDivHtml);
+		    $("div.tag-box").append(tagDiv);
+		    $("#restrTag").val("");
+		    //list에 넣는 작업 필요=>submit버튼 누르면
+		})
+	
 		//메뉴 추가 버튼
 		function completeTr(btn) {
 	    	const tds = $(btn).parents("tr").children();
@@ -164,7 +202,7 @@
 	        	if (index < 2) {
 	            	if ($(item).find("input").val() == "") {
 	                	swal.fire({
-	                    	title: "태그 추가 불가",
+	                    	title: "메뉴 추가 불가",
 	                    	text: "메뉴를 모두 입력해주세요",
 	                    	icon: "warning"
 	                	});
@@ -172,7 +210,7 @@
 	                	return;
 	            	} else if (index == 1 && isNaN($(item).find("input").val())) {
 	                	swal.fire({
-	                    	title: "태그 추가 불가",
+	                    	title: "메뉴 추가 불가",
 	                    	text: "가격은 숫자로만 입력해주세요",
 	                    	icon: "warning"
 	                	});

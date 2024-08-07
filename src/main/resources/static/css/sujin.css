@@ -375,14 +375,3 @@ main.error div.error-content>.img>span {
     border-color: var(--mainFont);
     font-weight: 500;
 }
-
-/*
-글씨 색깔 관련 클래스
-*/
-.point {
-    color: var(--point1);
-}
-
-.pointFont {
-    color: var(--pointFont);
-}

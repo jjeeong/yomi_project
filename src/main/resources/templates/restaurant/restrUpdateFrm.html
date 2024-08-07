@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="/css/sujin.css">
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-<!--
+	<!--
 	--정원이가 한 api인증
 	<script type="text/javascript"
 		src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zzl0s76r4r&submodules=geocoder"></script>
@@ -38,6 +38,7 @@
 		<div class="round-box frm">
 			<h2 class="page-title">맛집 수정</h2>
 			<form action="/restaurant/restrUpdate" method="post" enctype="multipart/form-data" id="updateFrm">
+				<input type="hidden" name="restrNo" th:value="${r.restrNo}">
 				<div class="info basic round-box shadow">
 					<h3>1. 기본 정보</h3>
 					<div class="input-content">
@@ -52,16 +53,16 @@
 						</div>
 						<div class="input-list restrAddr">
 							<span class="inputName">▪ 주소</span><button type="button"
-								class="btn btn-point btn-sm round-box">검색</button>
+								class="btn btn-point btn-sm round-box" id="addrSearch">검색</button>
 							<div class="input-box">
 								<input type="text" name="restrAddr1" id="restrAddr1" class="input-lg" readonly
 									placeholder="주소를 입력하세요" th:value="${r.restrAddr1}">
-								<input type="text" name="restrAddr2" id="restrAddr2" class="input-lg" readonly
+								<input type="text" name="restrAddr2" id="restrAddr2" class="input-lg"
 									placeholder="상세 주소를 입력하세요" th:value="${r.restrAddr2}">
 								<input type="hidden" name="restrMapx" id="mapX" th:value="${r.restrMapx}">
 								<input type="hidden" name="restrMapy" id="mapY" th:value="${r.restrMapy}">
 							</div>
-							<div id="map" style="width:90%; height:300px; margin: 0 auto;margin-top : 30px;"></div>
+							<div id="map" style="width:90%; height:300px; margin: 0 auto; margin-top : 30px;"></div>
 						</div>
 						<div class="input-list restrTel">
 							<label for="restrTel">
@@ -88,7 +89,7 @@
 					<div class="input-content">
 						<div class="input-list restrMenu">
 							<span class="inputName">▪ 메뉴</span><button type="button"
-								class="btn btn-point btn-sm round-box"  onclick="insertTr();">항목 추가</button>
+								class="btn btn-point btn-sm round-box" onclick="insertTr();">항목 추가</button>
 							<div class="tbl-box">
 								<table class="tbl table">
 									<thead>
@@ -103,10 +104,12 @@
 											<tr>
 												<td th:text="${m.restrMenuName}" class="menuName"></td>
 												<td>
-													<span class="menuPrice" th:text="${m.restrMenuPrice}"></span><span> 원</span>
+													<span class="menuPrice" th:text="${m.restrMenuPrice}"></span><span>
+														원</span>
 												</td>
 												<td>
-													<button class="btn btn-sm btn-mono" th:onclick="updateTr(this,[[${m.restrMenuNo}]]);">
+													<button class="btn btn-sm btn-mono"
+														th:onclick="updateTr(this,[[${m.restrMenuNo}]]);">
 														수정
 													</button>
 												</td>
@@ -122,14 +125,15 @@
 							</label>
 							<div class="input-content">
 								<div class="input-box">
-									<input type="text" name="restrTag" id="restrTag" class="input-reg"
+									<input type="text" name="restrTags" id="restrTag" class="input-reg"
 										placeholder="추가할 태그를 입력하세요">
 									<button type="button" id="insertTag" class="btn btn-point btn-reg">추가</button>
 								</div>
 								<div class="tag-box">
 									<div class="tag" th:each="tag : ${r.restrTag}">
 										<span class="tag-name" th:text="${tag.restrTagName}"></span>
-										<span class="material-symbols-outlined" th:onclick='deleteTag(this, [[${tag.restrTagNo]]);'>
+										<span class="material-symbols-outlined"
+											th:onclick='deleteTag(this, [[${tag.restrTagNo}]]);'>
 											cancel
 										</span>
 									</div>
@@ -166,160 +170,353 @@
 			</form>
 		</div>
 	</main>
-	<script src="/js/restr-js.js"></script>
+	
 	<script>
-		function completeTr(btn) {
-		    const tds = $(btn).parents("tr").children();
-		    let isCorrect = true;
-		    tds.each(function (index, item) {
-		        if (index < 2) {
-		            if ($(item).find("input").val() == "") {
-		                swal.fire({
-		                    title: "태그 추가 불가",
-		                    text: "메뉴를 모두 입력해주세요",
-		                    icon: "warning"
-		                });
-		                isCorrect = false;
-		                return;
-		            } else if (index == 1 && isNaN($(item).find("input").val())) {
-		                swal.fire({
-		                    title: "태그 추가 불가",
-		                    text: "가격은 숫자로만 입력해주세요",
-		                    icon: "warning"
-		                });
+		//주소찾기
+		$("#addrSearch").on("click", function () {
+		    new daum.Postcode({
+		        oncomplete: function (data) {
+		            $("#restrAddr1").val(data.roadAddress);
+		            $("#restrAddr2").focus();
+		            searchAddressToCoordinate(data.roadAddress);
+		        }
+		    }).open();
+		})
+		//네이버 지도 띄워서 위치 표시, 클릭하면 주소 변경 가능하도록..
+		const map = new naver.maps.Map("map", {
+		    center: new naver.maps.LatLng(37.3595316, 127.1052133),//LatLng : 위도 경도를 다룸
+		    zoom: 18, //배율 지정
+		    zoomControl: true, //배율을 사용자가 직접 지정할 수 있도록 바를 띄워줌
+		    zoomControlOptions: { //배율 지정 바 스타일 변경
+		        position: naver.maps.Position.TOP_RIGHT,
+		        style: naver.maps.ZoomControlStyle.SMALL
+		    }
+		});
+		let currentAddr = "[[${r.restrAddr1}]]";
+		searchAddressToCoordinate(currentAddr);
+		
+		map.setCursor('pointer');
+		var infoWindow = new naver.maps.InfoWindow({
+		    borderWidth: 0,
+		    backgroundColor: 'transparent',
+		    anchorColor: 'var(--point1)',
+		    anchorSkew: true
+		});
+
+		function searchAddressToCoordinate(address) {
+		    naver.maps.Service.geocode({
+		        query: address
+		    }, function (status, response) {
+		        if (status === naver.maps.Service.Status.ERROR) {
+		            return alert('Something Wrong!');
+		        }
+
+		        if (response.v2.meta.totalCount === 0) {
+		            return alert('totalCount' + response.v2.meta.totalCount);
+		        }
+
+		        var htmlAddresses = [],
+		            item = response.v2.addresses[0],
+		            point = new naver.maps.Point(item.x, item.y);// item.x : 경도 item.y : 위도
+		        $("#mapX").val(item.y);
+		        $("#mapY").val(item.x);
+		        if (item.roadAddress) {
+		            $("#restrAddr1").val(item.roadAddress);
+		            address = item.roadAddress;
+		            htmlAddresses.push('<span style="color : var(--pointFont); font-family : g_b;">[도로명 주소] </span>' + item.roadAddress);
+		        }
+
+		        if (item.jibunAddress) {
+		            htmlAddresses.push('<span style="color : var(--pointFont);  font-family : g_b;">[지번 주소] </span>' + item.jibunAddress);
+		        }
+
+		        infoWindow.setContent([
+		            '<div class="round-box-child" style="padding:10px;min-width:100px;line-height:150%;">',
+		            '<h4 style="margin-top:5px;font-size: 15px; font-family : g_b; color : var(--point1);">검색 주소 : ' + address + '</h4><br /><p style="font-size:13px; font-family : g_r">',
+		            htmlAddresses.join('<br />'),
+		            '</p></div>'
+		        ].join('\n'));
+
+		        map.setCenter(point);
+		        infoWindow.open(map, point);
+		    });
+		}
+		//클릭하면 좌표값+주소값 가져오기
+		function searchCoordinateToAddress(latlng) {
+
+		    infoWindow.close();
+
+		    naver.maps.Service.reverseGeocode({
+		        coords: latlng,
+		        orders: [
+		            naver.maps.Service.OrderType.ADDR,
+		            naver.maps.Service.OrderType.ROAD_ADDR
+		        ].join(',')
+		    }, function (status, response) {
+		        if (status === naver.maps.Service.Status.ERROR) {
+		            return alert('시스템 오류입니다!');
+		            //sw 쓸 수 있으면 써도 되고..
+		        }
+		        var items = response.v2.results,
+		            address = '',
+		            htmlAddresses = [];
+		        item = items[0];
+		        address = makeAddress(item) || '';
+		        $("#restrAddr1").val(address);
+		        $("#restrAddr2").focus();
+		        searchAddressToCoordinate(address);
+		    });
+		}
+		//클릭 이벤트
+		map.addListener('click', function (e) {
+		    searchCoordinateToAddress(e.coord);
+		});
+		//주소만들기
+		function makeAddress(item) {
+		    if (!item) {
+		        return;
+		    }
+
+		    var name = item.name,
+		        region = item.region,
+		        land = item.land,
+		        isRoadAddress = name === 'roadaddr';
+
+		    var sido = '', sigugun = '', dongmyun = '', ri = '', rest = '';
+
+		    if (hasArea(region.area1)) {
+		        sido = region.area1.name;
+		    }
+
+		    if (hasArea(region.area2)) {
+		        sigugun = region.area2.name;
+		    }
+
+		    if (hasArea(region.area3)) {
+		        dongmyun = region.area3.name;
+		    }
+
+		    if (hasArea(region.area4)) {
+		        ri = region.area4.name;
+		    }
+
+		    if (land) {
+		        if (hasData(land.number1)) {
+		            if (hasData(land.type) && land.type === '2') {
+		                rest += '산';
+		            }
+
+		            rest += land.number1;
+
+		            if (hasData(land.number2)) {
+		                rest += ('-' + land.number2);
 		            }
 		        }
-		    });
-		    if (isCorrect) {
-		        tds.each(function (index, item) {
-		            if (index == 2) {
-		                $(item).html("<button type='button' class='btn btn-sm btn-mono' onclick='updateTr(this);'>수정</button>");
-		            }
-		            else if (index == 0) {
-		                const text = $(item).find("input").val();
-		                $(item).text(text);
-		                $(item).addClass("updateMenuName").addClass("menuName");
-		            } else {
-		                const text = "<span class='updateMenuPrice menuPrice'>" + $(item).find("input").val() + "</span>" + "<span> 원</span>";
-		                $(item).html(text);
-		                $(item).addClass("updateMenuPrice");
-		            }
-		        });
-	
-		    }
-		};
-			
-	$("#submit").on("click", function () {
-	    //console.log($("form#restrFrm"));
-	    //시간 되면 중복체크도 신경써주기
-	    //메뉴 가격 숫자 아니면 에러표시 해주기
-	    const menuNames = $("table.table").find("td.menuName");
-	    const menuPrices = $("table.table").find("span.menuPrice");
-	    const tags = $(".tag-name");
-	    const updateMenuNames = $("table.table").find("td.updateMenuName");
-	    const updateMenuPrices = $("table.table").find("span.updateMenuPrice");
-	    const updateTags = $(".update-tag-name");
-	    if ($("input#restrName").val() == "") {
-	        swal.fire({
-	            title: "등록 불가",
-	            text: "업체명을 입력하지 않으셨습니다",
-	            icon: "error"
-	        });
-	        return;
-	    }
-	    if ($("input#restrAddr1").val() == "" || $("input#restrAddr2").val() == "") {
-	        swal.fire({
-	            title: "등록 불가",
-	            text: "주소를 입력하지 않으셨습니다",
-	            icon: "error"
-	        });
-	        return;
-	    }
-	    if ($("input#restrTel").val() == "") {
-	        swal.fire({
-	            title: "등록 불가",
-	            text: "전화번호를 입력하지 않으셨습니다",
-	            icon: "error"
-	        });
-	        return;
-	    }
 
-	    if ($("textarea#restrContent").val() == "") {
-	        swal.fire({
-	            title: "등록 불가",
-	            text: "설명을 입력하지 않으셨습니다",
-	            icon: "error"
-	        });
-	        return;
-	    }
-	    if (menuNames.length == 0) {
-	        swal.fire({
-	            title: "등록 불가",
-	            text: "메뉴를 입력하지 않으셨습니다",
-	            icon: "error"
-	        });
-	        return;
-	    }
-	    updateMenuNames.each(function (index, item) {
-	        const input = $("<input>");
-	        input.attr("name", "menuName");
-	        input.attr("type", "hidden");
-	        input.val($(item).text());
-	        $("form#restrFrm").append(input);
-	    });
-	    if (menuPrices.length == 0) {
-	        swal.fire({
-	            title: "등록 불가",
-	            text: "메뉴를 입력하지 않으셨습니다",
-	            icon: "error"
-	        });
-	        return;
-	    }
-	    updateMenuPrices.each(function (index, item) {
-	        const input = $("<input>");
-	        input.attr("name", "menuPrice");
-	        input.attr("type", "hidden");
-	        input.val($(item).text());
-	        $("form#restrFrm").append(input);
-	    });
-	    if (tags.length == 0) {
-	        swal.fire({
-	            title: "등록 불가",
-	            text: "태그를 입력하지 않으셨습니다",
-	            icon: "error"
-	        });
-	        return;
-	    }
-	    updateTags.each(function (index, item) {
-	        const input = $("<input>");
-	        input.attr("name", "tagName");
-	        input.attr("type", "hidden");
-	        input.val($(item).text());
-	        $("form#restrFrm").append(input);
-	    });
-	    
-	    $("#submit-input").click();
-	});	
+		        if (isRoadAddress === true) {
+		            if (checkLastString(dongmyun, '면')) {
+		                ri = land.name;
+		            } else {
+		                dongmyun = land.name;
+		                ri = '';
+		            }
+
+		            if (hasAddition(land.addition0)) {
+		                rest += ' ' + land.addition0.value;
+		            }
+		        }
+		    }
+
+		    return [sido, sigugun, dongmyun, ri, rest].join(' ');
+		}
+
+		function hasArea(area) {
+		    return !!(area && area.name && area.name !== '');
+		}
+
+		function hasData(data) {
+		    return !!(data && data !== '');
+		}
+
+		function checkLastString(word, lastString) {
+		    return new RegExp(lastString + '$').test(word);
+		}
+
+		function hasAddition(addition) {
+		    return !!(addition && addition.value);
+		}
+	</script>
+	<script src="/js/restr-js.js"></script>
+	<script th:inline="javascript">
+		//태그 추가
+		$("#insertTag").on("click", function () {
+		    const tagText = $("#restrTag").val();
+		    if (tagText == "") {
+		        alert("태그를 입력해주세요");
+		        return;
+		    }
+		    const tagDiv = $("<div>");
+		    tagDiv.addClass("tag");
+		    const tagDivHtml = "<span class='tag-name update-tag-name'>" + tagText + "</span><span class='material-symbols-outlined' onclick='deleteTag(this);'>cancel</span>";
+		    tagDiv.html(tagDivHtml);
+		    $("div.tag-box").append(tagDiv);
+		    $("#restrTag").val("");
+		    //list에 넣는 작업 필요
+		})
 	
 	
-		$("#cancel").on("click", function () {
-			swal.fire({
-				title : "맛집 수정 취소",
-				text : "정말 취소 하시겠습니까?",
-				icon : "question",
-				iconColor : "var(--point1)",
-				color : "var(--pointFont)",
-				showCancelButton : true,
-				cancelButtonText : "돌아가기",
-				confirmButtonText : "수정 취소",
-				confirmButtonColor : "var(--point1)",
-				cancelButtonColor : "var(--monocolor)"
-				}).then(result=>{
-					if(result.isConfirmed){
-					location.href="/restaurant/restrView"+[[${r.restrNo}]];
-					// /을 쓰면 처음부터 읽음 , /를 안쓰면 현재 들어와있는 /restaurant내에서 찾음
+		function completeTr(btn) {
+			const tds = $(btn).parents("tr").children();
+			let isCorrect = true;
+			tds.each(function (index, item) {
+				if (index < 2) {
+					if ($(item).find("input").val() == "") {
+						swal.fire({
+							title: "메뉴 추가 불가",
+							text: "메뉴를 모두 입력해주세요",
+							icon: "warning"
+						});
+						isCorrect = false;
+						return;
+					} else if (index == 1 && isNaN($(item).find("input").val())) {
+						swal.fire({
+							title: "메뉴 추가 불가",
+							text: "가격은 숫자로만 입력해주세요",
+							icon: "warning"
+						});
+					}
+				}
+			});
+			if (isCorrect) {
+				tds.each(function (index, item) {
+					if (index == 2) {
+						$(item).html("<button type='button' class='btn btn-sm btn-mono' onclick='updateTr(this);'>수정</button>");
+					}
+					else if (index == 0) {
+						const text = $(item).find("input").val();
+						$(item).text(text);
+						$(item).addClass("updateMenuName").addClass("menuName");
+					} else {
+						const text = "<span class='updateMenuPrice menuPrice'>" + $(item).find("input").val() + "</span>" + "<span> 원</span>";
+						$(item).html(text);
+						$(item).addClass("updateMenuPrice");
 					}
 				});
+
+			}
+		};
+
+		$("#submit").on("click", function () {
+			//console.log($("form#restrFrm"));
+			//시간 되면 중복체크도 신경써주기
+			//메뉴 가격 숫자 아니면 에러표시 해주기
+			const menuNames = $("table.table").find("td.menuName");
+			const menuPrices = $("table.table").find("span.menuPrice");
+			const tags = $(".tag-name");
+			const updateMenuNames = $("table.table").find("td.updateMenuName");
+			const updateMenuPrices = $("table.table").find("span.updateMenuPrice");
+			const updateTags = $(".update-tag-name");
+			if ($("input#restrName").val() == "") {
+				swal.fire({
+					title: "등록 불가",
+					text: "업체명을 입력하지 않으셨습니다",
+					icon: "error"
+				});
+				return;
+			}
+			if ($("input#restrAddr1").val() == "" || $("input#restrAddr2").val() == "") {
+				swal.fire({
+					title: "등록 불가",
+					text: "주소를 입력하지 않으셨습니다",
+					icon: "error"
+				});
+				return;
+			}
+			if ($("input#restrTel").val() == "") {
+				swal.fire({
+					title: "등록 불가",
+					text: "전화번호를 입력하지 않으셨습니다",
+					icon: "error"
+				});
+				return;
+			}
+
+			if ($("textarea#restrContent").val() == "") {
+				swal.fire({
+					title: "등록 불가",
+					text: "설명을 입력하지 않으셨습니다",
+					icon: "error"
+				});
+				return;
+			}
+			if (menuNames.length == 0) {
+				swal.fire({
+					title: "등록 불가",
+					text: "메뉴를 입력하지 않으셨습니다",
+					icon: "error"
+				});
+				return;
+			}
+			updateMenuNames.each(function (index, item) {
+				const input = $("<input>");
+				input.attr("name", "menuName");
+				input.attr("type", "hidden");
+				input.val($(item).text());
+				$("form#updateFrm").append(input);
+			});
+			if (menuPrices.length == 0) {
+				swal.fire({
+					title: "등록 불가",
+					text: "메뉴를 입력하지 않으셨습니다",
+					icon: "error"
+				});
+				return;
+			}
+			updateMenuPrices.each(function (index, item) {
+				const input = $("<input>");
+				input.attr("name", "menuPrice");
+				input.attr("type", "hidden");
+				input.val($(item).text());
+				$("form#updateFrm").append(input);
+			});
+			if (tags.length == 0) {
+				swal.fire({
+					title: "등록 불가",
+					text: "태그를 입력하지 않으셨습니다",
+					icon: "error"
+				});
+				return;
+			}
+			updateTags.each(function (index, item) {
+				const input = $("<input>");
+				input.attr("name", "tagName");
+				input.attr("type", "hidden");
+				input.val($(item).text());
+				$("form#updateFrm").append(input);
+			});
+
+			$("#submit-input").click();
+		});
+
+
+		$("#cancel").on("click", function () {
+			swal.fire({
+				title: "맛집 수정 취소",
+				text: "정말 취소 하시겠습니까?",
+				icon: "question",
+				iconColor: "var(--point1)",
+				color: "var(--pointFont)",
+				showCancelButton: true,
+				cancelButtonText: "돌아가기",
+				confirmButtonText: "수정 취소",
+				confirmButtonColor: "var(--point1)",
+				cancelButtonColor: "var(--monocolor)"
+			}).then(result => {
+				if (result.isConfirmed) {
+					location.href = "/restaurant/restrView" + [[${ r.restrNo }]];
+					// /을 쓰면 처음부터 읽음 , /를 안쓰면 현재 들어와있는 /restaurant내에서 찾음
+				}
+			});
 		});
 	</script>
 	<th:block th:include="common/footer"></th:block>
