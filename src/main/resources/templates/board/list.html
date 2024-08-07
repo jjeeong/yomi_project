@@ -1,27 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http:www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-.list-name{
+.list-name {
     overflow: hidden;
 }
 
-.list-name p{
+.list-name p {
     width: 200px;
     height: 70px;
     margin: 0 auto;
     text-align: center;
     font-size: 25px;
-    font-family: g_m;
-    font-family: g_black;
+    font-family: g_m, g_black;
 }
 
-[name=write-btn]{
+[name=write-btn] {
     float: right;
-    margin-right: 200px;
-    margin-bottom: 50px;
+    margin-right: 160px;
     border-radius: 15px;
     background-color: var(--point2); 
     border: none;
@@ -30,168 +28,107 @@
     font-family: g_b;
 }
 
-
 .main-content {
     padding: 20px;
-    width: 1400px; 
-    height: 1200px;
+    width: 1200px; 
+    height: 1000px;
     margin: 0 auto; 
     flex: 1; 
     box-sizing: border-box; 
-}
-
-.semi-board{
-    --bgcolor: #F3F3F3;
-    width: 1200px;
-    box-sizing: border-box;
-    margin: 0 auto;
     overflow: hidden;
 }
 
-.semi-board p{
+.semi-board {
+    --bgcolor: #F3F3F3;
+    box-sizing: border-box;
+    background-color: white;
+    width: 300px;
+    height: 230px;
+    float: left;
+    margin: 20px;
+    border: 1px solid black;
+}
+
+.info1 {
+    margin: 5px;
+}
+
+.semi-board p {
     margin-left: 15px;
 }
 
-.semi-board>div{
-    float: left;
-}
-
-.info1{
-   
-    width: 400px;
-    height: 300px;
-}
-.info2{
-   
-    width: 400px;
-    height: 300px;
-}
-.info3{
-   
-    width: 400px;
-    height: 300px;
-}
-.info4{
-   
-    width: 400px;
-    height: 300px;
-}
-.info5{
-  
-    width: 400px;
-    height: 300px;
-}
-.info6{
-   
-    width: 400px;
-    height: 300px;
-}
-
-.more-btn{
-    padding-top: 15px;
-    text-align: center;
-    font-family: g_b;
-}
-
-[name=more-btn]{
-    background-color: var(--point2); ;
-    border: none;
-    border-radius: 15px;
-    font-style: normal;
-    width: 100px;
-    height: 50px;
-    font-size: 20px;
-}
-
-.img{
+.img {
     background-color: aquamarine;
-    width: 200px;
-    height: 150px;
+    width: 150px;
+    height: 100px;
     margin-left: 100px;
 }
 
-	
+#pageNavi {
+    margin: 0 auto;
+}
+
+#pageNavi ul {
+    overflow: hidden;
+}
+
+#pageNavi li {
+    list-style-type: none;
+    margin: 0 auto;
+    padding: 5px;
+    float: left;    
+    font-size: 23px;
+    text-align: center;
+}
+
+.review {
+    word-break: break-all;
+   width: 270px; /* Adjust as needed */
+}
+.review *{
+	height : 45px;
+	width : 100p;
+	text-overflow: ellipsis;
+		overflow: hidden;
+    white-space: nowrap;
+    word-break: break-all;
+	}
 </style>
 </head>
 <body>
-       <th:block th:include="common/header"></th:block>
+    <th:block th:include="common/header"></th:block>
          
-        <div class="main-content">
-            
-            <div class="list-name">
-                <p>맛집 게시판 목록</p>
-                <div class="write-btn">
-                    <button type="button" name="write-btn" id="write-btn" th:if="${session.member!=null}">글쓰기</button>
-                </div>
+    <div class="main-content">
+        <div class="list-name">
+            <p>맛집 게시판 목록</p>
+            <div class="write-btn">
+                <button type="button" name="write-btn" id="write-btn" th:if="${session.member!=null}">글쓰기</button>
             </div>
-
-            <div class="semi-board">
-                <div class="info1">
-                    <div class="img">
-                        썸네일들어감
-                    </div>
-                    <p>가게명:</p>
-                    <p>위치 : </p>
-                    <p>가게설명 :</p>
+        </div>
+				
+        <div class="semi-board" th:each="board : ${list}">
+            <div class="info1">
+                <div class="img">
+                    <img th:src="@{'/board/' + ${board.thumbNailImg}}">
                 </div>
-
-                <div class="info2">
-                    <div class="img">
-                        
-                    </div>
-                    <p>가게명:</p>
-                    <p>위치 : </p>
-                    <p>가게설명 :</p>
-                </div>
-                
-                <div class="info3">
-                    <div class="img">
-                        
-                    </div>
-                    <p>가게명:</p>
-                    <p>위치 : </p>
-                    <p>가게설명 :</p>
-                </div>
-                <div class="info4">
-                    <div class="img">
-                        
-                    </div>
-                    <p>가게명:</p>
-                    <p>위치 : </p>
-                    <p>가게설명 :</p>
-                </div>
-                <div class="info5">
-                    <div class="img">
-                        
-                    </div>
-                    <p>가게명:</p>
-                    <p>위치 : </p>
-                    <p>가게설명 :</p>
-                </div>
-                <div class="info6">
-                    <div class="img">
-                        
-                    </div>
-                    <p>가게명:</p>
-                    <p>위치 : </p>
-                    <p>가게설명 :</p>
-                </div>
+                <p th:text="${board.boardStoreName}">가게명:</p>
+                <p th:text="${board.boardAddr}">위치:</p>
+                <p class="review" th:utext="${board.boardContent}">가게설명:</p>
             </div>
-
-            <div class="more-btn">
-                <button type="button" name="more-btn" id="more-btn">더보기</button>
-            </div>
-
-
-        </div>       
-    
-   	<th:block th:include="common/footer"></th:block>
+        </div>    
+    </div>       
+        
+    <div id="pageNavi" th:utext="${pageNavi}"></div>
+    	
+    <th:block th:include="common/footer"></th:block>
    	
-   	 <script>
+    <script>
         document.getElementById('write-btn').addEventListener('click', function() {
             window.location.href = 'writeFrm';
         });
+
+          
+       
     </script>
-    
 </body>
 </html>
