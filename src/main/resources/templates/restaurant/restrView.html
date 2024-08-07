@@ -836,8 +836,30 @@
     <script>
         //수진 : 삭제, 수정하기 버튼 클릭하려고 function 조금 만들게요...
         $("button.delete-btn").on("click", function () {
-            location.href = "/restaurant/deleteRestr?restrNo=" + [[${ r.restrNo }]];
-        })
+
+        	const swal = Swal.mixin({
+        	    customClass: {
+        	        confirmButton: "btn btn-point-swal btn-lg",
+        	        cancelButton: "btn btn-mono-swal btn-lg",
+        	        title: "point",
+        	    },
+        	    buttonsStyling: false
+        	});
+ 
+        	swal.fire({
+        		title : "맛집 삭제",
+        		text:"정말 삭제하시겠습니까?",
+        		icon:"question",
+        		iconColor : "var(--point1)",
+        		showCancelButton : true,
+        		cancelButtonText : "취소",
+        	    confirmButtonText: "삭제",
+        	}).then(result=>{
+        		if(result.isConfirmed){
+		            location.href = "/restaurant/deleteRestr?restrNo=" + [[${ r.restrNo }]];
+        		}
+        	});
+        });
         $("button.update-btn").on("click", function () {
             location.href = "/restaurant/updateFrm?restrNo=" + [[${ r.restrNo }]];
         })
