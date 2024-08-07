@@ -245,4 +245,9 @@ public class RestrService {
 		return starAvg;
 	}
 
+	public List selectBest() {
+		List bestRestrList = restrDao.selectBest();
+		return bestRestrList;
+	}
+
 }

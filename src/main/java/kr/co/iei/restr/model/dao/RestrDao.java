@@ -252,4 +252,14 @@ public class RestrDao {
 		return starAddr;
 	}
 
+	public List selectBest() {//별점 베스트 12개 뽑기.. 정렬이 된지는 알수 없음.. 
+		String query = "select * from restaurant \r\n" + 
+				"where restr_no in (\r\n" + 
+				"select restr_no from \r\n" + 
+				"(select rownum as rnum, r.* from \r\n" + 
+				"(select avg(review_star), restr_no from review group by restr_no order by 1 desc)r)r2 where rnum<13)";
+		List list = jdbc.query(query, restaurantRowMapper);
+		return list;
+	}
+
 }
