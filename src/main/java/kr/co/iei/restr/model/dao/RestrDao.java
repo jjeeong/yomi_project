@@ -13,7 +13,10 @@ import kr.co.iei.restr.model.dto.RestrMenu;
 import kr.co.iei.restr.model.dto.RestrMenuRowMapper;
 import kr.co.iei.restr.model.dto.RestrTagRowMapper;
 import kr.co.iei.restr.model.dto.Review;
+import kr.co.iei.restr.model.dto.ReviewImg;
+import kr.co.iei.restr.model.dto.ReviewImgRowMapper;
 import kr.co.iei.restr.model.dto.ReviewRowMapper;
+import kr.co.iei.restr.model.dto.ReviewTagRowMapper;
 
 @Repository
 public class RestrDao {
@@ -32,6 +35,12 @@ public class RestrDao {
 	
 	@Autowired
 	private RestrTagRowMapper restrTagRowMapper;
+	
+	@Autowired
+	private ReviewTagRowMapper reviewTagRowMapper;
+	
+	@Autowired
+	private ReviewImgRowMapper reviewImgRowMapper;
 
 	public Restaurant selectOneRestr(int restrNo) {
 		String query = "select * from restaurant where restr_no = ?";
@@ -43,21 +52,21 @@ public class RestrDao {
 		return (Restaurant) list.get(0);
 	}
 
-	public int insertNoticeRestrLike(int restrNo, int memberNo) {
+	public int insertRestrLike(int restrNo, int memberNo) {
 		String query = "insert into restaurant_like values(?,?)";
 		Object[] params = { restrNo, memberNo };
 		int result = jdbc.update(query, params);
 		return result;
 	}
 
-	public int deleteNoticeRestrLike(int restrNo, int memberNo) {
+	public int deleteRestrLike(int restrNo, int memberNo) {
 		String query = "delete from restaurant_like where restr_no = ? and member_no = ?";
 		Object[] params = { restrNo, memberNo };
 		int result = jdbc.update(query, params);
 		return result;
 	}
 
-	public int selectNoticeRestrLikeCount(int restrNo) {
+	public int selectRestrLikeCount(int restrNo) {
 		String query = "select count(*) from restaurant_like where restr_no = ?";
 		Object[] params = { restrNo };
 		int likeCount = jdbc.queryForObject(query, Integer.class, params);
@@ -147,10 +156,38 @@ public class RestrDao {
 	}
 
 	public int insertKeyword(int reviewNo, String keyword) {
-		String query = "insert into review values(review_tag_seq.nextval, ?, ?)";
+		String query = "insert into review_tag values(review_tag_seq.nextval, ?, ?)";
 		Object[] params = {keyword, reviewNo};
 		int result = jdbc.update(query, params);
 		return result;
+	}
+
+	public List selectReviewTagList(int reviewNo) {
+		String query = "select review_no, review_tag_name, restr_no, review_tag_no from review_tag join review using (review_no) where review_no = ?";
+		Object[] params = {reviewNo};
+		List list = jdbc.query(query , reviewTagRowMapper, params); 
+		return list;
+	}
+
+	public int insertReviewImg(ReviewImg reviewImg) {
+		String query = "insert into review_img values(review_img_seq.nextval,?,?,?)";
+		Object[] params = {reviewImg.getReviewFilename(), reviewImg.getReviewFilePath(), reviewImg.getReviewNo()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public List selectReviewImgList(int reviewNo) {
+		String query = "select review_no, review_img_no, review_filename, review_filepath from review_img join review using (review_no) where review_no = ?";
+		Object[] params = {reviewNo};
+		List list = jdbc.query(query , reviewImgRowMapper, params); 
+		return list;
+	}
+
+	public Double RestrStarAvg(int restrNo) {
+		String query = "select round(avg(review_star),1) from review where restr_no = ?";
+		Object[] params = {restrNo};
+		Double starAddr = jdbc.queryForObject(query , Double.class, params);
+		return starAddr;
 	}
 
 }

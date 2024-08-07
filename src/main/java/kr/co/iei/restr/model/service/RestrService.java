@@ -18,6 +18,7 @@ import kr.co.iei.restr.model.dto.Restaurant;
 
 import kr.co.iei.restr.model.dto.RestrMenu;
 import kr.co.iei.restr.model.dto.Review;
+import kr.co.iei.restr.model.dto.ReviewImg;
 
 @Service
 public class RestrService {
@@ -57,14 +58,14 @@ public class RestrService {
 		int result = 0;
 		if (isLike == 0) {
 			// 현재 좋아요를 누르지 않은 상태에서 클릭 -> 좋아요 -> insert
-			result = restrDao.insertNoticeRestrLike(restrNo, memberNo);
+			result = restrDao.insertRestrLike(restrNo, memberNo);
 		} else if (isLike == 1) {
 			// 현재 좋아요를 누른 상태에서 클릭 -> 좋아요 취소 -> delete
-			result = restrDao.deleteNoticeRestrLike(restrNo, memberNo);
+			result = restrDao.deleteRestrLike(restrNo, memberNo);
 		}
 		if (result > 0) {
 			// 좋아요,좋아요 취소 로직을 수행하고나면 현재 좋아요 갯수를 조회해서 리턴
-			int likeCount = restrDao.selectNoticeRestrLikeCount(restrNo);
+			int likeCount = restrDao.selectRestrLikeCount(restrNo);
 			return likeCount;
 		} else {
 			return -1;
@@ -87,8 +88,16 @@ public class RestrService {
 		return list;
 	}
 
-	public int writeReview(Review review) {
+	public int writeReview(Review review, List<ReviewImg> reviewImgList) {
 		int result = restrDao.writeReview(review);
+		if(result > 0) {
+			
+			
+			for(ReviewImg reviewImg : reviewImgList) {
+				reviewImg.setReviewNo(review.getReviewNo()); 
+				int imgResult = restrDao.insertReviewImg(reviewImg);
+			}
+		}
 		return result;
 	}
 
@@ -157,6 +166,7 @@ public class RestrService {
 		return reviewNo;
 	}
 
+	@Transactional
 	public int insertKeyword(int reviewNo, String[] keywords) {
 		int result = 0;
 		for (String keyword : keywords) {
@@ -164,6 +174,21 @@ public class RestrService {
 	        result = restrDao.insertKeyword(reviewNo, keyword);
 	    }
 		return result;
+	}
+
+	public List selectReviewTagList(int reviewNo) {
+		List list = restrDao.selectReviewTagList(reviewNo);
+		return list;
+	}
+
+	public List selectReviewImgList(int reviewNo) {
+		List list = restrDao.selectReviewImgList(reviewNo);
+		return list;
+	}
+
+	public Double RestrStarAvg(int restrNo) {
+		Double starAvg = restrDao.RestrStarAvg(restrNo);
+		return starAvg;
 	}
 
 }
