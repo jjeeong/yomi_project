@@ -58,7 +58,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css
                     <a href="/member/joinFrm">회원가입</a>
                 </th:block>
                 <th:block th:if="${session.member != null}">
-                    <a href="/adminPage/" th:text="${session.member.memberName}"></a>
+                    <a href="/admin/adminMypage" th:text="${session.member.memberName}"></a>
                     <a href="/member/logout">로그아웃</a>
                 </th:block>
                 <!-- 이건  왜 주석 해놓으신 거에요? header/footer는 모두가 공통적으로 쓰는 부분인 만큼 넣은 후 꼭 확인 부탁드립니다...-->
