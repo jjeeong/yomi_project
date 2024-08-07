@@ -30,11 +30,17 @@
 									<span class="info-name">글 유형</span>
 									<span class="info-dot"> : </span>
 									<span class="info-content">댓글/ 맛집 추천 게시글</span>
+									<input type="hidden" name="reportBoardType" value="" id="reportBoardType">
+									<input type="hidden" name="reportReviewNo" id="reportReviewNo">
 								</div>
 								<div class="respondent-id">
 									<span class="info-name">작성자</span>
 									<span class="info-dot"> : </span>
 									<span class="info-content">작성자 ID</span>
+									<input type="hidden" name="respondentNo" id="respondentNo">
+									<!--
+									<input type="hidden" name="reporterNo" id="reporterNo">
+									-->
 								</div>
 							</div>
 							<div class="input-box report-type">
@@ -66,7 +72,7 @@
 									<div class="input">
 										<input type="radio" name="reportType" id="reportType6" value="">
 										<label for="reportType6">기타</label>
-										<input type="text">
+										<input type="text" placeholder="기타 사유를 적어주세요.">
 									</div>
 								</div>
 							</div>
@@ -76,19 +82,97 @@
 								</div>
 								<div class="info-content">
 									<textarea name="reportContent" id="reportContent"
-										placeholder="자세한 신고 사유를 입력하세요."></textarea>
+										placeholder="자세한 신고 이유를 입력하세요."></textarea>
 								</div>
 							</div>
 							<input type="submit" class="submit">
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-mono" data-bs-dismiss="modal">취소</button>
-						<button type="button" class="btn btn-point">신고</button>
+						<button type="button" class="btn btn-mono-modal" data-bs-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-point-modal">신고</button>
 					</div>
 				</div>
 			</div>
 		</div>
+		<script>
+			//수진 : 신고 모달 함수
+			//1. 모달에 정보 전달하기
+			function insertReport(review) {
+				console.log(review);
+				$("input#reportReviewNo").val(review.reviewNo);
+				$("input#respondentNo").val(review.memberNo);
+				$("input#respondentNo").prev().text(review.memberName);
+				$("input#reportType6").next().next().on("change", function () {
+					const content = $(this).val()
+					$("input#reportType6").val(content);
+				})
+			}
+			//2. 신고버튼 누르면 신고작성되기
+			$("button.btn-point-modal").on("click", function () {
+				const reportBoardType = $("input#reportBoardType").val();
+				const reportReviewNo = $("input#reportReviewNo").val();
+				const respondentNo = $("input#respondentNo").val();
+				const reportType = $("input[name=reportType]").val();
+				const reportContent = $("textarea#reportContent").val();
+				if (reportType == "") {
+					alert("신고 사유를 정확히 체크해주세요.");
+				} else if (reportContent == "") {
+					alert("자세한 신고 이유를 작성해주세요.")
+				} else {
+					$.ajax({
+						url: "/report/insertReviewReport",
+						type: "get",
+						data: {
+							reportBoardType: reportBoardType,
+							reportReviewNo: reportReviewNo,
+							respondentNo: respondentNo,
+							reportType: reportType,
+							reportContent: reportContent
+						},
+						success: function (data) {
+							var swal = Swal.mixin({
+								customClass: {
+									confirmButton: "btn btn-point-swal btn-lg",
+									cancelButton: "btn btn-mono-swal btn-lg",
+									title: "point",
+								},
+								confirmButtonText: "확인",
+								buttonsStyling: false
+							});
+							if (data > 0) {
+								swal.fire({
+									title: "신고 완료",
+									text: "성공적으로 신고가 접수되었습니다.",
+									icon: "success",
+									color: "var(--mainFont)"
+								});
+							} else {
+								swal.fire({
+									title: "신고  불가",
+									text: "해당 게시글을 신고할 수 없습니다.",
+									icon: "error",
+									color: "var(--mainFont)"
+								});
+							}
+						},
+						error: function () {
+							swal.fire({
+								title: "신고 실패",
+								text: "시스템 오류가 발생했습니다. 잠시후 다시 시도해주세요",
+								icon: "error",
+								color: "var(--mainFont)"
+							});
+						},
+						complete: function () {
+							$("#staticBackdrop").modal("hide");
+						}
+					});
+				}
+			})
+			//여기까지 신고접수
+
+		</script>
 	</main>
 	<th:block th:include="common/footer"></th:block>
 </body>

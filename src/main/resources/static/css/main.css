@@ -241,17 +241,17 @@ footer.footer {
 }
 
 /* 신고 모달 */
-main.main div.modal-div {
+div.modal-div {
     background-color: #fff;
 }
 
-main.main div.modal-div>.modal-header {
+div.modal-div>.modal-header {
     height: calc(30px + 32px);
     position: relative;
     border-bottom: none;
 }
 
-main.main div.modal-div>.modal-header>h1 {
+div.modal-div>.modal-header>h1 {
     color: var(--pointFont);
     position: absolute;
     top: 16px;
@@ -260,12 +260,12 @@ main.main div.modal-div>.modal-header>h1 {
     line-height: 30px;
 }
 
-main.main div.modal-div>.modal-body {
+div.modal-div>.modal-body {
     padding-top: 0;
     padding-bottom: 0;
 }
 
-main.main div.modal-div>.modal-body div.respondent-info {
+div.modal-div>.modal-body div.respondent-info {
     width: 95%;
     border-top: 1px solid var(--pointFont);
     border-bottom: 1px solid var(--pointFont);
@@ -278,49 +278,55 @@ main.main div.modal-div>.modal-body div.respondent-info {
     gap: 25px;
 }
 
-main.main div.modal-div>.modal-body div.respondent-info .info-name {
+div.modal-div>.modal-body div.respondent-info .info-name {
     display: inline-block;
     width: 13%;
     font-family: g_b;
     color: var(--pointFont);
 }
 
-main.main div.modal-div>.modal-body div.respondent-info .info-dot {
+div.modal-div>.modal-body div.respondent-info .info-dot {
     font-family: g_b;
     color: var(--pointFont);
     margin-right: 10px;
 }
 
-main.main div.modal-div>.modal-body div.input-box {
+div.modal-div>.modal-body div.input-box {
     padding: 15px 30px;
 }
 
-main.main div.modal-div>.modal-body div.info-content {
+div.modal-div>.modal-body div.info-content {
     padding: 10px;
     margin-top: 5px;
 }
 
-main.main div.modal-div>.modal-body .info-name {
+div.modal-div>.modal-body .info-name {
     font-family: g_b;
     color: var(--pointFont);
 }
 
-main.main div.modal-div>.modal-body .info-content>.input>input[type=text] {
+div.modal-div>.modal-body .info-content>.input>input[type=text] {
     outline: none;
-    border: none;
+    border: 1px solid var(--mainFont);
     height: 20px;
     font-size: 15px;
     color: var(--mainFont);
+    display: none;
 }
 
-main.main div.modal-div>.modal-body .info-content>textarea {
+div.modal-div>.modal-body .info-content>.input>input#reportType6:checked~input[type=text] {
+    display: inline-block;
+}
+
+
+div.modal-div>.modal-body .info-content>textarea {
     width: 100%;
     height: 150px;
     resize: none;
     padding: 5px 10px;
 }
 
-main.main div.modal-div>.modal-footer {
+div.modal-div>.modal-footer {
     border: none;
     display: flex;
     justify-content: center;
@@ -328,16 +334,27 @@ main.main div.modal-div>.modal-footer {
     gap: 10px;
 }
 
-main.main div.modal-div>.modal-footer>.btn {
+div.modal-div>.modal-footer>.btn {
     width: 40%;
     height: 45px;
     font-family: g_b;
     font-size: 20px;
 }
 
-main.main div.modal-div>.modal-body input[type=submit] {
+div.modal-div>.modal-body input[type=submit] {
     display: none;
 }
+
+.btn-point-modal {
+    background-color: var(--point1);
+    color: var(--monocolor2);
+}
+
+.btn-mono-modal {
+    background-color: var(--monocolor2);
+    color: var(--mainFont);
+}
+
 
 /* 메인 페이지 */
 main.index .best-restr div.carousel-inner {
@@ -359,7 +376,7 @@ main.index div.carousel-inner>div.bg-fade {
 
 main.index div.carousel-inner div.active-box {
     width: 90%;
-    max-width : 1420px;
+    max-width: 1420px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -542,7 +559,7 @@ main.index aside.recent {
     min-width: 200px;
     display: flex;
     justify-content: center;
-    padding : 0 25px;
+    padding: 0 25px;
 }
 
 main.index aside.recent>.recent-wrap {
@@ -550,7 +567,7 @@ main.index aside.recent>.recent-wrap {
     height: 600px;
     position: sticky;
     top: 150px;
-    left : calc((100% - 150px) * 0.5);
+    left: calc((100% - 150px) * 0.5);
     margin-top: 20px;
 }
 
@@ -717,12 +734,12 @@ main.report-list div.search button {
 /*
 글씨 색깔 관련 클래스
 */
-.point{
-	color : var(--point1);
+.point {
+    color: var(--point1);
 }
 
-.pointFont{
-	color : var(--pointFont);
+.pointFont {
+    color: var(--pointFont);
 }
 
 /*sw2용*/
