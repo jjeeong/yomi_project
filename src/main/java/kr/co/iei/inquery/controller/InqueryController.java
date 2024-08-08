@@ -51,14 +51,14 @@ public class InqueryController {
 		return "inquery/editorFrm";
 	}
 	
-	@ResponseBody
-	@PostMapping(value = "/editorImage", produces = "plain/text;charset=utf-8")
-	public String editorImage(MultipartFile upfile) {
-		String savepath = root + "/inquery/editor/";
-		String filepath = fileUtils.upload(savepath, upfile);
-		return "/inquery/editor/" + filepath;
-
-	}
+//	@ResponseBody
+//	@PostMapping(value = "/editorImage", produces = "plain/text;charset=utf-8")
+//	public String editorImage(MultipartFile upfile) {
+//		String savepath = root + "/inquery/editor/";
+//		String filepath = fileUtils.upload(savepath, upfile);
+//		return "/inquery/editor/" + filepath;
+//
+//	}
 	
 	@PostMapping(value = "/write")
 	public String write(Inquery inq, MultipartFile[] upfile, Model model) {
@@ -98,7 +98,7 @@ public class InqueryController {
 		}
 		//로그인이 되어있지않으면 memberNo = 0 / 로그인이 되어있으면 memberNo = 로그인한 회원번호
 		Inquery inq = inqueryService.selectOneInquery(inqueryNo,check,memberNo);
-		System.out.println("inq:"+inq);
+		//System.out.println("inq:"+inq);
 		if(inq== null) {
 			model.addAttribute("title","조회실패");
 			model.addAttribute("msg","해당 게시글이 존재하지 않습니다.");
@@ -114,14 +114,14 @@ public class InqueryController {
 	
 	@GetMapping(value = "/filedown")
 	public void filedown(InqueryFile inqueryFile, HttpServletResponse response) {
-		String savepath = root + "/notice/";
+		String savepath = root + "/inquery/";
 		fileUtils.downloadFile(savepath, inqueryFile.getFilename(), inqueryFile.getFilepath(),response);
 	}
 	
 	@GetMapping(value = "/delete")
 	public String delete(int inqueryNo, Model model) {
 		// 삭제를 하게되면 해당 게시글의 첨부파일도 삭제 -> 삭제결과로 파일 목록을 가져옴
-		List<InqueryFile> list = inqueryService.deleteNotice(inqueryNo);
+		List<InqueryFile> list = inqueryService.deleteInquery(inqueryNo);
 		if(list == null) {
 			model.addAttribute("title", "삭제 실패");
 			model.addAttribute("msg", "해당 게시글이 존재하지 않습니다..");
@@ -151,6 +151,8 @@ public class InqueryController {
 	@PostMapping(value = "/update")
 	public String update(Inquery inq, MultipartFile[] upfile, int[] delFileNo, Model model) {
 		// 새로 추가된 파일 업로드 작업
+		//System.out.println("no"+inq.getInqueryNo());
+		//System.out.println("upfile:"+upfile);
 		List<InqueryFile> fileList = new ArrayList<InqueryFile>();
 		String savepath = root + "/inquery/";
 		if(!upfile[0].isEmpty()) {
@@ -160,11 +162,12 @@ public class InqueryController {
 				InqueryFile inqueryFile = new InqueryFile();
 				inqueryFile.setFilename(fileName);
 				inqueryFile.setFilepath(filePath);
-				inqueryFile.setFileNo(inq.getInqueryNo());
+				inqueryFile.setInqueryNo(inq.getInqueryNo());
 				fileList.add(inqueryFile);
 			}
 		}
-		// 수정요청하면서 데이터 3개전달 (n : notice테이블 수정, fileList : notice_file추가, delFileNo : notice_file 삭제용)
+		//System.out.println("fileList:"+fileList);
+		// 수정요청하면서 데이터 3개전달 (n : inquery테이블 수정, fileList : inquery_file추가, delFileNo : inquery_file 삭제용)
 		List<InqueryFile> delFileList = inqueryService.updateInquery(inq, fileList, delFileNo);
 		if(delFileList == null) {
 			model.addAttribute("title", "수정 실패");
@@ -181,11 +184,12 @@ public class InqueryController {
 		}
 	}
 	
+	
 	@PostMapping(value = "/insertComment")
 	public String insertComment(InqueryComment ic, Model model) {
 		int result = inqueryService.insertComment(ic);
-		System.out.println(ic);
-		System.out.println(result);
+		//System.out.println(ic);
+		//System.out.println(result);
 		if (result > 0) {
 			model.addAttribute("title", "댓글 작성 성공");
 			model.addAttribute("msg", "댓글이 작성 되었습니다");

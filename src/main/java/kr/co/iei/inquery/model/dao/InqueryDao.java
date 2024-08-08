@@ -47,7 +47,7 @@ public class InqueryDao {
 		return inqueryNo;
 	}
 	public int insertInqueryFile(InqueryFile inqueryFile) {
-		String query = "insert into inquery_file values(inquery_seq.nextval,?,?,?)";
+		String query = "insert into inquery_file values(inquery_file_seq.nextval,?,?,?)";
 		Object[] params = {inqueryFile.getInqueryNo(), inqueryFile.getFilename(),inqueryFile.getFilepath()};
 		int result = jdbc.update(query, params);
 		return result;
@@ -100,7 +100,7 @@ public class InqueryDao {
 		int result = jdbc.update(query, params);
 		return result;
 	}
-	public int updateNotice(Inquery inq) {
+	public int updateInquery(Inquery inq) {
 		String query = "update inquery set inquery_title=?, inquery_content=?, inquery_read_count = inquery_read_count -1 where inquery_no=?";
 		Object[] params = {inq.getInqueryTitle(), inq.getInqueryContent(), inq.getInqueryNo()};
 		int result = jdbc.update(query, params);
@@ -131,8 +131,8 @@ public class InqueryDao {
 	}
 	
 	public int updateComment(InqueryComment ic) {
-		String query = "delete from inquery_comment where inquery_comment_no=?";
-		Object[] params = {ic.getInqueryCommentNo()};
+		String query = "update inquery_comment set inquery_comment_content=? where inquery_comment_no=?";
+		Object[] params = {ic.getInqueryCommentContent(), ic.getInqueryCommentNo()};
 		int result = jdbc.update(query, params);
 		return result;
 	}
