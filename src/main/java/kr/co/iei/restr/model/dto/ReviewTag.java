@@ -12,4 +12,5 @@ public class ReviewTag {
 	private String reviewTagName;
 	private int reviewNo;
 	private int restrNo;
+	private int reviewTagCount;
 }

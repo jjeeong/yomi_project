@@ -46,7 +46,7 @@ public class RestrController {
 	// 맛집 상세 페이지
 	@GetMapping(value = "/restrView")
 	public String restrView(Model model, int restrNo, @SessionAttribute (required = false) Member member) {
-		Restaurant r = restrService.selectOneRestr(restrNo);
+		Restaurant r = restrService.selectOneRestr(restrNo, member);
 
 		if (r == null) {
 			return "redirect:/";
@@ -77,6 +77,14 @@ public class RestrController {
 			
 			return "restaurant/restrView";
 		}
+	}
+	
+	@RequestMapping("/countTagList")
+	private @ResponseBody List countTagList(Model model, int restrNo) {
+		//태그 종류별 개수
+		List tagCountList = restrService.tagCountList(restrNo);
+		model.addAttribute("tagCountList", tagCountList);
+		return tagCountList;
 	}
 
 	// 블로그 검색 결과
@@ -132,54 +140,82 @@ public class RestrController {
 		}
 	}
 	
+	// 맛집 즐겨찾기
+	@ResponseBody
+	@PostMapping(value = "/bookmarkPush")
+	public int bookmarkPush(int restrNo, int isBookmark, @SessionAttribute(required = false) Member member) {
+		if (member == null) {
+			return -10;
+		} else {
+			int memberNo = member.getMemberNo();
+			int result = restrService.bookmarkPush(restrNo, isBookmark, memberNo);
+			return result;
+		}
+	}
+	
+	// 리뷰 좋아요
+	@ResponseBody
+	@PostMapping(value = "/reviewLikePush")
+	public int reviewLikePush(int reviewNo, int isReviewLike, @SessionAttribute(required = false) Member member) {
+		return 0;
+	}
+		
 	// 리뷰 작성
 	@PostMapping(value = "/writeReview")
 	public String writeReview(@SessionAttribute(required = false) Member member, Review review, Restaurant restaurant, Double reviewStar,  
-			@RequestParam(value = "keywords", required = false) String[] keywords, MultipartFile[] upfile) {
+			@RequestParam(value = "keywords", required = false) String[] keywords, MultipartFile[] upfile, Model model) {
 		
-		
-		System.out.println("리뷰 작성 레스토랑 정보 : " + restaurant);
-		System.out.println("리뷰 작성 리뷰 정보 : " + review);
-		
-		// 작성자 번호
-		int memberNo = member.getMemberNo();	
-		review.setMemberNo(memberNo);
-		review.setRestrNo(restaurant.getRestrNo());
-		review.setReviewStar(reviewStar);
-		
-		//이미지 삽입
-		int restrNo = restaurant.getRestrNo();		
-		List<ReviewImg> reviewImgList = new ArrayList<ReviewImg>();
-		
-		System.out.println("upfile : "+upfile);
-		
-		//리뷰 번호 불러오기
-		int reviewNo = restrService.selectOneReview() + 1;
-		
-		review.setReviewNo(reviewNo);
-		
-		if(!upfile[0].isEmpty()) {
-			String savepath = root+"/review/";
-			for (MultipartFile file : upfile) {
-				String reviewFilename = file.getOriginalFilename();
-				String reviewFilePath = fileUtils.upload(savepath, file);
-				ReviewImg reviewImg = new ReviewImg();
-				reviewImg.setReviewFilename(reviewFilename);
-				reviewImg.setReviewFilePath(reviewFilePath);
-				reviewImgList.add(reviewImg);
-				System.out.println("reviewImg : "+reviewImgList);
+		if(review.getReviewStar() == null) {
+			model.addAttribute("title", "작성 불가");
+			model.addAttribute("msg", "리뷰 별점을 선택해주세요.");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "restrView?restrNo=" + restaurant.getRestrNo());
+			return "common/msg2";
+		} else if(review.getReviewContent().isEmpty()) {
+			model.addAttribute("title", "작성 불가");
+			model.addAttribute("msg", "리뷰 내용을 작성해주세요.");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "restrView?restrNo=" + restaurant.getRestrNo());
+			return "common/msg2";
+		} else {			
+			// 작성자 번호
+			int memberNo = member.getMemberNo();	
+			review.setMemberNo(memberNo);
+			review.setRestrNo(restaurant.getRestrNo());
+			review.setReviewStar(reviewStar);
+			
+			//이미지 삽입
+			int restrNo = restaurant.getRestrNo();		
+			List<ReviewImg> reviewImgList = new ArrayList<ReviewImg>();
+			
+			//리뷰 번호 불러오기
+			int reviewNo = restrService.selectOneReview();
+			review.setReviewNo(reviewNo);
+			
+			if(!upfile[0].isEmpty()) {
+				String savepath = root+"/review/";
+				for (MultipartFile file : upfile) {
+					String reviewFilename = file.getOriginalFilename();
+					String reviewFilePath = fileUtils.upload(savepath, file);
+					ReviewImg reviewImg = new ReviewImg();
+					reviewImg.setReviewFilename(reviewFilename);
+					reviewImg.setReviewFilePath(reviewFilePath);
+					reviewImgList.add(reviewImg);
+					System.out.println("reviewImg : "+reviewImgList);
+				}
 			}
+			
+			//작성 결과 (img list도 함께 삽입)
+			int result = restrService.writeReview(review, reviewImgList);
+			
+			//리뷰 키워드 삽입
+			if (result > 0 && keywords != null) {			
+				int tagResult = restrService.insertKeyword(reviewNo, keywords);
+			}
+			
+			return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();
 		}
 		
-		//작성 결과 (img list도 함께 삽입)
-		int result = restrService.writeReview(review, reviewImgList);
-		
-		//리뷰 키워드 삽입
-		if (result > 0 && keywords != null) {			
-			int tagResult = restrService.insertKeyword(reviewNo, keywords);
-		}
-		
-		return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();
 	}
 
 	// 리뷰 작성 페이지 로그인 확인
@@ -203,7 +239,6 @@ public class RestrController {
 		for(Review review : reviewList) {
 			int reviewNo = review.getReviewNo();
 			List reviewTagList = restrService.selectReviewTagList(reviewNo);
-			
 			List reviewImgList = restrService.selectReviewImgList(reviewNo);
 			
 			review.setReviewTag(reviewTagList);
