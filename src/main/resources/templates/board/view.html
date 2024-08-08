@@ -6,6 +6,7 @@
     <title>가게 소개</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.css" rel="stylesheet">
+    
     <style>
         body, html {
             margin: 0;
@@ -14,7 +15,7 @@
             display: flex;
             flex-direction: column;
         }
-
+	
         .main-content {
             background-color: #fff;
             padding: 20px;
@@ -60,14 +61,13 @@
             background-color: white;
             width: 100%;
             margin: 20px 0;
-        	margin-bottom: 0px;
+        	margin-bottom: 60px;
         }
 
         .comments-section {
             background-color: #EBEBEB;;
-            border-radius: 5px;
+            border-radius: 15px;
             padding: 15px;
-            
         }
 
         .comments-section h3 {
@@ -137,8 +137,10 @@
     	 .btn-outline-danger{
     	 	margin-right: 7px;	
     	 }
-    	 
-    	 
+	
+		.btn-like-report{
+		}
+		
     </style>
 </head>
 <body>
@@ -170,14 +172,16 @@
                             <span th:utext="${b.boardContent}"></span>   
                         </div>
                     </form>
-                    <div class="text-center mt-3">
+                    
+                </div>
+                    <div class="btn-like-report">
                         <button type="button" class="btn btn-outline-primary" onclick="likePost()">게시글 좋아요 <span id="postLikes">0</span></button>
                         <button type="button" class="btn btn-outline-danger" onclick="reportPost()">게시글 신고하기</button>
                     </div>
-
-
+			   
                     <!-- 댓글 구역-->
                     <div class="comments-section mt-4">
+                    
                         <h3>댓글</h3>
                         <div id="commentsList" class="comments-list">
                             <!-- 댓글 -->
@@ -204,33 +208,29 @@
     <script>
     
 	function boardDelete(boardNo){
-		swal.fire({
-			title:"게시글 삭제",
-			text:"게시글을 삭제하시겠습니까?",
-			icon : "warning",
-			buttons:{
-				cancle:{
-					text:"취소",
-					value : false,
-					visible:true,
-					className:"delete",
-					closeModal : true
-				},
-				confirm:{
-					text : "삭제",
-					value:true,
-					visible : true,
-					className : "delete",
-					closeModal : true
-				}
-			}
-		}).then(function(isConfirm){
-			if(isConfirm){
-				location.href="/board/delete?boardNo="+boardNo;
-			}
-		});	
-	};
+		const swal = Swal.mixin({
+    	    customClass: {
+    	        confirmButton: "btn btn-point-swal btn-lg",
+    	        cancelButton: "btn btn-mono-swal btn-lg",
+    	        title: "point",
+    	    },
+    	    buttonsStyling: false
+    	});
 
+    	swal.fire({
+    		title : "게시판 삭제",
+    		text:"정말 삭제하시겠습니까?",
+    		icon:"question",
+    		iconColor : "var(--point1)",
+    		showCancelButton : true,
+    		cancelButtonText : "취소",
+    	    confirmButtonText: "삭제",
+    	}).then(result=>{
+    		if(result.isConfirmed){
+	            location.href = "/board/delete?boardNo="+boardNo;
+    		}
+    	});
+	};
         function submitForm() {
             var storeName = $('#storeName').val();
             var storeLocation = $('#storeLocation').val();
