@@ -20,5 +20,5 @@ public class Report {
 	private int respondentNo;		//신고당한 멤버 번호
 	private String respondentId;	//신고당한 멤버 아이디
 	private int reportCheck;
-	
+	private String respondentContent; //신고게시글 내용
 }

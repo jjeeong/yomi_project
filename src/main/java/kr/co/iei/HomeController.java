@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import kr.co.iei.board.model.service.BoardService;
-import kr.co.iei.etc.MainList;
 import kr.co.iei.restr.model.service.RestrService;
 
 @Controller
@@ -20,12 +19,10 @@ public class HomeController {
 	
 		@GetMapping(value="/")
 		public String main(Model model) {
-			MainList mainList = new MainList();
 			List restrList = restrService.selectBest();
+			System.out.println(restrList);
 			//List boardList = boardService.selectBest(); =>좋아요 수 구현되면 할것
-			mainList.setBestRestrList(restrList);
-			//mainList.setBestBoardList(boardList);
-			model.addAttribute("main", "mainList");
+			model.addAttribute("restrList", restrList);
 			return "index";
 		}
 //		
