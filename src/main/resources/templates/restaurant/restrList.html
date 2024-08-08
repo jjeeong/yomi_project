@@ -119,32 +119,38 @@
         	color: black;
         	text-decoration: none;
         }
+        
+        .restr-list-wrap {
+        	margin: 20px 0px;
+        }
     </style>
 </head>
 <body>
     <th:block th:include="common/header"></th:block>
-    <div class="search-bar">
-        <div class="search-wrap">
-            <input type="text" placeholder="가게명, 음식명, 태그 등으로 검색">
-            <button>검색하기</button>
-        </div>
+    <div class="restr-list-wrap">    
+	    <div class="search-bar">
+	        <div class="search-wrap">
+	            <input type="text" placeholder="가게명, 음식명, 태그 등으로 검색">
+	            <button>검색하기</button>
+	        </div>
+	    </div>
+	    <div class="restr-list">
+		<!-- 
+	        <div class="restr-item">
+	            <img>
+	            <div class="restr-info">
+	                <div class="restr-name">가게명</div>
+	                <div class="restr-rating">
+	                    <span class="material-icons">grade</span>
+	                    4.0(100)
+	                </div>
+	                <div class="restr-details">카페, 강남구</div>
+	            </div>
+	        </div>
+	         -->
+	    </div>
+	    <button class="more-btn" id="more-btn">맛집 더보기</button>
     </div>
-    <div class="restr-list">
-	<!-- 
-        <div class="restr-item">
-            <img>
-            <div class="restr-info">
-                <div class="restr-name">가게명</div>
-                <div class="restr-rating">
-                    <span class="material-icons">grade</span>
-                    4.0(100)
-                </div>
-                <div class="restr-details">카페, 강남구</div>
-            </div>
-        </div>
-         -->
-    </div>
-    <button class="more-btn" id="more-btn">맛집 더보기</button>
     
     
     

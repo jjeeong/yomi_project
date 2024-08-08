@@ -26,4 +26,6 @@ public class Restaurant {
 	private int reviewCount;
 	private int isLike;
 	private int likeCount;
+	
+	private int isBookmark;
 }

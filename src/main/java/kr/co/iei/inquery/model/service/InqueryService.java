@@ -136,7 +136,7 @@ public class InqueryService {
 	}
 
 	@Transactional
-	public List<InqueryFile> deleteNotice(int inqueryNo) {
+	public List<InqueryFile> deleteInquery(int inqueryNo) {
 		//1.InqueryFile에서 해당 문의사항의 첨부파일 조회
 		List list = inqueryDao.selectInqueryFile(inqueryNo);
 		//2. Inquery테이블에서  문의사항 삭제(외래키 옵션으로 Inquery에서 삭제되면 Inquery_file은 자동삭제)
@@ -158,7 +158,7 @@ public class InqueryService {
 	public List<InqueryFile> updateInquery(Inquery inq, List<InqueryFile> fileList, int[] delFileNo) {
 		List<InqueryFile> delFileList = new ArrayList<InqueryFile>();
 		//inquery업데이트, inquery_file insert(추가한 파일이 있을때만), inquery_file delete(삭제한 파일이 있을때만)
-		int result = inqueryDao.updateNotice(inq);
+		int result = inqueryDao.updateInquery(inq);
 		if(result>0) {
 			//추가한 파일이 있는 경우 추가파일 insert
 			for(InqueryFile inqueryFile : fileList) {

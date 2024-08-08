@@ -72,6 +72,7 @@ public class MemberDao {
 		String query = "select * from member_tbl order by 1";
 		List list = jdbc.query(query, memberRowMapper);
 		return list;
+		
 	}
 
 		

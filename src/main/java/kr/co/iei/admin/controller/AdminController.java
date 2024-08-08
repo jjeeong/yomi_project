@@ -22,11 +22,6 @@ public class AdminController {
 	private MemberService memberService;
 	
 	
-	@GetMapping(value="/checkReport")
-	public String checkReport() {
-		return "admin/reportList";
-		
-	}
 	@GetMapping(value="/adminMypage")
 	public String adminMypage(@SessionAttribute Member member,Model model) {
 		String memberId = member.getMemberId();
@@ -34,11 +29,13 @@ public class AdminController {
 		model.addAttribute("m", m);
 		return "admin/adminMypage";
 	}
-	@GetMapping(value="/admin_page")
+	@GetMapping(value="/adminPage")
 	public String admin_page(Model model) {
-		List list = memberService.selectAllMember();
-		model.addAttribute("list", list);
-		return "admin/admin_page";
+		//List list = memberService.selectAllMember();
+		//model.addAttribute("list", list);
+//		List list = memberService.selectAllMember();
+//		model.addAttribute("list", list);
+		return "admin/adminPage";
 		 
 	}
 	

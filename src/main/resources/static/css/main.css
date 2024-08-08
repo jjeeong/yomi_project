@@ -36,7 +36,7 @@ header>div.header {
     position: fixed;
     top: 0;
     width: 100%;
-    min-width: 1240px;
+    min-width: 840px;
 }
 
 header a {
@@ -57,6 +57,7 @@ header a {
     width: 20%;
     color: var(--point1);
     text-align: center;
+    min-width: 140px;
 }
 
 .header-top>.logo>a {
@@ -109,14 +110,16 @@ header .header-top>.text-end {
     line-height: 50px;
     font-size: 15px;
     padding-right: 50px;
-    min-width: 200px;
+    min-width: 280px;
 }
 
 header .text-end>a {
     padding: 0 10px;
 }
 
-
+header nav{
+	min-width : 1240px;
+}
 header nav ul {
     margin: 0;
     padding: 0;
@@ -241,17 +244,17 @@ footer.footer {
 }
 
 /* 신고 모달 */
-main.main div.modal-div {
+div.modal-div {
     background-color: #fff;
 }
 
-main.main div.modal-div>.modal-header {
+div.modal-div>.modal-header {
     height: calc(30px + 32px);
     position: relative;
     border-bottom: none;
 }
 
-main.main div.modal-div>.modal-header>h1 {
+div.modal-div>.modal-header>h1 {
     color: var(--pointFont);
     position: absolute;
     top: 16px;
@@ -260,12 +263,12 @@ main.main div.modal-div>.modal-header>h1 {
     line-height: 30px;
 }
 
-main.main div.modal-div>.modal-body {
+div.modal-div>.modal-body {
     padding-top: 0;
     padding-bottom: 0;
 }
 
-main.main div.modal-div>.modal-body div.respondent-info {
+div.modal-div>.modal-body div.respondent-info {
     width: 95%;
     border-top: 1px solid var(--pointFont);
     border-bottom: 1px solid var(--pointFont);
@@ -278,49 +281,55 @@ main.main div.modal-div>.modal-body div.respondent-info {
     gap: 25px;
 }
 
-main.main div.modal-div>.modal-body div.respondent-info .info-name {
+div.modal-div>.modal-body div.respondent-info .info-name {
     display: inline-block;
     width: 13%;
     font-family: g_b;
     color: var(--pointFont);
 }
 
-main.main div.modal-div>.modal-body div.respondent-info .info-dot {
+div.modal-div>.modal-body div.respondent-info .info-dot {
     font-family: g_b;
     color: var(--pointFont);
     margin-right: 10px;
 }
 
-main.main div.modal-div>.modal-body div.input-box {
+div.modal-div>.modal-body div.input-box {
     padding: 15px 30px;
 }
 
-main.main div.modal-div>.modal-body div.info-content {
+div.modal-div>.modal-body div.info-content {
     padding: 10px;
     margin-top: 5px;
 }
 
-main.main div.modal-div>.modal-body .info-name {
+div.modal-div>.modal-body .info-name {
     font-family: g_b;
     color: var(--pointFont);
 }
 
-main.main div.modal-div>.modal-body .info-content>.input>input[type=text] {
+div.modal-div>.modal-body .info-content>.input>input[type=text] {
     outline: none;
-    border: none;
+    border: 1px solid var(--mainFont);
     height: 20px;
     font-size: 15px;
     color: var(--mainFont);
+    display: none;
 }
 
-main.main div.modal-div>.modal-body .info-content>textarea {
+div.modal-div>.modal-body .info-content>.input>input#reportType6:checked~input[type=text] {
+    display: inline-block;
+}
+
+
+div.modal-div>.modal-body .info-content>textarea {
     width: 100%;
     height: 150px;
     resize: none;
     padding: 5px 10px;
 }
 
-main.main div.modal-div>.modal-footer {
+div.modal-div>.modal-footer {
     border: none;
     display: flex;
     justify-content: center;
@@ -328,16 +337,27 @@ main.main div.modal-div>.modal-footer {
     gap: 10px;
 }
 
-main.main div.modal-div>.modal-footer>.btn {
+div.modal-div>.modal-footer>.btn {
     width: 40%;
     height: 45px;
     font-family: g_b;
     font-size: 20px;
 }
 
-main.main div.modal-div>.modal-body input[type=submit] {
+div.modal-div>.modal-body input[type=submit] {
     display: none;
 }
+
+.btn-point-modal {
+    background-color: var(--point1);
+    color: var(--monocolor2);
+}
+
+.btn-mono-modal {
+    background-color: var(--monocolor2);
+    color: var(--mainFont);
+}
+
 
 /* 메인 페이지 */
 main.index .best-restr div.carousel-inner {
@@ -351,15 +371,15 @@ main.index .best-restr div.carousel-inner {
 
 main.index div.carousel-inner>div.bg-fade {
     width: 100%;
-    height: 350px;
-    padding: 10px;
+    height: 400px;
+    padding: 35px 10px;
     z-index: 0;
     background-color: rgba(0, 0, 0, 0.7);
 }
 
 main.index div.carousel-inner div.active-box {
     width: 90%;
-    max-width : 1420px;
+    max-width: 1420px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -369,30 +389,53 @@ main.index div.carousel-inner div.restr-box {
     width: 24%;
     min-width: 270px;
     max-width: 300px;
-    background-color: rgba(255, 248, 245, 0.8);
+    background-color: rgba(255, 255, 255, 0.5);
     padding: 5px 10px;
     padding-bottom: 0;
 }
 
 main.index div.carousel-inner div.restr-box>.img-box {
-    height: 250px;
-    display: flex;
-    align-items: center;
+	overflow:hidden;
+	display : flex;
+	justify-content: center;
 }
 
 main.index div.carousel-inner div.restr-box>.img-box>img {
+    height: 250px;
     width: 100%;
+    object-fit : cover;
     object-position: center center;
 }
 
 main.index div.carousel-inner div.restr-box>div.restr-name {
+	display : flex;
+	flex-direction:column;
+	align-items : flex-start;
     height: 75px;
+    justify-content : center;
 }
 
+main.index div.carousel-inner div.restr-box>div.restr-name>div.star-origin{
+	position : relative;
+}
+
+main.index div.carousel-inner div.restr-box>div.restr-name>div.star-origin>div{
+	position : absolute;
+	top:0;
+	left:0;
+}
+
+main.index div.carousel-inner div.restr-box>div.restr-name>div>div.star-score>span{
+	color : var(--point2);
+}
+
+main.index div.carousel-inner div.restr-box>div.restr-name>div.star-origin>span{
+	color : var(--color2);
+}
 main.index div.carousel-inner div.restr-box>div.restr-name>span {
-    font-family: g_b;
+    font-family: g_black;
+    font-size:18px;
     color: var(--pointFont);
-    line-height: 75px;
 }
 
 main.index .best-restr button.control-btn {
@@ -423,6 +466,7 @@ main.index div.content>div.ad {
     display: flex;
     align-items: center;
     overflow: hidden;
+    cursor: pointer;
 }
 
 /*광고 api 있으면 고칠듯...? 일단 어떤 느낌인지만 보려고..*/
@@ -542,7 +586,7 @@ main.index aside.recent {
     min-width: 200px;
     display: flex;
     justify-content: center;
-    padding : 0 25px;
+    padding: 0 25px;
 }
 
 main.index aside.recent>.recent-wrap {
@@ -550,7 +594,7 @@ main.index aside.recent>.recent-wrap {
     height: 600px;
     position: sticky;
     top: 150px;
-    left : calc((100% - 150px) * 0.5);
+    left: calc((100% - 150px) * 0.5);
     margin-top: 20px;
 }
 
@@ -717,10 +761,54 @@ main.report-list div.search button {
 /*
 글씨 색깔 관련 클래스
 */
-.point{
-	color : var(--point1);
+.point {
+    color: var(--point1);
 }
 
-.pointFont{
-	color : var(--pointFont);
+.pointFont {
+    color: var(--pointFont);
+}
+
+/*sw2용*/
+
+.btn.btn-sub-swal {
+    background-color: var(--sub);
+    color: var(--mainFont);
+    border: 1px solid transparent;
+    margin: 0 5px;
+}
+
+.btn.btn-sub-swal:hover {
+    background-color: #fff;
+    color: var(--sub);
+    border-color: var(--sub);
+    font-weight: 500;
+}
+
+.btn.btn-point-swal {
+    background-color: var(--point1);
+    color: var(--monocolor2);
+    border: 1px solid transparent;
+    margin: 0 5px;
+}
+
+.btn.btn-point-swal:hover {
+    background-color: #fff;
+    color: var(--point1);
+    font-weight: 500;
+    border-color: var(--point1);
+}
+
+.btn.btn-mono-swal {
+    background-color: var(--monocolor2);
+    color: var(--mainFont);
+    border: 1px solid transparent;
+    margin: 0 5px;
+}
+
+.btn.btn-mono-swal:hover {
+    background-color: #fff;
+    color: var(--mainFont);
+    border-color: var(--mainFont);
+    font-weight: 500;
 }
