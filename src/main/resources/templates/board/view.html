@@ -19,6 +19,7 @@
             background-color: #fff;
             padding: 20px;
             width: 100%;
+            height : 1200px;
             max-width: 1200px;
             margin: 0 auto;
             flex: 1;
@@ -151,7 +152,7 @@
                     </div>
                     	<div class="btn">
 						<button type="button" id="update" name="update">수정</button>
-                    	<button type="button" id="delete" name="delete">삭제</button>
+                    	<button type="button" id="delete" name="delete" class="delete" th:onclick="boardDelete([[${b.boardNo}]]);">삭제</button>
                     	</div>
                     <div class="content-detail">
                         <div class="form-group">
@@ -174,12 +175,14 @@
                         <button type="button" class="btn btn-outline-danger" onclick="reportPost()">게시글 신고하기</button>
                     </div>
 
+
                     <!-- 댓글 구역-->
                     <div class="comments-section mt-4">
                         <h3>댓글</h3>
                         <div id="commentsList" class="comments-list">
                             <!-- 댓글 -->
                         </div>
+
                         <div class="comment-form mt-3">
                             <div class="form-group">
                                 <label for="commentInput">댓글 작성</label>
@@ -187,6 +190,8 @@
                             </div>
                             <button type="button" class="btn btn-secondary" onclick="addComment()">댓글 달기</button>
                         </div>
+                        
+                        
                     </div>
                 </div>
             </div>
@@ -198,6 +203,33 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.js"></script>
     <script>
     
+	function boardDelete(boardNo){
+		swal.fire({
+			title:"게시글 삭제",
+			text:"게시글을 삭제하시겠습니까?",
+			icon : "warning",
+			buttons:{
+				cancle:{
+					text:"취소",
+					value : false,
+					visible:true,
+					className:"delete",
+					closeModal : true
+				},
+				confirm:{
+					text : "삭제",
+					value:true,
+					visible : true,
+					className : "delete",
+					closeModal : true
+				}
+			}
+		}).then(function(isConfirm){
+			if(isConfirm){
+				location.href="/board/delete?boardNo="+boardNo;
+			}
+		});	
+	};
 
         function submitForm() {
             var storeName = $('#storeName').val();
