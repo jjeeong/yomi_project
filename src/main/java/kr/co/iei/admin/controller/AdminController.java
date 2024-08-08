@@ -33,6 +33,8 @@ public class AdminController {
 	public String admin_page(Model model) {
 		//List list = memberService.selectAllMember();
 		//model.addAttribute("list", list);
+//		List list = memberService.selectAllMember();
+//		model.addAttribute("list", list);
 		return "admin/adminPage";
 		 
 	}

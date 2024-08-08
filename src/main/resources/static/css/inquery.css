@@ -100,10 +100,23 @@ section.section.bg-section {
   text-align:center;
   box-sizing: border-box;
 }
+
+:root {
+    --point1: #F24C00;
+    --point2: #FC7A1E;
+    --sub: #F7B788;
+    --bgcolor: #F3F3F3;
+    --color1: #EBEBEB;
+    --color2: #D9D9D9;
+    --pointFont: #010E47;
+    --mainFont: #5E6276;
+}
+
+
 .btn-primary {
   border: 1px solid black;
-  background-color: var(--main3);
-  color: var(--gray8);
+  background-color: white;
+  font-weight:bolder;
 }
 .btn-primary:hover {
   background-color: var(--point2);
