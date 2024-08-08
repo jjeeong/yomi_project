@@ -4,6 +4,35 @@
 <head>
 	<meta charset="UTF-8">
 	<title>YOMI</title>
+	<style>
+		.star-wrap{
+			overflow: hidden;
+		}
+		.star-wrap>span{
+			float : left;
+			color : var(--color2);
+			font-size : 25px;
+		}
+		.star-on-wrap>span{
+			color : var(--point2);
+		}
+		.star-on-wrap{
+			width : 125px;
+		}
+		.star-origin{
+			position : relative;
+		}
+		.star-on{
+			position : absolute;
+			left : 0;
+			width : 0;
+			overflow :hidden;
+		}
+		.star-wrap>span.score-num{
+			font-size : 17px;
+			line-height : 25px;
+		}
+	</style>
 </head>
 
 <body>
@@ -15,72 +44,155 @@
 					<div class="bg-fade">
 						<div class="carousel-item active">
 							<div class="active-box">
-								<div class="restr-box round-box" th:each="num : ${#numbers.sequence(0,3)}">
-									<div class="img-box round-box shadow">
-										<img th:src="@{'/yomi/'+${restrList[num].restrImg1}}" class="restr-img">
-									</div>
-									<div class="restr-name">
-										<div class="star-origin">
-											<span class="material-icons">
-												grade
-											</span>
-											<span class="material-icons">
-												grade
-											</span>
-											<span class="material-icons">
-												grade
-											</span>
-											<span class="material-icons">
-												grade
-											</span>
-											<span class="material-icons">
-												grade
-											</span>
-											<div class="star-score">
-												<span class="material-icons">
-													grade
-												</span>
-												<span class="material-icons">
-													grade
-												</span>
-												<span class="material-icons">
-													grade
-												</span>
-												<span class="material-icons">
-													grade
-												</span>
-												<span class="material-icons">
-													grade
-												</span>
-											</div>
+								<a th:each="num : ${#numbers.sequence(0,3)}" th:href="${'/restaurant/restrView?restrNo='+restrList[num].restrNo}">
+									<div class="restr-box round-box">
+										<div class="img-box round-box shadow">
+											<img th:src="@{'/yomi/'+${restrList[num].restrImg1}}" class="restr-img">
 										</div>
-										<span th:text="${restrList[num].restrName}">상호명</span>
+										<div class="restr-name">
+											<div class="star-origin star-wrap">
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="score-num" th:text="${restrList[num].reviewStar}"></span>
+												<div class="star-on">
+													<div class="star-score star-wrap star-on-wrap">
+														<span class="material-icons">
+															grade
+														</span>
+														<span class="material-icons">
+															grade
+														</span>
+														<span class="material-icons">
+															grade
+														</span>
+														<span class="material-icons">
+															grade
+														</span>
+														<span class="material-icons">
+															grade
+														</span>
+													</div>
+												</div>
+											</div>
+											<span th:text="${restrList[num].restrName}">상호명</span>
+										</div>
 									</div>
-								</div>
+								</a>
 							</div>
 						</div>
 						<div class="carousel-item">
 							<div class="active-box">
-								<div class="restr-box round-box" th:each="num : ${#numbers.sequence(4,7)}">
-									<div class="img-box round-box shadow">
-										<img th:src="@{'/yomi/'+${restrList[num].restrImg1}}" class="restr-img">
+								<a th:each="num : ${#numbers.sequence(4,7)}" th:href="${'/restaurant/restrView?restrNo='+restrList[num].restrNo}">
+									<div class="restr-box round-box">
+										<div class="img-box round-box shadow">
+											<img th:src="@{'/yomi/'+${restrList[num].restrImg1}}" class="restr-img">
+										</div>
+										<div class="restr-name">
+											<div class="star-origin star-wrap">
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="score-num" th:text="${restrList[num].reviewStar}"></span>
+												<div class="star-on">
+													<div class="star-score star-wrap star-on-wrap">
+														<span class="material-icons">
+															grade
+														</span>
+														<span class="material-icons">
+															grade
+														</span>
+														<span class="material-icons">
+															grade
+														</span>
+														<span class="material-icons">
+															grade
+														</span>
+														<span class="material-icons">
+															grade
+														</span>
+													</div>
+												</div>
+											</div>
+											<span th:text="${restrList[num].restrName}">상호명</span>
+										</div>
 									</div>
-									<div class="restr-name">
-										<span th:text="${restrList[num].restrName}">상호명</span>
-									</div>
-								</div>
+								</a>
 							</div>
 						</div>
 						<div class="carousel-item">
 							<div class="active-box">
-								<div class="restr-box round-box" th:each="num : ${#numbers.sequence(8,11)}">
-									<div class="img-box round-box shadow">
-										<img th:src="@{'/yomi/'+${restrList[num].restrImg1}}" class="restr-img">
+								<a th:each="num : ${#numbers.sequence(8,11)}" th:href="${'/restaurant/restrView?restrNo='+restrList[num].restrNo}">
+									<div class="restr-box round-box">
+										<div class="img-box round-box shadow">
+											<img th:src="@{'/yomi/'+${restrList[num].restrImg1}}" class="restr-img">
+										</div>
+										<div class="restr-name">
+											<div class="star-origin star-wrap">
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="score-num" th:text="${restrList[num].reviewStar}"></span>
+												<div class="star-on">
+													<div class="star-score star-wrap star-on-wrap">
+														<span class="material-icons">
+															grade
+														</span>
+														<span class="material-icons">
+															grade
+														</span>
+														<span class="material-icons">
+															grade
+														</span>
+														<span class="material-icons">
+															grade
+														</span>
+														<span class="material-icons">
+															grade
+														</span>
+													</div>
+												</div>
+											</div>
+											<span th:text="${restrList[num].restrName}">상호명</span>
+										</div>
 									</div>
-									<div class="restr-name">
-										<span th:text="${restrList[num].restrName}">상호명</span>
-									</div>
-								</div>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -299,10 +411,16 @@
 		
 		</section>
 		<script>
+			const scoreNum = $(".score-num");
+			scoreNum.each(function(index, item){
+				const percentNum = $(item).text()*25;
+				$(item).next().css("width", percentNum+"px");
+			})
+		
 			$("div.ad").on("click", function(){
 				location.href="https://kh-academy.co.kr/main/main.kh";
 			})
-			console.log([[${restrList}]]);
+			
 			
 			//별점별 다르게 하는거 구현해야함
 		</script>

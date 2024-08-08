@@ -394,10 +394,17 @@ main.index div.carousel-inner div.active-box {
     justify-content: space-between;
 }
 
-main.index div.carousel-inner div.restr-box {
+main.index div.carousel-inner a{
+	text-decoration : none;
+	margin : 0;
+	padding : 0;
+	display : block;
     width: 24%;
     min-width: 270px;
     max-width: 300px;
+}
+
+main.index div.carousel-inner div.restr-box {
     background-color: rgba(255, 255, 255, 0.5);
     padding: 5px 10px;
     padding-bottom: 0;
@@ -424,23 +431,31 @@ main.index div.carousel-inner div.restr-box>div.restr-name {
     justify-content : center;
 }
 
-main.index div.carousel-inner div.restr-box>div.restr-name>div.star-origin{
-	position : relative;
+.star-wrap{
+	overflow: hidden;
 }
-
-main.index div.carousel-inner div.restr-box>div.restr-name>div.star-origin>div{
-	position : absolute;
-	top:0;
-	left:0;
+.star-wrap>span{
+	float : left;
+	color : var(--color2);
+	font-size : 25px;
 }
-
-main.index div.carousel-inner div.restr-box>div.restr-name>div>div.star-score>span{
+.star-on-wrap>span{
 	color : var(--point2);
 }
-
-main.index div.carousel-inner div.restr-box>div.restr-name>div.star-origin>span{
-	color : var(--color2);
+.star-on-wrap{
+	width : 125px;
 }
+.star-origin{
+	position : relative;
+}
+.star-on{
+	position : absolute;
+	left : 0;
+	width : 0;
+	overflow :hidden;
+}
+
+
 main.index div.carousel-inner div.restr-box>div.restr-name>span {
     font-family: g_black;
     font-size:18px;
