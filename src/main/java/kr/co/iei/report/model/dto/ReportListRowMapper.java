@@ -22,6 +22,18 @@ public class ReportListRowMapper implements RowMapper<Report>{
 		r.setRespondentNo(rs.getInt("respondent_no"));
 		r.setRespondentContent(rs.getString("respondent_content"));
 		r.setReportType(rs.getString("report_type"));
+		
+		if(r.getReportBoardType()==2) {
+			r.setRespondentContent("맛집 게시글 내용은 미리보기 할 수 없습니다.");
+		}else {
+			if(r.getRespondentContent().length()>24) {
+				r.setRespondentContent(r.getRespondentContent().substring(0, 24)+"...");				
+			}
+		}
+		if(r.getReportContent().length()>24) {
+			r.setReportContent(r.getReportContent().substring(0, 24)+"...");
+		}
+		
 		return r;
 	}
 	

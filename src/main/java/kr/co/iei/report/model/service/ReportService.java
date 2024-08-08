@@ -24,4 +24,20 @@ public class ReportService {
 		List list = reportDao.selectUncheckReport();
 		return list;
 	}
+
+
+	public Report selectOneReport(int reportNo) {
+		Report r = reportDao.selectOneReport(reportNo);
+		return r;
+	}
+	@Transactional
+	public int updateReportCheck(int reportNo) {
+		int result = reportDao.updateReportCheck(reportNo);
+		return result;
+	}
+
+	public int deleteReport(int reportNo) {
+		int result = reportDao.deleteReport(reportNo);
+		return result;
+	}
 }

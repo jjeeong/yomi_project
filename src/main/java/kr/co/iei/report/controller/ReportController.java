@@ -45,9 +45,22 @@ public class ReportController {
 	
 	@GetMapping(value="/checkReport")
 	public String checkReport(Model model) {
-		List list = reportService.selectUncheckReport();
+		List<Report> list = reportService.selectUncheckReport();
 		model.addAttribute("list", list);
 		return "report/reportList";
-		
+	}
+	
+	@ResponseBody
+	@GetMapping(value="/showReport")
+	public Report showReport(int reportNo) {
+		Report r = reportService.selectOneReport(reportNo);
+		return r;
+	}
+	
+	@ResponseBody
+	@GetMapping(value="/updateReport")
+	public int updateReport(int reportNo) {
+		int result = reportService.updateReportCheck(reportNo);
+		return result;
 	}
 }

@@ -287,7 +287,16 @@ div.modal-div>.modal-body div.respondent-info .info-name {
     font-family: g_b;
     color: var(--pointFont);
 }
-
+/*신고 체크 모달의 경우*/
+div.modal-div>.modal-body div.reportCheck .info-name {
+	width: 20%;
+}
+div.modal-div>.modal-body .info-content>div{
+	border :1px solid var(--color1);
+	width: 100%;
+    padding: 5px 10px;
+}
+/*여기까지*/
 div.modal-div>.modal-body div.respondent-info .info-dot {
     font-family: g_b;
     color: var(--pointFont);
@@ -689,6 +698,7 @@ main.report-list table.report-list>tbody>tr {
     border-top: 1px solid var(--point1);
     height: 60px;
 }
+
 
 main.report-list table.report-list td.report-content,
 main.report-list table.report-list td.report-board-content {
