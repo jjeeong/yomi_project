@@ -385,7 +385,10 @@ transform: rotate(180deg);
     top: 0;
     bottom: 0;
     width: 20px;
-    background: url(/image/info.png) no-repeat center / contain;
+    background: url(/image/information.png) no-repeat center / contain;
+  }
+  .form-group2 + .input-msg {
+    content: "정보를 입력해주세요.";
   }
   .form-group2 + .input-msg.valid {
     color: #00d100;
