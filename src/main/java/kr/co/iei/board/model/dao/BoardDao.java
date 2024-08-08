@@ -59,5 +59,57 @@ public class BoardDao {
 		return result;
 	}
 
+	public Board selectOneBoard(int boardNo) {
+		String query = "select * from board where board_no=?";
+		Object[] params = {boardNo};
+		List list = jdbc.query(query, boardRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return (Board)list.get(0);
+		}
+	}
+
+	public int updateReadCount(int boardNo) {
+		String query = "update board set board_readcount = board_readcount+1 where board_no=?";
+		Object[] params = {boardNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public List selectBoardFile(int boardNo) {
+		String query ="select * from board_file where board_no=?";
+		Object[] params = {boardNo};
+		List list = jdbc.query(query,boardFileRowMapper,params);
+		return list;
+	}
+
+	public List<BoardComment> selectCommentList(int boardNo, int memberNo) {
+		String query= "select \r\n" + 
+				"    bc.*,\r\n" + 
+				"    (select count(*) from board_comment_like where comment_no = bc.comment_no) as like_count,\r\n" + 
+				"    (select count(*) from board_comment_like where comment_no = bc.comment_no and member_no=?)as is_like\r\n" + 
+				"from board_comment bc\r\n" + 
+				"where comment_board_no=? and comment_ref_no is null order by 1";
+		
+			Object[] params = {memberNo, boardNo};
+			List list = jdbc.query(query,boardCommentRowMapper,params);
+			return list;
+	}
+
+	public List selectRecommentList(int boardNo, int memberNo) {
+		String query = "select \r\n" + 
+				"    bc.*,\r\n" + 
+				"    (select count(*) from board_comment_like where comment_no = bc.comment_no) as like_count,\r\n" + 
+				"    (select count(*) from board_comment_like where comment_no = bc.comment_no and member_no=?)as is_like\r\n" + 
+				"from board_comment bc\r\n" + 
+				"where comment_board_no=? and comment_ref_no is null order by 1";
+		Object[] params = {memberNo, boardNo};
+		List list = jdbc.query(query, boardCommentRowMapper,params);
+		return list;
+	}
+
+
+
 
 }

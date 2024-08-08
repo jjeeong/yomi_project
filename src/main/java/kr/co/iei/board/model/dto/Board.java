@@ -1,5 +1,7 @@
 package kr.co.iei.board.model.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,4 +19,7 @@ public class Board {
 	private int readCount;
 	private String boardRegdate;
 	private String boardStoreName;
+	private List<BoardFile> fileList;
+	private List<BoardComment> commentList;
+	private List<BoardComment> reCommentList;
 }
