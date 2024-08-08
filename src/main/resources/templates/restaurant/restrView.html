@@ -28,11 +28,6 @@
             height: 100%;
         }
 
-        .stars1 .material-icons {
-            font-size: 50px;
-            color: #FC7A1E;
-        }
-
         .shop-img img {
             margin-right: 10px;
             width: 300px;
@@ -75,10 +70,6 @@
 
         .restr-wrap-content {
             margin: 30px;
-        }
-
-        .stars1 {
-            display: flex;
         }
 
         .stars1 p {
@@ -480,6 +471,39 @@
         	border-radius: 10px;
         }
         
+        <!-- 평균 별점 -->
+        .star-wrap{
+		    overflow: hidden;
+		}
+		.star-wrap>span{
+		    float: left;
+		    color : #B3B3B3;
+		    font-size: 50px;
+		}
+		.star-wrap2{
+		    position: relative;
+		}
+		.star-on{
+		    position: absolute;
+		    left: 0;
+		    width: 0px;
+		    overflow: hidden;
+		}
+		.star-on-wrap{
+		    width: 250px;
+		}
+		.star-on-wrap>span{
+		    color: #FC7A1E;
+		}
+		
+		.stars1 p {
+			float: left;
+		}
+		.stars1 {
+			overflow: hidden;
+		}
+        
+        
     </style>
 </head>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -517,15 +541,30 @@
                     <h2 class="shop-title" th:text="${r.restrName}"></h2>
                 </div>
                 <div class="stars1">
-                    <div class="star-rating">
+                    <div class="star-wrap star-wrap2">
                         <span class="material-icons">grade</span>
                         <span class="material-icons">grade</span>
                         <span class="material-icons">grade</span>
                         <span class="material-icons">grade</span>
                         <span class="material-icons">grade</span>
+                        <div class="star-on">
+	                        <div class="star-wrap star-on-wrap">
+		                        <span class="material-icons">grade</span>
+		                        <span class="material-icons">grade</span>
+		                        <span class="material-icons">grade</span>
+		                        <span class="material-icons">grade</span>
+		                        <span class="material-icons">grade</span>
+		                    </div>
+                        </div>
                     </div>
-                    <p th:text="${starAvg}"></p>
-                    <p th:text="'(' + ${reviewCount}+'명의 평가)'"></p>
+    
+                    <th:block th:if="${reviewCount} != 0">
+	                	<p id="star-avg" th:text="${starAvg}"></p>
+	                    <p th:text="'(' + ${reviewCount}+'명의 평가)'"></p>
+	                </th:block>
+	                <th:block th:if="${reviewCount} == 0">
+	                	<p>(작성된 리뷰가 없습니다.)</p>
+	                </th:block> 
                 </div>
                 <div class="shop-information">
                     <div>
@@ -567,7 +606,12 @@
         <div class="review-wrap">
             <div class="review-title">
                 <h2>리뷰</h2>
-                <h4 th:text="'(' + ${reviewCount}+'명의 평가)'"></h4>
+                <th:block th:if="${reviewCount} != 0">
+                	<h4 th:text="'(' + ${reviewCount}+'명의 평가)'"></h4>
+                </th:block>
+                <th:block th:if="${reviewCount} == 0">
+                	<h4>(작성된 리뷰가 없습니다.)</h4>
+                </th:block>
             </div>
             <div class="review-content">
                 <div class="review-header">
@@ -799,6 +843,8 @@
 			</div>
 		</div>
 		<!-- 여기까지 수진 신고 모달 -->
+		
+		
         <script th:inline="javascript">
             const restrNoInput = document.getElementById('restrNo');
             const restrNo = parseFloat(restrNoInput.value);
@@ -814,7 +860,8 @@
                     data: { start: start, amount: amount, restrNo: restrNo },
                     success: function (data) {
                         console.log(data);
-                        for (let i = 0; i < data.length; i++) {
+                        //for (let i = 0; i < data.length; i++) {
+                        for(let i = data.length - 1; i >= 0; i--) {
                             const review = data[i];
                             const reviewDiv = $("<div>").addClass("review");
 
@@ -1219,6 +1266,12 @@
         });
         
         
+        $(document).ready(function() {
+            $(".star-on").css("width", "0px");
+            const score = parseFloat($("#star-avg").text());
+            const changeWidth = score * 50;
+            $(".star-on").animate({"width": changeWidth + "px"}, 1000);
+        });
         
     </script>
 </body>

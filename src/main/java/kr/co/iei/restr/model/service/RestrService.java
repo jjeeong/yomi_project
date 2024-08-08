@@ -215,8 +215,8 @@ public class RestrService {
 		return null;
 	}
 
-	public int selectOneReview(int restrNo) {
-		int reviewNo = restrDao.selectOneReview(restrNo);
+	public int selectOneReview() {
+		int reviewNo = restrDao.selectOneReview();
 		return reviewNo;
 	}
 

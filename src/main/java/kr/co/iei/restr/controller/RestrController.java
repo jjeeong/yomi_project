@@ -45,7 +45,7 @@ public class RestrController {
 
 	// 맛집 상세 페이지
 	@GetMapping(value = "/restrView")
-	public String restrView(Model model, int restrNo) {
+	public String restrView(Model model, int restrNo, @SessionAttribute (required = false) Member member) {
 		Restaurant r = restrService.selectOneRestr(restrNo);
 
 		if (r == null) {
@@ -136,6 +136,11 @@ public class RestrController {
 	@PostMapping(value = "/writeReview")
 	public String writeReview(@SessionAttribute(required = false) Member member, Review review, Restaurant restaurant, Double reviewStar,  
 			@RequestParam(value = "keywords", required = false) String[] keywords, MultipartFile[] upfile) {
+		
+		
+		System.out.println("리뷰 작성 레스토랑 정보 : " + restaurant);
+		System.out.println("리뷰 작성 리뷰 정보 : " + review);
+		
 		// 작성자 번호
 		int memberNo = member.getMemberNo();	
 		review.setMemberNo(memberNo);
@@ -149,7 +154,7 @@ public class RestrController {
 		System.out.println("upfile : "+upfile);
 		
 		//리뷰 번호 불러오기
-		int reviewNo = restrService.selectOneReview(restrNo) + 1;
+		int reviewNo = restrService.selectOneReview() + 1;
 		
 		review.setReviewNo(reviewNo);
 		
@@ -173,7 +178,7 @@ public class RestrController {
 		if (result > 0 && keywords != null) {			
 			int tagResult = restrService.insertKeyword(reviewNo, keywords);
 		}
-	
+		
 		return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();
 	}
 
