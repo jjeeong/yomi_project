@@ -26,25 +26,22 @@
         }
 
         .thumbnail {
-            border: 1px solid #ddd;
+             background-color: #fff;
             border-radius: 5px;
-            width: 100%;
+            width: 300px;
+    	 	height: 200px;	
             margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
         }
 
-        .thumbnail-img {
-            color: #999;
-            font-size: 1.2rem;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #f2f2f2;
-        }
 		
 		.thumbnail-img2{
 		 width: 100%;
     	 height: 100%;
+    	 object-fit : cover;
+    	 object-position : center;
+    	 border-radius: 15px;
 		}
         .store-info {
             border: 1px solid #ddd;
@@ -57,17 +54,19 @@
 
         .store-content {
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 15px;
             padding: 15px;
             background-color: white;
             width: 100%;
             margin: 20px 0;
+        	margin-bottom: 0px;
         }
 
         .comments-section {
-            background-color: #f9f9f9;
+            background-color: #EBEBEB;;
             border-radius: 5px;
             padding: 15px;
+            
         }
 
         .comments-section h3 {
@@ -92,6 +91,53 @@
             justify-content: space-between;
             align-items: center;
         }
+        
+        .name{
+        	font-size: 20px;
+        }
+        
+        .addr{
+        	font-size: 20px;
+        }
+        
+        .content{
+        	font-size: 18px;
+      	
+        }
+       
+        .btn{
+        	float:right;
+        }
+        
+        [name=update]{ 
+        margin-right: 5px;
+        border : none;
+        border-radius: 12px;
+        width : 60px;
+        height: 40px;
+       	background-color: #FC7A1E;
+       	font-size: 18px;
+       	font-family: g_b;
+       	color: #EBEBEB;
+        }
+        
+         [name=delete]{
+        border : none;
+        border-radius: 12px;
+        width : 60px;
+        height: 40px;
+        background-color: #FC7A1E;
+        font-size: 18px;
+        font-family: g_b;
+        color: #EBEBEB;
+        margin-top: 0;
+        }
+    	
+    	 .btn-outline-danger{
+    	 	margin-right: 7px;	
+    	 }
+    	 
+    	 
     </style>
 </head>
 <body>
@@ -99,29 +145,28 @@
     <main class="main-content">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12">
+                <div class="col-12">         
                     <div class="thumbnail">
-                        <div class="thumbnail-img">
-                        	<img class="thumbnail-img2" th:src="@{'/board/thumbNailImg/' + ${b.thumbNailImg}}">
-                        </div>
+                        	<img class="thumbnail-img2" th:src="@{'/board/thumbNailImg/' + ${b.thumbNailImg}}"> 
                     </div>
+                    	<div class="btn">
+						<button type="button" id="update" name="update">수정</button>
+                    	<button type="button" id="delete" name="delete">삭제</button>
+                    	</div>
                     <div class="content-detail">
                         <div class="form-group">
-                            <span>가게명:<span>
+                            <span class="name">가게명:<span>
 							<span th:text="${b.boardStoreName}">
                         </div>
                         <div class="form-group">
-                            <span>위치:<span>
+                            <span class="addr">위치:<span>
                             <span th:text="${b.boardAddr}"></span>
                         </div>
                     </div>
                     <form id="storeForm" class="store-content">
-                        <div class="form-group">
-                            <span>내용<span>
+                        <div class="content-wrap">
+                            <span class="content"><span>
                             <span th:utext="${b.boardContent}"></span>   
-                        </div>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-primary" onclick="submitForm()">작성완료</button>
                         </div>
                     </form>
                     <div class="text-center mt-3">

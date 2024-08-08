@@ -1,5 +1,6 @@
 package kr.co.iei.board.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.iei.board.model.dao.BoardDao;
 import kr.co.iei.board.model.dto.Board;
 import kr.co.iei.board.model.dto.BoardFile;
 import kr.co.iei.board.model.dto.BoardListData;
@@ -98,6 +100,28 @@ public class BoardController {
 				return "board/view";
 			}
 		}
+	@GetMapping(value="/delete")
+	public String delete(int boardNo, Model model) {
+		List<BoardFile> list = boardService.deleteBoard(boardNo);
+		if(list == null) {
+			model.addAttribute("title","삭제실패 ");
+			model.addAttribute("msg","존재하지 않는 게시물입니다");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc","/board/list?reqPage=1");
+		}else {
+			String savepath = root+"/board/";
+			for(BoardFile file : list) {
+				File delFile = new File(savepath+file.getFilePath());
+				delFile.delete();
+			}
+			model.addAttribute("title","삭제성공 ");
+			model.addAttribute("msg","게시글이 삭제되었습니다.");
+			model.addAttribute("icon", "success");
+			model.addAttribute("loc","/board/list?reqPage=1");
+		}
+		
+		return "common/msg";
+	}
 	}
 
 	

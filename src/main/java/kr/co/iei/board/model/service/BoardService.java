@@ -99,4 +99,14 @@ public class BoardService {
 		}
 		return b;
 	}
+
+	public List<BoardFile> deleteBoard(int boardNo) {
+		List list = boardDao.selectBoardFile(boardNo);
+		
+		int result = boardDao.deleteBoard(boardNo);
+		if(result > 0) {
+			return list;
+		}
+		return null;
+	}
 }

@@ -109,6 +109,14 @@ public class BoardDao {
 		return list;
 	}
 
+	public int deleteBoard(int boardNo) {
+		String query = "delete from board where board_no=?";
+		Object[] params = {boardNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	
 
 
 
