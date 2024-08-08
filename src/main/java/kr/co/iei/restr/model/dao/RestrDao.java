@@ -158,10 +158,9 @@ public class RestrDao {
 		return result;
 	}
 
-	public int selectOneReview(int restrNo) {
-		String query = "select review_no from (select rownum as rnum, review.* from (select * from review where restr_no = ? order by review_no desc) review) where rnum = 1";
-		Object[] params = { restrNo };
-		Integer reviewNo = jdbc.queryForObject(query, Integer.class, params);
+	public int selectOneReview() {
+		String query = "select max(review_no) from review";
+		Integer reviewNo = jdbc.queryForObject(query, Integer.class);
 		return reviewNo;
 	}
 
