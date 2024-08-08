@@ -36,7 +36,7 @@ header>div.header {
     position: fixed;
     top: 0;
     width: 100%;
-    min-width: 1240px;
+    min-width: 840px;
 }
 
 header a {
@@ -57,6 +57,7 @@ header a {
     width: 20%;
     color: var(--point1);
     text-align: center;
+    min-width: 140px;
 }
 
 .header-top>.logo>a {
@@ -116,7 +117,9 @@ header .text-end>a {
     padding: 0 10px;
 }
 
-
+header nav{
+	min-width : 1240px;
+}
 header nav ul {
     margin: 0;
     padding: 0;
@@ -392,24 +395,47 @@ main.index div.carousel-inner div.restr-box {
 }
 
 main.index div.carousel-inner div.restr-box>.img-box {
-    height: 250px;
-    display: flex;
-    align-items: center;
+	overflow:hidden;
+	display : flex;
+	justify-content: center;
 }
 
 main.index div.carousel-inner div.restr-box>.img-box>img {
+    height: 250px;
     width: 100%;
+    object-fit : cover;
     object-position: center center;
 }
 
 main.index div.carousel-inner div.restr-box>div.restr-name {
+	display : flex;
+	flex-direction:column;
+	align-items : flex-start;
     height: 75px;
+    justify-content : center;
 }
 
+main.index div.carousel-inner div.restr-box>div.restr-name>div.star-origin{
+	position : relative;
+}
+
+main.index div.carousel-inner div.restr-box>div.restr-name>div.star-origin>div{
+	position : absolute;
+	top:0;
+	left:0;
+}
+
+main.index div.carousel-inner div.restr-box>div.restr-name>div>div.star-score>span{
+	color : var(--point2);
+}
+
+main.index div.carousel-inner div.restr-box>div.restr-name>div.star-origin>span{
+	color : var(--color2);
+}
 main.index div.carousel-inner div.restr-box>div.restr-name>span {
-    font-family: g_b;
+    font-family: g_black;
+    font-size:18px;
     color: var(--pointFont);
-    line-height: 75px;
 }
 
 main.index .best-restr button.control-btn {
@@ -440,6 +466,7 @@ main.index div.content>div.ad {
     display: flex;
     align-items: center;
     overflow: hidden;
+    cursor: pointer;
 }
 
 /*광고 api 있으면 고칠듯...? 일단 어떤 느낌인지만 보려고..*/

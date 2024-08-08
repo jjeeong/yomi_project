@@ -15,108 +15,70 @@
 					<div class="bg-fade">
 						<div class="carousel-item active">
 							<div class="active-box">
-								<div class="restr-box round-box">
-									<div class="img-box">
-										<img src="/image/main 페이지용.jpg" class="restr-img">
+								<div class="restr-box round-box" th:each="num : ${#numbers.sequence(0,3)}">
+									<div class="img-box round-box shadow">
+										<img th:src="@{'/yomi/'+${restrList[num].restrImg1}}" class="restr-img">
 									</div>
 									<div class="restr-name">
-										<span>상호명</span>
-									</div>
-								</div>
-								<div class="restr-box round-box">
-									<div class="img-box">
-										<img src="/image/main 페이지용.jpg" class="restr-img">
-									</div>
-									<div class="restr-name">
-										<span>상호명</span>
-									</div>
-								</div>
-								<div class="restr-box round-box">
-									<div class="img-box">
-										<img src="/image/main 페이지용.jpg" class="restr-img">
-									</div>
-									<div class="restr-name">
-										<span>상호명</span>
-									</div>
-								</div>
-								<div class="restr-box round-box">
-									<div class="img-box">
-										<img src="/image/main 페이지용.jpg" class="restr-img">
-									</div>
-									<div class="restr-name">
-										<span>상호명</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="carousel-item">
-							<div class="active-box">
-								<div class="restr-box round-box">
-									<div class="img-box">
-										<img src="/image/main 페이지용.jpg" class="restr-img">
-									</div>
-									<div class="restr-name">
-										<span>상호명</span>
-									</div>
-								</div>
-								<div class="restr-box round-box">
-									<div class="img-box">
-										<img src="/image/main 페이지용.jpg" class="restr-img">
-									</div>
-									<div class="restr-name">
-										<span>상호명</span>
-									</div>
-								</div>
-								<div class="restr-box round-box">
-									<div class="img-box">
-										<img src="/image/main 페이지용.jpg" class="restr-img">
-									</div>
-									<div class="restr-name">
-										<span>상호명</span>
-									</div>
-								</div>
-								<div class="restr-box round-box">
-									<div class="img-box">
-										<img src="/image/main 페이지용.jpg" class="restr-img">
-									</div>
-									<div class="restr-name">
-										<span>상호명</span>
+										<div class="star-origin">
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<div class="star-score">
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+												<span class="material-icons">
+													grade
+												</span>
+											</div>
+										</div>
+										<span th:text="${restrList[num].restrName}">상호명</span>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="carousel-item">
 							<div class="active-box">
-								<div class="restr-box round-box">
-									<div class="img-box">
-										<img src="/image/main 페이지용.jpg" class="restr-img">
+								<div class="restr-box round-box" th:each="num : ${#numbers.sequence(4,7)}">
+									<div class="img-box round-box shadow">
+										<img th:src="@{'/yomi/'+${restrList[num].restrImg1}}" class="restr-img">
 									</div>
 									<div class="restr-name">
-										<span>상호명</span>
+										<span th:text="${restrList[num].restrName}">상호명</span>
 									</div>
 								</div>
-								<div class="restr-box round-box">
-									<div class="img-box">
-										<img src="/image/main 페이지용.jpg" class="restr-img">
+							</div>
+						</div>
+						<div class="carousel-item">
+							<div class="active-box">
+								<div class="restr-box round-box" th:each="num : ${#numbers.sequence(8,11)}">
+									<div class="img-box round-box shadow">
+										<img th:src="@{'/yomi/'+${restrList[num].restrImg1}}" class="restr-img">
 									</div>
 									<div class="restr-name">
-										<span>상호명</span>
-									</div>
-								</div>
-								<div class="restr-box round-box">
-									<div class="img-box">
-										<img src="/image/main 페이지용.jpg" class="restr-img">
-									</div>
-									<div class="restr-name">
-										<span>상호명</span>
-									</div>
-								</div>
-								<div class="restr-box round-box">
-									<div class="img-box">
-										<img src="/image/main 페이지용.jpg" class="restr-img">
-									</div>
-									<div class="restr-name">
-										<span>상호명</span>
+										<span th:text="${restrList[num].restrName}">상호명</span>
 									</div>
 								</div>
 							</div>
@@ -336,7 +298,14 @@
 			</aside>
 		
 		</section>
-		
+		<script>
+			$("div.ad").on("click", function(){
+				location.href="https://kh-academy.co.kr/main/main.kh";
+			})
+			console.log([[${restrList}]]);
+			
+			//별점별 다르게 하는거 구현해야함
+		</script>
 	</main>
 	<th:block th:include="common/footer"></th:block>
 </body>

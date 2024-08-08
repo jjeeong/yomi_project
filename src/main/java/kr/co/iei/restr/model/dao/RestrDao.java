@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.co.iei.restr.model.dto.BestRestrRowMapper;
 import kr.co.iei.restr.model.dto.Restaurant;
 import kr.co.iei.restr.model.dto.RestaurantRowMapper;
 
@@ -41,6 +42,9 @@ public class RestrDao {
 
 	@Autowired
 	private ReviewImgRowMapper reviewImgRowMapper;
+	
+	@Autowired
+	private BestRestrRowMapper bestRestrRowMapper;
 
 	public Restaurant selectOneRestr(int restrNo) {
 		String query = "select * from restaurant where restr_no = ?";
@@ -252,12 +256,12 @@ public class RestrDao {
 	}
 
 	public List selectBest() {//별점 베스트 12개 뽑기.. 정렬이 된지는 알수 없음.. 
-		String query = "select * from restaurant \r\n" + 
+		String query = "select restr_name, restr_no, restr_img1,(select round(avg(review_star),1) from review r where r.restr_no=restr.restr_no)review_star from restaurant restr \r\n" + 
 				"where restr_no in (\r\n" + 
 				"select restr_no from \r\n" + 
 				"(select rownum as rnum, r.* from \r\n" + 
 				"(select avg(review_star), restr_no from review group by restr_no order by 1 desc)r)r2 where rnum<13)";
-		List list = jdbc.query(query, restaurantRowMapper);
+		List list = jdbc.query(query, bestRestrRowMapper);
 		return list;
 	}
 

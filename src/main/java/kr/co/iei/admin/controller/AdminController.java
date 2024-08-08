@@ -22,11 +22,6 @@ public class AdminController {
 	private MemberService memberService;
 	
 	
-	@GetMapping(value="/checkReport")
-	public String checkReport() {
-		return "admin/reportList";
-		
-	}
 	@GetMapping(value="/adminMypage")
 	public String adminMypage(@SessionAttribute Member member,Model model) {
 		String memberId = member.getMemberId();

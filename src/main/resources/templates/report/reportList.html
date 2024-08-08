@@ -15,7 +15,7 @@
 			</div>
 			<div class="search">
 				<form action="#" method="get">
-					<input type="text" name="repondentId" class="searchId" placeholder="검색할 아이디를 입력하세요">
+					<input type="text" name="respondentId" class="searchId" placeholder="검색할 아이디를 입력하세요">
 					<button class="btn btn-point">검색</button>
 				</form>
 			</div>
@@ -60,19 +60,21 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<tr th:each="report : ${list}">
 							<td class="check">
-								<input type="checkbox" id="" class="report-check">
+								<input type="checkbox" class="report-check">
 							</td>
-							<td>작성자ID</td>
-							<td>댓글/게시글</td>
-							<td>불쾌한 내용 포함</td>
-							<td class="report-content">이딴 글을 올리게 냅두면 안되죠 예? 자꾸 이러실 거에요?...</td>
-							<td class="report-board-content">게시글 내용 에베베베베베베베베베베벱베베벱베베베베...</td>
+							<td th:text= "${report.respondentId}"></td>
+							<td th:if="${report.reportBoardType==1}">맛집 리스트 리뷰</td>
+							<td th:if="${report.reportBoardType==2}">맛집 게시판 게시글</td>
+							<td th:if="${report.reportBoardType==3}">맛집 게시판 댓글</td>
+							<td th:text="${report.reportType}"></td>
+							<td th:text="${report.reportContent}" class="report-content">이딴 글을 올리게 냅두면 안되죠 예? 자꾸 이러실 거에요?...</td>
+							<td th:text="${report.respondentContent}"  class="report-board-content">게시글 내용 에베베베베베베베베베베벱베베벱베베베베...</td>
 							<td>
 								<div class="btn-box">
-									<button class="btn btn-sm btn-point">확인</button>
-									<button class="btn btn-sm btn-mono">삭제</button>
+									<button class="btn btn-sm btn-point" th:onclick="checkReport(this, [[${report.reportNo}]])">확인</button>
+									<button class="btn btn-sm btn-mono" th:onclick="deleteReport(this, [[${report.reportNo}]])">삭제</button>
 								</div>
 							</td>
 						</tr>
