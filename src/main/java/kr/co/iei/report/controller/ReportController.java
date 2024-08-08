@@ -63,4 +63,11 @@ public class ReportController {
 		int result = reportService.updateReportCheck(reportNo);
 		return result;
 	}
+	
+	@ResponseBody
+	@GetMapping(value="/deleteReport")
+	public int deleteReport(int reportNo) {
+		int result = reportService.deleteReport(reportNo);
+		return result;
+	}
 }
