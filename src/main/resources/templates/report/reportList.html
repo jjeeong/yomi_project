@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>신고 현황</title>
+
 </head>
 
 <body>
@@ -69,28 +70,12 @@
 							<td th:if="${report.reportBoardType==2}">맛집 게시판 게시글</td>
 							<td th:if="${report.reportBoardType==3}">맛집 게시판 댓글</td>
 							<td th:text="${report.reportType}"></td>
-							<td th:text="${report.reportContent}" class="report-content">이딴 글을 올리게 냅두면 안되죠 예? 자꾸 이러실 거에요?...</td>
-							<td th:text="${report.respondentContent}"  class="report-board-content">게시글 내용 에베베베베베베베베베베벱베베벱베베베베...</td>
+							<td th:text="${report.reportContent}" class="report-content"></td>
+							<td th:text="${report.respondentContent}"  class="report-board-content"></td>
 							<td>
 								<div class="btn-box">
-									<button class="btn btn-sm btn-point" th:onclick="checkReport(this, [[${report.reportNo}]])">확인</button>
+									<button class="btn btn-sm btn-point" th:onclick="showReport(this, [[${report.reportNo}]])" data-bs-toggle="modal" data-bs-target="#staticBackdrop">확인</button>
 									<button class="btn btn-sm btn-mono" th:onclick="deleteReport(this, [[${report.reportNo}]])">삭제</button>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td class="check">
-								<input type="checkbox" id="" class="report-check">
-							</td>
-							<td>작성자ID</td>
-							<td>댓글/게시글</td>
-							<td>불쾌한 내용 포함</td>
-							<td class="report-content">이딴 글을 올리게 냅두면 안되죠 예? 자꾸 이러실 거에요?...</td>
-							<td class="report-board-content">게시글 내용 에베베베베베베베베베베벱베베벱베베베베...</td>
-							<td>
-								<div class="btn-box">
-									<button class="btn btn-sm btn-point">확인</button>
-									<button class="btn btn-sm btn-mono">삭제</button>
 								</div>
 							</td>
 						</tr>
@@ -102,7 +87,217 @@
 				<button class="btn btn-lg btn-point">전체 신고 확인</button>
 			</div>
 		</section>
+		
+		<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable">
+				<div class="modal-div modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="staticBackdropLabel">신고 글 확인</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form action="" method="get">
+							<div class="respondent-info reportCheck">
+								<div class="report-board-type">
+									<span class="info-name">글 유형</span>
+									<span class="info-dot"> : </span>
+									<span class="info-content" id="report-board-type"></span>
+								</div>
+								<div class="respondent-id">
+									<span class="info-name">작성자</span>
+									<span class="info-dot"> : </span>
+									<span class="info-content" id="respondent-id">작성자 ID</span>
+								</div>
+								<div class="reporter-id">
+									<span class="info-name">신고자</span>
+									<span class="info-dot"> : </span>
+									<span class="info-content" id="reporter-id">작성자 ID</span>
+								</div>
+								<div class="report-type">
+									<span class="info-name">신고 사유</span>
+									<span class="info-dot"> : </span>
+									<span class="info-content" id="report-type">신고 사유</span>
+								</div>
+							</div>
+							<div class="input-box report-content">
+								<div class="info-name-box">
+									<span class="info-name">신고 내용 : </span>
+								</div>
+								<div class="info-content">
+									<div id="reportContent"></div>
+								</div>
+							</div>
+							<div class="input-box report-content">
+								<div class="info-name-box">
+									<span class="info-name">해당 게시글 내용 : </span>
+								</div>
+								<div class="info-content">
+									<div id="respondentContent"></div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-mono-modal">삭제</button>
+						<button type="button" class="btn btn-point-modal">신고 접수</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</main>
+	<script>
+		//0.sw2 설정
+	    var reportSwal = Swal.mixin({
+	    				customClass: {
+	    					confirmButton: "btn btn-point-swal btn-lg",
+	    					cancelButton: "btn btn-mono-swal btn-lg",
+	    					title: "point",
+	    				},
+	    				confirmButtonText: "확인",
+	    				color : "var(--mainFont)",
+	    				buttonsStyling: false
+	    			});
+		function checkReport(obj, reportNo){
+			$.ajax({
+				url : "/report/updateReport",
+				type : "get",
+				data : {reportNo : reportNo},
+				success: function(data){
+					if(data>0){
+						reportSwal.fire({
+							title: "신고 체크 완료",
+	            			text: "신고 횟수가 정상적으로 집계되었습니다.",
+	            			icon:"success"
+						}).then(result=>{
+							if(result.isConfirmed){
+								location.href = "/report/checkReport";
+							}
+						});
+					}else{
+						reportSwal.fire({
+							title: "신고 체크 실패",
+	            			text: "체크할 신고글이 존재하지 않습니다.",
+	            			icon:"error"
+						}).then(result=>{
+							if(result.isConfirmed){
+								location.href = "/report/checkReport";
+							}
+						});
+					}//if/else
+				},//success
+				error : function(){
+					reportSwal.fire({
+						title : "시스템 오류",
+						text : "시스템 오류가 발생했습니다. 나중에 다시 시도해주세요",
+						icon : "error"
+					});
+				},//error
+				complete : function(){
+					$("#staticBackdrop").modal("hide");
+				}
+			});//ajax 끝
+			
+		}//checkReport
+		function showReport(obj, reportNo){
+			let reportBoardType = $(obj).parent().parent().prev().prev().prev().prev().text();
+			console.log(reportBoardType);
+			$("span#report-board-type").text(reportBoardType);
+			$.ajax({
+				url : "/report/showReport",
+				type: "get",
+				data : {reportNo : reportNo},
+				dataType : "json",
+				success : function(data){
+					if(data!=null){
+						$("span#reporter-id").text(data.reporterId);
+						$("span#report-type").text(data.reportType);
+						$("div#reportContent").text(data.reportContent);
+						$("div#respondentContent").text(data.respondentContent);
+						$("div.modal-footer").children(".btn-point-modal").on("click", function(){
+							checkReport(obj, reportNo);
+						});
+						$("div.modal-footer").children(".btn-mono-modal").on("click", function(){
+							deleteReport(obj, reportNo);
+						});
+					}//if
+					else{
+						reportSwal.fire({
+							title: "신고 조회 실패",
+	            			text: "해당 신고글이 존재하지 않습니다.",
+	            			icon:"error"
+						}).then(result=>{
+							if(result.isConfirmed){
+								location.href = "/report/checkReport";
+							}
+						});
+					}
+				},
+				error : function(){
+					reportSwal.fire({
+						title : "시스템 오류",
+						text : "시스템 오류가 발생했습니다. 나중에 다시 시도해주세요",
+						icon : "error"
+					});
+					$("#staticBackdrop").modal("hide");
+				}
+			});//ajax 끝
+		}//showRepoprt
+		
+		function deleteReport(obj, reportNo){
+		    reportSwal.fire({
+		        title : "신고글 삭제",
+		        text:"정말 삭제하시겠습니까?",
+		        icon:"question",
+		        iconColor : "var(--point1)",
+		        showCancelButton : true,
+		        cancelButtonText : "취소",
+		        confirmButtonText: "삭제",
+		    }).then(result=>{
+		        	if(result.isConfirmed){
+		        		$.ajax({
+		    				url : "/report/deleteReport",
+		    				type : "get",
+		    				data : {reportNo : reportNo},
+		    				success: function(data){
+		    					if(data>0){
+		    						reportSwal.fire({
+		    							title: "신고 삭제 완료",
+		    	            			text: "신고 내역이 정상적으로 삭제 되었습니다.",
+		    	            			icon:"success"
+		    						}).then(result=>{
+		    							if(result.isConfirmed){
+		    								location.href = "/report/checkReport";
+		    							}
+		    						});
+		    					}else{
+		    						reportSwal.fire({
+		    							title: "신고 삭제 실패",
+		    	            			text: "삭제할 신고글이 존재하지 않습니다.",
+		    	            			icon:"error"
+		    						}).then(result=>{
+		    							if(result.isConfirmed){
+		    								location.href = "/report/checkReport";
+		    							}
+		    						});
+		    					}//if/else
+		    				},//success
+		    				error : function(){
+		    					reportSwal.fire({
+		    						title : "시스템 오류",
+		    						text : "시스템 오류가 발생했습니다. 나중에 다시 시도해주세요",
+		    						icon : "error"
+		    					});
+		    				},//error
+		    				complete : function(){
+		    					$("#staticBackdrop").modal("hide");
+		    				}
+		    			});//ajax 끝
+		        	}//if
+		        });
+		}//deleteReport
+		
+	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
 

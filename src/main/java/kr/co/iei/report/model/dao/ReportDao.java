@@ -31,8 +31,37 @@ public class ReportDao {
 				"decode(report_board_type, 1, (select review_content from review where review_no = r.report_review_no),\r\n" + 
 				"                                2,(select board_content from board where board_no = r.report_board_no), \r\n" + 
 				"                                3,(select comment_content from board_comment where comment_no = r.report_board_comment_no))as respondent_content \r\n" + 
-				"from report r";
+				"from report r where report_check=0";
 		List list = jdbc.query(query, reportListRowMapper);
 		return list;
+	}
+
+	public Report selectOneReport(int reportNo) {
+		String query = "select report_content, report_board_no, report_review_no, report_board_comment_no,(select member_id from member_tbl where member_no = r.reporter_no)as reporter_id, \r\n" + 
+				"decode(report_board_type, 1, (select review_content from review where review_no = r.report_review_no),\r\n" + 
+				"                                2,(select board_content from board where board_no = r.report_board_no), \r\n" + 
+				"                                3,(select comment_content from board_comment where comment_no = r.report_board_comment_no))as respondent_content \r\n" + 
+				"from report r where report_no= ?";
+		Object[] params = {reportNo};
+		List<Report> list = jdbc.query(query, reportRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}
+		System.out.println(list.get(0));
+		return list.get(0);
+	}
+
+	public int updateReportCheck(int reportNo) {
+		String query = "update report set report_check = 1 where report_no = ?";
+		Object[] params = {reportNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int deleteReport(int reportNo) {
+		String query = "delete from report where report_no = ?";
+		Object[] params = {reportNo};
+		int result = jdbc.update(query, params);
+		return result;
 	}
 }
