@@ -109,7 +109,7 @@ header .header-top>.text-end {
     line-height: 50px;
     font-size: 15px;
     padding-right: 50px;
-    min-width: 200px;
+    min-width: 280px;
 }
 
 header .text-end>a {
@@ -368,8 +368,8 @@ main.index .best-restr div.carousel-inner {
 
 main.index div.carousel-inner>div.bg-fade {
     width: 100%;
-    height: 350px;
-    padding: 10px;
+    height: 400px;
+    padding: 35px 10px;
     z-index: 0;
     background-color: rgba(0, 0, 0, 0.7);
 }
@@ -386,7 +386,7 @@ main.index div.carousel-inner div.restr-box {
     width: 24%;
     min-width: 270px;
     max-width: 300px;
-    background-color: rgba(255, 248, 245, 0.8);
+    background-color: rgba(255, 255, 255, 0.5);
     padding: 5px 10px;
     padding-bottom: 0;
 }
