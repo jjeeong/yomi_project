@@ -63,7 +63,7 @@ public class BoardController {
 		List<BoardFile> fileList = new ArrayList<BoardFile>();
 		
 					
-			String savepath = root+"/board/";
+			String savepath = root+"/board/thumbNailImg/";
 			
 				//사용자가 업로드한 파일 이름 출력 
 				String filepath = fileUtils.upload(savepath, upfile);
@@ -77,30 +77,12 @@ public class BoardController {
 		return "common/msg";
 		}
 		return "redirect:/board/writreFrm";
-	}
-	
-	@GetMapping(value="/view")
-	public String view(int boardNo, String check, Model model,@SessionAttribute(required = false) Member member) {
-		int memberNo = 0;
-		if(member != null) {
-			memberNo = member.getMemberNo();
-		}
-		System.out.println("check : "+check);
-		Board b = boardService.selectOneBoard(boardNo,check,memberNo);
-		if(b == null) {
-			model.addAttribute("title","조회실패");
-			model.addAttribute("msg","해당 게시글이 존재하지 않습니다.");
-			model.addAttribute("icon","info");
-			model.addAttribute("loc","/board/list?reqPage=1");
-			return "common/msg";
-		}else {
-			model.addAttribute("b",b);
-			return "board/view";
-		}
-		
+	}	
+	@PostMapping(value="/view")
+	public String view(int boardNo, Model) {
 		
 	}
 }
-	
+
 	
 
