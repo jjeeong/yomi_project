@@ -6,129 +6,179 @@
     <title>가게 소개</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.css" rel="stylesheet">
-	<style>
-		<style>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
 
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
+        .main-content {
+            background-color: #fff;
+            padding: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex: 1;
+            box-sizing: border-box;
+        }
 
-
-
-.main-content {
-    background-color: #fff;
-    padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    flex: 1;
-    box-sizing: border-box;
-}
-
-
-.thumbnail {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 100%;
-    margin: 0 auto;
-}
-
-.thumbnail-img {
-    color: #999;
-    font-size: 1.2rem;
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f2f2f2;
-}
-
-/* 가게 정보 입력 필드 스타일링 */
-.store-info {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #f8f9fa;
-    width: 100%;
-    margin: 20px 0;
-}
-
-.store-content {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    background-color: white;
-    width: 100%;
-    margin: 20px 0;
-}
-
-
-.comments-section {
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    padding: 15px;
-}
-
-.comments-section h3 {
-    margin-bottom: 15px;
-}
-
-.comments-list .comment {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.comments-list .comment:last-child {
-    border-bottom: none;
-}
-
-.comment-text {
-    margin: 0;
-}
+        .thumbnail {
+             background-color: #fff;
+            border-radius: 5px;
+            width: 300px;
+    	 	height: 200px;	
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+        }
 
 		
-	</style>
+		.thumbnail-img2{
+		 width: 100%;
+    	 height: 100%;
+    	 object-fit : cover;
+    	 object-position : center;
+    	 border-radius: 15px;
+		}
+        .store-info {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .store-content {
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 15px;
+            background-color: white;
+            width: 100%;
+            margin: 20px 0;
+        	margin-bottom: 0px;
+        }
+
+        .comments-section {
+            background-color: #EBEBEB;;
+            border-radius: 5px;
+            padding: 15px;
+            
+        }
+
+        .comments-section h3 {
+            margin-bottom: 15px;
+        }
+
+        .comments-list .comment {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .comments-list .comment:last-child {
+            border-bottom: none;
+        }
+
+        .comment-text {
+            margin: 0;
+        }
+
+        .comment-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .name{
+        	font-size: 20px;
+        }
+        
+        .addr{
+        	font-size: 20px;
+        }
+        
+        .content{
+        	font-size: 18px;
+      	
+        }
+       
+        .btn{
+        	float:right;
+        }
+        
+        [name=update]{ 
+        margin-right: 5px;
+        border : none;
+        border-radius: 12px;
+        width : 60px;
+        height: 40px;
+       	background-color: #FC7A1E;
+       	font-size: 18px;
+       	font-family: g_b;
+       	color: #EBEBEB;
+        }
+        
+         [name=delete]{
+        border : none;
+        border-radius: 12px;
+        width : 60px;
+        height: 40px;
+        background-color: #FC7A1E;
+        font-size: 18px;
+        font-family: g_b;
+        color: #EBEBEB;
+        margin-top: 0;
+        }
+    	
+    	 .btn-outline-danger{
+    	 	margin-right: 7px;	
+    	 }
+    	 
+    	 
+    </style>
 </head>
 <body>
-   
+<th:block th:include="common/header"></th:block>
     <main class="main-content">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12">
+                <div class="col-12">         
                     <div class="thumbnail">
-                        <div class="thumbnail-img">
-                            <span>썸네일 이미지</span>
-                        </div>
+                        	<img class="thumbnail-img2" th:src="@{'/board/thumbNailImg/' + ${b.thumbNailImg}}"> 
                     </div>
+                    	<div class="btn">
+						<button type="button" id="update" name="update">수정</button>
+                    	<button type="button" id="delete" name="delete">삭제</button>
+                    	</div>
                     <div class="content-detail">
                         <div class="form-group">
-                            <label for="storeName">가게명:</label>
-                            <input type="text" id="storeName" class="form-control" placeholder="가게명을 입력하세요">
+                            <span class="name">가게명:<span>
+							<span th:text="${b.boardStoreName}">
                         </div>
                         <div class="form-group">
-                            <label for="storeLocation">위치:</label>
-                            <input type="text" id="storeLocation" class="form-control" placeholder="위치를 입력하세요">
+                            <span class="addr">위치:<span>
+                            <span th:text="${b.boardAddr}"></span>
                         </div>
                     </div>
                     <form id="storeForm" class="store-content">
-                        <div class="form-group">
-                            <label for="summernote">내용</label>
-                            <div id="summernote" class="summernote">가게 소개를 작성해주세요.</div>
-                        </div>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-primary" onclick="submitForm()">작성완료</button>
+                        <div class="content-wrap">
+                            <span class="content"><span>
+                            <span th:utext="${b.boardContent}"></span>   
                         </div>
                     </form>
+                    <div class="text-center mt-3">
+                        <button type="button" class="btn btn-outline-primary" onclick="likePost()">게시글 좋아요 <span id="postLikes">0</span></button>
+                        <button type="button" class="btn btn-outline-danger" onclick="reportPost()">게시글 신고하기</button>
+                    </div>
 
-                    <!-- 댓글 섹션 시작 -->
+                    <!-- 댓글 구역-->
                     <div class="comments-section mt-4">
                         <h3>댓글</h3>
                         <div id="commentsList" class="comments-list">
-                            <!-- 여기에 댓글들이 추가됩니다 -->
+                            <!-- 댓글 -->
                         </div>
                         <div class="comment-form mt-3">
                             <div class="form-group">
@@ -138,29 +188,16 @@ body, html {
                             <button type="button" class="btn btn-secondary" onclick="addComment()">댓글 달기</button>
                         </div>
                     </div>
-                    <!-- 댓글 섹션 끝 -->
-
                 </div>
             </div>
         </div>
     </main>
-
+	<th:block th:include="common/footer"></th:block>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('.summernote').summernote({
-                height: 300, 
-                placeholder: '',
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['insert', ['picture', 'link']],
-                    ['view', ['codeview']]
-                ]
-            });
-        });
+    
 
         function submitForm() {
             var storeName = $('#storeName').val();
@@ -180,11 +217,29 @@ body, html {
             var commentHtml = `
                 <div class="comment">
                     <p class="comment-text">${commentText}</p>
+                    <div class="comment-actions">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="likeComment(this)">댓글 좋아요 <span class="commentLikes">0</span></button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="reportComment(this)">댓글 신고하기</button>
+                    </div>
                 </div>
             `;
 
             $('#commentsList').append(commentHtml);
             $('#commentInput').val(""); // 입력 필드 초기화
+        }
+
+        // 게시글 좋아요 기능
+        function likePost() {
+            var postLikes = $('#postLikes');
+            var currentLikes = parseInt(postLikes.text());
+            postLikes.text(currentLikes + 1);
+        }
+
+        // 댓글 좋아요 기능
+        function likeComment(button) {
+            var commentLikes = $(button).find('.commentLikes');
+            var currentLikes = parseInt(commentLikes.text());
+            commentLikes.text(currentLikes + 1);
         }
     </script>
 </body>

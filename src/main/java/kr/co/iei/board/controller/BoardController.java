@@ -1,5 +1,6 @@
 package kr.co.iei.board.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.iei.board.model.dao.BoardDao;
 import kr.co.iei.board.model.dto.Board;
 import kr.co.iei.board.model.dto.BoardFile;
 import kr.co.iei.board.model.dto.BoardListData;
@@ -63,7 +65,7 @@ public class BoardController {
 		List<BoardFile> fileList = new ArrayList<BoardFile>();
 		
 					
-			String savepath = root+"/board/";
+			String savepath = root+"/board/thumbNailImg/";
 			
 				//사용자가 업로드한 파일 이름 출력 
 				String filepath = fileUtils.upload(savepath, upfile);
@@ -80,27 +82,47 @@ public class BoardController {
 	}
 	
 	@GetMapping(value="/view")
-	public String view(int boardNo, String check, Model model,@SessionAttribute(required = false) Member member) {
+	public String view(int boardNo, String check , Model model,@SessionAttribute(required = false) Member member) {
 		int memberNo = 0;
 		if(member != null) {
 			memberNo = member.getMemberNo();
 		}
-		System.out.println("check : "+check);
-		Board b = boardService.selectOneBoard(boardNo,check,memberNo);
-		if(b == null) {
-			model.addAttribute("title","조회실패");
-			model.addAttribute("msg","해당 게시글이 존재하지 않습니다.");
-			model.addAttribute("icon","info");
+			System.out.println("check : " +check);
+			Board b = boardService.selectOneBoard(boardNo,check,memberNo);
+			if(b == null) {
+				model.addAttribute("title","조회실패");
+				model.addAttribute("msg","해당 게시글이 존재하지 않습니다.");
+				model.addAttribute("icon","info");
+				model.addAttribute("loc","/board/list?reqPage=1");
+				return "common/msg";
+			}else {
+				model.addAttribute("b",b);
+				return "board/view";
+			}
+		}
+	@GetMapping(value="/delete")
+	public String delete(int boardNo, Model model) {
+		List<BoardFile> list = boardService.deleteBoard(boardNo);
+		if(list == null) {
+			model.addAttribute("title","삭제실패 ");
+			model.addAttribute("msg","존재하지 않는 게시물입니다");
+			model.addAttribute("icon", "error");
 			model.addAttribute("loc","/board/list?reqPage=1");
-			return "common/msg";
 		}else {
-			model.addAttribute("b",b);
-			return "board/view";
+			String savepath = root+"/board/";
+			for(BoardFile file : list) {
+				File delFile = new File(savepath+file.getFilePath());
+				delFile.delete();
+			}
+			model.addAttribute("title","삭제성공 ");
+			model.addAttribute("msg","게시글이 삭제되었습니다.");
+			model.addAttribute("icon", "success");
+			model.addAttribute("loc","/board/list?reqPage=1");
 		}
 		
-		
+		return "common/msg";
 	}
-}
-	
+	}
+
 	
 

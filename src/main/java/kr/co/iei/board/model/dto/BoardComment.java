@@ -14,4 +14,6 @@ public class BoardComment {
 	private String commentRegDate;
 	private int commentBoardNo;
 	private int commentRefNo;
+	private int likeCount;
+	private boolean isLike;
 }

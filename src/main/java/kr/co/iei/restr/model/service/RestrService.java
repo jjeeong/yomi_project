@@ -27,8 +27,16 @@ public class RestrService {
 	@Autowired
 	private RestrDao restrDao;
 
-	public Restaurant selectOneRestr(int restrNo) {
+	public Restaurant selectOneRestr(int restrNo, Member member) {
 		Restaurant r = restrDao.selectOneRestr(restrNo);
+		if(r != null && member != null) {
+			int memberNo = member.getMemberNo();
+			int isLike = restrDao.selectIsLike(restrNo, memberNo);
+			r.setIsLike(isLike);
+			
+			int isBookmark = restrDao.selectIsBookmark(restrNo, memberNo);
+			r.setIsBookmark(isBookmark);
+		}
 		return r;
 	}
 
@@ -72,6 +80,22 @@ public class RestrService {
 			return -1;
 		}
 	}
+	
+	@Transactional
+	public int bookmarkPush(int restrNo, int isbookmark, int memberNo) {
+		int result = 0;
+		if (isbookmark == 0) {
+			result = restrDao.insertRestrBookmark(restrNo, memberNo);
+		} else if (isbookmark == 1) {
+			result = restrDao.deleteRestrBookmark(restrNo, memberNo);
+		}
+		if (result > 0) {
+			int bookmarkCount = restrDao.selectRestrBookmarkCount(restrNo);
+			return bookmarkCount;
+		} else {
+			return -1;
+		}
+	}
 
 	public List selectRestrList(int start, int amount) {
 		int end = start + amount - 1;
@@ -92,8 +116,6 @@ public class RestrService {
 	public int writeReview(Review review, List<ReviewImg> reviewImgList) {
 		int result = restrDao.writeReview(review);
 		if(result > 0) {
-			
-			
 			for(ReviewImg reviewImg : reviewImgList) {
 				reviewImg.setReviewNo(review.getReviewNo()); 
 				int imgResult = restrDao.insertReviewImg(reviewImg);
@@ -203,7 +225,8 @@ public class RestrService {
 
 	public List<String> deleteRestr(int restrNo) {
 		List<String>delFilepath = new ArrayList<String>();
-		Restaurant r = selectOneRestr(restrNo);
+		Member member = new Member();
+		Restaurant r = selectOneRestr(restrNo, member);
 		if(r!=null) {
 			delFilepath.add(r.getRestrImg1());
 			delFilepath.add(r.getRestrImg2());
@@ -248,6 +271,11 @@ public class RestrService {
 	public List selectBest() {
 		List bestRestrList = restrDao.selectBest();
 		return bestRestrList;
+	}
+
+	public List tagCountList(int restrNo) {
+		List tagCountList = restrDao.tagCountList(restrNo);
+		return tagCountList;
 	}
 
 }

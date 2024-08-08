@@ -16,12 +16,12 @@
 	            
 	                <div class="form-group1 no1">
 	                    <input type="checkbox" id="ageCheck" class="essential1">
-	                    <label for="ageCheck"><span>만 14세 이상입니다 (필수)</span>&numsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-	                        <a href="#">내용보기</a></label>
+	                    <label for="ageCheck"><span>만 14세 이상입니다 (필수)</span>
 	                </div>
 	                <div class="form-group1 no2">
 	                    <input type="checkbox" id="termsCheck" class="essential2">
-	                    <label for="termsCheck">이용약관 동의 (필수)</label>
+	                    <label for="termsCheck"><span>이용약관 동의 (필수)</span>&numsp;&numsp;&numsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+	                        <a href="#">내용보기</a></label>
 	                </div>
 	                <div class="form-group1 no3">
 	                    <input type="checkbox" id="personalInfoCheck" name="check" class="essential3">
@@ -88,22 +88,22 @@
 	                        <div class="form-section">
 	                            <div class="section-title">회원정보</div>
 	                            <div class="form-group2">
-	                                <input type="text" name="memberId" placeholder="아이디" required>
+	                                <input type="text" class="id" name="memberId" placeholder="아이디">
 	                            </div>
 	                            <p class="input-msg id-check-msg"></p>
 	                            <div class="form-group2">
-	                                <input type="password" name="memberPw"placeholder="비밀번호" required>
+	                                <input type="password" class="pw" name="memberPw"placeholder="비밀번호">
 	                            </div>
 	                            <p class="input-msg pw-check-msg"></p>
 	                            <div class="form-group2">
-	                                <input type="password" name="memberPwRe"placeholder="비밀번호 확인" required>
+	                                <input type="password" class="pwRe" name="memberPwRe"placeholder="비밀번호 확인">
 	                            </div>
 	                            <p class="input-msg pwRe-check-msg "></p>
 	                            <div class="form-group2 email-group">
-	                                <input type="text" id="inputBox1" placeholder="이메일" required >
+	                                <input type="text" class="email1" id="inputBox1" placeholder="이메일"  >
 	                                <span>@</span>
-	                                <input type="text"  id="inputBox2" disabled >
-	                                <input type="hidden" id="memberEmail" name="memberEmail" required >
+	                                <input type="text" class="email2" id="inputBox2" disabled >
+	                                <input type="hidden" id="memberEmail" name="memberEmail">
 	                                <div class="selectBox">
 	                                    <select class="select">
 	                                        <option value="" selected >선택</option>
@@ -122,35 +122,35 @@
 	                        <div class="form-section">
 	                            <div class="section-title">개인정보</div>
 	                            <div class="form-group2">
-	                                <input type="text" name="memberName" placeholder="이름" required>
+	                                <input type="text" class="name" name="memberName" placeholder="이름" >
 	                            </div>
-	                            <p class="input-msg "></p>
+	                            <p class="input-msg name-check-msg"></p>
 	                            <div class="form-group2 info">
-	                                <input type="text" id="birth-year" placeholder="YYYY" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="4" required >
-	                                <input type="text" id="birth-month" placeholder="MM" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="2" required>
-	                                <input type="text" id="birth-day" placeholder="DD" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="2" required>
+	                                <input type="text" class="year" id="birth-year" placeholder="YYYY" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="4"  >
+	                                <input type="text" class="month" id="birth-month" placeholder="MM" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="2" >
+	                                <input type="text" class="day" id="birth-day" placeholder="DD" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="2" >
 	                                <input type="hidden" id="memberBirthDate" name="memberBirthDate" >
 	                            </div>
 	                            <p class="input-msg birth-check-msg"></p>
 	                            <div class="form-group2 phone-group">
-	                                <input type="text" name="memberPhone" placeholder="휴대폰 번호  -없이 입력" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="11" required>
+	                                <input type="text" class="phone" name="memberPhone" placeholder="휴대폰 번호  -없이 입력" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="11" >
 	                                <button class="input-btn"type="button">인증하기</button>
 	                            </div>
-	                            <p class="input-msg "></p>
+	                            <p class="input-msg phone-check-msg"></p>
 	                            <div class="section-title">주소</div>
 	                            <div class="form-group2">
-	                                <input type="text" id="addr1" placeholder="주소" disabled required>
+	                                <input type="text" class="addr1" id="addr1" placeholder="주소" disabled >
 	                                <button class="input-btn" id="addrSearch" type="button">검색</button>
 	                            </div>
 	                            <div class="form-group2">
-	                                <input type="text" id="addr2" placeholder="상세주소" required>
+	                                <input type="text" class="addr2" id="addr2" placeholder="상세주소" >
 	                                <input type="hidden" id="memberAddr" name="memberAddr">
 	                            </div>
 	                            <p class="input-msg addr-check-msg"></p>
 	                            <div class="section-title">성별</div>
 	                            <div class="form-group2 gender-group">
-	                                <input type="radio" id="male" name="memberGender" value="남자"><label for="male" required>남자</label>
-	                                <input type="radio" id="female" name="memberGender" value="여자"><label for="female" required>여자</label>
+	                                <input type="radio" class="gender1" id="male" name="memberGender" value="남자"><label for="male" >남자</label>
+	                                <input type="radio" class="gender2" id="female" name="memberGender" value="여자"><label for="female">여자</label>
 	                            </div>
 	                             <p class="input-msg gender-check-msg"></p>
 	                        </div>
@@ -239,12 +239,67 @@
 	            finalAddr = addr1 + addr2;
 	            $('#memberAddr').val(finalAddr);
 	            
+	            if($(".form-group2>.id").val()==""){
+					event.preventDefault();
+	            	$(".id-check-msg").text("아이디를 입력해주세요");
+					$(".id-check-msg").addClass("invalid");
+	            }
+	            if($(".form-group2>.pw").val()==""){
+					event.preventDefault();
+	            	$(".pw-check-msg").text("비밀번호를 입력해주세요");
+					$(".pw-check-msg").addClass("invalid");
+	            }
+	            if($(".form-group2>.pwRe").val()==""){
+					event.preventDefault();
+	            	$(".pwRe-check-msg").text("비밀번호확인을 입력해주세요");
+					$(".pwRe-check-msg").addClass("invalid");
+	            }
+	            if($(".form-group2>.email1").val()==""){
+					event.preventDefault();
+					console.log('asdasd')
+	            	$(".email-check-msg").text("E-mail을 입력해주세요");
+					$(".email-check-msg").addClass("invalid");
+	            }
+	            if($(".form-group2>.email2").val()==""){
+					event.preventDefault();
+	            	$(".email-check-msg").text("E-mail을 입력해주세요");
+					$(".email-check-msg").addClass("invalid");
+	            }
+	            if($(".form-group2>.email2").val()==""){
+					event.preventDefault();
+	            	$(".email-check-msg").text("E-mail을 입력해주세요");
+					$(".email-check-msg").addClass("invalid");
+	            }
+	            if($(".form-group2>.name").val()==""){
+					event.preventDefault();
+	            	$(".name-check-msg").text("이름을 입력해주세요");
+					$(".name-check-msg").addClass("invalid");
+	            }
+	            if($(".form-group2>.year,.month,.day").val()==""){
+					event.preventDefault();
+	            	$(".birth-check-msg").text("생년월일을 입력해주세요");
+					$(".birth-check-msg").addClass("invalid");
+	            }
+	            if($(".form-group2>.phone").val()==""){
+					event.preventDefault();
+	            	$(".phone-check-msg").text("휴대폰번호을 입력해주세요");
+					$(".phone-check-msg").addClass("invalid");
+	            }
+	            if($(".form-group2>.addr1,.addr2").val()==""){
+	            	event.preventDefault();
+	            	$(".addr-check-msg").text("주소를 입력해주세요");
+					$(".addr-check-msg").addClass("invalid");
+	            }
+	            if($(".form-group2>.gender1,.gender2").prop("checked",false )){
+	            	event.preventDefault();
+	            	$(".gender-check-msg").text("성별을 선택해주세요");
+					$(".gender-check-msg").addClass("invalid");
+	            }
+	            
+	            
 	            
 	        });
-           	$('.main2 *input').on("chang",function(){
-           		console.log('3902382038')
-           	})
-	       
+	             
 	        
 	        //회원가입 약관 필수 체크 로직
 	      $(".essential1").on("click",function(){
@@ -401,19 +456,44 @@
 				$(".birth-check-msg").text("");
 				$(".birth-check-msg").text("1900~2024년도 까지만 입력가능합니다.");
 				$(".birth-check-msg").addClass("invalid");
-			}
-			if(input2>'12'){
+			}else if(input2>'12'){
 				$(".birth-check-msg").text("");
 				$(".birth-check-msg").text("1~12월 까지만 입력가능합니다.");
 				$(".birth-check-msg").addClass("invalid");
-			}
-			if(input3>'31'){
+			}else if(input3>'31'){
 				$(".birth-check-msg").text("");
 				$(".birth-check-msg").text("1~31일 까지만 입력 가능합니다.");
 				$(".birth-check-msg").addClass("invalid");
+			}else{
+				$(".birth-check-msg").text("");
+				$(".birth-check-msg").removeClass("invalid");
 			}
 		});
-			
+		
+		$(".form-group2>.phone").on("change",function(){
+			if($(".form-group2>.phone").val()==""){
+				$(".phone-check-msg").text("휴대폰 번호를 입력해주세요");
+				$(".phone-check-msg").addClass("invalid");
+			}else{
+				$(".phone-check-msg").text("");
+				$(".phone-check-msg").removeClass("invalid");
+			}
+		});
+		
+		$(".form-group2>.gender1").on("click",function(){
+			if($(".form-group2>.gender1").prop("checked",true)){
+				$(".gender-check-msg").text("");
+				$(".gender-check-msg").removeClass("invalid");
+			}
+		});
+		$(".form-group2>.gender2").on("click",function(){
+			if($(".form-group2>.gender2").prop("checked",true)){
+				$(".gender-check-msg").text("");
+				$(".gender-check-msg").removeClass("invalid");
+			}
+		});
+		
+		
 		
 		//지도 Api
 		

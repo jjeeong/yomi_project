@@ -17,6 +17,7 @@ import kr.co.iei.restr.model.dto.Review;
 import kr.co.iei.restr.model.dto.ReviewImg;
 import kr.co.iei.restr.model.dto.ReviewImgRowMapper;
 import kr.co.iei.restr.model.dto.ReviewRowMapper;
+import kr.co.iei.restr.model.dto.ReviewTagCountRowMapper;
 import kr.co.iei.restr.model.dto.ReviewTagRowMapper;
 
 @Repository
@@ -44,6 +45,9 @@ public class RestrDao {
 	private ReviewImgRowMapper reviewImgRowMapper;
 	
 	@Autowired
+	private ReviewTagCountRowMapper reviewTagCountRowMapper;
+
+	@Autowired
 	private BestRestrRowMapper bestRestrRowMapper;
 
 	public Restaurant selectOneRestr(int restrNo) {
@@ -56,6 +60,7 @@ public class RestrDao {
 		return (Restaurant) list.get(0);
 	}
 
+	//------ 좋아요
 	public int insertRestrLike(int restrNo, int memberNo) {
 		String query = "insert into restaurant_like values(?,?)";
 		Object[] params = { restrNo, memberNo };
@@ -76,7 +81,46 @@ public class RestrDao {
 		int likeCount = jdbc.queryForObject(query, Integer.class, params);
 		return likeCount;
 	}
+	
+	public int selectIsLike(int restrNo, int memberNo) {
+		String query = "select count(*) from RESTAURANT_LIKE where restr_no=? and member_no=?";
+		Object[] params = {restrNo, memberNo};
+		int isLike = jdbc.queryForObject(query, Integer.class, params);
+		return isLike;
+	}
+	//-------
+	
 
+	//------북마크
+	public int insertRestrBookmark(int restrNo, int memberNo) {
+		String query = "insert into RESTAURANT_FAVORITES values(?,?)";
+		Object[] params = { restrNo, memberNo };
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int deleteRestrBookmark(int restrNo, int memberNo) {
+		String query = "delete from RESTAURANT_FAVORITES where restr_no = ? and member_no = ?";
+		Object[] params = { restrNo, memberNo };
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int selectRestrBookmarkCount(int restrNo) {
+		String query = "select count(*) from RESTAURANT_FAVORITES where restr_no = ?";
+		Object[] params = { restrNo };
+		int bookmarkCount = jdbc.queryForObject(query, Integer.class, params);
+		return bookmarkCount;
+	}
+	
+	public int selectIsBookmark(int restrNo, int memberNo) {
+		String query = "select count(*) from RESTAURANT_FAVORITES where restr_no=? and member_no=?";
+		Object[] params = {restrNo, memberNo};
+		int isBookmark = jdbc.queryForObject(query, Integer.class, params);
+		return isBookmark;
+	}
+
+	//------
 	public List selectRestrList(int start, int end) {
 		String query = "select * from (select rownum as rnum, r.* from (select * from restaurant order by restr_no desc)r) where rnum between ? and ?";
 		Object[] params = { start, end };
@@ -98,8 +142,8 @@ public class RestrDao {
 	}
 
 	public int writeReview(Review review) {
-		String query = "insert into review values(review_seq.nextval, ?, ?, TO_CHAR(SYSDATE, 'yyyy-mm-dd'), ?, ?)";
-		Object[] params = { review.getReviewStar(), review.getReviewContent(), review.getMemberNo(),
+		String query = "insert into review values(?, ?, ?, TO_CHAR(SYSDATE, 'yyyy-mm-dd'), ?, ?)";
+		Object[] params = { review.getReviewNo() ,review.getReviewStar(), review.getReviewContent(), review.getMemberNo(),
 				review.getRestrNo() };
 		int result = jdbc.update(query, params);
 		return result;
@@ -141,7 +185,7 @@ public class RestrDao {
 	}
 
 	public List selectReviewList(int start, int end, int restrNo) {
-		String query = "select * from (select rownum as rnum, review.* from (select * from review where restr_no = ? order by review_no desc)review) join member_tbl using (member_no) where rnum between ? and ?";
+		String query = "select * from (select rownum as rnum, review.* from (select * from review where restr_no = ? order by review_no desc)review) left join member_tbl using (member_no) where rnum between ? and ?";
 		Object[] params = { restrNo, start, end };
 		List reviewList = jdbc.query(query, reviewRowMapper, params);
 		return reviewList;
@@ -163,7 +207,8 @@ public class RestrDao {
 	}
 
 	public int selectOneReview() {
-		String query = "select max(review_no) from review";
+		//String query = "select max(review_no) from review";
+		String query = "select REVIEW_SEQ.nextval from dual";
 		Integer reviewNo = jdbc.queryForObject(query, Integer.class);
 		return reviewNo;
 	}
@@ -263,6 +308,13 @@ public class RestrDao {
 				"(select avg(review_star), restr_no from review group by restr_no order by 1 desc)r)r2 where rnum<13)";
 		List list = jdbc.query(query, bestRestrRowMapper);
 		return list;
+	}
+
+	public List tagCountList(int restrNo) {
+		String query = "select count(review_tag_name) as tag_count, review_tag_name from review_tag join review using(review_no) where restr_no = ? GROUP BY review_tag_name";
+		Object[] params = {restrNo};
+		List tagCountList = jdbc.query(query, reviewTagCountRowMapper, restrNo);
+		return tagCountList;
 	}
 
 }

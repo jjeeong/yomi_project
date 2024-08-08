@@ -29,10 +29,13 @@ public class WebConfig implements WebMvcConfigurer{
 			.addResourceHandler("/notice/editor/**")
 			.addResourceLocations("file:///"+root+"/notice/editor/");
 		registry
-			.addResourceHandler("/review/**")
-			.addResourceLocations("file:///"+root+"/review/");
+			.addResourceHandler("/board/thumbNailImg/**")
+			.addResourceLocations("file:///"+root+"/board/thumbNailImg/");
 		registry
 			.addResourceHandler("/board/editor/**")
 			.addResourceLocations("file:///"+root+"/board/editor/");
+		registry
+			.addResourceHandler("/review/**")
+			.addResourceLocations("file:///"+root+"/review/");
 	}
 }
