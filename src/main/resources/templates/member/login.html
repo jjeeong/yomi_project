@@ -8,6 +8,9 @@
 .msg{
 	padding-top:10px;
  	color:red;
+ 	margin-bottom:0px;
+ 	font-weight:600;
+ 	font-size:13px;
 }
 
 
@@ -26,7 +29,7 @@
                         <input type="password" name="memberPw" placeholder="비밀번호" >
                         <button class="login-btn"type="submit">로그인</button>
                     </form>
-                    <p class="msg"></p>
+                    <pre class="msg"></pre>
                     <div class="find-links">
                         <a href="#" id="find-id">아이디 찾기</a>
                         <a href="#" id="find-pw">비밀번호</a>
@@ -42,7 +45,7 @@
    			var pw = $("input[name=memberPw]").val();
    			if(id==""||pw==""){
    				event.preventDefault();
-   				$(".msg").text("아이디 비밀번호를 입력해주세요.");
+   				$(".msg").text("* 아이디 비밀번호를 입력해주세요.");
    			}else{
    				$(this).click("submit");
    			}
@@ -52,7 +55,7 @@
     	const member = [[${member}]];
     	
     		if(member=='no'){
-    			$(".msg").text("아이디 또는 비밀번호가 잘못 되었습니다.")
+    			$(".msg").html("* 아이디 또는 비밀번호가 잘못 되었습니다. \n  아이디 비밀번호를 정확히 입력해주세요")
     		}
     
     </script>
