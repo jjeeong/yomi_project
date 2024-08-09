@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/css/adminMypage1.css">
+<title>관리자마이페이지</title>
+<style>
+  .hidden-password {
+    font-family: 'Courier New', Courier, monospace; 
+    color: black; 
+  }
+</style>
+</head>
+<body>
+    <th:block th:include="common/header"></th:block>
+    <div class="profileing">
+        <div class="profile">
+            <div class="profile-info">
+                <h1>마이페이지</h1>
+                <div class="profile-info2">
+                    <div class="profile-details">
+                    <form action="/admin/update2" method="post" autocomplete="off">                   
+                        <table class="tbl">
+                            <tr>
+                                <th class="info3">아이디</th>
+                                <td class="text" th:text="${session.member.memberId}"></td>
+                            </tr>
+                            <tr>
+                                <th class="info3">이름</th>
+                                <td class="text" th:text="${session.member.memberName}"></td>
+                            </tr>
+                            <tr>
+                                <th class="info3">비밀번호</th>
+                                <td class="text">
+                                    	                                
+                                        <input type="password" name="memberPw" id="memberPw" th:value="${session.member.memberPw}">			       	
+                                    						        	
+                                </td>			        	                            
+                            </tr>
+                            <tr>
+                                <th class="info3">전화번호</th>
+                                <td class="text"> 
+                                    <div class="input-item">
+                                        <input type="text" name="memberPhone" id="memberPhone" th:value="${session.member.memberPhone}">								
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="info3">주소</th>
+                                <td class="text"> 
+                                    <div class="input-item">
+                                        <input type="text" name="memberAddr" id="memberAddr" th:value="${session.member.memberAddr}">		
+                                    </div>
+                                </td>													
+                            </tr>
+                            <tr>
+                                <th class="info3">성별</th>
+                                <td class="text" th:text="${session.member.memberGender}"></td>
+                            </tr>
+                            <tr>
+                                <th class="info3">회원등급</th>
+                                <td class="text" th:switch="${session.member.memberGrade}">
+                                    <span th:case="1">관리자</span>
+                                    <span th:case="2">정회원</span>
+                                    <span th:case="3">블랙</span>                                    
+                                </td>                               
+                            </tr>
+                        </table>
+                        <button class="infofofix" type="submit">정보수정하기</button>
+                         
+                         	
+                               
+                               
+                                    
+                                        <input type="hidden" name="memberNo" id="memberNo" th:value="${session.member.memberNo}">		
+                                   
+                                													
+                                                                               
+                    </form>
+                    </div>
+                    <div class="profile-photo">
+                        
+                    </div>
+                </div>              
+                <div class="buttons">
+                    <button class="infofix" type="submit">정보수정</button>
+                    
+                    <a th:if="${session.member.memberGrade == 1}" href="/admin/adminPage?reqPage=1" class="admin">관리자페이지</a>
+                    <button class="review">내가 작성한 리뷰 보기</button>
+                    <button class="board">내가 작성한 게시글 보기</button>                   
+                    <button type="button" class="memberdelete lg delBtn">회원탈퇴</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/jquery.min.js"></script> <!-- jQuery 추가 -->
+    <script src="/jsTest/sweetalert.min.js"></script>
+    <script>
+    $(".delBtn").on("click", function(){
+        swal({
+            title: "회원탈퇴",
+            text: "정말 회원을 탈퇴하시겠습니까?",
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    text: "취소",
+                    value: false,
+                    visible: true,
+                    className: "btn-secondary",
+                    closeModal: true
+                },
+                confirm: {
+                    text: "탈퇴하기",
+                    value: true,
+                    visible: true,
+                    className: "btn-primary",
+                    closeModal: true
+                }			
+            }	
+        }).then(function(isConfirm){
+            if (isConfirm) {
+                location.href = "/admin/delete";
+            }
+        });		
+    });    
+    </script>
+    <th:block th:include="common/footer"></th:block>
+</body>
+</html>

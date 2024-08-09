@@ -10,7 +10,9 @@
     --monocolor: #FFF8F5;
     --monocolor2: #EDE4E1;
 }
-
+.swal2-shown>body.swal2-height-auto{
+	height: 100% !important;
+}
 html,
 body {
     background-color: #F3F3F3;
@@ -199,7 +201,7 @@ header .nav-sub>li:last-child>a {
 
 /* 메인 */
 .main {
-    flex: 1;
+    flex-grow: 1;
     background-color: var(--bgcolor);
 }
 
@@ -291,7 +293,8 @@ div.modal-div>.modal-body div.respondent-info .info-name {
 div.modal-div>.modal-body div.reportCheck .info-name {
 	width: 20%;
 }
-div.modal-div>.modal-body .info-content>div{
+
+div.modal-div>.modal-body .report-content .info-content>div{
 	border :1px solid var(--color1);
 	width: 100%;
     padding: 5px 10px;
@@ -306,7 +309,10 @@ div.modal-div>.modal-body div.respondent-info .info-dot {
 div.modal-div>.modal-body div.input-box {
     padding: 15px 30px;
 }
-
+/*혹시 신고체크 화면에서 이상하게 나오면 바꿀것*/
+div.modal-div>.modal-body div.input-box.report-type {
+    padding-bottom : 0;
+}
 div.modal-div>.modal-body div.info-content {
     padding: 10px;
     margin-top: 5px;
@@ -315,6 +321,9 @@ div.modal-div>.modal-body div.info-content {
 div.modal-div>.modal-body .info-name {
     font-family: g_b;
     color: var(--pointFont);
+}
+div.modal-div>.modal-body .info-content>div.input{
+	padding: 5px 10px;
 }
 
 div.modal-div>.modal-body .info-content>.input>input[type=text] {
@@ -394,10 +403,17 @@ main.index div.carousel-inner div.active-box {
     justify-content: space-between;
 }
 
-main.index div.carousel-inner div.restr-box {
+main.index div.carousel-inner a{
+	text-decoration : none;
+	margin : 0;
+	padding : 0;
+	display : block;
     width: 24%;
     min-width: 270px;
     max-width: 300px;
+}
+
+main.index div.carousel-inner div.restr-box {
     background-color: rgba(255, 255, 255, 0.5);
     padding: 5px 10px;
     padding-bottom: 0;
@@ -424,23 +440,31 @@ main.index div.carousel-inner div.restr-box>div.restr-name {
     justify-content : center;
 }
 
-main.index div.carousel-inner div.restr-box>div.restr-name>div.star-origin{
-	position : relative;
+.star-wrap{
+	overflow: hidden;
 }
-
-main.index div.carousel-inner div.restr-box>div.restr-name>div.star-origin>div{
-	position : absolute;
-	top:0;
-	left:0;
+.star-wrap>span{
+	float : left;
+	color : var(--color2);
+	font-size : 25px;
 }
-
-main.index div.carousel-inner div.restr-box>div.restr-name>div>div.star-score>span{
+.star-on-wrap>span{
 	color : var(--point2);
 }
-
-main.index div.carousel-inner div.restr-box>div.restr-name>div.star-origin>span{
-	color : var(--color2);
+.star-on-wrap{
+	width : 125px;
 }
+.star-origin{
+	position : relative;
+}
+.star-on{
+	position : absolute;
+	left : 0;
+	width : 0;
+	overflow :hidden;
+}
+
+
 main.index div.carousel-inner div.restr-box>div.restr-name>span {
     font-family: g_black;
     font-size:18px;

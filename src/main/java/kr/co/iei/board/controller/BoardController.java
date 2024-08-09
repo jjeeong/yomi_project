@@ -132,7 +132,6 @@ public class BoardController {
 	
 	@PostMapping(value="/update")
 	public String update(Board b, MultipartFile[] upfile, int[] delFileNo, Model model) {
-
 		List<BoardFile> fileList = new ArrayList<BoardFile>();
 		String savepath = root+"/board/thumbNailImg/";
 		if(!upfile[0].isEmpty()) {
@@ -164,6 +163,7 @@ public class BoardController {
 		}
 	}
 	}
+
 
 	
 
