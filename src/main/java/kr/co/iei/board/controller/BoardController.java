@@ -96,11 +96,6 @@ public class BoardController {
 		}else {
 			model.addAttribute("b",b);
 			return "board/view";
-		}
-		
-		
+		}				
 	}
-}
-	
-	
-
+}		

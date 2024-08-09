@@ -41,11 +41,6 @@ public class MemberService {
 		Member member = memberDao.selectOneMemberEmail(memberEmail);
 		return member;
 	}
-
-	public List selectAllMember() {
-		
-		return null;
-	}
 	
 }
 
