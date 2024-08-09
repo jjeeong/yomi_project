@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>가게 소개</title>
@@ -20,48 +22,33 @@
             background-color: #fff;
             padding: 20px;
             width: 100%;
-            height : 1200px;
-            max-width: 1200px;
+            
+    		width: 1200px;
             margin: 0 auto;
             flex: 1;
             box-sizing: border-box;
         }
 
-        .thumbnail {
-             background-color: #fff;
-            border-radius: 5px;
-            width: 300px;
-    	 	height: 200px;	
-            margin: 0 auto;
-            border-radius: 15px;
-            overflow: hidden;
-        }
 
-		
-		.thumbnail-img2{
-		 width: 100%;
-    	 height: 100%;
-    	 object-fit : cover;
-    	 object-position : center;
-    	 border-radius: 15px;
+		body,
+		html {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
 		}
-        .store-info {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            background-color: #f8f9fa;
-            width: 100%;
-            margin: 20px 0;
-        }
 
         .store-content {
             border: 1px solid #ddd;
             border-radius: 15px;
             padding: 15px;
             background-color: white;
-            width: 100%;
             margin: 20px 0;
         	margin-bottom: 60px;
+        }
+        .store-content img {
+        	max-width: 900px;
         }
 
         .comments-section {
@@ -137,13 +124,135 @@
     	 .btn-outline-danger{
     	 	margin-right: 7px;	
     	 }
-	
-		.btn-like-report{
+			
+		.main-content {
+			background-color: #fff;
+			padding: 20px;
+			width: 100%;
+			height: 1200px;
+			max-width: 1200px;
+			margin: 0 auto;
+			flex: 1;
+			box-sizing: border-box;
 		}
-		
-    </style>
+
+		.thumbnail {
+			background-color: #fff;
+			border-radius: 5px;
+			width: 300px;
+			height: 200px;
+			margin: 0 auto;
+			border-radius: 15px;
+			overflow: hidden;
+		}
+
+
+		.thumbnail-img2 {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
+			border-radius: 15px;
+		}
+
+		.store-info {
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			padding: 10px;
+			background-color: #f8f9fa;
+			width: 100%;
+			margin: 20px 0;
+		}
+
+		.store-content {
+			border: 1px solid #ddd;
+			border-radius: 15px;
+			padding: 15px;
+			background-color: white;
+			width: 100%;
+			margin: 20px 0;
+			margin-bottom: 60px;
+		}
+
+		.comments-section {
+			background-color: #EBEBEB;
+			;
+			border-radius: 15px;
+			padding: 15px;
+		}
+
+		.comments-section h3 {
+			margin-bottom: 15px;
+		}
+
+		.comments-list .comment {
+			padding: 10px;
+			border-bottom: 1px solid #ddd;
+		}
+
+		.comments-list .comment:last-child {
+			border-bottom: none;
+		}
+
+		.comment-text {
+			margin: 0;
+		}
+
+		.comment-actions {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.name {
+			font-size: 20px;
+		}
+
+		.addr {
+			font-size: 20px;
+		}
+
+		.content {
+			font-size: 18px;
+
+		}
+
+		.btn {
+			float: right;
+		}
+
+		[name=update] {
+			margin-right: 5px;
+			border: none;
+			border-radius: 12px;
+			width: 60px;
+			height: 40px;
+			background-color: #FC7A1E;
+			font-size: 18px;
+			font-family: g_b;
+			color: #EBEBEB;
+		}
+
+		[name=delete] {
+			border: none;
+			border-radius: 12px;
+			width: 60px;
+			height: 40px;
+			background-color: #FC7A1E;
+			font-size: 18px;
+			font-family: g_b;
+			color: #EBEBEB;
+			margin-top: 0;
+		}
+
+		.btn-outline-danger {
+			margin-right: 7px;
+		}
+	</style>
 </head>
+
 <body>
+
 <th:block th:include="common/header"></th:block>
     <main class="main-content">
         <div class="container">
@@ -151,10 +260,11 @@
                 <div class="col-12">         
                     <div class="thumbnail">
                         	<img class="thumbnail-img2" th:src="@{'/board/thumbNailImg/' + ${b.thumbNailImg}}"> 
-                    </div>
+                        	
+                    </div>            
                     	<div class="btn">
-						<button type="button" id="update" name="update">수정</button>
-                    	<button type="button" id="delete" name="delete" class="delete" th:onclick="boardDelete([[${b.boardNo}]]);">삭제</button>
+						<button type="button" id="update" name="update" th:onclick="boardUpdate([[${b.boardNo}]])" th:if="${session.member != null && session.member.memberId == b.boardWriter}">수정</button>
+                    	<button type="button" id="delete" name="delete" class="delete" th:onclick="boardDelete([[${b.boardNo}]]);" th:if="${session.member != null && session.member.memberId == b.boardWriter}">삭제</button>
                     	</div>
                     <div class="content-detail">
                         <div class="form-group">
@@ -177,8 +287,7 @@
                     <div class="btn-like-report">
                         <button type="button" class="btn btn-outline-primary" onclick="likePost()">게시글 좋아요 <span id="postLikes">0</span></button>
                         <button type="button" class="btn btn-outline-danger" onclick="reportPost()">게시글 신고하기</button>
-                    </div>
-			   
+                    </div> 
                     <!-- 댓글 구역-->
                     <div class="comments-section mt-4">
                     
@@ -201,78 +310,294 @@
             </div>
         </div>
     </main>
-	<th:block th:include="common/footer"></th:block>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.js"></script>
-    <script>
-    
-	function boardDelete(boardNo){
-		const swal = Swal.mixin({
-    	    customClass: {
-    	        confirmButton: "btn btn-point-swal btn-lg",
-    	        cancelButton: "btn btn-mono-swal btn-lg",
-    	        title: "point",
-    	    },
-    	    buttonsStyling: false
-    	});
+   <script>
+   function boardUpdate(boardNo){
+	   location.href = "/board/boardUpdate?boardNo="+boardNo;
+   }
 
-    	swal.fire({
-    		title : "게시판 삭제",
-    		text:"정말 삭제하시겠습니까?",
-    		icon:"question",
-    		iconColor : "var(--point1)",
-    		showCancelButton : true,
-    		cancelButtonText : "취소",
-    	    confirmButtonText: "삭제",
-    	}).then(result=>{
-    		if(result.isConfirmed){
-	            location.href = "/board/delete?boardNo="+boardNo;
-    		}
-    	});
-	};
-        function submitForm() {
-            var storeName = $('#storeName').val();
-            var storeLocation = $('#storeLocation').val();
-            var content = $('#summernote').val();
-            alert("가게명: " + storeName + "\n위치: " + storeLocation + "\n내용: " + content);
-        }
+    function boardDelete(boardNo){
+        const swal = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-point-swal btn-lg",
+                cancelButton: "btn btn-mono-swal btn-lg",
+                title: "point",
+            },
+            buttonsStyling: false
+        });
 
-        // 댓글 추가 기능
-        function addComment() {
-            var commentText = $('#commentInput').val();
-            if (commentText.trim() === "") {
-                alert("댓글을 입력하세요.");
-                return;
+        swal.fire({
+            title : "게시판 삭제",
+            text:"정말 삭제하시겠습니까?",
+            icon:"question",
+            iconColor : "var(--point1)",
+            showCancelButton : true,
+            cancelButtonText : "취소",
+            confirmButtonText: "삭제",
+        }).then(result=>{
+            if(result.isConfirmed){
+                location.href = "/board/delete?boardNo="+boardNo;
             }
+        });
+    };
 
-            var commentHtml = `
-                <div class="comment">
-                    <p class="comment-text">${commentText}</p>
-                    <div class="comment-actions">
-                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="likeComment(this)">댓글 좋아요 <span class="commentLikes">0</span></button>
-                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="reportComment(this)">댓글 신고하기</button>
-                    </div>
-                </div>
-            `;
+    function submitForm() {
+        var storeName = $('#storeName').val();
+        var storeLocation = $('#storeLocation').val();
+        var content = $('#summernote').val();
+        alert("가게명: " + storeName + "\n위치: " + storeLocation + "\n내용: " + content);
+    }
 
-            $('#commentsList').append(commentHtml);
-            $('#commentInput').val(""); // 입력 필드 초기화
+    // 댓글 추가 기능
+    function addComment() {
+        var commentText = $('#commentInput').val();
+        if (commentText.trim() === "") {
+            alert("댓글을 입력하세요.");
+            return;
         }
+	}
+        var commentHtml = `
+            <div class="comment">
+                <p class="comment-text">${commentText}</p>
+                <div class="comment-actions">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="likeComment(this)">댓글 좋아요 <span class="commentLikes">0</span></button>
+                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="reportComment(this)">댓글 신고하기</button>
+		<!-- 수진 신고 모달 -->
+		<div class="modal fade insertReportModal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+			tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-div modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="staticBackdropLabel">신고 하기</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form action="" method="get">
+							<div class="respondent-info">
+								<div class="report-board-type">
+									<span class="info-name">글 유형</span>
+									<span class="info-dot"> : </span>
+									<span class="info-content" id="reportBoardTypeSpan"></span>
+									<input type="hidden" name="reportBoardType" value="" id="reportBoardType">
+									<input type="hidden" name="reportReviewNo" id="reportContentNo">
+								</div>
+								<div class="respondent-id">
+									<span class="info-name">작성자</span>
+									<span class="info-dot"> : </span>
+									<span class="info-content"></span>
+									<input type="hidden" name="respondentNo" id="respondentNo">
+									<!--
+									<input type="hidden" name="reporterNo" id="reporterNo">
+									-->
+								</div>
+							</div>
+							<div class="input-box report-type">
+								<div class="info-name-box">
+									<span class="info-name">신고 사유 : </span>
+								</div>
+								<div class="info-content">
+									<div class="input">
+										<input type="radio" name="reportType" id="reportType1" value="스팸 홍보/도배">
+										<label for="reportType1">스팸 홍보/도배</label>
+									</div>
+									<div class="input">
+										<input type="radio" name="reportType" id="reportType2" value="음란물">
+										<label for="reportType2">음란물</label>
+									</div>
+									<div class="input">
+										<input type="radio" name="reportType" id="reportType3" value="불법 정보 포함">
+										<label for="reportType3">불법 정보 포함</label>
 
-        // 게시글 좋아요 기능
-        function likePost() {
-            var postLikes = $('#postLikes');
-            var currentLikes = parseInt(postLikes.text());
-            postLikes.text(currentLikes + 1);
-        }
+									</div>
+									<div class="input">
+										<input type="radio" name="reportType" id="reportType4" value="불쾌한 내용 포함">
+										<label for="reportType4">불쾌한 내용 포함</label>
+									</div>
+									<div class="input">
+										<input type="radio" name="reportType" id="reportType5" value="잘못된 정보 포함">
+										<label for="reportType5">잘못된 정보 포함</label>
+									</div>
+									<div class="input">
+										<input type="radio" name="reportType" id="reportType6" value="">
+										<label for="reportType6">기타</label>
+										<input type="text" placeholder="기타 사유를 적어주세요.">
+									</div>
+								</div>
+							</div>
+							<div class="input-box report-content">
+								<div class="info-name-box">
+									<span class="info-name">신고 내용 : </span>
+								</div>
+								<div class="info-content">
+									<textarea name="reportContent" id="reportContent"
+										placeholder="자세한 신고 이유를 입력하세요."></textarea>
+								</div>
+							</div>
+							<input type="submit" class="submit">
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-mono-modal" data-bs-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-point-modal">신고</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.js"></script>
+	<script>
 
-        // 댓글 좋아요 기능
-        function likeComment(button) {
-            var commentLikes = $(button).find('.commentLikes');
-            var currentLikes = parseInt(commentLikes.text());
-            commentLikes.text(currentLikes + 1);
-        }
-    </script>
+		function boardDelete(boardNo) {
+			const swal = Swal.mixin({
+				customClass: {
+					confirmButton: "btn btn-point-swal btn-lg",
+					cancelButton: "btn btn-mono-swal btn-lg",
+					title: "point",
+				},
+				buttonsStyling: false
+			});
+
+			swal.fire({
+				title: "게시판 삭제",
+				text: "정말 삭제하시겠습니까?",
+				icon: "question",
+				iconColor: "var(--point1)",
+				showCancelButton: true,
+				cancelButtonText: "취소",
+				confirmButtonText: "삭제",
+			}).then(result => {
+				if (result.isConfirmed) {
+					location.href = "/board/delete?boardNo=" + boardNo;
+				}
+			});
+		};
+		
+    // 게시글 좋아요 기능
+    function likePost() {
+        var postLikes = $('#postLikes');
+        var currentLikes = parseInt(postLikes.text());
+        postLikes.text(currentLikes + 1);
+    }
+
+    // 댓글 좋아요 기능
+    function likeComment(button) {
+        var commentLikes = $(button).find('.commentLikes');
+        var currentLikes = parseInt(commentLikes.text());
+        commentLikes.text(currentLikes + 1);
+    }
+</script>
+
+
+	<script>
+		//수진-신고
+		//0.sw2 설정
+		var reportSwal = Swal.mixin({
+			customClass: {
+				confirmButton: "btn btn-point-swal btn-lg",
+				cancelButton: "btn btn-mono-swal btn-lg",
+				title: "point",
+			},
+			confirmButtonText: "확인",
+			buttonsStyling: false
+		});
+		//게시글 신고
+		function reportPost() {
+			$("#reportBoardType").val(2);
+			$("#reportBoardTypeSpan").text("맛집 추천 게시글");
+			$("input#reportContentNo").val([[${ b.boardNo }]]);
+			$("input#reportContentNo").attr("name", "reportBoardNo");
+			$("div.respondent-id").children().eq(2).text("[[${b.boardWriter}]]");
+			$("input#reportType6").next().next().on("change", function () {
+				const content = $(this).val()
+				$("input#reportType6").val(content);
+			});
+			$(".insertReportModal").modal("show");
+			$("button.btn-point-modal").on("click", function () {
+				insertReport("[[${b.boardWriter}]]");
+			});
+		}
+		//댓글 신고
+		function reportComment(){
+			
+		}
+		
+		//2. 신고버튼 누르면 신고작성되기
+		function insertReport(boardWriter) {
+			const reportBoardType = $("input#reportBoardType").val();
+			const reportContentNo = $("input#reportContentNo").val();
+			const respondentId = boardWriter;
+			const reportType = $("input[name=reportType]:checked").val();
+			const reportContent = $("textarea#reportContent").val();
+			console.log(reportBoardType, reportContentNo, respondentId, reportType, reportContent);
+			if (reportType == "") {
+				reportSwal.fire({
+					title: "신고 불가",
+					text: "필수 입력 정보가 누락되었습니다. 신고 사유를 정확히 체크해주세요.",
+					icon: "info",
+					color: "var(--mainFont)"
+				});
+			} else if (reportContent == "") {
+				reportSwal.fire({
+					title: "신고 불가",
+					text: "필수 입력 정보가 누락되었습니다. 자세한 신고 이유를 작성해주세요.",
+					icon: "info",
+					color: "var(--mainFont)"
+				});
+			} else {
+				$.ajax({
+					url: "/report/insertOtherReport",
+					type: "get",
+					data: {
+						reportBoardType: reportBoardType,
+						reportContentNo: reportContentNo,
+						respondentId: respondentId,
+						reportType: reportType,
+						reportContent: reportContent
+					},
+					success: function (data) {
+						if (data > 0) {
+							reportSwal.fire({
+								title: "신고 완료",
+								text: "성공적으로 신고가 접수되었습니다.",
+								icon: "success",
+								color: "var(--mainFont)"
+							});
+						} else if (data == -1) {
+							reportSwal.fire({
+								title: "신고  불가",
+								text: "자기 자신을 신고할 수 없습니다.",
+								icon: "error",
+								color: "var(--mainFont)"
+							});
+						} else {
+							reportSwal.fire({
+								title: "신고  불가",
+								text: "해당 게시글을 신고할 수 없습니다.",
+								icon: "error",
+								color: "var(--mainFont)"
+							});
+						}
+					},
+					error: function () {
+						reportSwal.fire({
+							title: "신고 실패",
+							text: "시스템 오류가 발생했습니다. 잠시후 다시 시도해주세요",
+							icon: "error",
+							color: "var(--mainFont)"
+						});
+					},
+					complete: function () {
+						$("#staticBackdrop").modal("hide");
+					}
+				});//ajax
+			}//else
+		}//insertReport
+
+	</script>
+	<th:block th:include="common/footer"></th:block>
 </body>
 </html>

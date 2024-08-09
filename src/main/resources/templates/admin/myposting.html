@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/myposting.css">
+</head>
+<body>
+    <th:block th:include="common/header"></th:block>
+    <div class="postingbox">
+        <div class="photo">
+            <div class="name" th:text="${session.member.memberName}"></div>
+            <div class="grade">
+                <span th:switch="${session.member.memberGrade}">
+                    <span th:case="1">관리자</span>
+                    <span th:case="2">정회원</span>
+                    <span th:case="3">블랙</span>
+                    <span th:case="*">알 수 없음</span> 
+                </span>
+            </div>
+        </div>
+        <div class="activity-container">
+            <h1>내가 작성한 게시글 보기</h1>
+            <table border="1" class="tbposting">
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성일</th>
+                        <th>조회수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="s : ${p}">
+                        <td th:text="${s.boardNo}"></td>
+                        <td th:text="${s.boardTitle}"></td>
+                        <td th:text="${s.boardRegdate}"></td>
+                        <td th:text="${s.readCount}"></td>
+                    </tr>
+                </tbody>
+            </table>                                                                 
+        </div>
+    </div>
+    <th:block th:include="common/footer"></th:block>
+    <script></script>  
+</body>
+</html>

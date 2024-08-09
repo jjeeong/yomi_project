@@ -51,14 +51,19 @@ public class InqueryController {
 		return "inquery/editorFrm";
 	}
 	
-//	@ResponseBody
-//	@PostMapping(value = "/editorImage", produces = "plain/text;charset=utf-8")
-//	public String editorImage(MultipartFile upfile) {
-//		String savepath = root + "/inquery/editor/";
-//		String filepath = fileUtils.upload(savepath, upfile);
-//		return "/inquery/editor/" + filepath;
-//
-//	}
+	
+	
+	
+	//2. updateFrm, editorFrm 로부터 호출 
+	@ResponseBody
+	@PostMapping(value = "/editorImage", produces = "text/plain;charset=utf-8")
+	public String editorImage(MultipartFile upfile) {
+		String savepath = root + "/inquerySummernote/";
+		String filepath = fileUtils.upload(savepath, upfile);
+		return "/inquerySummernote/" + filepath;
+	}
+	
+	
 	
 	@PostMapping(value = "/write")
 	public String write(Inquery inq, MultipartFile[] upfile, Model model) {
@@ -141,7 +146,7 @@ public class InqueryController {
 		return "common/msg";		
 	}
 	
-	@GetMapping(value = "updateFrm")
+	@GetMapping(value = "/updateFrm")
 	public String updateFrm(int inqueryNo, Model model) {
 		Inquery inq = inqueryService.getOneInquery(inqueryNo);
 		model.addAttribute("inq",inq);

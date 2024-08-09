@@ -10,7 +10,9 @@
     --monocolor: #FFF8F5;
     --monocolor2: #EDE4E1;
 }
-
+.swal2-shown>body.swal2-height-auto{
+	height: 100% !important;
+}
 html,
 body {
     background-color: #F3F3F3;
@@ -199,7 +201,7 @@ header .nav-sub>li:last-child>a {
 
 /* 메인 */
 .main {
-    flex: 1;
+    flex-grow: 1;
     background-color: var(--bgcolor);
 }
 
@@ -291,7 +293,8 @@ div.modal-div>.modal-body div.respondent-info .info-name {
 div.modal-div>.modal-body div.reportCheck .info-name {
 	width: 20%;
 }
-div.modal-div>.modal-body .info-content>div{
+
+div.modal-div>.modal-body .report-content .info-content>div{
 	border :1px solid var(--color1);
 	width: 100%;
     padding: 5px 10px;
@@ -306,7 +309,10 @@ div.modal-div>.modal-body div.respondent-info .info-dot {
 div.modal-div>.modal-body div.input-box {
     padding: 15px 30px;
 }
-
+/*혹시 신고체크 화면에서 이상하게 나오면 바꿀것*/
+div.modal-div>.modal-body div.input-box.report-type {
+    padding-bottom : 0;
+}
 div.modal-div>.modal-body div.info-content {
     padding: 10px;
     margin-top: 5px;
@@ -315,6 +321,9 @@ div.modal-div>.modal-body div.info-content {
 div.modal-div>.modal-body .info-name {
     font-family: g_b;
     color: var(--pointFont);
+}
+div.modal-div>.modal-body .info-content>div.input{
+	padding: 5px 10px;
 }
 
 div.modal-div>.modal-body .info-content>.input>input[type=text] {

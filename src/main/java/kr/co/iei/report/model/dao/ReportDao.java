@@ -37,7 +37,7 @@ public class ReportDao {
 	}
 
 	public Report selectOneReport(int reportNo) {
-		String query = "select report_content, report_board_no, report_review_no, report_board_comment_no,(select member_id from member_tbl where member_no = r.reporter_no)as reporter_id, \r\n" + 
+		String query = "select report_board_type, report_content, report_board_no, report_review_no, report_board_comment_no,(select member_id from member_tbl where member_no = r.reporter_no)as reporter_id, \r\n" + 
 				"decode(report_board_type, 1, (select review_content from review where review_no = r.report_review_no),\r\n" + 
 				"                                2,(select board_content from board where board_no = r.report_board_no), \r\n" + 
 				"                                3,(select comment_content from board_comment where comment_no = r.report_board_comment_no))as respondent_content \r\n" + 
@@ -63,5 +63,62 @@ public class ReportDao {
 		Object[] params = {reportNo};
 		int result = jdbc.update(query, params);
 		return result;
+	}
+
+	public int insertBoardReport(Report r) {
+		String query = "insert into report values(report_seq.nextval, ?, ?,?,?, null,null,?,0,?)";
+		Object[] params = {r.getReportType(), r.getReportContent(), r.getReportBoardType(), r.getReportBoardNo(), r.getReporterNo(), r.getRespondentNo()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int insertBoardCommentReport(Report r) {
+		String query = "insert into report values(report_seq.nextval, ?, ?,?,null, null,?,?,0,?)";
+		Object[] params = {r.getReportType(), r.getReportContent(), r.getReportBoardType(), r.getReportBoardCommentNo(), r.getReporterNo(), r.getRespondentNo()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public List searchByReportType(String reportTypeString) {
+		String query = "select report_type,report_no, report_content, report_board_type, report_board_no, report_review_no, report_board_comment_no,respondent_no,(select member_id from member_tbl where member_no = r.respondent_no)as respondent_id, \r\n" + 
+				"decode(report_board_type, 1, (select review_content from review where review_no = r.report_review_no),\r\n" + 
+				"                                2,(select board_content from board where board_no = r.report_board_no), \r\n" + 
+				"                                3,(select comment_content from board_comment where comment_no = r.report_board_comment_no))as respondent_content \r\n" + 
+				"from report r where report_check=0 and report_type=?";
+		Object[] params = {reportTypeString};
+		List list = jdbc.query(query, reportListRowMapper, params);
+		return list;
+	}
+
+	public List searchByReportTypeETC() {
+		String query = "select report_type,report_no, report_content, report_board_type, report_board_no, report_review_no, report_board_comment_no,respondent_no,(select member_id from member_tbl where member_no = r.respondent_no)as respondent_id, \r\n" + 
+				"decode(report_board_type, 1, (select review_content from review where review_no = r.report_review_no),\r\n" + 
+				"                                2,(select board_content from board where board_no = r.report_board_no), \r\n" + 
+				"                                3,(select comment_content from board_comment where comment_no = r.report_board_comment_no))as respondent_content \r\n" + 
+				"from report r where report_check=0 and report_type not in ('스팸 홍보/도배', '음란물','불법 정보 포함', '불쾌한 내용 포함', '잘못된 정보 포함')";
+		List list = jdbc.query(query, reportListRowMapper);
+		return list;
+	}
+
+	public List searchByBoardType(int reportBoardType) {
+		String query = "select report_type,report_no, report_content, report_board_type, report_board_no, report_review_no, report_board_comment_no,respondent_no,(select member_id from member_tbl where member_no = r.respondent_no)as respondent_id, \r\n" + 
+				"decode(report_board_type, 1, (select review_content from review where review_no = r.report_review_no),\r\n" + 
+				"                                2,(select board_content from board where board_no = r.report_board_no), \r\n" + 
+				"                                3,(select comment_content from board_comment where comment_no = r.report_board_comment_no))as respondent_content \r\n" + 
+				"from report r where report_check=0 and report_board_type = ?";
+		Object[] params = {reportBoardType};
+		List list = jdbc.query(query, reportListRowMapper, params);
+		return list;
+	}
+
+	public List searchById(String respondentId) {
+		String query = "select report_type,report_no, report_content, report_board_type, report_board_no, report_review_no, report_board_comment_no,respondent_no,(select member_id from member_tbl where member_no = r.respondent_no)as respondent_id, \r\n" + 
+				"decode(report_board_type, 1, (select review_content from review where review_no = r.report_review_no),\r\n" + 
+				"                                2,(select board_content from board where board_no = r.report_board_no), \r\n" + 
+				"                                3,(select comment_content from board_comment where comment_no = r.report_board_comment_no))as respondent_content \r\n" + 
+				"from report r where report_check=0 and r.respondent_no=(select member_no from member_tbl where member_id = ?)";
+		Object[]params = {respondentId};
+		List list = jdbc.query(query, reportListRowMapper, params);
+		return list;
 	}
 }

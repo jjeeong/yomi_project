@@ -102,11 +102,18 @@ select {
     border-radius: 5px;
 }
 .pagination {
-	text-align: center;
-    margin: 0 320px;
+	justify-content : center;
     margin-top: 20px;
 }
 .pagination a:hover, .pagination button:hover {
     background-color: #ff5722; /* Change color on hover if needed */
     color: white; /* Change text color on hover */
+}
+.btn-point.checkedChangeGrade{
+	text-decoration: none;
+    color: black;
+    border: 1px solid #d84315;
+    padding: 5px 13px;
+    background-color: white;
+    border-radius: 5px;
 }
