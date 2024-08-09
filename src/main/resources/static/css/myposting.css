@@ -1,87 +1,84 @@
-body{
-    background-color: rgb(245, 241, 236);
-}
-.postingbox{
-    width: 1000px;
-    height: 900px;
-    margin: 0px auto;
-    background-color: bisque;
-}
-.photo{
-    width: 340px;
-    height: 340px;
-    background-color: cyan;
-    margin-left: 80px;
-    margin-top: 40px;
-    border-radius: 20px;
-}
-.name{
-    width: 300px;
-    height: 80px;
-    background-color: #ffe;
-    margin-left: 350px;
-    margin-bottom: 50px;
-    margin-top: -330px;
-    border-radius: 20px;
-}
-.grade{
-    width: 300px;
-    height: 80px;
-    background-color: #ffe;
-    margin-left: 350px;
-    margin-bottom: 150px;
-    margin-top: 165px;
-    border-radius: 20px;
-}
+/* 기존 코드 유지 */
 body {
     font-family: 'Noto Sans', sans-serif;
-    background-color: #fff3e0;
-    color: #5d4037;
+    background-color: #fff8e1; /* 부드러운 크림색 배경 */
+    color: #6d4c41; /* 따뜻한 갈색 글자 */
     margin: 0;
     padding: 0;
 }
 
-.profile-container {
-    background-color: #ffcc80;
+.postingbox {
+    width: 80%;
+    max-width: 1200px;
+    height: auto;
+    margin: 20px auto;
+    background-color: #ff7043; /* 연한 핑크색 배경 */
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    border-bottom: 5px solid #ffa726;
+}
+
+.photo {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    
+    border-radius: 15px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.name, .grade {
+    width: calc(100% - 40px);
+    max-width: 500px;
+    height: auto;
+    background-color: #ffab40; /* 주황색 배경으로 변경 */
+    border-radius: 15px;
+    margin: 20px auto;
+    padding: 10px;
+    text-align: center;
+    color: white; /* 흰색 글자 */
+}
+
+/* 나머지 CSS 코드 유지 */
+.profile-container {
+    background-color: #ffccbc; /* 연한 복숭아색 */
+    padding: 20px;
+    border-bottom: 4px solid #ffab40; /* 오렌지색 테두리 */
     display: flex;
     justify-content: center;
     align-items: center;
-    
-}
-
-.profile-box {
-    display: flex;
-    align-items: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .profile-photo {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     margin-right: 15px;
-    border: 2px solid #ff5722;
+    border: 3px solid #ff7043; /* 오렌지색 테두리 */
 }
 
 .profile-info h2 {
     margin: 0;
-    font-size: 1.8em;
-    color: #d84315;
+    font-size: 2em;
+    color: #e64a19; /* 강렬한 오렌지색 글자 */
 }
 
 .profile-info p {
     margin: 5px 0 0;
-    font-size: 1.1em;
+    font-size: 1.2em;
 }
 
 .activity-container {
-    background-color: #ffffff;   
+    background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 20px auto;
-    max-width: 800px;
+    max-width: 900px;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 15px;
 }
 
 .tabs {
@@ -92,20 +89,20 @@ body {
 
 .tab-link {
     flex: 1;
-    padding: 10px 15px;
+    padding: 10px;
     border: none;
-    background-color: #ffe0b2;
-    color: #5d4037;
+    background-color: #ffe0b2; /* 연한 오렌지색 배경 */
+    color: #6d4c41; /* 갈색 글자 */
     cursor: pointer;
     text-align: center;
-    font-size: 1em;
+    font-size: 1.1em;
     transition: background-color 0.3s, color 0.3s;
-    border-radius: 5px 5px 0 0;
-    border-bottom: 2px solid #ffa726;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 3px solid #ffab40; /* 오렌지색 하단 테두리 */
 }
 
 .tab-link:hover, .tab-link.active {
-    background-color: #ffab40;
+    background-color: #ffcc80; /* 살짝 어두운 오렌지색 */
     color: white;
 }
 
@@ -119,9 +116,9 @@ body {
 
 .tab-content h3 {
     margin-top: 0;
-    border-bottom: 2px solid #ffa726;
+    border-bottom: 3px solid #ffab40; /* 오렌지색 하단 테두리 */
     padding-bottom: 10px;
-    color: #d84315;
+    color: #e64a19; /* 강렬한 오렌지색 글자 */
 }
 
 .tab-content ul {
@@ -132,65 +129,28 @@ body {
 .tab-content li {
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
-    color: #5d4037;
+    color: #6d4c41; /* 갈색 글자 */
 }
-.activity-container{
-    width: 1400px;
-    height: 400px;
-}
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 0px;
-}
-.pagination a {
-    margin: 0 5px;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #333;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-}
-.pagination a.active {
-    background-color: #007bff;
-    color: #fff;
-}
-.pagination a.disabled {
-    color: #ddd;
-    border-color: #ddd;
-    pointer-events: none;
-}
-.photo1{
-    width: 340px;
-    height: 340px;
-    background-color: cyan;
-    margin-left: 0px;
-    border-radius: 20px;
-    
-}
-.title{
-    letter-spacing: 5px;
-    word-spacing: 260px;
-    text-align: right; 
-}
+
 .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 100px;
+    margin-top: 20px;
 }
 
 .pagination a, .pagination button {
     margin: 0 5px;
     text-decoration: none;
-    color: black;
+    color: #6d4c41; /* 갈색 글자 */
     border: 1px solid #ddd;
     padding: 8px 16px;
     display: inline-block;
+    border-radius: 5px;
 }
 
 .pagination .active {
-    background-color: #4CAF50;
+    background-color: #ff7043; /* 오렌지색 배경 */
     color: white;
 }
 
@@ -202,15 +162,16 @@ body {
 .buttons {
     display: flex;
     gap: 10px;
-    margin-left: 20px;
+    margin-top: 20px;
 }
 
 .buttons button {
-    background-color: #dd7d24;
+    background-color: #ff5722; /* 진한 오렌지색 */
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .buttons button.delete {
@@ -219,4 +180,16 @@ body {
 
 .buttons button:hover {
     opacity: 0.8;
+}
+
+.tbposting {
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+    height: 50px;
+    background-color: #white; /* 연한 핑크색 배경 */
+    margin: 20px auto;
+    line-height: 50px;
+    border-radius: 10px;
+    color: #6d4c41; /* 갈색 글자 */
 }

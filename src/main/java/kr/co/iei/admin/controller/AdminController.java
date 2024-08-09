@@ -132,5 +132,20 @@ public class AdminController {
 		}else {
 			return "redirect:/";
 		}
-	}			
+	}	
+	@GetMapping(value="/myposting")
+	public String myposting(@SessionAttribute Member member, Model model) {
+		String memberId = member.getMemberId();
+		List myposting = adminService.postingMember(memberId);
+		System.out.println(myposting);
+		model.addAttribute("p",myposting);
+		return "admin/myposting";			
+	}	
+	@GetMapping(value="/myreviews")
+	public String myreviews(@SessionAttribute Member member, Model model) {
+		int memberNo = member.getMemberNo();
+		List myreviews = adminService.reviewsMember(memberNo);
+		model.addAttribute("v",myreviews);
+		return "admin/myreviews";
+	}		
 }

@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import kr.co.iei.admin.dto.AdminRowMapper;
 import kr.co.iei.admin.service.AdminService;
+import kr.co.iei.board.model.dto.BoardRowMapper;
 import kr.co.iei.member.model.dto.Member;
+import kr.co.iei.restr.model.dto.ReviewRowMapper;
 
 
 
@@ -19,8 +21,10 @@ public class AdminDao {
 	private JdbcTemplate jdbc;
 	@Autowired
 	private AdminRowMapper adminRowMapper;
-
-		
+	@Autowired
+	private BoardRowMapper boardRowMapper;
+	@Autowired
+	private ReviewRowMapper reviewRowMapper;
 	
 	public List selectAdminList(int start,int end) {
 		String query = "select * from (select  rownum as rnum, n.* from (select * from member_tbl order by 1 desc)n) where rnum between ? and ?";
@@ -59,5 +63,22 @@ public class AdminDao {
 		Object[] params = {m.getMemberPw(), m.getMemberPhone(),m.getMemberAddr(),m.getMemberNo()};
 		int result = jdbc.update(query,params);
 		return result;		
-	}	
+	}
+	
+	public List postingMember(String memberId ) {
+		String query = "select * from board where board_writer=?";
+		Object[] params = {memberId};
+		List list = jdbc.query(query,boardRowMapper,params);
+		return list;				
+	}
+		
+	public List reviewsMember(int memberNo) {
+		String query = "select * from reviews where member_no=?";
+		Object[] params = {memberNo};
+		List list = jdbc.query(query,reviewRowMapper,params);
+		return list;
+	}
+	
+	
+		
 }

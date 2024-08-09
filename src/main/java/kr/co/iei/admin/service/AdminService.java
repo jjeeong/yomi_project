@@ -134,9 +134,18 @@ public class AdminService {
 	}
 		
 	 @Transactional
-		public int updateMember(Member m) {
-			int result = adminDao.updateMember(m);
-			return result;
-		}
-		
+	public int updateMember(Member m) {
+		int result = adminDao.updateMember(m);
+		return result;
+	}
+	
+	 public List postingMember(String memberId) {
+		 List result = adminDao.postingMember(memberId);
+		 return result;
+	 }
+	public List reviewsMember(int memberNo) {
+		List result = adminDao.reviewsMember(memberNo);
+		return result;
+	}
+	 
 }

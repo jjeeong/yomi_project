@@ -115,9 +115,4 @@ public class BoardDao {
 		int result = jdbc.update(query,params);
 		return result;
 	}
-
-	
-
-
-
 }
