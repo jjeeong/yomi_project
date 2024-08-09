@@ -119,10 +119,74 @@ public class RestrDao {
 		int isBookmark = jdbc.queryForObject(query, Integer.class, params);
 		return isBookmark;
 	}
+	
+	//------리뷰 좋아요
+		public int insertReviewLike(int reviewNo, int memberNo) {
+			String query = "insert into review_like values(?,?)";
+			Object[] params = { reviewNo, memberNo };
+			int result = jdbc.update(query, params);
+			return result;
+		}
+
+		public int deleteReviewLike(int reviewNo, int memberNo) {
+			String query = "delete from review_like where review_no = ? and member_no = ?";
+			Object[] params = { reviewNo, memberNo };
+			int result = jdbc.update(query, params);
+			return result;
+		}
+
+		public int selectReviewLike(int reviewNo) {
+			String query = "select count(*) from review_like where review_no = ?";
+			Object[] params = { reviewNo };
+			int reviewLikeCount = jdbc.queryForObject(query, Integer.class, params);
+			return reviewLikeCount;
+		}
+		
+		public int selectIsReviewLike(int reviewNo, int memberNo) {
+			String query = "select count(*) from review_like where review_no=? and member_no=?";
+			Object[] params = {reviewNo, memberNo};
+			int isReviewLike = jdbc.queryForObject(query, Integer.class, params);
+			return isReviewLike;
+		}
 
 	//------
 	public List selectRestrList(int start, int end) {
 		String query = "select * from (select rownum as rnum, r.* from (select * from restaurant order by restr_no desc)r) where rnum between ? and ?";
+		Object[] params = { start, end };
+		List list = jdbc.query(query, restaurantRowMapper, params);
+		return list;
+	}
+	
+	public List selectRestrListStar(int start, int end) {
+		String query = "SELECT *\r\n" + 
+				"FROM (\r\n" + 
+				"    SELECT \r\n" + 
+				"        rownum AS rnum, \r\n" + 
+				"        r.*\r\n" + 
+				"    FROM (\r\n" + 
+				"        SELECT \r\n" + 
+				"            restr.* \r\n" + 
+				"        FROM \r\n" + 
+				"            restaurant restr\r\n" + 
+				"        LEFT JOIN \r\n" + 
+				"            review rev ON restr.restr_no = rev.restr_no\r\n" + 
+				"        GROUP BY \r\n" + 
+				"            restr.restr_no,\r\n" + 
+				"            restr.restr_addr1,\r\n" + 
+				"            restr.restr_addr2,\r\n" + 
+				"            restr.restr_content,\r\n" + 
+				"            restr.restr_img1,\r\n" + 
+				"            restr.restr_img2,\r\n" + 
+				"            restr.restr_mapx,\r\n" + 
+				"            restr.restr_mapy,\r\n" + 
+				"            restr.restr_name,\r\n" + 
+				"            restr.restr_tel\r\n" + 
+				"        ORDER BY \r\n" + 
+				"            ROUND(AVG(rev.review_star), 1) DESC nulls last,\r\n" + 
+				"            restr.restr_no DESC\r\n" + 
+				"    ) r\r\n" + 
+				") \r\n" + 
+				"WHERE rnum BETWEEN ? AND ?";
 		Object[] params = { start, end };
 		List list = jdbc.query(query, restaurantRowMapper, params);
 		return list;
@@ -315,6 +379,76 @@ public class RestrDao {
 		Object[] params = {restrNo};
 		List tagCountList = jdbc.query(query, reviewTagCountRowMapper, restrNo);
 		return tagCountList;
+	}
+
+	//검색결과
+	public List restrSearch(String searchKeyword) {
+		/**
+		String query = "SELECT restr_no, restr_addr1, restr_addr2, restr_content, restr_img1, restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel\r\n" + 
+				"FROM RESTAURANT\r\n" + 
+				"left JOIN restr_tag USING (restr_no)\r\n" + 
+				"left JOIN restr_menu USING (restr_no)\r\n" + 
+				"WHERE RESTR_TAG_NAME LIKE ?\r\n" + 
+				"OR RESTR_MENU_NAME LIKE ?\r\n" + 
+				"OR RESTR_NAME LIKE ?\r\n" + 
+				"GROUP BY restr_no, restr_addr1, restr_addr2, restr_content, restr_img1,\r\n" + 
+				"restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel";
+				**/
+		String query = "SELECT restr_no, restr_addr1, restr_addr2, restr_content, restr_img1, restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel\r\n" + 
+				"FROM RESTAURANT\r\n" + 
+				"LEFT JOIN restr_tag USING (restr_no)\r\n" + 
+				"LEFT JOIN restr_menu USING (restr_no)\r\n" + 
+				"WHERE restr_tag_name LIKE ? OR restr_menu_name LIKE ? OR restr_name LIKE ?\r\n" + 
+				"GROUP BY restr_no, restr_addr1, restr_addr2, restr_content, restr_img1, restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel\r\n" + 
+				"ORDER BY restr_no DESC";
+		
+		Object[] params = {"%"+searchKeyword +"%","%"+searchKeyword+"%","%"+searchKeyword+"%"}; 
+		List<Restaurant> list = jdbc.query(query, restaurantRowMapper, params); 
+		return list;
+	}
+
+	public List restrSearchStar(String searchKeyword) {
+	    String query = "SELECT \r\n" + 
+	    		"    restr.restr_no, \r\n" + 
+	    		"    restr.restr_addr1, \r\n" + 
+	    		"    restr.restr_addr2, \r\n" + 
+	    		"    restr.restr_content, \r\n" + 
+	    		"    restr.restr_img1, \r\n" + 
+	    		"    restr.restr_img2, \r\n" + 
+	    		"    restr.restr_mapx, \r\n" + 
+	    		"    restr.restr_mapy, \r\n" + 
+	    		"    restr.restr_name, \r\n" + 
+	    		"    restr.restr_tel\r\n" + 
+	    		"FROM \r\n" + 
+	    		"    restaurant restr\r\n" + 
+	    		"LEFT JOIN \r\n" + 
+	    		"    review rev ON restr.restr_no = rev.restr_no\r\n" + 
+	    		"LEFT JOIN \r\n" + 
+	    		"    restr_tag rt ON restr.restr_no = rt.restr_no\r\n" + 
+	    		"LEFT JOIN \r\n" + 
+	    		"    restr_menu rm ON restr.restr_no = rm.restr_no\r\n" + 
+	    		"WHERE \r\n" + 
+	    		"    rt.restr_tag_name LIKE ? \r\n" + 
+	    		"    OR rm.restr_menu_name LIKE ? \r\n" + 
+	    		"    OR restr.restr_name LIKE ?\r\n" + 
+	    		"GROUP BY \r\n" + 
+	    		"    restr.restr_no, \r\n" + 
+	    		"    restr.restr_addr1, \r\n" + 
+	    		"    restr.restr_addr2, \r\n" + 
+	    		"    restr.restr_content, \r\n" + 
+	    		"    restr.restr_img1, \r\n" + 
+	    		"    restr.restr_img2, \r\n" + 
+	    		"    restr.restr_mapx, \r\n" + 
+	    		"    restr.restr_mapy, \r\n" + 
+	    		"    restr.restr_name, \r\n" + 
+	    		"    restr.restr_tel\r\n" + 
+	    		"ORDER BY \r\n" + 
+	    		"    ROUND(AVG(rev.review_star), 1) DESC nulls last, \r\n" + 
+	    		"    restr.restr_no DESC";
+
+	    Object[] params = {"%" + searchKeyword + "%", "%" + searchKeyword + "%", "%" + searchKeyword + "%"};
+	    List list = jdbc.query(query, restaurantRowMapper, params);
+	    return list;
 	}
 
 }

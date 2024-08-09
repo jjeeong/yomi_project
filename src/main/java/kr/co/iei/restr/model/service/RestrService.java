@@ -96,10 +96,31 @@ public class RestrService {
 			return -1;
 		}
 	}
+	
+	@Transactional
+	public int reviewLikePush(int reviewNo, int isReviewLike, int memberNo) {
+		int result = 0;
+		if (isReviewLike == 0) {
+			result = restrDao.insertReviewLike(reviewNo, memberNo);
+		} else if (isReviewLike == 1) {
+			result = restrDao.deleteReviewLike(reviewNo, memberNo);
+		}
+		if (result > 0) {
+			int reviewLikeCount = restrDao.selectReviewLike(reviewNo);
+			return reviewLikeCount;
+		} else {
+			return -1;
+		}
+	}
 
-	public List selectRestrList(int start, int amount) {
+	public List selectRestrList(int start, int amount, String selectedValue) {
 		int end = start + amount - 1;
-		List list = restrDao.selectRestrList(start, end);
+		List list = new ArrayList();
+		if(selectedValue.equals("default")) {			
+			list = restrDao.selectRestrList(start, end);
+		} else {
+			list = restrDao.selectRestrListStar(start, end);
+		}
 		return list;
 	}
 
@@ -149,7 +170,12 @@ public class RestrService {
 
 	public List selectReviewList(int start, int amount, int restrNo) {
 		int end = start + amount - 1;
-		List reviewList = restrDao.selectReviewList(start, end, restrNo);
+		List<Review> reviewList = restrDao.selectReviewList(start, end, restrNo);
+		
+		for (Review review : reviewList) {
+			int reviewLikeCount = restrDao.selectReviewLike(review.getReviewNo());
+			review.setReviewLikeCount(reviewLikeCount);
+		}
 		return reviewList;
 	}
 
@@ -276,6 +302,21 @@ public class RestrService {
 	public List tagCountList(int restrNo) {
 		List tagCountList = restrDao.tagCountList(restrNo);
 		return tagCountList;
+	}
+
+	public int selectIsReviewLike(int reviewNo, int memberNo) {
+		int isLike = restrDao.selectIsReviewLike(reviewNo, memberNo);
+		return isLike;
+	}
+
+	public List restrSearch(String searchKeyword, String selectedValue) {
+		List list = new ArrayList();
+		if(selectedValue.equals("default")) {			
+			list = restrDao.restrSearch(searchKeyword);
+		} else {
+			list = restrDao.restrSearchStar(searchKeyword);
+		}
+		return list;
 	}
 
 }

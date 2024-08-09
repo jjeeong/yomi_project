@@ -19,4 +19,6 @@ public class Review {
 	private String memberName;
 	private List<ReviewTag> reviewTag;
 	private List<ReviewImg> reviewImg;
+	private int isReviewLike;
+	private int reviewLikeCount;
 }

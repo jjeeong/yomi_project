@@ -4,144 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="myposting.css">
+    <link rel="stylesheet" href="/css/myposting.css">
 </head>
 <body>
-    <div class="postingbox">posting     
+    <th:block th:include="common/header"></th:block>
+    <div class="postingbox">
         <div class="photo">
-            <img src="이미지/기본프사.jfif" alt="profilephoto" class="photo1">
-            <div class="name">name</div>
-            <div class="grade">grade</div>
+            <div class="name" th:text="${session.member.memberName}"></div>
+            <div class="grade">
+                <span th:switch="${session.member.memberGrade}">
+                    <span th:case="1">관리자</span>
+                    <span th:case="2">정회원</span>
+                    <span th:case="3">블랙</span>
+                    <span th:case="*">알 수 없음</span> 
+                </span>
+            </div>
         </div>
         <div class="activity-container">
-            <div class="tabs">
-                <button class="tab-link" onclick="openTab('posts')">내가 작성한 글</button>
-                <button class="tab-link" onclick="openTab('comments')">작성 댓글</button>
-                <button class="tab-link" onclick="openTab('commentedPosts')">댓글 단 글</button>
-                <button class="tab-link" onclick="openTab('likedPosts')">좋아요 한 글</button>
-                <button class="tab-link" onclick="openTab('deletedPosts')">삭제한 게시글</button>
-            </div>
-            <div id="posts" class="tab-content">
-                <h3 class="title">제목 작성일 조회</h3>
-                <ul>
-                    <li><input type="checkbox" id="post1"> <label for="post1">게시글 1</label></li>
-                    <li><input type="checkbox" id="post2"> <label for="post2">게시글 2</label></li>
-                    <li><input type="checkbox" id="post3"> <label for="post3">게시글 3</label></li>
-                    <li><input type="checkbox" id="post4"> <label for="post4">게시글 4</label></li>
-                    <li><input type="checkbox" id="post5"> <label for="post5">게시글 5</label></li>
-                </ul>
-                <input type="checkbox" id="selectAllPosts" onclick="selectAll('posts')"> <label for="selectAllPosts">전체 선택</label>
-                <div class="pagination">
-                    <a href="#" class="disabled">&laquo; 이전</a>
-                    <a href="#" class="active">1</a>
-                    <a href="#" class="disabled">2</a>
-                    <a href="#" class="disabled">3</a>
-                    <a href="#" class="disabled">4</a>
-                    <a href="#" class="disabled">5</a>
-                    <a href="#" class="disabled">다음 &raquo;</a>
-                    <div class="buttons">
-                        <button class="delete">삭제</button>
-                        <button class="write">글쓰기</button>
-                    </div>
-                </div>
-            </div>
-            <div id="comments" class="tab-content" style="display:none;">
-                <h3 class="title">제목 작성일 조회</h3>
-                <ul>
-                    <li><input type="checkbox" id="comment1"> <label for="comment1">댓글 1</label></li>
-                    <li><input type="checkbox" id="comment2"> <label for="comment2">댓글 2</label></li>
-                    <li><input type="checkbox" id="comment3"> <label for="comment3">댓글 3</label></li>
-                    <li><input type="checkbox" id="comment4"> <label for="comment4">댓글 4</label></li>
-                    <li><input type="checkbox" id="comment5"> <label for="comment5">댓글 5</label></li>
-                </ul>
-                <input type="checkbox" id="selectAllComments" onclick="selectAll('comments')"> <label for="selectAllComments">전체 선택</label>
-                <div class="pagination">
-                    <a href="#" class="disabled">&laquo; 이전</a>
-                    <a href="#" class="active">1</a>
-                    <a href="#" class="disabled">2</a>
-                    <a href="#" class="disabled">3</a>
-                    <a href="#" class="disabled">4</a>
-                    <a href="#" class="disabled">5</a>
-                    <a href="#" class="disabled">다음 &raquo;</a>
-                    <div class="buttons">
-                        <button class="delete">삭제</button>
-                        <button class="write">글쓰기</button>
-                    </div>
-                </div>
-            </div>
-            <div id="commentedPosts" class="tab-content" style="display:none;">
-                <h3 class="title">제목 작성일 조회</h3>
-                <ul>
-                    <li><input type="checkbox" id="commentedPost1"> <label for="commentedPost1">글 1</label></li>
-                    <li><input type="checkbox" id="commentedPost2"> <label for="commentedPost2">글 2</label></li>
-                    <li><input type="checkbox" id="commentedPost3"> <label for="commentedPost3">글 3</label></li>
-                    <li><input type="checkbox" id="commentedPost4"> <label for="commentedPost4">글 4</label></li>
-                    <li><input type="checkbox" id="commentedPost5"> <label for="commentedPost5">글 5</label></li>
-                </ul>
-                <input type="checkbox" id="selectAllCommentedPosts" onclick="selectAll('commentedPosts')"> <label for="selectAllCommentedPosts">전체 선택</label>
-                <div class="pagination">
-                    <a href="#" class="disabled">&laquo; 이전</a>
-                    <a href="#" class="active">1</a>
-                    <a href="#" class="disabled">2</a>
-                    <a href="#" class="disabled">3</a>
-                    <a href="#" class="disabled">4</a>
-                    <a href="#" class="disabled">5</a>
-                    <a href="#" class="disabled">다음 &raquo;</a>
-                    <div class="buttons">
-                        <button class="delete">삭제</button>
-                        <button class="write">글쓰기</button>
-                    </div>
-                </div>
-            </div>
-            <div id="likedPosts" class="tab-content" style="display:none;">
-                <h3 class="title">제목 작성일 조회</h3>
-                <ul>
-                    <li><input type="checkbox" id="likedPost1"> <label for="likedPost1">글 1</label></li>
-                    <li><input type="checkbox" id="likedPost2"> <label for="likedPost2">글 2</label></li>
-                    <li><input type="checkbox" id="likedPost3"> <label for="likedPost3">글 3</label></li>
-                    <li><input type="checkbox" id="likedPost4"> <label for="likedPost4">글 4</label></li>
-                    <li><input type="checkbox" id="likedPost5"> <label for="likedPost5">글 5</label></li>
-                </ul>
-                <input type="checkbox" id="selectAllLikedPosts" onclick="selectAll('likedPosts')"> <label for="selectAllLikedPosts">전체 선택</label>
-                <div class="pagination">
-                    <a href="#" class="disabled">&laquo; 이전</a>
-                    <a href="#" class="active">1</a>
-                    <a href="#" class="disabled">2</a>
-                    <a href="#" class="disabled">3</a>
-                    <a href="#" class="disabled">4</a>
-                    <a href="#" class="disabled">5</a>
-                    <a href="#" class="disabled">다음 &raquo;</a>
-                    <div class="buttons">
-                        <button class="delete">삭제</button>
-                        <button class="write">글쓰기</button>
-                    </div>
-                </div>
-            </div>
-            <div id="deletedPosts" class="tab-content" style="display:none;">
-                <h3 class="title">제목 작성일 조회</h3>
-                <ul>
-                    <li><label for="deletedPost1">게시글 1</label></li>
-                    <li><label for="deletedPost2">게시글 2</label></li>
-                    <li><label for="deletedPost3">게시글 3</label></li>
-                    <li><label for="deletedPost4">게시글 4</label></li>
-                    <li><label for="deletedPost5">게시글 5</label></li>
-                </ul>
-                <div class="pagination">
-                    <a href="#" class="disabled">&laquo; 이전</a>
-                    <a href="#" class="active">1</a>
-                    <a href="#" class="disabled">2</a>
-                    <a href="#" class="disabled">3</a>
-                    <a href="#" class="disabled">4</a>
-                    <a href="#" class="disabled">5</a>
-                    <a href="#" class="disabled">다음 &raquo;</a>
-                    <div class="buttons">
-                        <button class="delete">삭제</button>
-                        <button class="write">글쓰기</button>
-                    </div>
-                </div>
-            </div>
+            <h1>내가 작성한 게시글 보기</h1>
+            <table border="1" class="tbposting">
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성일</th>
+                        <th>조회수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="s : ${p}">
+                        <td th:text="${s.boardNo}"></td>
+                        <td th:text="${s.boardTitle}"></td>
+                        <td th:text="${s.boardRegdate}"></td>
+                        <td th:text="${s.readCount}"></td>
+                    </tr>
+                </tbody>
+            </table>                                                                 
         </div>
     </div>
-    <script src="myposting.js"></script>  
+    <th:block th:include="common/footer"></th:block>
+    <script></script>  
 </body>
 </html>

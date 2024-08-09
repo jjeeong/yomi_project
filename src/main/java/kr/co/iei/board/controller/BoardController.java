@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.iei.board.model.dao.BoardDao;
 import kr.co.iei.board.model.dto.Board;
+import kr.co.iei.board.model.dto.BoardComment;
 import kr.co.iei.board.model.dto.BoardFile;
 import kr.co.iei.board.model.dto.BoardListData;
 import kr.co.iei.board.model.service.BoardService;
@@ -120,8 +121,69 @@ public class BoardController {
 			model.addAttribute("loc","/board/list?reqPage=1");
 		}		
 		return "common/msg";
-	}			
-}
+	}
+	
+	@GetMapping(value="/boardUpdate")
+	public String updateFrm(int boardNo,Model model) {
+		Board b = boardService.getOneBoard(boardNo);
+		model.addAttribute("b",b);
+		
+		return "board/updateFrm";
+	}
+	
+	@PostMapping(value="/update")
+	public String update(Board b, MultipartFile[] upfile, int[] delFileNo, Model model) {
+		List<BoardFile> fileList = new ArrayList<BoardFile>();
+		String savepath = root+"/board/thumbNailImg/";
+		if(!upfile[0].isEmpty()) {
+			for(MultipartFile file : upfile) {
+				String filename = file.getOriginalFilename();
+				String filepath = fileUtils.upload(savepath, file);
+				BoardFile boardFile = new BoardFile();
+				boardFile.setFileName(filename);
+				boardFile.setFilePath(filepath);
+				boardFile.setBoardNo(b.getBoardNo());
+				fileList.add(boardFile);
+				b.setThumbNailImg(filepath);
+			}
+		}
+		
+		List<BoardFile> delFileList = boardService.updateBoard(b,fileList,delFileNo);
+		if(delFileList == null) {
+			model.addAttribute("title","수정실패 ");
+			model.addAttribute("msg","처리 중 문제가 발생했습니다 .잠시 후 다시해주세요");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc","/board/list?reqPage=1");
+			return "/common/msg";
+		}else {
+			for(BoardFile boardFile : delFileList) {
+				File delFile = new File(savepath+boardFile.getFilePath());
+				delFile.delete();
+			}
+			return "redirect:/board/view?boardNo="+b.getBoardNo();
+		}
+	}
+	
+	
+	@PostMapping(value="/insertComment")
+	public String insertComment(BoardComment bc , Model model) {
+		System.out.println(bc);
+		int result = boardService.insertComment(bc);
+		
+		if(result > 0) {
+			model.addAttribute("title", "댓글 작성 성공");
+			model.addAttribute("msg", "댓글이 작성이 되었습니다.");
+			model.addAttribute("icon", "success");
+		}else {
+			model.addAttribute("title", "댓글 작성 실패");
+			model.addAttribute("msg", "댓글이 작성 중 문제가 발생했습니다.");
+			model.addAttribute("icon", "warning");
+		}
+		model.addAttribute("loc","/board/view?check=1&boardNo=" +bc.getCommentBoardNo());
+		return "common/msg";
+	}
+	}
+
 
 	
 

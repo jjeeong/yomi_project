@@ -26,12 +26,19 @@ public class MemberController {
 	}
 	
 	@PostMapping(value="/login")
-	public String login(Member m,HttpSession session) {
+	public String login(Member m,HttpSession session,Model model) {
 		Member member = memberService.selectOneMember(m);
+		if(member == null) {
+			model.addAttribute("member", "no");
+			
+			return "/member/login";
+		}else {
+			session.setAttribute("member", member);
+			return "redirect:/";
+		}
 		
-		session.setAttribute("member", member);
-		System.out.println(member);
-		return "redirect:/";
+		
+		
 	}
 	@GetMapping(value="/logout")
 	public String logout(HttpSession session) {

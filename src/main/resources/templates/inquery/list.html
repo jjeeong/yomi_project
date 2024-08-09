@@ -43,7 +43,7 @@
 				<div class="page-title">문의사항(QnA)</div>			
 				
 				<div class="list-header">					
-					<a th:if="${session.member != null && session.member.memberGrade != 3}" class="btn-point" id="write-btn" href="/inquery/editorFrm">글쓰기</a>
+					<a th:if="${session.member != null && session.member.memberGrade == 2}" class="btn-point" id="write-btn" href="/inquery/editorFrm">글쓰기</a>
 					<form action="/inquery/search" method="get" id="searchFrm">
 					
 					<!-- 

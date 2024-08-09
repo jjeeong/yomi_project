@@ -1,9 +1,11 @@
 package kr.co.iei.board.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.iei.board.model.dao.BoardDao;
 import kr.co.iei.board.model.dto.Board;
@@ -81,7 +83,8 @@ public class BoardService {
 
 		return result;
 	}
-
+	
+	@Transactional
 	public Board selectOneBoard(int boardNo, String check, int memberNo) {
 		Board b = boardDao.selectOneBoard(boardNo);
 		if (b != null) {
@@ -109,4 +112,44 @@ public class BoardService {
 		}
 		return null;
 	}
+
+	public Board getOneBoard(int boardNo) {
+		Board b = boardDao.selectOneBoard(boardNo);
+		List list = boardDao.selectBoardFile(boardNo);
+		b.setFileList(list);
+		return b;
+	}
+	
+	@Transactional
+	public List<BoardFile> updateBoard(Board b, List<BoardFile> fileList, int[] delFileNo) {
+		List<BoardFile> delFileList = new ArrayList<BoardFile>();
+		
+		int result = boardDao.updateBoard(b);
+		if(result > 0) {
+			for(BoardFile boardFile : fileList) {
+				result += boardDao.insertBoardFile(boardFile);
+			}
+			
+			if(delFileNo != null) {
+				
+				for(int fileNo : delFileNo) {
+					BoardFile boardFile = boardDao.selectOneBoardFile(fileNo);
+					delFileList.add(boardFile);
+					result += boardDao.deleteBoardFile(fileNo);
+				}
+			}
+		}
+		int updateTotal = delFileNo == null?fileList.size()+1:fileList.size()+1+delFileNo.length;
+		if(updateTotal == result) {
+				return delFileList;
+		}else {
+			return null;			
+		}
+	}
+	@Transactional
+	public int insertComment(BoardComment bc) {
+		int result = boardDao.insertComment(bc);
+		return result;
+	}
 }
+

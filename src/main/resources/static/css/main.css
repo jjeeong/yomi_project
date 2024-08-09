@@ -440,29 +440,7 @@ main.index div.carousel-inner div.restr-box>div.restr-name {
     justify-content : center;
 }
 
-.star-wrap{
-	overflow: hidden;
-}
-.star-wrap>span{
-	float : left;
-	color : var(--color2);
-	font-size : 25px;
-}
-.star-on-wrap>span{
-	color : var(--point2);
-}
-.star-on-wrap{
-	width : 125px;
-}
-.star-origin{
-	position : relative;
-}
-.star-on{
-	position : absolute;
-	left : 0;
-	width : 0;
-	overflow :hidden;
-}
+
 
 
 main.index div.carousel-inner div.restr-box>div.restr-name>span {

@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <title>Login</title>
 <link rel="stylesheet" href="/css/login.css">
+<style>
+.msg{
+	padding-top:10px;
+ 	color:red;
+ 	margin-bottom:0px;
+ 	font-weight:600;
+ 	font-size:13px;
+}
+
+
+</style>
 </head>
 <body>
 	<th:block th:include="common/header"></th:block>
@@ -18,14 +29,36 @@
                         <input type="password" name="memberPw" placeholder="비밀번호" >
                         <button class="login-btn"type="submit">로그인</button>
                     </form>
+                    <pre class="msg"></pre>
                     <div class="find-links">
                         <a href="#" id="find-id">아이디 찾기</a>
-                        <a href="#" id="find-pw">비밀번호 찾기</a>
+                        <a href="#" id="find-pw">비밀번호</a>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+    <script th:inline="javascript">
+   		$(".login-btn").on("click",function(event){
+   			
+   			var id = $("input[name=memberId]").val();
+   			var pw = $("input[name=memberPw]").val();
+   			if(id==""||pw==""){
+   				event.preventDefault();
+   				$(".msg").text("* 아이디 비밀번호를 입력해주세요.");
+   			}else{
+   				$(this).click("submit");
+   			}
+   		});
+    
+    
+    	const member = [[${member}]];
+    	
+    		if(member=='no'){
+    			$(".msg").html("* 아이디 또는 비밀번호가 잘못 되었습니다. \n  아이디 비밀번호를 정확히 입력해주세요")
+    		}
+    
+    </script>
 	<th:block th:include="common/footer"></th:block>
 </body>
 </html>
