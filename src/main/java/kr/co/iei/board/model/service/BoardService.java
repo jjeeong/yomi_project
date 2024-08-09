@@ -146,5 +146,10 @@ public class BoardService {
 			return null;			
 		}
 	}
+	@Transactional
+	public int insertComment(BoardComment bc) {
+		int result = boardDao.insertComment(bc);
+		return result;
+	}
 }
 

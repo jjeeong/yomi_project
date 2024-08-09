@@ -138,7 +138,13 @@ public class BoardDao {
 		return result;
 	}
 
-	
-
+	public int insertComment(BoardComment bc) {
+		String query = "insert into board_comment values(board_comment_seq.nextval,?,?,to_char(sysdate,'yyyy-mm-dd'),?,null)";
+		String boardCommentRef = bc.getCommentRefNo()==0 ? null : String.valueOf(bc.getCommentRefNo());
+		Object[] params = {bc.getCommentWriter(),bc.getCommentContent(),bc.getCommentBoardNo()};
+		int result = jdbc.update(query,params);
+		
+		return result;
+	}
 
 }
