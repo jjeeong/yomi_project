@@ -118,11 +118,10 @@ public class BoardController {
 			model.addAttribute("msg","게시글이 삭제되었습니다.");
 			model.addAttribute("icon", "success");
 			model.addAttribute("loc","/board/list?reqPage=1");
-		}
-		
+		}		
 		return "common/msg";
-	}
-	}
+	}			
+}
 
 	
 

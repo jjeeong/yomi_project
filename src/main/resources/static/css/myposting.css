@@ -1,0 +1,222 @@
+body{
+    background-color: rgb(245, 241, 236);
+}
+.postingbox{
+    width: 1000px;
+    height: 900px;
+    margin: 0px auto;
+    background-color: bisque;
+}
+.photo{
+    width: 340px;
+    height: 340px;
+    background-color: cyan;
+    margin-left: 80px;
+    margin-top: 40px;
+    border-radius: 20px;
+}
+.name{
+    width: 300px;
+    height: 80px;
+    background-color: #ffe;
+    margin-left: 350px;
+    margin-bottom: 50px;
+    margin-top: -330px;
+    border-radius: 20px;
+}
+.grade{
+    width: 300px;
+    height: 80px;
+    background-color: #ffe;
+    margin-left: 350px;
+    margin-bottom: 150px;
+    margin-top: 165px;
+    border-radius: 20px;
+}
+body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #fff3e0;
+    color: #5d4037;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-container {
+    background-color: #ffcc80;
+    padding: 20px;
+    border-bottom: 5px solid #ffa726;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.profile-box {
+    display: flex;
+    align-items: center;
+}
+
+.profile-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 2px solid #ff5722;
+}
+
+.profile-info h2 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #d84315;
+}
+
+.profile-info p {
+    margin: 5px 0 0;
+    font-size: 1.1em;
+}
+
+.activity-container {
+    background-color: #ffffff;   
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.tab-link {
+    flex: 1;
+    padding: 10px 15px;
+    border: none;
+    background-color: #ffe0b2;
+    color: #5d4037;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1em;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 5px 5px 0 0;
+    border-bottom: 2px solid #ffa726;
+}
+
+.tab-link:hover, .tab-link.active {
+    background-color: #ffab40;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h3 {
+    margin-top: 0;
+    border-bottom: 2px solid #ffa726;
+    padding-bottom: 10px;
+    color: #d84315;
+}
+
+.tab-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tab-content li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    color: #5d4037;
+}
+.activity-container{
+    width: 1400px;
+    height: 400px;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 0px;
+}
+.pagination a {
+    margin: 0 5px;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+.pagination a.active {
+    background-color: #007bff;
+    color: #fff;
+}
+.pagination a.disabled {
+    color: #ddd;
+    border-color: #ddd;
+    pointer-events: none;
+}
+.photo1{
+    width: 340px;
+    height: 340px;
+    background-color: cyan;
+    margin-left: 0px;
+    border-radius: 20px;
+    
+}
+.title{
+    letter-spacing: 5px;
+    word-spacing: 260px;
+    text-align: right; 
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 100px;
+}
+
+.pagination a, .pagination button {
+    margin: 0 5px;
+    text-decoration: none;
+    color: black;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    display: inline-block;
+}
+
+.pagination .active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.pagination .disabled {
+    pointer-events: none;
+    color: #ccc;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+.buttons button {
+    background-color: #dd7d24;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.buttons button.delete {
+    background-color: red;
+}
+
+.buttons button:hover {
+    opacity: 0.8;
+}
