@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<script src="js/jquery-3.7.1.js"></script>
+<script src="/js/jquery-3.7.1.js"></script>
 <link rel="stylesheet" href="/css/joinFrm.css">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
@@ -81,7 +81,7 @@
 	        </div>
 	        <div class="main2">
 	            <div class="container page2">
-	                <span class="material-icons">arrow_back</span>
+	                <span class="material-icons back">arrow_back</span>
 	                <div class="title">회원가입</div>
 	                <form action="/member/join" method="post" id="signupForm" autocomplete="off">
 	                    <div class="form-main">
@@ -101,9 +101,9 @@
 	                            <p class="input-msg pwRe-check-msg "></p>
 	                            <div class="form-group2 email-group">
 	                                <input type="text" class="email1" id="inputBox1" placeholder="이메일"  >
-	                                <span>@</span>
+	                                <span class='and'>@</span>
 	                                <input type="text" class="email2" id="inputBox2" disabled >
-	                                <input type="hidden" id="memberEmail" name="memberEmail">
+                          		    <input type="hidden" id="memberEmail" name="memberEmail"> 
 	                                <div class="selectBox">
 	                                    <select class="select">
 	                                        <option value="" selected >선택</option>
@@ -116,6 +116,7 @@
 	                                    </select>
 	                                    <span class="icoArrow"><img src="/image/pngegg.png" alt=""></span>
 	                                </div>
+	                                <span class="material-icons done">done</span>
 	                            </div>
 	                            <p class="input-msg email-check-msg"></p>
 	                        </div>
@@ -149,8 +150,8 @@
 	                            <p class="input-msg addr-check-msg"></p>
 	                            <div class="section-title">성별</div>
 	                            <div class="form-group2 gender-group">
-	                                <input type="radio" class="gender1" id="male" name="memberGender" value="남자"><label for="male" >남자</label>
-	                                <input type="radio" class="gender2" id="female" name="memberGender" value="여자"><label for="female">여자</label>
+	                                <input type="radio" class="gender1" id="male" name="memberGender" value="남자"><label id="male" for="male" >남자</label>
+	                                <input type="radio"  class="gender2" id="female" name="memberGender" value="여자"><label id="female" for="female">여자</label>
 	                            </div>
 	                             <p class="input-msg gender-check-msg"></p>
 	                        </div>
@@ -179,14 +180,15 @@
 	            }
 	        });
 	        //뒤로가기 버튼 
-	        $(".material-icons").on("click",function(){
+	        $(".back").on("click",function(){
 	            const page2 = $(".page2");
 	            page2.removeClass("show");
 	            page2.addClass("close");
 	            const page1 = $(".page1");
 	            page1.removeClass("close");
 	            page1.addClass("show");
-	        })
+	        });
+	        
 			//이메일 선택시 input disabled 로직
 	        $('.select').change(function() {
 	            if ($('.select').val() == 'diretly') {
@@ -223,14 +225,7 @@
 	                event.preventDefault();
 	            }
 	            //이메일 input 합치기
-	            var email1 = $('#inputBox1').val();
-	            var email2 = $('#inputBox2').val();
-	
-	            var finalEmail = '';
-	            
-	            finalEmail = email1 +'@'+ email2 ;
-	
-	            $('#memberEmail').val(finalEmail);
+	          
 	            
 	            //주소 input 합치기
 	            var addr1 = $("#addr1").val();
@@ -290,16 +285,29 @@
 	            	$(".addr-check-msg").text("주소를 입력해주세요");
 					$(".addr-check-msg").addClass("invalid");
 	            }
-	            if($(".form-group2>.gender1,.gender2").prop("checked",false )){
-	            	event.preventDefault();
+	            if($(".form-group2>.gender1.gender2 ").is(":checked")==false){
 	            	$(".gender-check-msg").text("성별을 선택해주세요");
 					$(".gender-check-msg").addClass("invalid");
+					
+					
 	            }
-	            
-	            
+	        
+	    			if($(".form-group2>.gender1").is(":checked")){
+	    				$(".gender-check-msg").text("");
+	    				$(".gender-check-msg").removeClass("invalid");
+	    			}
+	    		
+	    		
+	    			if($(".form-group2>.gender2").is(":checked")){
+	    				$(".gender-check-msg").text("");
+	    				$(".gender-check-msg").removeClass("invalid");
+	    			}
+	    	
 	            
 	        });
-	             
+	            
+	        
+	        
 	        
 	        //회원가입 약관 필수 체크 로직
 	      $(".essential1").on("click",function(){
@@ -399,6 +407,7 @@
 		 
 	  });
 	  
+	  
 	  	//비밀번호확인 실패시 에러메세지 성공시 성공메메세지
 	  	$("input[name=memberPwRe]").on("change",function(){
 			$(".pwRe-check-msg").removeClass("valid").removeClass("invalid");
@@ -415,18 +424,25 @@
 				$(".pwRe-check-msg").addClass("invalid");
 			}
 		});	  
-	  
+	
 	  	//email 중복체크
-		$("#inputBox1").on("change",function(){
-			$(".email-check-msg").removeClass("valid").removeClass("invalid");
-			const memberEmail = $(this).val();
-			const emailReg = /^[a-zA-Z0-9._%+-]{4,15}$/ ;
-			if(emailReg.test(memberEmail)){
-				$.ajax({
-					url:"/member/ajaxCheckEmail",
-					type:"get",
-					data:{memberEmail:memberEmail},
-					success:function(data){
+		$(".done").on("click",function(){
+			var email1 = $('#inputBox1').val();
+	        var email2 = $('#inputBox2').val();
+	        var finalEmail = '';
+	        finalEmail = email1 +'@'+ email2 ;
+	        alert(finalEmail);
+	        $('#memberEmail').val(finalEmail);
+	        const email = $('#memberEmail').val();
+			if(email1 == ""){
+				$(".email-check-msg").text("이메일을 입력해주세요.");
+				$(".email-check-msg").addClass("invalid");
+			}else{
+	        	$.ajax({
+					url : "/member/ajaxCheckEmail",
+					type : "get",
+					data : {email:email},
+					success : function(data){
 						console.log(data)
 						if(data == 0){
 							$(".email-check-msg").text("사용 가능한 이메일 입니다.");
@@ -436,10 +452,23 @@
 							$(".email-check-msg").addClass("invalid");
 						}
 					},
-					error:function(){
+					error : function(){
 						console.log("에러 발생");
 					}
 				});
+				
+			} 
+			
+	       
+		});     
+	
+	    $("#inputBox1").on("change",function(){	
+			const memberEmail = $(this).val();
+			const emailReg = /^[a-zA-Z0-9._%+-]{4,15}$/ ;
+			if(emailReg.test(memberEmail)){
+				console.log('asdasdasd');
+				$(".email-check-msg").text("");
+				$(".email-check-msg").removeClass("invalid").removeClass("valid");
 			}else{
 				$(".email-check-msg").text("영문 대 소문자 숫자 ._%+- 기호만 사용가능합니다.");
 				$(".email-check-msg").addClass("invalid");
@@ -480,19 +509,13 @@
 			}
 		});
 		
-		$(".form-group2>.gender1").on("click",function(){
-			if($(".form-group2>.gender1").prop("checked",true)){
-				$(".gender-check-msg").text("");
-				$(".gender-check-msg").removeClass("invalid");
+		$(".name").on("change",function(){
+			if($(this).val()!=""){
+				$(".name-check-msg").text("");
+				$(".name-check-msg").removeClass("invalid");
 			}
 		});
-		$(".form-group2>.gender2").on("click",function(){
-			if($(".form-group2>.gender2").prop("checked",true)){
-				$(".gender-check-msg").text("");
-				$(".gender-check-msg").removeClass("invalid");
-			}
-		});
-		
+	
 		
 		
 		//지도 Api
@@ -520,7 +543,7 @@
 			}
 		});
 	        
-        
+		
     </script>
 </main>
 	<th:block th:include="common/footer"></th:block>
