@@ -511,18 +511,17 @@ section.section.bg-section {
 
 .posting-comment {
   display: flex;
-  border-top: 2px solid #ccc;
-
   list-style-type: none;
 }
 .posting-comment > li {
   box-sizing: border-box;
+  
 }
 .posting-comment > li:first-child {
   width: 15%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: right;
+  align-items: top;
   min-height: 100px;
   border-right: 1px solid #ccc;
 }
@@ -530,11 +529,11 @@ section.section.bg-section {
   width: 20%;
 }
 .posting-comment > li:first-child .material-icons {
-  font-size: 40px;
-  color: #ccc;
+  font-size: 30px;
+  color: black;
 }
 .posting-comment.reply > li:first-child .material-icons:first-child {
-  font-size: 40px;
+  font-size: 30px;
   color: #ccc;
 }
 .posting-comment.reply > li:last-child {
@@ -545,7 +544,7 @@ section.section.bg-section {
 .posting-comment > li:last-child {
   display: flex;
   flex-direction: column;
-  width: 85%;
+  width: 100%;
 }
 .posting-comment > li:last-child > p {
   width: 100%;
@@ -573,7 +572,8 @@ section.section.bg-section {
 }
 
 .inputCommentBox{
-	margin:50px;
+	margin:10px;
+	
 }
 ul{
 	list-style-type:none;
@@ -584,10 +584,10 @@ ul{
 	gap : 10px;
 }
 .inputCommentBox>form>ul>li:first-child{
-	width:15%;
+	/*width:15%;*/
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	/*align-items: center;*/
 }
 
 #inqueryCommentContent{
@@ -599,12 +599,12 @@ ul{
 	font-size: 40px;
 	color:#ccc;
 }
-.inputCommentBox>form>ul>li:nth-child(2){
-	width:75%;
+.inputCommentBox>form>ul>li:nth-child(1){
+	height:50px;
 }
 .inputCommentBox>form>ul>li:nth-child(2)>div>textarea{
 	font-size:14px;
-	height:50px;
+	width:1000px;
 	min-height: 50px;
 }
 .commentBox .input-item>textarea{
