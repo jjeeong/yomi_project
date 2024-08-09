@@ -46,22 +46,28 @@
     height: 230px;
     float: left;
     margin: 20px;
-    border: 1px solid black;
+	border-radius: 25px;
 }
 
-.info1 {
+.info {
     margin: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;  
+    white-space: nowrap;
+    width: 260px; 
+    display: inline-block;
 }
 
 .semi-board p {
     margin-left: 15px;
 }
 
-.img {
+.img>img{
     background-color: aquamarine;
     width: 150px;
     height: 100px;
-    margin-left: 100px;
+    margin-left: 85px;
+    border-radius:15px; 
 }
 
 #pageNavi {
@@ -81,18 +87,6 @@
     text-align: center;
 }
 
-.review {
-    word-break: break-all;
-   width: 270px; /* Adjust as needed */
-}
-.review *{
-	height : 45px;
-	width : 100p;
-	text-overflow: ellipsis;
-		overflow: hidden;
-    white-space: nowrap;
-    word-break: break-all;
-	}
 </style>
 </head>
 <body>
@@ -106,17 +100,22 @@
             </div>
         </div>
 				
+				
         <div class="semi-board" th:each="board : ${list}">
-            <div class="info1">
-                <div class="img">
-                    <img th:src="@{'/board/' + ${board.thumbNailImg}}">
+            <div class="info">
+                <a class="img" th:href="'/board/view?boardNo='+${board.boardNo}">
+                    <img th:src="@{'/board/thumbNailImg/' + ${board.thumbNailImg}}">
+                    </a>
                 </div>
+                
+                <div class="store-content" >
                 <p th:text="${board.boardStoreName}">가게명:</p>
-                <p th:text="${board.boardAddr}">위치:</p>
-                <p class="review" th:utext="${board.boardContent}">가게설명:</p>
+                <p th:text="${board.boardAddr}">위치:</p>         
+                </div>
             </div>
         </div>    
     </div>       
+        
         
     <div id="pageNavi" th:utext="${pageNavi}"></div>
     	
@@ -126,9 +125,7 @@
         document.getElementById('write-btn').addEventListener('click', function() {
             window.location.href = 'writeFrm';
         });
-
-          
-       
+ 
     </script>
 </body>
 </html>

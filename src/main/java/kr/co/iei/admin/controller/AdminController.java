@@ -25,6 +25,7 @@ public class AdminController {
 	private ReportService reportService;
 	@Autowired
 	private MemberService memberService;
+
 	@Autowired
 	private AdminService adminService;
 
@@ -34,13 +35,18 @@ public class AdminController {
 
 	}
 
-	@GetMapping(value = "/adminMypage")
-	public String adminMypage(@SessionAttribute Member member, Model model) {
+
+	
+	
+	@GetMapping(value="/adminMypage")
+	public String adminMypage(@SessionAttribute Member member,Model model) {
+
 		String memberId = member.getMemberId();
 		Member m = memberService.selectOneMember(memberId);
 		model.addAttribute("m", m);
 		return "admin/adminMypage";
 	}
+
 
 	@GetMapping(value = "/adminPage")
 	public String adminPage(Model model, int reqPage) {
@@ -48,6 +54,8 @@ public class AdminController {
 		AdminListData ald = adminService.selectAdminList(reqPage);
 		model.addAttribute("list", ald.getList());
 		model.addAttribute("pageNavi", ald.getPageNavi());
+
+	
 		return "admin/adminPage";
 	}
 

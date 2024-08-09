@@ -129,7 +129,7 @@
 								<img src="" class="img-view hide">
 							</div>
 							<label for="imageFile1" class="btn btn-sm btn-mono">등록</label>
-							<input type="file" id="imageFile1" name="imageFile1" accept=".jpg,.png,.jpeg"
+							<input type="file" id="imageFile1" name="imageFile1" accept=".jpg,.png,.jpeg,.jfif"
 								onchange="loadImg(this);" class="photo">
 						</div>
 						<div class="img">
@@ -137,7 +137,7 @@
 								<img src="" class="img-view hide">
 							</div>
 							<label for="imageFile2" class="btn btn-sm btn-mono">등록</label>
-							<input type="file" id="imageFile2" name="imageFile2" accept=".jpg,.png,.jpeg"
+							<input type="file" id="imageFile2" name="imageFile2" accept=".jpg,.png,.jpeg,.jfif"
 								onchange="loadImg(this);" class="photo">
 							<!-- 이미지 사진 잘라서 넣든 맞춰서 넣든 기능 구현해야함 -->
 						</div>
@@ -154,8 +154,197 @@
 
 
 	</main>
+	<script>
+	//주소찾기
+		$("#addrSearch").on("click", function () {
+		    new daum.Postcode({
+		        oncomplete: function (data) {
+		            $("#restrAddr1").val(data.roadAddress);
+		            $("#restrAddr2").focus();
+		            searchAddressToCoordinate(data.roadAddress);
+		        }
+		    }).open();
+		})
+		//네이버 지도 띄워서 위치 표시, 클릭하면 주소 변경 가능하도록..
+		const map = new naver.maps.Map("map", {
+		    center: new naver.maps.LatLng(37.3595316, 127.1052133),//LatLng : 위도 경도를 다룸
+		    zoom: 18, //배율 지정
+		    zoomControl: true, //배율을 사용자가 직접 지정할 수 있도록 바를 띄워줌
+		    zoomControlOptions: { //배율 지정 바 스타일 변경
+		        position: naver.maps.Position.TOP_RIGHT,
+		        style: naver.maps.ZoomControlStyle.SMALL
+		    }
+		});
+	
+		map.setCursor('pointer');
+		var infoWindow = new naver.maps.InfoWindow({
+		    borderWidth: 0,
+		    backgroundColor: 'transparent',
+		    anchorColor: 'var(--point1)',
+		    anchorSkew: true
+		});
+
+		function searchAddressToCoordinate(address) {
+		    naver.maps.Service.geocode({
+		        query: address
+		    }, function (status, response) {
+		        if (status === naver.maps.Service.Status.ERROR) {
+		            return alert('Something Wrong!');
+		        }
+
+		        if (response.v2.meta.totalCount === 0) {
+		            return alert('totalCount' + response.v2.meta.totalCount);
+		        }
+
+		        var htmlAddresses = [],
+		            item = response.v2.addresses[0],
+		            point = new naver.maps.Point(item.x, item.y);// item.x : 경도 item.y : 위도
+		        $("#mapX").val(item.y);
+		        $("#mapY").val(item.x);
+		        if (item.roadAddress) {
+		            $("#restrAddr1").val(item.roadAddress);
+		            address = item.roadAddress;
+		            htmlAddresses.push('<span style="color : var(--pointFont); font-family : g_b;">[도로명 주소] </span>' + item.roadAddress);
+		        }
+
+		        if (item.jibunAddress) {
+		            htmlAddresses.push('<span style="color : var(--pointFont);  font-family : g_b;">[지번 주소] </span>' + item.jibunAddress);
+		        }
+
+		        infoWindow.setContent([
+		            '<div class="round-box-child" style="padding:10px;min-width:100px;line-height:150%;">',
+		            '<h4 style="margin-top:5px;font-size: 15px; font-family : g_b; color : var(--point1);">검색 주소 : ' + address + '</h4><br /><p style="font-size:13px; font-family : g_r">',
+		            htmlAddresses.join('<br />'),
+		            '</p></div>'
+		        ].join('\n'));
+
+		        map.setCenter(point);
+		        infoWindow.open(map, point);
+		    });
+		}
+		//클릭하면 좌표값+주소값 가져오기
+		function searchCoordinateToAddress(latlng) {
+
+		    infoWindow.close();
+
+		    naver.maps.Service.reverseGeocode({
+		        coords: latlng,
+		        orders: [
+		            naver.maps.Service.OrderType.ADDR,
+		            naver.maps.Service.OrderType.ROAD_ADDR
+		        ].join(',')
+		    }, function (status, response) {
+		        if (status === naver.maps.Service.Status.ERROR) {
+		            return alert('시스템 오류입니다!');
+		            //sw 쓸 수 있으면 써도 되고..
+		        }
+		        var items = response.v2.results,
+		            address = '',
+		            htmlAddresses = [];
+		        item = items[0];
+		        address = makeAddress(item) || '';
+		        $("#restrAddr1").val(address);
+		        $("#restrAddr2").focus();
+		        searchAddressToCoordinate(address);
+		    });
+		}
+		//클릭 이벤트
+		map.addListener('click', function (e) {
+		    searchCoordinateToAddress(e.coord);
+		});
+		//주소만들기
+		function makeAddress(item) {
+		    if (!item) {
+		        return;
+		    }
+
+		    var name = item.name,
+		        region = item.region,
+		        land = item.land,
+		        isRoadAddress = name === 'roadaddr';
+
+		    var sido = '', sigugun = '', dongmyun = '', ri = '', rest = '';
+
+		    if (hasArea(region.area1)) {
+		        sido = region.area1.name;
+		    }
+
+		    if (hasArea(region.area2)) {
+		        sigugun = region.area2.name;
+		    }
+
+		    if (hasArea(region.area3)) {
+		        dongmyun = region.area3.name;
+		    }
+
+		    if (hasArea(region.area4)) {
+		        ri = region.area4.name;
+		    }
+
+		    if (land) {
+		        if (hasData(land.number1)) {
+		            if (hasData(land.type) && land.type === '2') {
+		                rest += '산';
+		            }
+
+		            rest += land.number1;
+
+		            if (hasData(land.number2)) {
+		                rest += ('-' + land.number2);
+		            }
+		        }
+
+		        if (isRoadAddress === true) {
+		            if (checkLastString(dongmyun, '면')) {
+		                ri = land.name;
+		            } else {
+		                dongmyun = land.name;
+		                ri = '';
+		            }
+
+		            if (hasAddition(land.addition0)) {
+		                rest += ' ' + land.addition0.value;
+		            }
+		        }
+		    }
+
+		    return [sido, sigugun, dongmyun, ri, rest].join(' ');
+		}
+
+		function hasArea(area) {
+		    return !!(area && area.name && area.name !== '');
+		}
+
+		function hasData(data) {
+		    return !!(data && data !== '');
+		}
+
+		function checkLastString(word, lastString) {
+		    return new RegExp(lastString + '$').test(word);
+		}
+
+		function hasAddition(addition) {
+		    return !!(addition && addition.value);
+		}
+	</script>
 	<script src="/js/restr-js.js"></script>
 	<script>
+		//태그 추가
+		$("#insertTag").on("click", function () {
+		    const tagText = $("#restrTag").val();
+		    if (tagText == "") {
+		        alert("태그를 입력해주세요");
+		        return;
+		    }
+		    const tagDiv = $("<div>");
+		    tagDiv.addClass("tag");
+		    const tagDivHtml = "<span class='tag-name'>" + tagText + "</span><span class='material-symbols-outlined' onclick='deleteTag(this);'>cancel</span>";
+		    tagDiv.html(tagDivHtml);
+		    $("div.tag-box").append(tagDiv);
+		    $("#restrTag").val("");
+		    //list에 넣는 작업 필요=>submit버튼 누르면
+		})
+	
 		//메뉴 추가 버튼
 		function completeTr(btn) {
 	    	const tds = $(btn).parents("tr").children();
@@ -164,7 +353,7 @@
 	        	if (index < 2) {
 	            	if ($(item).find("input").val() == "") {
 	                	swal.fire({
-	                    	title: "태그 추가 불가",
+	                    	title: "메뉴 추가 불가",
 	                    	text: "메뉴를 모두 입력해주세요",
 	                    	icon: "warning"
 	                	});
@@ -172,7 +361,7 @@
 	                	return;
 	            	} else if (index == 1 && isNaN($(item).find("input").val())) {
 	                	swal.fire({
-	                    	title: "태그 추가 불가",
+	                    	title: "메뉴 추가 불가",
 	                    	text: "가격은 숫자로만 입력해주세요",
 	                    	icon: "warning"
 	                	});

@@ -53,7 +53,7 @@ public class BoardDao {
 	}
 
 	public int insertBoardFile(BoardFile boardFile) {
-		String query = "insert into notice_file values(board_file_seq.nextval,?,?,?)";
+		String query = "insert into board_file values(board_file_seq.nextval,?,?,?)";
 		Object[] params = {boardFile.getBoardNo(),boardFile.getFileName(),boardFile.getFilePath()};
 		int result = jdbc.update(query,params);
 		return result;
@@ -62,7 +62,7 @@ public class BoardDao {
 	public Board selectOneBoard(int boardNo) {
 		String query = "select * from board where board_no=?";
 		Object[] params = {boardNo};
-		List list = jdbc.query(query,boardRowMapper,params);
+		List list = jdbc.query(query, boardRowMapper, params);
 		if(list.isEmpty()) {
 			return null;
 		}else {
@@ -71,35 +71,53 @@ public class BoardDao {
 	}
 
 	public int updateReadCount(int boardNo) {
-		String query = "update board set read_count = read_count+1 where board_no=?";
+		String query = "update board set board_readcount = board_readcount+1 where board_no=?";
 		Object[] params = {boardNo};
 		int result = jdbc.update(query,params);
 		return result;
 	}
 
 	public List selectBoardFile(int boardNo) {
-		String query = "select & from board_file where board_no=?";
+		String query ="select * from board_file where board_no=?";
 		Object[] params = {boardNo};
 		List list = jdbc.query(query,boardFileRowMapper,params);
 		return list;
 	}
 
 	public List<BoardComment> selectCommentList(int boardNo, int memberNo) {
-	    String query = "SELECT \r\n" + 
-	                   "    bc.*, \r\n" + 
-	                   "    (SELECT COUNT(*) FROM board_comment_like WHERE board_comment_no=bc.board_comment_no) AS like_count, \r\n" + 
-	                   "    (SELECT COUNT(*) FROM board_comment_like WHERE board_comment_no=bc.board_comment_no AND member_no=?) AS is_like \r\n" + 
-	                   "FROM board_comment bc \r\n" + 
-	                   "WHERE board_ref=? AND board_comment_ref IS NULL ORDER BY 1";
-	    
-	    Object[] params = {memberNo, boardNo};
-	    List<BoardComment> list = jdbc.query(query, boardCommentRowMapper , params);
-	    return list;
+		String query= "select \r\n" + 
+				"    bc.*,\r\n" + 
+				"    (select count(*) from board_comment_like where comment_no = bc.comment_no) as like_count,\r\n" + 
+				"    (select count(*) from board_comment_like where comment_no = bc.comment_no and member_no=?)as is_like\r\n" + 
+				"from board_comment bc\r\n" + 
+				"where comment_board_no=? and comment_ref_no is null order by 1";
+		
+			Object[] params = {memberNo, boardNo};
+			List list = jdbc.query(query,boardCommentRowMapper,params);
+			return list;
+	}
+
+	public List selectRecommentList(int boardNo, int memberNo) {
+		String query = "select \r\n" + 
+				"    bc.*,\r\n" + 
+				"    (select count(*) from board_comment_like where comment_no = bc.comment_no) as like_count,\r\n" + 
+				"    (select count(*) from board_comment_like where comment_no = bc.comment_no and member_no=?)as is_like\r\n" + 
+				"from board_comment bc\r\n" + 
+				"where comment_board_no=? and comment_ref_no is null order by 1";
+		Object[] params = {memberNo, boardNo};
+		List list = jdbc.query(query, boardCommentRowMapper,params);
+		return list;
+	}
+
+	public int deleteBoard(int boardNo) {
+		String query = "delete from board where board_no=?";
+		Object[] params = {boardNo};
+		int result = jdbc.update(query,params);
+		return result;
 	}
 
 	
 
-	
-	
+
 
 }

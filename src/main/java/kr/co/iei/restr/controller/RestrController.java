@@ -1,5 +1,6 @@
 package kr.co.iei.restr.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import kr.co.iei.restr.model.dto.BlogSearchResult;
 import kr.co.iei.restr.model.dto.Restaurant;
 
 import kr.co.iei.restr.model.dto.RestrMenu;
-
+import kr.co.iei.restr.model.dto.RestrTag;
 import kr.co.iei.restr.model.dto.Review;
 import kr.co.iei.restr.model.dto.ReviewImg;
 import kr.co.iei.restr.model.dto.ReviewTag;
@@ -44,8 +45,8 @@ public class RestrController {
 
 	// 맛집 상세 페이지
 	@GetMapping(value = "/restrView")
-	public String restrView(Model model, int restrNo) {
-		Restaurant r = restrService.selectOneRestr(restrNo);
+	public String restrView(Model model, int restrNo, @SessionAttribute (required = false) Member member) {
+		Restaurant r = restrService.selectOneRestr(restrNo, member);
 
 		if (r == null) {
 			return "redirect:/";
@@ -76,6 +77,14 @@ public class RestrController {
 			
 			return "restaurant/restrView";
 		}
+	}
+	
+	@RequestMapping("/countTagList")
+	private @ResponseBody List countTagList(Model model, int restrNo) {
+		//태그 종류별 개수
+		List tagCountList = restrService.tagCountList(restrNo);
+		model.addAttribute("tagCountList", tagCountList);
+		return tagCountList;
 	}
 
 	// 블로그 검색 결과
@@ -131,49 +140,82 @@ public class RestrController {
 		}
 	}
 	
+	// 맛집 즐겨찾기
+	@ResponseBody
+	@PostMapping(value = "/bookmarkPush")
+	public int bookmarkPush(int restrNo, int isBookmark, @SessionAttribute(required = false) Member member) {
+		if (member == null) {
+			return -10;
+		} else {
+			int memberNo = member.getMemberNo();
+			int result = restrService.bookmarkPush(restrNo, isBookmark, memberNo);
+			return result;
+		}
+	}
+	
+	// 리뷰 좋아요
+	@ResponseBody
+	@PostMapping(value = "/reviewLikePush")
+	public int reviewLikePush(int reviewNo, int isReviewLike, @SessionAttribute(required = false) Member member) {
+		return 0;
+	}
+		
 	// 리뷰 작성
 	@PostMapping(value = "/writeReview")
 	public String writeReview(@SessionAttribute(required = false) Member member, Review review, Restaurant restaurant, Double reviewStar,  
-			@RequestParam(value = "keywords", required = false) String[] keywords, MultipartFile[] upfile) {
-		// 작성자 번호
-		int memberNo = member.getMemberNo();	
-		review.setMemberNo(memberNo);
-		review.setRestrNo(restaurant.getRestrNo());
-		review.setReviewStar(reviewStar);
+			@RequestParam(value = "keywords", required = false) String[] keywords, MultipartFile[] upfile, Model model) {
 		
-		//이미지 삽입
-		int restrNo = restaurant.getRestrNo();		
-		List<ReviewImg> reviewImgList = new ArrayList<ReviewImg>();
-		
-		System.out.println("upfile : "+upfile);
-		
-		//리뷰 번호 불러오기
-		int reviewNo = restrService.selectOneReview(restrNo) + 1;
-		
-		review.setReviewNo(reviewNo);
-		
-		if(!upfile[0].isEmpty()) {
-			String savepath = root+"/review/";
-			for (MultipartFile file : upfile) {
-				String reviewFilename = file.getOriginalFilename();
-				String reviewFilePath = fileUtils.upload(savepath, file);
-				ReviewImg reviewImg = new ReviewImg();
-				reviewImg.setReviewFilename(reviewFilename);
-				reviewImg.setReviewFilePath(reviewFilePath);
-				reviewImgList.add(reviewImg);
-				System.out.println("reviewImg : "+reviewImgList);
+		if(review.getReviewStar() == null) {
+			model.addAttribute("title", "작성 불가");
+			model.addAttribute("msg", "리뷰 별점을 선택해주세요.");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "restrView?restrNo=" + restaurant.getRestrNo());
+			return "common/msg2";
+		} else if(review.getReviewContent().isEmpty()) {
+			model.addAttribute("title", "작성 불가");
+			model.addAttribute("msg", "리뷰 내용을 작성해주세요.");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "restrView?restrNo=" + restaurant.getRestrNo());
+			return "common/msg2";
+		} else {			
+			// 작성자 번호
+			int memberNo = member.getMemberNo();	
+			review.setMemberNo(memberNo);
+			review.setRestrNo(restaurant.getRestrNo());
+			review.setReviewStar(reviewStar);
+			
+			//이미지 삽입
+			int restrNo = restaurant.getRestrNo();		
+			List<ReviewImg> reviewImgList = new ArrayList<ReviewImg>();
+			
+			//리뷰 번호 불러오기
+			int reviewNo = restrService.selectOneReview();
+			review.setReviewNo(reviewNo);
+			
+			if(!upfile[0].isEmpty()) {
+				String savepath = root+"/review/";
+				for (MultipartFile file : upfile) {
+					String reviewFilename = file.getOriginalFilename();
+					String reviewFilePath = fileUtils.upload(savepath, file);
+					ReviewImg reviewImg = new ReviewImg();
+					reviewImg.setReviewFilename(reviewFilename);
+					reviewImg.setReviewFilePath(reviewFilePath);
+					reviewImgList.add(reviewImg);
+					System.out.println("reviewImg : "+reviewImgList);
+				}
 			}
+			
+			//작성 결과 (img list도 함께 삽입)
+			int result = restrService.writeReview(review, reviewImgList);
+			
+			//리뷰 키워드 삽입
+			if (result > 0 && keywords != null) {			
+				int tagResult = restrService.insertKeyword(reviewNo, keywords);
+			}
+			
+			return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();
 		}
 		
-		//작성 결과 (img list도 함께 삽입)
-		int result = restrService.writeReview(review, reviewImgList);
-		
-		//리뷰 키워드 삽입
-		if (result > 0 && keywords != null) {			
-			int tagResult = restrService.insertKeyword(reviewNo, keywords);
-		}
-	
-		return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();
 	}
 
 	// 리뷰 작성 페이지 로그인 확인
@@ -197,7 +239,6 @@ public class RestrController {
 		for(Review review : reviewList) {
 			int reviewNo = review.getReviewNo();
 			List reviewTagList = restrService.selectReviewTagList(reviewNo);
-			
 			List reviewImgList = restrService.selectReviewImgList(reviewNo);
 			
 			review.setReviewTag(reviewTagList);
@@ -213,7 +254,7 @@ public class RestrController {
 		return "restaurant/restrWriteFrm";
 	}// restFrm()
 
-	@PostMapping(value = "/restrWrite")
+	@PostMapping(value = "/restrWrite")//실험 결과 : 여러개 쓸거면 그냥 일일이 받아서 합치자.. 뭔가 더 복잡해진다..
 	public String write(Restaurant r, String[] menuName, int[] menuPrice, String[] tagName, MultipartFile imageFile1,
 			MultipartFile imageFile2, Model model) {
 		List<RestrMenu> menuList = new ArrayList<RestrMenu>();
@@ -252,14 +293,14 @@ public class RestrController {
 			model.addAttribute("msg", "존재하지 않는 게시물 입니다.");
 			model.addAttribute("icon", "error");
 			model.addAttribute("loc", "/restaurant/restrList");
-			return "/common/msg2";
+			return "common/msg2";
 		}else {
 			model.addAttribute("r", r);
 			return "restaurant/restrUpdateFrm";			
 		}
 	}// restFrm()
 	
-	@PostMapping(value="/restrUpdate")
+	@PostMapping(value="/restrUpdate")//시간 남으면...? 메뉴 수정할때 수정한 메뉴는 순서 유지되게끔 해보기 ( 현재는 기존거는 수정버튼 누르면 아예 지우는 걸로 되어있음 )
 	public String restrUpdate(Restaurant r, String[] menuName, int[] menuPrice, String[] tagName, MultipartFile imageFile1,
 			MultipartFile imageFile2, int[] delTagNo, String filepath1, String filepath2, int[] delMenuNo, Model model) {
 		String savepath = root+"/yomi/";
@@ -279,16 +320,64 @@ public class RestrController {
 			delImgFile.add(filepath2);
 		}//if
 		List<RestrMenu> menuList = new ArrayList<RestrMenu>();
-		for (int i = 0; i < menuName.length; i++) {
-			RestrMenu rm = new RestrMenu();
-			rm.setRestrMenuName(menuName[i]);
-			rm.setRestrMenuPrice(menuPrice[i]);
-			menuList.add(rm);
+		if(menuName!=null) {
+			for (int i = 0; i < menuName.length; i++) {
+				RestrMenu rm = new RestrMenu();
+				rm.setRestrMenuName(menuName[i]);
+				rm.setRestrMenuPrice(menuPrice[i]);
+				menuList.add(rm);
+			}			
 		}
 		int result = restrService.updateRestr(r, menuList, tagName, delMenuNo, delTagNo, updateImgCount);
-		//service, dao까지 만들어서 실행해보고 만약 메뉴([]), 태그([]), 삭제할 파일 이름([])배열이 새로 추가된게 없을 시 input이 없어 오류가 날경우, 업데이트 html에 미리 하나씩 [0]넣어두고 다시 작업해보기
+		//service, dao까지 만들어서 실행해보고 만약 메뉴([]), 태그([]), 삭제할 파일 이름([])배열이 새로 추가된게 없을 시 input이 없어 오류가 날경우
+		//=> 질문 결과, 배열의 경우 안들어오면 null로 들어오므로 상관 ㄴㄴ 하다고 함 
+		//(단, int 변수 하나만 받아온다고 했을때, 안들어오면 null이 들어오고, null을 int로 형변환 할 수 없으므로 에러가 남)
 		//만약 잘 되었다면 delImgFile 리스트 안의 파일들 삭제하기, 잘되지 않았으면 방금 업로드한 filepath3, 4 삭제하기
-		return "restaurant/restrView?restrNo="+r.getRestrNo();
+		if(result>0) {
+			for(String delfilepath : delImgFile) {
+				File delFile = new File(savepath+delfilepath);
+				delFile.delete();
+			}
+			model.addAttribute("title", "수정 성공");
+			model.addAttribute("msg", "수정에 성공하셨습니다.");
+			model.addAttribute("icon", "success");
+		}else {
+			if(r.getRestrImg1() !=null) {
+				File delFile = new File(savepath+r.getRestrImg1());
+				delFile.delete();
+			}
+			if(r.getRestrImg2() !=null) {
+				File delFile = new File(savepath+r.getRestrImg2());
+				delFile.delete();
+			}
+			model.addAttribute("title", "수정 실패");
+			model.addAttribute("msg", "시스템 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+			model.addAttribute("icon", "error");
+		}
+		model.addAttribute("loc", "/restaurant/restrView?restrNo="+r.getRestrNo());
+		return "common/msg2";
+	}
+	@GetMapping(value="/deleteRestr")
+	public String deleteRestr(int restrNo, Model model) {
+		List<String> delFilepath = new ArrayList<String>();
+		
+		delFilepath = restrService.deleteRestr(restrNo);
+		if(delFilepath==null) {
+			model.addAttribute("title", "맛집 삭제 실패!");
+			model.addAttribute("msg", "존재하지 않는 게시물입니다.");
+			model.addAttribute("icon", "error");
+		}else {
+			String savepath = root+"/yomi/";
+			for(String filepath : delFilepath) {
+				File delFile = new File(savepath+filepath);
+				delFile.delete();
+			}
+			model.addAttribute("title", "맛집 삭제 성공!");
+			model.addAttribute("msg", "성공적으로 삭제가 완료되었습니다.");
+			model.addAttribute("icon", "success");
+		}
+		model.addAttribute("loc", "/restaurant/restrList");
+		return "common/msg2";
 	}
 
 }
