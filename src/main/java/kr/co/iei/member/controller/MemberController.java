@@ -46,11 +46,26 @@ public class MemberController {
 	
 
 	@PostMapping(value="/join")
-	public String join(Member m) {
+	public String join(Member m,Model model) {
 		int result = memberService.insertMember(m);
+		if(result>0) {
+			model.addAttribute("title","회원가입성공");
+			model.addAttribute("msg","회원가입이 완료됐습니다.");
+			model.addAttribute("icon","success");
+			model.addAttribute("loc","/");
+			return "common/msg";
+		}else {
+			model.addAttribute("title","회원가입실패");
+			model.addAttribute("msg","관리자에게 문의하세요.");
+			model.addAttribute("icon","warning");
+			model.addAttribute("loc","/member/join");
+			return "common/msg";
+		}
 		
 		
-		return "redirect:/";
+		
+		
+		
 	}
 	@ResponseBody
 	@GetMapping(value="/ajaxCheckId")
@@ -64,8 +79,9 @@ public class MemberController {
 	}
 	@ResponseBody
 	@GetMapping(value="/ajaxCheckEmail")
-	public int selectOneMemberEmail(String memberEmail) {
-		Member member = memberService.selectOneMemberEmail(memberEmail);
+	public int selectOneMemberEmail(String email) {
+		System.out.println(email);
+		Member member = memberService.selectOneMemberEmail(email);
 		if(member == null) {
 			return 0;
 		}else {
