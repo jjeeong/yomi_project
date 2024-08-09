@@ -57,17 +57,37 @@ public class ReportController {
 		return r;
 	}
 	
-	@ResponseBody
+	
 	@GetMapping(value="/updateReport")
-	public int updateReport(int reportNo) {
+	public String updateReport(int[] reportNo, Model model) {
 		int result = reportService.updateReportCheck(reportNo);
-		return result;
+		if(result>0) {
+			model.addAttribute("title" , "신고 체크 완료");
+			model.addAttribute("text", "신고 횟수가 정상적으로 집계되었습니다.");
+			model.addAttribute("icon", "success");
+		}else {
+			model.addAttribute("title" , "신고 체크 실패");
+			model.addAttribute("text", "체크할 신고글이 존재하지 않습니다.");
+			model.addAttribute("icon", "error");
+		}
+		model.addAttribute("loc", "/report/checkReport");
+		return "common/msg2";
 	}
 	
-	@ResponseBody
+	
 	@GetMapping(value="/deleteReport")
-	public int deleteReport(int reportNo) {
+	public String deleteReport(int[] reportNo, Model model) {
 		int result = reportService.deleteReport(reportNo);
-		return result;
+		if(result>0) {
+			model.addAttribute("title" , "신고 삭제 완료");
+			model.addAttribute("text", "신고 내역이 정상적으로 삭제 되었습니다.");
+			model.addAttribute("icon", "success");
+		}else {
+			model.addAttribute("title" , "신고 삭제 실패");
+			model.addAttribute("text", "삭제할 신고글이 존재하지 않습니다.");
+			model.addAttribute("icon", "error");
+		}
+		model.addAttribute("loc", "/report/checkReport");
+		return "common/msg2";
 	}
 }

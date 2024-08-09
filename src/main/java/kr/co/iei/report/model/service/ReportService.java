@@ -31,13 +31,25 @@ public class ReportService {
 		return r;
 	}
 	@Transactional
-	public int updateReportCheck(int reportNo) {
-		int result = reportDao.updateReportCheck(reportNo);
-		return result;
+	public int updateReportCheck(int[] reportNo) {
+		int result =0;
+		for(int i=0; i<reportNo.length;i++) {
+			result += reportDao.updateReportCheck(reportNo[i]);
+		}
+		if(result == reportNo.length) {
+			return result;
+		}
+		return 0;
 	}
-
-	public int deleteReport(int reportNo) {
-		int result = reportDao.deleteReport(reportNo);
-		return result;
+	@Transactional
+	public int deleteReport(int[] reportNo) {
+		int result =0;
+		for(int i=0; i<reportNo.length;i++) {
+			result += reportDao.deleteReport(reportNo[i]);
+		}
+		if(result == reportNo.length) {
+			return result;
+		}
+		return 0;
 	}
 }

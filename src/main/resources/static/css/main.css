@@ -10,7 +10,9 @@
     --monocolor: #FFF8F5;
     --monocolor2: #EDE4E1;
 }
-
+.swal2-shown>body.swal2-height-auto{
+	height: 100% !important;
+}
 html,
 body {
     background-color: #F3F3F3;
@@ -199,7 +201,7 @@ header .nav-sub>li:last-child>a {
 
 /* 메인 */
 .main {
-    flex: 1;
+    flex-grow: 1;
     background-color: var(--bgcolor);
 }
 
