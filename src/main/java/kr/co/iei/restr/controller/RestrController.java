@@ -223,7 +223,6 @@ public class RestrController {
 					reviewImg.setReviewFilename(reviewFilename);
 					reviewImg.setReviewFilePath(reviewFilePath);
 					reviewImgList.add(reviewImg);
-					System.out.println("reviewImg : "+reviewImgList);
 				}
 			}
 			

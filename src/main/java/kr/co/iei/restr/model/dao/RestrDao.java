@@ -182,7 +182,7 @@ public class RestrDao {
 				"            restr.restr_name,\r\n" + 
 				"            restr.restr_tel\r\n" + 
 				"        ORDER BY \r\n" + 
-				"            ROUND(AVG(rev.review_star), 1) DESC,\r\n" + 
+				"            ROUND(AVG(rev.review_star), 1) DESC nulls last,\r\n" + 
 				"            restr.restr_no DESC\r\n" + 
 				"    ) r\r\n" + 
 				") \r\n" + 
@@ -383,6 +383,7 @@ public class RestrDao {
 
 	//검색결과
 	public List restrSearch(String searchKeyword) {
+		/**
 		String query = "SELECT restr_no, restr_addr1, restr_addr2, restr_content, restr_img1, restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel\r\n" + 
 				"FROM RESTAURANT\r\n" + 
 				"left JOIN restr_tag USING (restr_no)\r\n" + 
@@ -392,6 +393,14 @@ public class RestrDao {
 				"OR RESTR_NAME LIKE ?\r\n" + 
 				"GROUP BY restr_no, restr_addr1, restr_addr2, restr_content, restr_img1,\r\n" + 
 				"restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel";
+				**/
+		String query = "SELECT restr_no, restr_addr1, restr_addr2, restr_content, restr_img1, restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel\r\n" + 
+				"FROM RESTAURANT\r\n" + 
+				"LEFT JOIN restr_tag USING (restr_no)\r\n" + 
+				"LEFT JOIN restr_menu USING (restr_no)\r\n" + 
+				"WHERE restr_tag_name LIKE ? OR restr_menu_name LIKE ? OR restr_name LIKE ?\r\n" + 
+				"GROUP BY restr_no, restr_addr1, restr_addr2, restr_content, restr_img1, restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel\r\n" + 
+				"ORDER BY restr_no DESC";
 		
 		Object[] params = {"%"+searchKeyword +"%","%"+searchKeyword+"%","%"+searchKeyword+"%"}; 
 		List<Restaurant> list = jdbc.query(query, restaurantRowMapper, params); 
@@ -434,7 +443,7 @@ public class RestrDao {
 	    		"    restr.restr_name, \r\n" + 
 	    		"    restr.restr_tel\r\n" + 
 	    		"ORDER BY \r\n" + 
-	    		"    ROUND(AVG(rev.review_star), 1) DESC, \r\n" + 
+	    		"    ROUND(AVG(rev.review_star), 1) DESC nulls last, \r\n" + 
 	    		"    restr.restr_no DESC";
 
 	    Object[] params = {"%" + searchKeyword + "%", "%" + searchKeyword + "%", "%" + searchKeyword + "%"};
