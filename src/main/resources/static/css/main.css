@@ -701,7 +701,7 @@ main.report-list h2.page-title {
 }
 
 main.report-list div.tbl {
-    flex-grow: 1;
+    
 }
 
 main.report-list table.report-list {
@@ -790,6 +790,33 @@ main.report-list div.search button {
     padding-top: 0;
     padding-bottom: 0;
     line-height: 30px;
+}
+
+main.report-list nav{
+	margin-top : 20px;
+}
+
+main.report-list a{
+	color : var(--point1);
+}
+
+main.report-list .page-link{
+	border : 1px solid var(--point1);
+}
+main.report-list .page-link:hover{
+	font-weight: bold;
+	text-decoration : underline;
+	color : var(--point1);
+}
+main.report-list .chevron{
+	background-color : var(--sub);
+}
+main.report-list .page-link:focus{
+	color : var(--point1);
+	background : #fff;
+}
+.pagination{
+	--bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(247, 183, 136, 0.5);
 }
 
 /*

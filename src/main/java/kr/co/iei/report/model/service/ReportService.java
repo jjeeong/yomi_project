@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.iei.report.model.dao.ReportDao;
+import kr.co.iei.report.model.dto.RP;
 import kr.co.iei.report.model.dto.Report;
 
 @Service
@@ -19,11 +20,6 @@ public class ReportService {
 	public int insertReviewReport(Report r) {
 		int result = reportDao.insertReviewReport(r);
 		return result;
-	}
-
-	public List selectUncheckReport() {
-		List list = reportDao.selectUncheckReport();
-		return list;
 	}
 
 
@@ -65,23 +61,120 @@ public class ReportService {
 		return result;
 	}
 
-	public List searchByReportType(String reportTypeString) {
-		List list = reportDao.searchByReportType(reportTypeString);
-		return list;
+	public RP searchByReportType(String reportTypeString, int reqPage, int reportType) {
+		RP r = new RP();
+		int numPerPage = 10;
+		int start = (reqPage-1)*numPerPage+1;
+		int end = reqPage*numPerPage;
+		
+		List list = reportDao.searchByReportType(reportTypeString, start, end);
+		int totalCount = reportDao.countReportByReportType(reportTypeString);
+		int totalPage = (int)Math.ceil((double)totalCount/numPerPage);
+		String href = "/report/searchByReportType?reportType="+reportType+"&reqPage=";
+		String pageNavi = getPageNav(totalPage, reqPage, href);
+		r.setList(list);
+		r.setPagiNavi(pageNavi);
+		return r;
 	}
 
-	public List searchByReportTypeETC() {
-		List list = reportDao.searchByReportTypeETC();
-		return list;
+	public RP searchByReportTypeETC(int reqPage) {
+		int numPerPage = 10;
+		int start = (reqPage-1)*numPerPage+1;
+		int end = reqPage*numPerPage;
+		List list = reportDao.searchByReportTypeETC(start, end);
+		int totalCount = reportDao.countReportByReportTypeETC();
+		int totalPage = (int)Math.ceil((double)totalCount/numPerPage);
+		String href = "/report/searchByReportType?reportType="+6+"&reqPage=";
+		String pageNavi = getPageNav(totalPage, reqPage, href);
+		RP r = new RP(list, pageNavi);
+		return r;
 	}
 
-	public List searchByBoardType(int reportBoardType) {
-		List list = reportDao.searchByBoardType(reportBoardType);
-		return list;
+	public RP searchByBoardType(int reportBoardType, int reqPage) {
+		int numPerPage = 10;
+		int start = (reqPage-1)*numPerPage+1;
+		int end = reqPage*numPerPage;
+		List list = reportDao.searchByBoardType(reportBoardType, start, end);
+		int totalCount = reportDao.countReportByBoardType(reportBoardType);
+		int totalPage = (int)Math.ceil((double)totalCount/numPerPage);
+		String href = "/report/searchByBoardType?reportBoardType="+reportBoardType+"&reqPage=";
+		String pageNavi = getPageNav(totalPage, reqPage, href);
+		RP r = new RP(list, pageNavi);
+		return r;
 	}
 
-	public List searchById(String respondentId) {
-		List list = reportDao.searchById(respondentId);
-		return list;
+	public RP searchById(String respondentId, int reqPage) {
+		int numPerPage = 10;
+		int start = (reqPage-1)*numPerPage+1;
+		int end = reqPage*numPerPage;
+		List list = reportDao.searchById(respondentId, start, end);
+		int totalCount = reportDao.countReportById(respondentId);
+		int totalPage = (int)Math.ceil((double)totalCount/numPerPage);
+		String href = "/report/searchById?repondentId="+respondentId+"&reqPage=";
+		String pageNavi = getPageNav(totalPage, reqPage, href);
+		RP r = new RP(list, pageNavi);
+		return r;
 	}
+
+	public RP selectUncheckReport(int reqPage) {
+		RP r = new RP();
+		int numPerPage = 10;
+		int start = (reqPage-1)*numPerPage +1;
+		int end = reqPage*numPerPage;
+		
+		List list = reportDao.selectUncheckReport(start, end);
+		int totalCount = reportDao.countReport();
+		int totalPage = (int)Math.ceil((double)totalCount/numPerPage);
+		String href = "/report/checkReport?reqPage=";
+		String pageNavi = getPageNav(totalPage, reqPage, href);
+		r.setList(list);
+		r.setPagiNavi(pageNavi);
+		return r;
+	}
+	
+	public String getPageNav(int totalPage, int reqPage, String href) {
+		System.out.println(totalPage);
+		int start = reqPage-2;
+		int pageNavSize = 5;
+		String pageNavi = "<ul class='pagination pagination-sm'>";
+		pageNavi += "<li class=\"page-item\">\r\n" + 
+				"			      <a class=\"page-link chevron\" href=\""+href+"1\" aria-label=\"Previous\">\r\n" + 
+				"			        <span aria-hidden=\"true\">&laquo;</span>\r\n" + 
+				"			      </a>\r\n" + 
+				"			    </li>";
+		if(totalPage>start) {
+			while(start<=0) {
+				start++;
+			}
+			while((start+pageNavSize-1)>totalPage) {
+				start--;
+			}
+		}else {
+			start = 1;
+		}
+		for(int i=0; i<pageNavSize; i++) {
+			int pageNo = start+i;
+			System.out.println(pageNo);
+			if(pageNo > 0 && pageNo <=totalPage) {
+				if(pageNo == reqPage) {
+					pageNavi +="<li class=\"page-item current\"><a class=\"page-link\" href=\""+href+reqPage+"\">"+reqPage+"</a></li>";
+				}else {
+					pageNavi +="<li class=\"page-item\"><a class=\"page-link\" href=\""+href+pageNo+"\">"+pageNo+"</a></li>";
+				}
+			}else if(pageNo>totalPage) {
+				break;
+			}//elseif
+		}//for
+		pageNavi +="<li class=\"page-item\">\r\n" + 
+				"			      <a class=\"page-link chevron\" href=\""+href+totalPage+"\" aria-label=\"Next\">\r\n" + 
+				"			        <span aria-hidden=\"true\">&raquo;</span>\r\n" + 
+				"			      </a>\r\n" + 
+				"			    </li>\r\n" + 
+				"			  </ul>";
+		return pageNavi;
+	}
+	
+
+		
+	
 }

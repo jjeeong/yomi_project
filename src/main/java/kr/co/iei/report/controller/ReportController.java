@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.member.model.service.MemberService;
+import kr.co.iei.report.model.dto.RP;
 import kr.co.iei.report.model.dto.Report;
 import kr.co.iei.report.model.service.ReportService;
 
@@ -78,9 +79,10 @@ public class ReportController {
 	}
 	
 	@GetMapping(value="/checkReport")
-	public String checkReport(Model model) {
-		List<Report> list = reportService.selectUncheckReport();
-		model.addAttribute("list", list);
+	public String checkReport(Model model, int reqPage) {
+		RP r = reportService.selectUncheckReport(reqPage);
+		model.addAttribute("list", r.getList());
+		model.addAttribute("pagiNavi", r.getPagiNavi());
 		return "report/reportList";
 	}
 	
@@ -126,29 +128,33 @@ public class ReportController {
 	}
 	
 	@GetMapping(value="/searchByReportType")
-	public String searchByReportType(int reportType, Model model) {
+	public String searchByReportType(int reportType, Model model, int reqPage) {
 		String[] reportTypeArr = {"스팸 홍보/도배","음란물","불법 정보 포함","불쾌한 내용 포함","잘못된 정보 포함"};
 		if(reportType == 6) {
-			List list = reportService.searchByReportTypeETC();
-			model.addAttribute("list", list);
+			RP r = reportService.searchByReportTypeETC(reqPage);
+			model.addAttribute("list", r.getList());
+			model.addAttribute("pagiNavi", r.getPagiNavi());
 		}else {
-			List list = reportService.searchByReportType(reportTypeArr[reportType-1]);
-			model.addAttribute("list", list);
+			RP r = reportService.searchByReportType(reportTypeArr[reportType-1], reqPage, reportType);
+			model.addAttribute("list", r.getList());
+			model.addAttribute("pagiNavi", r.getPagiNavi());
 		}
 		return "report/reportList";
 	}//searchByReportType
 	
 	@GetMapping(value="/searchByBoardType")
-	public String searchByBoardType(int reportBoardType, Model model) {
-		List list = reportService.searchByBoardType(reportBoardType);
-		model.addAttribute("list", list);
+	public String searchByBoardType(int reportBoardType,int reqPage, Model model) {
+		RP r = reportService.searchByBoardType(reportBoardType, reqPage);
+		model.addAttribute("list", r.getList());
+		model.addAttribute("pagiNavi", r.getPagiNavi());
 		return "report/reportList";
 	}//searchByReportType
 	
 	@GetMapping(value="/searchById")
-	public String searchById(String respondentId, Model model) {
-		List list = reportService.searchById(respondentId);
-		model.addAttribute("list", list);
+	public String searchById(String respondentId,int reqPage, Model model) {
+		RP r = reportService.searchById(respondentId, reqPage);
+		model.addAttribute("list", r.getList());
+		model.addAttribute("pagiNavi", r.getPagiNavi());
 		return "report/reportList";
 	}
 }
