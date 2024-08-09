@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.iei.board.model.dao.BoardDao;
 import kr.co.iei.board.model.dto.Board;
+import kr.co.iei.board.model.dto.BoardComment;
 import kr.co.iei.board.model.dto.BoardFile;
 import kr.co.iei.board.model.dto.BoardListData;
 import kr.co.iei.board.model.service.BoardService;
@@ -161,6 +162,25 @@ public class BoardController {
 			}
 			return "redirect:/board/view?boardNo="+b.getBoardNo();
 		}
+	}
+	
+	
+	@PostMapping(value="/insertComment")
+	public String insertComment(BoardComment bc , Model model) {
+		System.out.println(bc);
+		int result = boardService.insertComment(bc);
+		
+		if(result > 0) {
+			model.addAttribute("title", "댓글 작성 성공");
+			model.addAttribute("msg", "댓글이 작성이 되었습니다.");
+			model.addAttribute("icon", "success");
+		}else {
+			model.addAttribute("title", "댓글 작성 실패");
+			model.addAttribute("msg", "댓글이 작성 중 문제가 발생했습니다.");
+			model.addAttribute("icon", "warning");
+		}
+		model.addAttribute("loc","/board/view?check=1&boardNo=" +bc.getCommentBoardNo());
+		return "common/msg";
 	}
 	}
 

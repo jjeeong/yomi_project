@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>가게 소개</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.css" rel="stylesheet">
     
     <style>
@@ -22,22 +21,11 @@
             background-color: #fff;
             padding: 20px;
             width: 100%;
-            
     		width: 1200px;
             margin: 0 auto;
             flex: 1;
             box-sizing: border-box;
         }
-
-
-		body,
-		html {
-			margin: 0;
-			padding: 0;
-			height: 100%;
-			display: flex;
-			flex-direction: column;
-		}
 
         .store-content {
             border: 1px solid #ddd;
@@ -80,7 +68,7 @@
             align-items: center;
         }
         
-        .name{
+               .name{
         	font-size: 20px;
         }
         
@@ -124,129 +112,20 @@
     	 .btn-outline-danger{
     	 	margin-right: 7px;	
     	 }
-			
-		.main-content {
-			background-color: #fff;
-			padding: 20px;
-			width: 100%;
-			height: 1200px;
-			max-width: 1200px;
-			margin: 0 auto;
-			flex: 1;
-			box-sizing: border-box;
-		}
-
-		.thumbnail {
-			background-color: #fff;
-			border-radius: 5px;
-			width: 300px;
+    	 
+    	 .thumbnail{
+			text-align: center;   	 			
+    	 }
+		
+		.thumbnail-img2{
+			width: 250px;
 			height: 200px;
-			margin: 0 auto;
-			border-radius: 15px;
-			overflow: hidden;
+			border-radius: 15px; 
 		}
-
-
-		.thumbnail-img2 {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			object-position: center;
-			border-radius: 15px;
-		}
-
-		.store-info {
-			border: 1px solid #ddd;
-			border-radius: 5px;
-			padding: 10px;
-			background-color: #f8f9fa;
-			width: 100%;
-			margin: 20px 0;
-		}
-
-		.store-content {
-			border: 1px solid #ddd;
-			border-radius: 15px;
-			padding: 15px;
-			background-color: white;
-			width: 100%;
-			margin: 20px 0;
-			margin-bottom: 60px;
-		}
-
-		.comments-section {
-			background-color: #EBEBEB;
-			;
-			border-radius: 15px;
-			padding: 15px;
-		}
-
-		.comments-section h3 {
-			margin-bottom: 15px;
-		}
-
-		.comments-list .comment {
-			padding: 10px;
-			border-bottom: 1px solid #ddd;
-		}
-
-		.comments-list .comment:last-child {
-			border-bottom: none;
-		}
-
-		.comment-text {
-			margin: 0;
-		}
-
-		.comment-actions {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-
-		.name {
-			font-size: 20px;
-		}
-
-		.addr {
-			font-size: 20px;
-		}
-
-		.content {
-			font-size: 18px;
-
-		}
-
-		.btn {
-			float: right;
-		}
-
-		[name=update] {
-			margin-right: 5px;
-			border: none;
-			border-radius: 12px;
-			width: 60px;
-			height: 40px;
-			background-color: #FC7A1E;
-			font-size: 18px;
+		
+		.readCount{
+			font-size: 17px;
 			font-family: g_b;
-			color: #EBEBEB;
-		}
-
-		[name=delete] {
-			border: none;
-			border-radius: 12px;
-			width: 60px;
-			height: 40px;
-			background-color: #FC7A1E;
-			font-size: 18px;
-			font-family: g_b;
-			color: #EBEBEB;
-			margin-top: 0;
-		}
-
-		.btn-outline-danger {
-			margin-right: 7px;
 		}
 	</style>
 </head>
@@ -258,12 +137,12 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12">         
+                    <span class="readCount" th:text="'조회수 : '+${b.readCount}"></span>	
                     <div class="thumbnail">
                         	<img class="thumbnail-img2" th:src="@{'/board/thumbNailImg/' + ${b.thumbNailImg}}"> 
-                        	
                     </div>            
                     	<div class="btn">
-						<button type="button" id="update" name="update" th:onclick="boardUpdate([[${b.boardNo}]])" th:if="${session.member != null && session.member.memberId == b.boardWriter}">수정</button>
+						<button type="button" id="update" name="update" th:onclick="boardUpdate([[${b.boardNo}]]);" th:if="${session.member != null && session.member.memberId == b.boardWriter}">수정</button>
                     	<button type="button" id="delete" name="delete" class="delete" th:onclick="boardDelete([[${b.boardNo}]]);" th:if="${session.member != null && session.member.memberId == b.boardWriter}">삭제</button>
                     	</div>
                     <div class="content-detail">
@@ -282,88 +161,48 @@
                             <span th:utext="${b.boardContent}"></span>   
                         </div>
                     </form>
-                    
                 </div>
                     <div class="btn-like-report">
-                        <button type="button" class="btn btn-outline-primary" onclick="likePost()">게시글 좋아요 <span id="postLikes">0</span></button>
                         <button type="button" class="btn btn-outline-danger" onclick="reportPost()">게시글 신고하기</button>
                     </div> 
-                    <!-- 댓글 구역-->
+<!-- 댓글시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+                 <div th:if="${session.member !=null}" class="inputCommentBox">
+                <form action="/board/insertComment" method="post">
                     <div class="comments-section mt-4">
-                    
                         <h3>댓글</h3>
                         <div id="commentsList" class="comments-list">
-                            <!-- 댓글 -->
+                            <!-- 댓글 리스트 표시 -->
                         </div>
-
                         <div class="comment-form mt-3">
                             <div class="form-group">
                                 <label for="commentInput">댓글 작성</label>
-                                <textarea id="commentInput" class="form-control" rows="3" placeholder="댓글을 입력하세요"></textarea>
+                                <textarea name="commentContent" id="commentInput" class="form-control" rows="3" placeholder="댓글을 입력하세요"></textarea>
+                                <input type="hidden" name="commentWriter" th:value="${session.member.memberId}">
+                                <input type="hidden" name="commentBoardNo" th:value="${b.boardNo}">
+                               
                             </div>
-                            <button type="button" class="btn btn-secondary" onclick="addComment()">댓글 달기</button>
+                            <button name="comment" type="submit" class="btn btn-secondary">댓글 달기</button>
                         </div>
-                        
-                        
                     </div>
-                </div>
+                </form>
+            </div>
+			
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
             </div>
         </div>
-    </main>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.js"></script>
-   <script>
-   function boardUpdate(boardNo){
-	   location.href = "/board/boardUpdate?boardNo="+boardNo;
-   }
-
-    function boardDelete(boardNo){
-        const swal = Swal.mixin({
-            customClass: {
-                confirmButton: "btn btn-point-swal btn-lg",
-                cancelButton: "btn btn-mono-swal btn-lg",
-                title: "point",
-            },
-            buttonsStyling: false
-        });
-
-        swal.fire({
-            title : "게시판 삭제",
-            text:"정말 삭제하시겠습니까?",
-            icon:"question",
-            iconColor : "var(--point1)",
-            showCancelButton : true,
-            cancelButtonText : "취소",
-            confirmButtonText: "삭제",
-        }).then(result=>{
-            if(result.isConfirmed){
-                location.href = "/board/delete?boardNo="+boardNo;
-            }
-        });
-    };
-
-    function submitForm() {
-        var storeName = $('#storeName').val();
-        var storeLocation = $('#storeLocation').val();
-        var content = $('#summernote').val();
-        alert("가게명: " + storeName + "\n위치: " + storeLocation + "\n내용: " + content);
-    }
-
-    // 댓글 추가 기능
-    function addComment() {
-        var commentText = $('#commentInput').val();
-        if (commentText.trim() === "") {
-            alert("댓글을 입력하세요.");
-            return;
-        }
-	}
-        var commentHtml = `
-            <div class="comment">
-                <p class="comment-text">${commentText}</p>
-                <div class="comment-actions">
-                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="likeComment(this)">댓글 좋아요 <span class="commentLikes">0</span></button>
-                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="reportComment(this)">댓글 신고하기</button>
 		<!-- 수진 신고 모달 -->
 		<div class="modal fade insertReportModal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
 			tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -445,53 +284,45 @@
 				</div>
 			</div>
 		</div>
-	</main>
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.js"></script>
-	<script>
+    </main>
+   <script>
+   function boardUpdate(boardNo){
+	   location.href = "/board/boardUpdate?boardNo="+boardNo;
+   }
 
-		function boardDelete(boardNo) {
-			const swal = Swal.mixin({
-				customClass: {
-					confirmButton: "btn btn-point-swal btn-lg",
-					cancelButton: "btn btn-mono-swal btn-lg",
-					title: "point",
-				},
-				buttonsStyling: false
-			});
+    function boardDelete(boardNo){
+        const swal = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-point-swal btn-lg",
+                cancelButton: "btn btn-mono-swal btn-lg",
+                title: "point",
+            },
+            buttonsStyling: false
+        });
 
-			swal.fire({
-				title: "게시판 삭제",
-				text: "정말 삭제하시겠습니까?",
-				icon: "question",
-				iconColor: "var(--point1)",
-				showCancelButton: true,
-				cancelButtonText: "취소",
-				confirmButtonText: "삭제",
-			}).then(result => {
-				if (result.isConfirmed) {
-					location.href = "/board/delete?boardNo=" + boardNo;
-				}
-			});
-		};
-		
-    // 게시글 좋아요 기능
-    function likePost() {
-        var postLikes = $('#postLikes');
-        var currentLikes = parseInt(postLikes.text());
-        postLikes.text(currentLikes + 1);
+        swal.fire({
+            title : "게시판 삭제",
+            text:"정말 삭제하시겠습니까?",
+            icon:"question",
+            iconColor : "var(--point1)",
+            showCancelButton : true,
+            cancelButtonText : "취소",
+            confirmButtonText: "삭제",
+        }).then(result=>{
+            if(result.isConfirmed){
+                location.href = "/board/delete?boardNo="+boardNo;
+            }
+        });
+    };
+
+    function submitForm() {
+        var storeName = $('#storeName').val();
+        var storeLocation = $('#storeLocation').val();
+        var content = $('#summernote').val();
+        alert("가게명: " + storeName + "\n위치: " + storeLocation + "\n내용: " + content);
     }
-
-    // 댓글 좋아요 기능
-    function likeComment(button) {
-        var commentLikes = $(button).find('.commentLikes');
-        var currentLikes = parseInt(commentLikes.text());
-        commentLikes.text(currentLikes + 1);
-    }
+ 
 </script>
-
-
 	<script>
 		//수진-신고
 		//0.sw2 설정
