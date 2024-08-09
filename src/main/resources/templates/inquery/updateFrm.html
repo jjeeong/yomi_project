@@ -94,27 +94,32 @@
 		</section>
 	</main>
 		
-	<script>
-		$("#inqueryContent").summernote({
-			height:500,
-			// 한글로 나옴
-			lang:"ko-KR",
-			// 밑에 세줄 : 텍스트에디터 크기 고정
-			disableResize:true,
-			disableResizeEditor:true,
-			resize:false,
-			//사용자가 어떤 행동을 하면 이 함수가 돌아감
-			callbacks:{
-				//사용자가 이미지를 올리면 동작할 함수 지정
-				onImageUpload:function(files){
-					//이미지를 선택하면 해당 파일을 매개변수로 받음
-					//이미지를 처리할 함수를 실행 -> 이때 매개변수로 첨부한 파일, 에디터객체를 전송
-					//이미지 파일을 서버로 업로드
-					uploadImage(files[0],this);	
-				}
-			}
-		});
 		
+		
+		
+	<script>	
+		// 1. Summernote 에디터를 초기화, onImageUpload 콜백 함수를 설정하여 사용자가 이미지를 업로드할 수 있게 합니다. -> 2. controller로 이동	
+			$('#inqueryContent').summernote({
+				height:500,
+				// 한글로 나옴
+				lang:"ko-KR",
+				// 밑에 세줄 : 텍스트에디터 크기 고정
+				disableResize:true,
+				disableResizeEditor:true,
+				resize:false,
+				//사용자가 어떤 행동을 하면 이 함수가 돌아감
+				callbacks:{
+					//사용자가 이미지를 올리면 동작할 함수 지정
+					onImageUpload:function(files){
+						//이미지를 선택하면 해당 파일을 매개변수로 받음
+						//이미지를 처리할 함수를 실행 -> 이때 매개변수로 첨부한 파일, 에디터객체를 전송
+						//이미지 파일을 서버로 업로드
+						uploadImage(files[0],this);	
+					}
+				}
+			});
+		
+		//controller 후 -> 3.서버에서 반환한 이미지 URL을 Summernote 에디터에 삽입
 		function uploadImage(file, editor){
 			//ajax로 서버에 이미지 업로드
 			//업로드 결과로 업로드된 파일의 filepath를 받아옴
@@ -122,6 +127,7 @@
 			
 			//ajax로 파일 업로드
 			//<form>역할의 객체 생성
+			console.log(1);
 			const form = new FormData();
 			form.append("upfile",file);
 			/*
@@ -147,65 +153,16 @@
 			//			-> enctype 기본값 해제
 			//processData, contentType 기본설정을 해제해야 파일 전송 가능
 			//enctype="multipart/form-data"
-		}	
-	</script>
-	<!-- 
-	<script>
-		function deleteFile(obj, fileNo){
-			swal.fire({
-				title:"파일 삭제",
-				text:"첨부파일을 삭제하시겠습니까?",
-				icon:"info",
-				buttons:{
-					cancel:{
-						text:"취소",
-						value:false,
-						visible:true,
-						className:"btn-secondary",
-						clossModal:true
-					},
-					confirm:{
-						text:"삭제",
-						value:true,
-						visible:true,
-						className:"btn-primary",
-						closeModal:true
-					}
-				}	
-			}).then(function(isConfirm){
-				if(isConfirm){
-					const input = $("<input>");
-					input.attr("name","delFileNo");
-					input.attr("type","hidden");
-					input.val(fileNo);
-					$(".inqueryUpdateFrm").append(input);
-					$(obj).parent().remove();
-				}
-			});						
 		}
-	</script>	
-	 -->
+		
+		
 	
-	 <!-- 수정하기 버튼 클릭 시 -->
-	<script>
-	/*
-		function 123(obj){
-			Swal.fire({
-				title:'문의사항 수정',
-				text:'수정하시겠습니까?',
-				icon:'info',
-				showCancelButton:true,
-				confirmButtonText:'수정',
-				cancelButtonText:'취소',
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33'
-			}).then((result) => {
-				if(result.isConfirmed){
-					const button = $("<button>");
-				}
-			})
-		}
-	*/
+	
+	
+	
+	
+	
+	 <!-- 수정하기 버튼 클릭 시 -->	
 		 $("[name=updateInquery]").on("click",function(event){
 			 
 			 event.preventDefault();
@@ -222,15 +179,11 @@
 					if(result.isConfirmed){
 						$(".inqueryUpdateFrm").submit();
 					}
-				});
-			 
-		 });
-		
-		
-	</script>
+				});		 
+		 });				
 	
-	<!-- 첨부파일 삭제버튼 클릭 시 -->
-	<script>
+	
+	<!-- 첨부파일 삭제버튼 클릭 시 -->	
 		function deleteFile(obj, fileNo) {
 		    Swal.fire({
 		        title: '파일 삭제',

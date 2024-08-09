@@ -15,7 +15,7 @@
 				<h2 class="page-title">게시글 신고 현황</h2>
 			</div>
 			<div class="search">
-				<form action="#" method="get">
+				<form action="/report/searchById" method="get">
 					<input type="text" name="respondentId" class="searchId" placeholder="검색할 아이디를 입력하세요">
 					<button class="btn btn-point">검색</button>
 				</form>
@@ -33,9 +33,10 @@
 										게시글 유형
 									</button>
 									<ul class="dropdown-menu">
-										<li><a class="dropdown-item" href="#">맛집 리스트 리뷰</a></li>
-										<li><a class="dropdown-item" href="#">맛집 추천 게시글</a></li>
-										<li><a class="dropdown-item" href="#">댓글</a></li>
+										<li><a class="dropdown-item" href="/report/checkReport">전체</a></li>
+										<li><a class="dropdown-item" href="/report/searchByBoardType?reportBoardType=1">맛집 리스트 리뷰</a></li>
+										<li><a class="dropdown-item" href="/report/searchByBoardType?reportBoardType=2">맛집 추천 게시글</a></li>
+										<li><a class="dropdown-item" href="/report/searchByBoardType?reportBoardType=3">댓글</a></li>
 									</ul>
 								</div>
 							</th>
@@ -46,12 +47,13 @@
 										신고 사유
 									</button>
 									<ul class="dropdown-menu">
-										<li><a class="dropdown-item" href="#">스팸 홍보/도배</a></li>
-										<li><a class="dropdown-item" href="#">음란물</a></li>
-										<li><a class="dropdown-item" href="#">불법 정보 포함</a></li>
-										<li><a class="dropdown-item" href="#">불쾌한 내용 포함</a></li>
-										<li><a class="dropdown-item" href="#">잘못된 정보 포함</a></li>
-										<li><a class="dropdown-item" href="#">기타</a></li>
+										<li><a class="dropdown-item" href="/report/checkReport">전체</a></li>
+										<li><a class="dropdown-item" href="/report/searchByReportType?reportType=1">스팸 홍보/도배</a></li>
+										<li><a class="dropdown-item" href="/report/searchByReportType?reportType=2">음란물</a></li>
+										<li><a class="dropdown-item" href="/report/searchByReportType?reportType=3">불법 정보 포함</a></li>
+										<li><a class="dropdown-item" href="/report/searchByReportType?reportType=4">불쾌한 내용 포함</a></li>
+										<li><a class="dropdown-item" href="/report/searchByReportType?reportType=5">잘못된 정보 포함</a></li>
+										<li><a class="dropdown-item" href="/report/searchByReportType?reportType=6">기타</a></li>
 									</ul>
 								</div>
 							</th>
@@ -61,14 +63,18 @@
 						</tr>
 					</thead>
 					<tbody>
+						<tr th:if="${list.isEmpty()}" style="color : var(--pointFont); border-bottom:1px solid var(--point1); height: 300px; font-family : g_b; background-color:var(--color1);">
+							<td colspan="7">신고 게시글이 존재하지 않습니다.</td>
+						</tr>
 						<tr th:each="report : ${list}">
 							<td class="check">
 								<input type="checkbox" class="report-check">
+								<input type="hidden" th:value="${report.reportNo}">
 							</td>
 							<td th:text= "${report.respondentId}"></td>
 							<td th:if="${report.reportBoardType==1}">맛집 리스트 리뷰</td>
-							<td th:if="${report.reportBoardType==2}">맛집 게시판 게시글</td>
-							<td th:if="${report.reportBoardType==3}">맛집 게시판 댓글</td>
+							<td th:if="${report.reportBoardType==2}">맛집 추천 게시글</td>
+							<td th:if="${report.reportBoardType==3}">댓글</td>
 							<td th:text="${report.reportType}"></td>
 							<td th:text="${report.reportContent}" class="report-content"></td>
 							<td th:text="${report.respondentContent}"  class="report-board-content"></td>
@@ -83,8 +89,8 @@
 				</table>
 			</div>
 			<div class="btn-box">
-				<button class="btn btn-lg btn-mono">선택 신고 확인</button>
-				<button class="btn btn-lg btn-point">전체 신고 확인</button>
+				<button class="btn btn-lg btn-mono select-delete-btn">선택 신고 삭제</button>
+				<button class="btn btn-lg btn-point select-check-btn">선택 신고 접수</button>
 			</div>
 		</section>
 		
@@ -147,6 +153,7 @@
 		</div>
 	</main>
 	<script>
+		
 		//0.sw2 설정
 	    var reportSwal = Swal.mixin({
 	    				customClass: {
@@ -158,47 +165,10 @@
 	    				color : "var(--mainFont)",
 	    				buttonsStyling: false
 	    			});
-		function checkReport(obj, reportNo){
-			$.ajax({
-				url : "/report/updateReport",
-				type : "get",
-				data : {reportNo : reportNo},
-				success: function(data){
-					if(data>0){
-						reportSwal.fire({
-							title: "신고 체크 완료",
-	            			text: "신고 횟수가 정상적으로 집계되었습니다.",
-	            			icon:"success"
-						}).then(result=>{
-							if(result.isConfirmed){
-								location.href = "/report/checkReport";
-							}
-						});
-					}else{
-						reportSwal.fire({
-							title: "신고 체크 실패",
-	            			text: "체크할 신고글이 존재하지 않습니다.",
-	            			icon:"error"
-						}).then(result=>{
-							if(result.isConfirmed){
-								location.href = "/report/checkReport";
-							}
-						});
-					}//if/else
-				},//success
-				error : function(){
-					reportSwal.fire({
-						title : "시스템 오류",
-						text : "시스템 오류가 발생했습니다. 나중에 다시 시도해주세요",
-						icon : "error"
-					});
-				},//error
-				complete : function(){
-					$("#staticBackdrop").modal("hide");
-				}
-			});//ajax 끝
-			
-		}//checkReport
+		function updateReport(obj, reportNo){
+			location.href = "/report/updateReport?reportNo="+reportNo;
+		}//updateReport
+		
 		function showReport(obj, reportNo){
 			let reportBoardType = $(obj).parent().parent().prev().prev().prev().prev().text();
 			console.log(reportBoardType);
@@ -213,15 +183,23 @@
 						$("span#reporter-id").text(data.reporterId);
 						$("span#report-type").text(data.reportType);
 						$("div#reportContent").text(data.reportContent);
+						if(data.reportBoardType==2){
+							const reportBoardNo = data.reportBoardNo;
+							const content = "맛집게시판은 미리보기 할 수 없습니다.<br>더보기를 통해 이동해주세요.<br><a href='/board/view?boardNo="+reportBoardNo+"' style='display :block; text-align:center;'>더보기</a>";
+							$("div#respondentContent").html(content);
+						}else{
 						$("div#respondentContent").text(data.respondentContent);
+						}
+						
 						$("div.modal-footer").children(".btn-point-modal").on("click", function(){
-							checkReport(obj, reportNo);
+							updateReport(obj, reportNo);
 						});
 						$("div.modal-footer").children(".btn-mono-modal").on("click", function(){
 							deleteReport(obj, reportNo);
 						});
 					}//if
 					else{
+						$("#staticBackdrop").modal("hide");
 						reportSwal.fire({
 							title: "신고 조회 실패",
 	            			text: "해당 신고글이 존재하지 않습니다.",
@@ -234,12 +212,12 @@
 					}
 				},
 				error : function(){
+					$("#staticBackdrop").modal("hide");
 					reportSwal.fire({
 						title : "시스템 오류",
 						text : "시스템 오류가 발생했습니다. 나중에 다시 시도해주세요",
 						icon : "error"
 					});
-					$("#staticBackdrop").modal("hide");
 				}
 			});//ajax 끝
 		}//showRepoprt
@@ -254,49 +232,73 @@
 		        cancelButtonText : "취소",
 		        confirmButtonText: "삭제",
 		    }).then(result=>{
-		        	if(result.isConfirmed){
-		        		$.ajax({
-		    				url : "/report/deleteReport",
-		    				type : "get",
-		    				data : {reportNo : reportNo},
-		    				success: function(data){
-		    					if(data>0){
-		    						reportSwal.fire({
-		    							title: "신고 삭제 완료",
-		    	            			text: "신고 내역이 정상적으로 삭제 되었습니다.",
-		    	            			icon:"success"
-		    						}).then(result=>{
-		    							if(result.isConfirmed){
-		    								location.href = "/report/checkReport";
-		    							}
-		    						});
-		    					}else{
-		    						reportSwal.fire({
-		    							title: "신고 삭제 실패",
-		    	            			text: "삭제할 신고글이 존재하지 않습니다.",
-		    	            			icon:"error"
-		    						}).then(result=>{
-		    							if(result.isConfirmed){
-		    								location.href = "/report/checkReport";
-		    							}
-		    						});
-		    					}//if/else
-		    				},//success
-		    				error : function(){
-		    					reportSwal.fire({
-		    						title : "시스템 오류",
-		    						text : "시스템 오류가 발생했습니다. 나중에 다시 시도해주세요",
-		    						icon : "error"
-		    					});
-		    				},//error
-		    				complete : function(){
-		    					$("#staticBackdrop").modal("hide");
-		    				}
-		    			});//ajax 끝
-		        	}//if
-		        });
+		        if(result.isConfirmed){
+		        		location.href="/report/deleteReport?reportNo="+reportNo;
+		        }//if
+		    });
 		}//deleteReport
 		
+		//선택 신고 삭제
+		$("button.select-delete-btn").on("click", function(){
+			reportSwal.fire({
+		        title : "선택 신고글 삭제",
+		        text:"정말 삭제하시겠습니까?",
+		        icon:"question",
+		        iconColor : "var(--point1)",
+		        showCancelButton : true,
+		        cancelButtonText : "취소",
+		        confirmButtonText: "삭제",
+		    }).then(result=>{
+		        if(result.isConfirmed){
+						const delReportList = $("input[type=checkbox].report-check:checked");
+						const delList = new Array();
+						delReportList.each(function(index,item){
+							delList.push($(item).next().val());
+						})
+						if(delList.length == 0){
+							reportSwal.fire({
+								title : "신고 삭제 불가",
+								text : "선택한 신고 글이 없습니다.",
+								icon : "error"
+							});
+							return;
+						}
+						const delString = delList.join("&reportNo=");
+		        		location.href="/report/deleteReport?reportNo="+delString;
+		        }//if
+		    });
+		});
+		
+		//선택 신고 접수
+		$("button.select-check-btn").on("click", function(){
+			reportSwal.fire({
+		        title : "선택 신고글 접수",
+		        text:"선택한 신고글을 모두 접수 하시겠습니까?",
+		        icon:"question",
+		        iconColor : "var(--point1)",
+		        showCancelButton : true,
+		        cancelButtonText : "취소",
+		        confirmButtonText: "접수",
+		    }).then(result=>{
+		        if(result.isConfirmed){
+						const checkReportList = $("input[type=checkbox].report-check:checked");
+						const checkList = new Array();
+						checkReportList.each(function(index,item){
+							checkList.push($(item).next().val());
+						})
+						if(checkList.length == 0){
+							reportSwal.fire({
+								title : "신고 접수 불가",
+								text : "선택한 신고 글이 없습니다.",
+								icon : "error"
+							});
+							return;
+						}
+						const checkString = checkList.join("&reportNo=");
+		        		location.href="/report/updateReport?reportNo="+checkString;
+		        }//if
+		    });
+		});
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
