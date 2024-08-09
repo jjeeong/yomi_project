@@ -122,8 +122,24 @@ public class RestrController {
 	// 맛집 리스트 더보기
 	@ResponseBody
 	@GetMapping(value = "/more")
-	public List photoMore(int start, int amount) {
-		List list = restrService.selectRestrList(start, amount);
+	public List photoMore(int start, int amount, String selectedValue) {
+		List<Restaurant> list = restrService.selectRestrList(start, amount, selectedValue);
+		for (Restaurant restr : list) {
+			Double restrStar = restrService.RestrStarAvg(restr.getRestrNo());
+			restr.setStar(restrStar);
+		}
+		return list;
+	}
+	
+	// 검색
+	@ResponseBody
+	@GetMapping(value = "/restrSearch") 
+	public List restrSearch(String searchKeyword, String selectedValue) {
+		List<Restaurant> list = restrService.restrSearch(searchKeyword, selectedValue);
+		for (Restaurant restr : list) {
+			Double restrStar = restrService.RestrStarAvg(restr.getRestrNo());
+			restr.setStar(restrStar);
+		}
 		return list;
 	}
 
@@ -157,7 +173,13 @@ public class RestrController {
 	@ResponseBody
 	@PostMapping(value = "/reviewLikePush")
 	public int reviewLikePush(int reviewNo, int isReviewLike, @SessionAttribute(required = false) Member member) {
-		return 0;
+		if (member == null) {
+			return -10;
+		} else {
+			int memberNo = member.getMemberNo();
+			int result = restrService.reviewLikePush(reviewNo, isReviewLike, memberNo);
+			return result;
+		}
 	}
 		
 	// 리뷰 작성
@@ -209,13 +231,19 @@ public class RestrController {
 			int result = restrService.writeReview(review, reviewImgList);
 			
 			//리뷰 키워드 삽입
-			if (result > 0 && keywords != null) {			
-				int tagResult = restrService.insertKeyword(reviewNo, keywords);
+			if(keywords.length > 5) {
+				model.addAttribute("title", "키워드 개수 초과");
+				model.addAttribute("msg", "키워드 수는 최대 5개입니다.");
+				model.addAttribute("icon", "error");
+				model.addAttribute("loc", "restrView?restrNo=" + restaurant.getRestrNo());
+				return "common/msg2";
+			} else {				
+				if (result > 0 && keywords != null) {
+					int tagResult = restrService.insertKeyword(reviewNo, keywords);
+				}
 			}
-			
 			return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();
-		}
-		
+		}	
 	}
 
 	// 리뷰 작성 페이지 로그인 확인
@@ -232,7 +260,7 @@ public class RestrController {
 	// 맛집 리뷰 목록 불러오기
 	@ResponseBody
 	@GetMapping(value = "/reviewMore")
-	public List reviewMore(int start, int amount, int restrNo) {
+	public List reviewMore(int start, int amount, int restrNo, @SessionAttribute(required = false) Member member) {
 		//리뷰 리스트 불러오기
 		List<Review> reviewList = restrService.selectReviewList(start, amount, restrNo);
 		
@@ -243,11 +271,17 @@ public class RestrController {
 			
 			review.setReviewTag(reviewTagList);
 			review.setReviewImg(reviewImgList);
-		}
-		
+			
+			if(member != null) {				
+				int isReviewLike = restrService.selectIsReviewLike(reviewNo, member.getMemberNo());
+				review.setIsReviewLike(isReviewLike);
+			}
+		}	
 		return reviewList;
 	}
 	
+	//---------------------------------------------------------------------------
+	// 헷갈려서 나눠두겠습니다 위쪽 정원 / 아래쪽 수진
 
 	@GetMapping(value = "/writeFrm")
 	public String writeFrm() {
@@ -357,6 +391,7 @@ public class RestrController {
 		model.addAttribute("loc", "/restaurant/restrView?restrNo="+r.getRestrNo());
 		return "common/msg2";
 	}
+	
 	@GetMapping(value="/deleteRestr")
 	public String deleteRestr(int restrNo, Model model) {
 		List<String> delFilepath = new ArrayList<String>();
