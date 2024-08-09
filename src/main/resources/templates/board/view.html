@@ -20,8 +20,8 @@
             background-color: #fff;
             padding: 20px;
             width: 100%;
-            height : 1200px;
-            max-width: 1200px;
+            
+    		width: 1200px;
             margin: 0 auto;
             flex: 1;
             box-sizing: border-box;
@@ -59,9 +59,11 @@
             border-radius: 15px;
             padding: 15px;
             background-color: white;
-            width: 100%;
             margin: 20px 0;
         	margin-bottom: 60px;
+        }
+        .store-content img {
+        	max-width: 900px;
         }
 
         .comments-section {
@@ -151,10 +153,11 @@
                 <div class="col-12">         
                     <div class="thumbnail">
                         	<img class="thumbnail-img2" th:src="@{'/board/thumbNailImg/' + ${b.thumbNailImg}}"> 
-                    </div>
+                        	
+                    </div>            
                     	<div class="btn">
-						<button type="button" id="update" name="update">수정</button>
-                    	<button type="button" id="delete" name="delete" class="delete" th:onclick="boardDelete([[${b.boardNo}]]);">삭제</button>
+						<button type="button" id="update" name="update" th:onclick="boardUpdate([[${b.boardNo}]])" th:if="${session.member != null && session.member.memberId == b.boardWriter}">수정</button>
+                    	<button type="button" id="delete" name="delete" class="delete" th:onclick="boardDelete([[${b.boardNo}]]);" th:if="${session.member != null && session.member.memberId == b.boardWriter}">삭제</button>
                     	</div>
                     <div class="content-detail">
                         <div class="form-group">
@@ -201,78 +204,82 @@
             </div>
         </div>
     </main>
-	<th:block th:include="common/footer"></th:block>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.js"></script>
-    <script>
-    
-	function boardDelete(boardNo){
-		const swal = Swal.mixin({
-    	    customClass: {
-    	        confirmButton: "btn btn-point-swal btn-lg",
-    	        cancelButton: "btn btn-mono-swal btn-lg",
-    	        title: "point",
-    	    },
-    	    buttonsStyling: false
-    	});
+   <script>
+   function boardUpdate(boardNo){
+	   location.href = "/board/boardUpdate?boardNo="+boardNo;
+   }
 
-    	swal.fire({
-    		title : "게시판 삭제",
-    		text:"정말 삭제하시겠습니까?",
-    		icon:"question",
-    		iconColor : "var(--point1)",
-    		showCancelButton : true,
-    		cancelButtonText : "취소",
-    	    confirmButtonText: "삭제",
-    	}).then(result=>{
-    		if(result.isConfirmed){
-	            location.href = "/board/delete?boardNo="+boardNo;
-    		}
-    	});
-	};
-        function submitForm() {
-            var storeName = $('#storeName').val();
-            var storeLocation = $('#storeLocation').val();
-            var content = $('#summernote').val();
-            alert("가게명: " + storeName + "\n위치: " + storeLocation + "\n내용: " + content);
-        }
+    function boardDelete(boardNo){
+        const swal = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-point-swal btn-lg",
+                cancelButton: "btn btn-mono-swal btn-lg",
+                title: "point",
+            },
+            buttonsStyling: false
+        });
 
-        // 댓글 추가 기능
-        function addComment() {
-            var commentText = $('#commentInput').val();
-            if (commentText.trim() === "") {
-                alert("댓글을 입력하세요.");
-                return;
+        swal.fire({
+            title : "게시판 삭제",
+            text:"정말 삭제하시겠습니까?",
+            icon:"question",
+            iconColor : "var(--point1)",
+            showCancelButton : true,
+            cancelButtonText : "취소",
+            confirmButtonText: "삭제",
+        }).then(result=>{
+            if(result.isConfirmed){
+                location.href = "/board/delete?boardNo="+boardNo;
             }
+        });
+    };
 
-            var commentHtml = `
-                <div class="comment">
-                    <p class="comment-text">${commentText}</p>
-                    <div class="comment-actions">
-                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="likeComment(this)">댓글 좋아요 <span class="commentLikes">0</span></button>
-                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="reportComment(this)">댓글 신고하기</button>
-                    </div>
+    function submitForm() {
+        var storeName = $('#storeName').val();
+        var storeLocation = $('#storeLocation').val();
+        var content = $('#summernote').val();
+        alert("가게명: " + storeName + "\n위치: " + storeLocation + "\n내용: " + content);
+    }
+
+    // 댓글 추가 기능
+    function addComment() {
+        var commentText = $('#commentInput').val();
+        if (commentText.trim() === "") {
+            alert("댓글을 입력하세요.");
+            return;
+        }
+
+        var commentHtml = `
+            <div class="comment">
+                <p class="comment-text">${commentText}</p>
+                <div class="comment-actions">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="likeComment(this)">댓글 좋아요 <span class="commentLikes">0</span></button>
+                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="reportComment(this)">댓글 신고하기</button>
                 </div>
-            `;
+            </div>
+        `;
 
-            $('#commentsList').append(commentHtml);
-            $('#commentInput').val(""); // 입력 필드 초기화
-        }
+        $('#commentsList').append(commentHtml);
+        $('#commentInput').val(""); // 입력 필드 초기화
+    }
 
-        // 게시글 좋아요 기능
-        function likePost() {
-            var postLikes = $('#postLikes');
-            var currentLikes = parseInt(postLikes.text());
-            postLikes.text(currentLikes + 1);
-        }
+    // 게시글 좋아요 기능
+    function likePost() {
+        var postLikes = $('#postLikes');
+        var currentLikes = parseInt(postLikes.text());
+        postLikes.text(currentLikes + 1);
+    }
 
-        // 댓글 좋아요 기능
-        function likeComment(button) {
-            var commentLikes = $(button).find('.commentLikes');
-            var currentLikes = parseInt(commentLikes.text());
-            commentLikes.text(currentLikes + 1);
-        }
-    </script>
+    // 댓글 좋아요 기능
+    function likeComment(button) {
+        var commentLikes = $(button).find('.commentLikes');
+        var currentLikes = parseInt(commentLikes.text());
+        commentLikes.text(currentLikes + 1);
+    }
+</script>
+	<th:block th:include="common/footer"></th:block>
 </body>
 </html>

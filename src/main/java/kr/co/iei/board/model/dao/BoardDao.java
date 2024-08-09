@@ -116,6 +116,27 @@ public class BoardDao {
 		return result;
 	}
 
+	public int updateBoard(Board b) {
+		String query = "update board set thumnail_img=?, board_store_name=?,board_title=?,board_addr=?, board_content=? where board_no=?";
+		Object[] params = {b.getThumbNailImg(),b.getBoardStoreName(),b.getBoardTitle(),b.getBoardAddr(),b.getBoardContent(),b.getBoardNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public BoardFile selectOneBoardFile(int fileNo) {
+		String query = "select * from board_file where file_no=?";
+		Object[] params = {fileNo};
+		List list = jdbc.query(query, boardFileRowMapper,params);
+		return (BoardFile)list.get(0);
+	}
+
+	public int deleteBoardFile(int fileNo) {
+		String query = "delete from board_file where file_no=?";
+		Object[] params= {fileNo};
+		int result = jdbc.update(query,params);				
+		return result;
+	}
+
 	
 
 
