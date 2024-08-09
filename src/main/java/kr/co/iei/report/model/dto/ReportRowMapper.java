@@ -18,6 +18,7 @@ public class ReportRowMapper implements RowMapper<Report>{
 		r.setReportReviewNo(rs.getInt("report_review_no"));
 		r.setReporterId(rs.getString("reporter_id"));
 		r.setRespondentContent(rs.getString("respondent_content"));
+		r.setReportBoardType(rs.getInt("report_board_type"));
 		return r;
 	}
 

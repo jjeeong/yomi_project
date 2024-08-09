@@ -15,7 +15,7 @@
 				<h2 class="page-title">게시글 신고 현황</h2>
 			</div>
 			<div class="search">
-				<form action="#" method="get">
+				<form action="/report/searchById" method="get">
 					<input type="text" name="respondentId" class="searchId" placeholder="검색할 아이디를 입력하세요">
 					<button class="btn btn-point">검색</button>
 				</form>
@@ -33,9 +33,10 @@
 										게시글 유형
 									</button>
 									<ul class="dropdown-menu">
-										<li><a class="dropdown-item" href="#">맛집 리스트 리뷰</a></li>
-										<li><a class="dropdown-item" href="#">맛집 추천 게시글</a></li>
-										<li><a class="dropdown-item" href="#">댓글</a></li>
+										<li><a class="dropdown-item" href="/report/checkReport">전체</a></li>
+										<li><a class="dropdown-item" href="/report/searchByBoardType?reportBoardType=1">맛집 리스트 리뷰</a></li>
+										<li><a class="dropdown-item" href="/report/searchByBoardType?reportBoardType=2">맛집 추천 게시글</a></li>
+										<li><a class="dropdown-item" href="/report/searchByBoardType?reportBoardType=3">댓글</a></li>
 									</ul>
 								</div>
 							</th>
@@ -46,12 +47,13 @@
 										신고 사유
 									</button>
 									<ul class="dropdown-menu">
-										<li><a class="dropdown-item" href="#">스팸 홍보/도배</a></li>
-										<li><a class="dropdown-item" href="#">음란물</a></li>
-										<li><a class="dropdown-item" href="#">불법 정보 포함</a></li>
-										<li><a class="dropdown-item" href="#">불쾌한 내용 포함</a></li>
-										<li><a class="dropdown-item" href="#">잘못된 정보 포함</a></li>
-										<li><a class="dropdown-item" href="#">기타</a></li>
+										<li><a class="dropdown-item" href="/report/checkReport">전체</a></li>
+										<li><a class="dropdown-item" href="/report/searchByReportType?reportType=1">스팸 홍보/도배</a></li>
+										<li><a class="dropdown-item" href="/report/searchByReportType?reportType=2">음란물</a></li>
+										<li><a class="dropdown-item" href="/report/searchByReportType?reportType=3">불법 정보 포함</a></li>
+										<li><a class="dropdown-item" href="/report/searchByReportType?reportType=4">불쾌한 내용 포함</a></li>
+										<li><a class="dropdown-item" href="/report/searchByReportType?reportType=5">잘못된 정보 포함</a></li>
+										<li><a class="dropdown-item" href="/report/searchByReportType?reportType=6">기타</a></li>
 									</ul>
 								</div>
 							</th>
@@ -71,8 +73,8 @@
 							</td>
 							<td th:text= "${report.respondentId}"></td>
 							<td th:if="${report.reportBoardType==1}">맛집 리스트 리뷰</td>
-							<td th:if="${report.reportBoardType==2}">맛집 게시판 게시글</td>
-							<td th:if="${report.reportBoardType==3}">맛집 게시판 댓글</td>
+							<td th:if="${report.reportBoardType==2}">맛집 추천 게시글</td>
+							<td th:if="${report.reportBoardType==3}">댓글</td>
 							<td th:text="${report.reportType}"></td>
 							<td th:text="${report.reportContent}" class="report-content"></td>
 							<td th:text="${report.respondentContent}"  class="report-board-content"></td>
@@ -181,7 +183,14 @@
 						$("span#reporter-id").text(data.reporterId);
 						$("span#report-type").text(data.reportType);
 						$("div#reportContent").text(data.reportContent);
+						if(data.reportBoardType==2){
+							const reportBoardNo = data.reportBoardNo;
+							const content = "맛집게시판은 미리보기 할 수 없습니다.<br>더보기를 통해 이동해주세요.<br><a href='/board/view?boardNo="+reportBoardNo+"' style='display :block; text-align:center;'>더보기</a>";
+							$("div#respondentContent").html(content);
+						}else{
 						$("div#respondentContent").text(data.respondentContent);
+						}
+						
 						$("div.modal-footer").children(".btn-point-modal").on("click", function(){
 							updateReport(obj, reportNo);
 						});

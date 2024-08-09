@@ -21,6 +21,7 @@ public class BoardRowMapper implements RowMapper<Board>{
 		b.setReadCount(rs.getInt("board_readCount"));
 		b.setThumbNailImg(rs.getString("thumnail_img"));
 		b.setBoardStoreName(rs.getNString("board_store_name"));
+		b.setBoardWriter(rs.getString("board_writer"));
 		return b;
 	}
 

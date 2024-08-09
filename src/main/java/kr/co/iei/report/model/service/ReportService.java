@@ -1,5 +1,6 @@
 package kr.co.iei.report.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,36 @@ public class ReportService {
 			return result;
 		}
 		return 0;
+	}
+	
+	@Transactional
+	public int insertBoardReport(Report r) {
+		int result = reportDao.insertBoardReport(r);
+		return result;
+	}
+	@Transactional
+	public int insertBoardCommentReport(Report r) {
+		int result = reportDao.insertBoardCommentReport(r);
+		return result;
+	}
+
+	public List searchByReportType(String reportTypeString) {
+		List list = reportDao.searchByReportType(reportTypeString);
+		return list;
+	}
+
+	public List searchByReportTypeETC() {
+		List list = reportDao.searchByReportTypeETC();
+		return list;
+	}
+
+	public List searchByBoardType(int reportBoardType) {
+		List list = reportDao.searchByBoardType(reportBoardType);
+		return list;
+	}
+
+	public List searchById(String respondentId) {
+		List list = reportDao.searchById(respondentId);
+		return list;
 	}
 }
