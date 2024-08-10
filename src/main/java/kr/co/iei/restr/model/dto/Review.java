@@ -21,4 +21,7 @@ public class Review {
 	private List<ReviewImg> reviewImg;
 	private int isReviewLike;
 	private int reviewLikeCount;
+	private String restrName;
+	private String restrImg1;
+	private String restrAddr1;
 }

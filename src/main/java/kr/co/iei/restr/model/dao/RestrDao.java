@@ -15,6 +15,7 @@ import kr.co.iei.restr.model.dto.RestrMenu;
 import kr.co.iei.restr.model.dto.RestrMenuRowMapper;
 import kr.co.iei.restr.model.dto.RestrTagRowMapper;
 import kr.co.iei.restr.model.dto.Review;
+import kr.co.iei.restr.model.dto.ReviewDataRowMapper;
 import kr.co.iei.restr.model.dto.ReviewImg;
 import kr.co.iei.restr.model.dto.ReviewImgRowMapper;
 import kr.co.iei.restr.model.dto.ReviewRowMapper;
@@ -50,6 +51,9 @@ public class RestrDao {
 
 	@Autowired
 	private BestRestrRowMapper bestRestrRowMapper;
+	
+	@Autowired
+	private ReviewDataRowMapper reviewDataRowMapper;
 
 	@Autowired
 	private BestReviewRowMapper bestReviewRowMapper;
@@ -200,6 +204,17 @@ public class RestrDao {
 		String query = "select count(*) from restaurant";
 		int restrTotalCount = jdbc.queryForObject(query, Integer.class);
 		return restrTotalCount;
+	}
+	
+	public int submitRestrTotalCount(String searchKeyword) {
+		String query = "SELECT COUNT(DISTINCT restr_no) AS total_count\r\n" + 
+				"FROM RESTAURANT\r\n" + 
+				"LEFT JOIN restr_tag USING (restr_no)\r\n" + 
+				"LEFT JOIN restr_menu USING (restr_no)\r\n" + 
+				"WHERE restr_tag_name LIKE ? OR restr_menu_name LIKE ? OR restr_name LIKE ?";
+		Object[] params = {"%"+searchKeyword +"%","%"+searchKeyword+"%","%"+searchKeyword+"%"}; 
+ 		int submitRestrTotalCount = jdbc.queryForObject(query, Integer.class, params);
+		return submitRestrTotalCount;
 	}
 
 	public List selectRestrMenu(int restrNo) {
@@ -467,5 +482,24 @@ public class RestrDao {
 		List list = jdbc.query(query, bestReviewRowMapper);
 		return list;
 	}
+
+	
+	public List selectAllReview(int start, int end) {
+		String query = "select restr_no, review_no, review_star, review_content, review_reg_date, member_name, restr_img1, restr_name, restr_addr1\r\n" + 
+				"from (select rownum as rnum, review.* from (select * from review order by review_no desc)review) \r\n" + 
+				"left join member_tbl using (member_no) \r\n" + 
+				"left join RESTAURANT using (restr_no) \r\n" + 
+				"where rnum between ? and ?";
+		Object[] params = {start, end};
+		List list = jdbc.query(query, reviewDataRowMapper, params);
+		return list;
+	}
+
+	public int selectReviewCount() {
+		String query = "select count(*) from review";
+		int result = jdbc.queryForObject(query, Integer.class);
+		return result;
+	}
+
 
 }

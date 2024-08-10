@@ -13,20 +13,25 @@
 		<div class="main1">
 	        <div class="container page1">
 	            <div class="title">회원가입</div>
-	            
+
+					<div class="form-group1 no0">
+						<input type="checkbox" id="allCheck" >
+						<label for="allCheck"><span>전체 동의하기</span>
+					</div>
+
 	                <div class="form-group1 no1">
 	                    <input type="checkbox" id="ageCheck" class="essential1">
 	                    <label for="ageCheck"><span>만 14세 이상입니다 (필수)</span>
 	                </div>
 	                <div class="form-group1 no2">
 	                    <input type="checkbox" id="termsCheck" class="essential2">
-	                    <label for="termsCheck"><span>이용약관 동의 (필수)</span>&numsp;&numsp;&numsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-	                        <a href="#">내용보기</a></label>
+	                    <label for="termsCheck"><span>이용약관 동의 (필수)</span>&numsp;&numsp;&numsp;&numsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+	                        <a class="indetail1">내용보기</a></label>
 	                </div>
 	                <div class="form-group1 no3">
 	                    <input type="checkbox" id="personalInfoCheck" name="check" class="essential3">
 	                    <label for="personalInfoCheck"><span>개인 정보 수집 및 이용 동의 (필수)</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-	                        <a href="#">내용보기</a></label>
+	                        <a class="indetail2">내용보기</a></label>
 	                </div>
 	                <table class="PIC-tbl">
 	                    <tr>
@@ -48,7 +53,7 @@
 	                <div class="form-group1 no4">
 	                    <input type="checkbox" id="optionalInfoCheck" name="check">
 	                    <label for="optionalInfoCheck"><span>선택 정보 수집 및 이용 동의</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-	                        <a href="#">내용보기</a></label>
+	                        <a class="indetail3">내용보기</a></label>
 	                </div>
 	                <table class="PIC-tbl">
 	                    <tr>
@@ -119,6 +124,12 @@
 	                                <span class="material-icons done">done</span>
 	                            </div>
 	                            <p class="input-msg email-check-msg"></p>
+	                            <div class="certification">
+		                            <div class="section-title">인증하기</div>
+		                            <div>
+		                            	<button type="button" id="sendBtn">인증하기</button>
+		                            </div>
+		                        </div>
 	                        </div>
 	                        <div class="form-section">
 	                            <div class="section-title">개인정보</div>
@@ -134,8 +145,12 @@
 	                            </div>
 	                            <p class="input-msg birth-check-msg"></p>
 	                            <div class="form-group2 phone-group">
-	                                <input type="text" class="phone" name="memberPhone" placeholder="휴대폰 번호  -없이 입력" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="11" >
-	                                <button class="input-btn"type="button">인증하기</button>
+	                                <input type="text" class="phone1" id="Phone1" placeholder="000" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="3" >
+	                                <span class="bar">-</span>
+	                                <input type="text" class="phone2" id="Phone2" placeholder="0000" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="4" >
+	                                <span class="bar">-</span>
+	                                <input type="text" class="phone3" id="Phone3" placeholder="0000" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="4" >
+	                                <input type="hidden" name=memberPhone>
 	                            </div>
 	                            <p class="input-msg phone-check-msg"></p>
 	                            <div class="section-title">주소</div>
@@ -162,8 +177,344 @@
 	                </form>
 	            </div>
 	        </div>
+			<main>
+				<div class="view-details">
+					<div class="container page3 close">
+						<span class="material-icons back1" >arrow_back</span>
+						<div class="title" >이용약관</div>
+							<div class="content-page">
+								<p class="text-right">시행일 : 2024년 08월 08일</p>
+								
+								<p style="margin-top: 60px;">◈ 제 1 장 ◈</p>
+								<br><br>
+								<p>총 칙</p>
+								<br><br>
+								<p>제 1조 (목적)</p>
+								<br>
+								<p>본 약관은 kh정보교육원-AClass(주)에서 운영하는 맛집 평가 YOMi 사이트에서 제공하는 인터넷 관련 서비스(이하 "서비스"라 한다)의 이용 조건 및 절차에 관한 사항을 규정함을 목적으로 합니다.</p>
+								<br><br>
+								<p>제 2조</p>
+								<br>
+								<p style="margin-left: 60px;">2.1 본 약관은 서비스 화면에 게시하거나 그 외의 방법으로 이용자에게 공시함으로써 효력을 발생합니다.</p>
+								<br>
+								<p style="margin-left: 60px;">2.2 회사는 영업상 중요한 사유가 있을 때 약관을 변경할 수 있으며, 변경된 약관은 전 항과 같은 방법으로 효력을 발생합니다.</p>
+								<br><br>
+								<p>제 3조 (정의)</p>
+								<br>
+								<p>"회원"이란 YOMI 회원으로 적합하다고 인정하는 개인으로서 본 약관에 동의하고 회원 가입 양식을 작성하고 아이디와 비밀번호를 발급 받은 자를 말합니다.</p>
+								<br><br>
+								<p>제 4조 (약관의 공지 및 준용)</p>
+								<br>
+								<p style="margin-left: 60px;">4.1 회사는 약관의규제에관한법률, 전자거래기본법, 전자서명법, 정보통신망이용촉진등에관한법률, 방문판매등에관한법률, 소비자보호법 등 관련법을 위배하지 않는 범위에서 이 약관을 개정할 수 있습니다.</p>
+								<br>
+								<p style="margin-left: 60px;">4.2 회사는 약관을 개정할 경우에는 적용 일자 및 개정 사유를 명시하여 현행 약관과 함께 초기 화면에 그 적용 일자 7일 이전부터 적용 일자 전일까지 공지합니다. 단, 회원의 연락처 미기재, 변경 후 미수정 등으로 인하여 개별 통지가 어려운 경우 공지를 개별 통지로 간주합니다.</p>
+								<br>
+								<p style="margin-left: 60px;">4.3 회원은 변경된 약관이 공지된 후 15일 이내에 거부의사를 표명할 수 있습니다. 회원이 거부하는 경우 회사는 당해 회원과의 계약을 해지(회원탈퇴)할 수 있습니다. 만약 회원이 변경된 약관이 공지된 후 15일 이내에 회원 탈퇴를 하지 않는 경우에는 개정 약관에 동의하는 것으로 간주합니다.</p>
+								<br>
+		
+								<p>제 5조 (서비스의 변경)</p>
+								<br>
+								<p style="margin-left: 60px;">5.1 회사는 불가피한 여건이나 사정이 있는 경우 서비스의 내용을 변경하거나 중단할 수 있습니다.</p>
+								<br>
+								<p style="margin-left: 60px;">5.2 회사는 1항의 사유로 서비스 내용이 변경 또는 중단되는 경우, 이로 인하여 회원 또는 제 3자가 입은 손해에 대하여는 배상하지 아니합니다.</p>
+								<br><br>
+								<p>제 6조 (약관 외 준칙)</p>
+								<br>
+								<p>본 약관에 명시되지 않은 사항은 전자거래기본법, 전자서명법, 통신판매법 및 기타 관련 법령의 규정에 의합니다./p>
+								<br><br>
+								<p>◈ 제 2 장◈</p>
+								<br><br>
+								<p>회원가입계약</p>
+								<br><br>
+								<p>제 7조 (이용 계약의 성립)</p>
+								<br>
+								<p style="margin-left: 60px;">7.1 이용계약은 회원이 되고자 하는 자(이하 “가입신청자”)가 약관의 내용에 동의를 하고, 회사가 정한 가입 양식에 따라 회원정보를 기입하여 회원가입신청을 하고 회사가 이러한 신청에 대하여 승인함으로써 체결됩니다.</p>
+								<br>
+								<p style="margin-left: 60px;">7.2 회사는 다음 각 호에 해당하는 신청에 대하여는 승인하지 않거나 사후에 이용계약을 해지할 수 있습니다.</p>
+								<br>
+								<p style="margin-left: 80px;">7.2.1 가입신청서의 내용을 허위로 기재하거나 기재누락∙오기가 있는 경우</p>
+								<p style="margin-left: 80px;">7.2.2 다른 사람의 명의, E-mail, 연락처 등을 이용한 경우</p>
+								<p style="margin-left: 80px;">7.2.3 관계법령에 위배되거나 사회의 안녕질서 또는 미풍양속을 저해할 목적으로 신청한 경우</p>
+								<p style="margin-left: 80px;">7.2.4 가입신청자가 본 약관에 의하여 이전에 회원자격을 상실한 적이 있는 경우, 단 회사의 사전재가입 승낙을 얻은 경우에는 예외로 함</p>
+								<p style="margin-left: 80px;">7.2.5 회원의 귀책사유로 인하여 승인이 불가능한 경우</p>
+								<p style="margin-left: 80px;">7.2.6 이미 가입된 회원과 전화번호나 E-mail 정보가 동일한 경우</p>
+								<p style="margin-left: 80px;">7.2.7 부정한 용도 또는 영리를 추구할 목적으로 본 서비스를 이용하고자 하는 경우</p>
+								<p style="margin-left: 80px;">7.2.8 타 본 약관에 위배되거나 위법 또는 부당한 이용 신청임이 확인된 경우 및 회사가 합리적인 판단에 의하여 필요하다고 인정하는 경우</p>
+								<p style="margin-left: 80px;">7.2.9 14세 미만의 아동이 신청할 경우</p>
+								<p style="margin-left: 80px;">7.2.10 계약의 성립 시기는 회사가 ‘가입 완료’ 사실을 신청 절차 상에 표시하거나 별도로 통지한 시점으로 합니다.</p>
+								<br><br>
+								<p>제 8조 (회원 가입)</p>
+								<br>
+								<p style="margin-left: 60px;">8.1 YOMI의 일반 회원 가입은 무료이며, 가입과 동시에 메뉴에 접속이 가능합니다.</p>
+								<p style="margin-left: 60px;">8.2 YOMI에 신규 가입을 희망하는 이용자는 소정의 회원 가입 신청서를 반드시 작성하여야 하며, 가입을 희망하시는 분이 당사의 회원으로 적합하지 않다고 인정될 경우, 당사는 입회 신청을 거절할 수 있고 이 경우 부적격 사유를 개별적으로 통보해 드립니다.</p>
+								<p style="margin-left: 60px;">8.3 회원은 등록 사항에 변경이 있는 경우, 즉시 본인 회원 정보 수정 방법으로 회사에 대하여 그 변경 사항을 알려야 합니다.</p>
+								<br><br>
+								<p>제 9조 (회원의 권리)</p>
+								<br>
+								<p style="margin-left: 60px;">9.1 회원으로 등록하면 YOMI의 메뉴를 제약 없이 사용할 수 있습니다. (단 제 8조 1항의 경우는 예외입니다.)</p>
+								<p style="margin-left: 60px;">9.2 YOMI에서 제공하는 각종 이벤트에 참가할 자격이 주어집니다.</p>
+								<p style="margin-left: 60px;">9.3 회원의 탈퇴는 임의 사항이며, 탈퇴를 원하실 경우에는YOMI 웹사이트에서 계정 관리 메뉴에 접속하여 탈퇴 신청을 하실 수 있습니다.</p>
+								<br><br>
+								<p>제 10조 (회원의 의무)</p>
+								<br>
+								<p style="margin-left: 60px;">10.1 회원의 ID와 비밀번호에 관한 모든 관리의 책임은 회원 본인에게 있습니다.</p>
+								<p style="margin-left: 60px;">10.2 타인에게 피해를 주거나 미풍양속을 해치는 일체의 행위를 금합니다.</p>
+								<p style="margin-left: 60px;">10.3 회원 가입 시 올바른 연락처와 E-mail 주소를 기재해 주셔야 합니다. 가입 신청서에 기재된 메일 주소가 잘못되어 반송되는 경우에는 회원 가입이 보류될 수 있습니다.</p>
+								<p style="margin-left: 60px;">10.4 회원은 ID 및 비밀번호를 제 3자에게 이용하게 해서는 안 됩니다.</p>
+								<p style="margin-left: 60px;">10.5 회원은 ID 및 비밀번호를 도난당하거나 제 3자에게 사용되고 있음을 인지한 경우에는 바로 YOMI에 통보하고 별도의 지시가 있는 경우에는 그에 따라야 합니다.</p>
+								<p style="margin-left: 60px;">10.6 회원은 개인정보(전화번호, 이메일 주소 등)의 변동 시 즉시 회사에 통보하여야 하며, 이와 관련된 책임은 본인에게 있습니다.</p>
+								<p style="margin-left: 60px;">10.7 회원은 본 약관 및 관계 법령에서 규정한 사항을 준수할 의무가 있으며 위 사항이 지켜지지 않을 경우 회원 가입이 해지될 수 있습니다.</p>
+								<br>
+								<p>제 11조 (회원 자격의 정지 및 상실)</p>
+								<br>
+								<p style="margin-left: 60px;">11.1 회사는 회원이 다음 각 호에 해당되는 경우 별도의 통보 절차 없이 회원의 자격을 정지할 수 있습니다.</p>
+								<p style="margin-left: 80px;">11.1.1 회원 가입 신청이나, 회원 정보의 변경 시 허위 내용을 작성한 경우</p>
+								<p style="margin-left: 80px;">11.1.2. 타인의 명의를 임의로 사용하는 경우</p>
+								<p style="margin-left: 80px;">11.1.3 YOMI의 정상적인 운영을 방해하는 행위를 한 경우</p>
+								<p style="margin-left: 80px;">11.1.4 YOMI을 이용하여 구입한 상품 등의 대금과 관련하여 회원이 부담하는 채무를 기일 내에 지급하지 않는 경우</p>
+								<p style="margin-left: 80px;">11.1.5 YOMI에 귀속하는 저작권 등 지적재산권을 침해한 경우</p>
+								<p style="margin-left: 80px;">11.1.6 YOMI의 명예를 대외적으로 훼손시켰다고 인정되는 경우</p>
+								<p style="margin-left: 80px;">11.1.7 기타 YOMI이 정한 회원 가입 요건이 미비 되었을 때</p>
+								<p style="margin-left: 60px;">11.2 당사는 회원의 다음 각 호에 해당되는 경우 별도의 통보 절차 없이 회원의 자격을 상실시킬 수 있습니다.</p>
+								<p style="margin-left: 80px;">11.2.1 회원이 사망한 경우</p>
+								<p style="margin-left: 80px;">11.2.2 YOMI에 제공되는 정보를 변경 및 수정하는 등 YOMI의 운영을 고의로 방해한 경우</p>
+								<p style="margin-left: 80px;">11.2.3 타인에게 피해를 주거나 기타 공공질서, 미풍양속을 현저히 저해하는 행위를 한 경우</p>
+								<p style="margin-left: 80px;">11.2.4 회원 자격 정지 이후 1개월 이내에 아무런 조치를 취하지 않는 경우</p>
+								<p style="margin-left: 80px;">11.2.5 본 약관에 위반한 행위를 한 경우</p>
+								<p style="margin-left: 80px;">11.2.6 기타 회원으로서의 자격을 지속시키는 것이 부적절하다고 판단되는 경우</p>
+								<br><br>
+								<p>제 12조 (회원에 대한 통지)</p>
+								<br>
+								<p style="margin-left: 60px;">12.1 회원에 대한 통지를 하는 경우에는 회원 가입 신청서에 기재된 E-Mail이나 기타의 방법으로 할 수 있습니다</p>
+								<p style="margin-left: 60px;">12.2 불특정 다수의 회원에 대한 통지는 공지사항에 공지함으로써 이를 갈음할 수 있으며, 이로 인한 불이익에 대해 당사는 책임을 지지 않습니다.</p>
+								<br><br>
+								<p>제 13조 (회원에 대한 의무)</p>
+								<br>
+								<p style="margin-left: 60px;">13.1 YOMI은 본 약관이 정하는 바에 따라 특별한 사정이 없는 한 회원 여러분에게 안정적이고 지속적인 서비스를 제공할 수 있도록 최선의 노력을 다하겠습니다.</p>
+								<p style="margin-left: 60px;">13.2 회원의 개인의 신용 정보를 포함한 개인 신상 정보를 본인의 승낙 없이 영리의 목적으로 타인에게 누설, 배포하지 않을 책임이 있습니다.</p>
+								<p style="margin-left: 60px;">13.3 회원으로부터 제기되는 의견이나 불편 사항 등이 정당하다고 인정할 경우에는 즉시 처리하도록 하겠습니다. 단, 신속한 처리가 곤란한 경우에는 회원에게 그 사유와 처리 일정을 통보하겠습니다.</p>
+								<p style="margin-left: 60px;">13.4 YOMI은 항상 회원의 신용 정보를 포함한 개인 신상 정보 보안에 대하여 관리적, 기술적 안전 조치를 강구하여 회원의 정보 보안에 최선을 다해야 할 의무가 있습니다.</p>
+								<br><br>
+								<p>◈ 제 3 장 ◈</p>
+								<br>
+								<p>기 타</p>
+								<br><br>
+								<p>제 14조 (저작권의 귀속 및 이용 제한)</p>
+								<br>
+								<p>서비스에 게재된 자료에 대한 권리는 다음 각 항과 같습니다.</p>
+								<br>
+								<p style="margin-left: 60px;">14.1 회사가 작성한 사이트에 관한 저작권 및 기타 지적재산권은 회사에 귀속합니다.</p>
+								<p style="margin-left: 60px;">14.2 게시물에 대한 권리와 책임은 게시자에게 있으며, 회사는 게시물에 대한 사용 권한을 갖습니다.</p>
+								<p style="margin-left: 60px;">14.3 회원은 블루R을 이용함으로써 얻은 정보나 서비스 내에 게재된 게시물을 회사의 사전 승낙 없이 복제, 송신, 출판, 배포, 방송 기타 방법에 의하여 영리 목적으로 이용하거나 제 3자에게 이용하게 하여서는 안 됩니다.</p>
+								<p style="margin-left: 60px;">14.4 회사는 회원의 귀책사유로 인한 서비스 이용의 장애에 대하여 책임을 지지 않습니다.</p>
+								<br><br>
+								<p>제 15조 (회원의 게시물)</p>
+								<br>
+								<p style="margin-left: 60px;">15.1 게시물이라 함은 서비스 게시판에 회원이 올린 글과 사진, 서비스의 질문과 대답 등을 포함합니다.</p>
+								<p style="margin-left: 60px;">15.2 회원이 게시하는 정보 (및 질문과 답변) 등으로 인해 발생하는 손실이나 문제는 전적으로 회원 개인의 판단에 따른 책임이며, 회사의 고의가 아닌 한, 회사는 이에 대하여 책임지지 않습니다.</p>
+								<p style="margin-left: 60px;">15.3 회원은 공공질서나 미풍양속에 위배되는 내용과 타인의 저작권을 포함한 지적재산권 및 기타 권리를 침해하는 내용물에 대해서는 등록할 수 없으며, 만일 이와 같은 내용의 게시물로 인해 발생하는 결과에 대한 모든 책임은 회원 본인에게 있습니다.</p>
+								<p style="margin-left: 60px;">15.4 회사는 음식점과 요리에 관한 정보 공유의 장이라는 YOMI의 운영 목적에 반한다고 판단되는 다음의 게시물이나 자료를 사전 통지 없이 삭제하거나 이동 또는 등록 거부를 할 수 있습니다.</p>
+								<p style="margin-left: 60px;">15.4.1 다른 회원 또는 제 3자에게 심한 모욕을 주거나 명예를 손상 시키는 내용인 경우</p>
+								<p style="margin-left: 60px;">15.4.2 공공질서 및 미풍양속에 위반되는 저속, 음란한 내용의 정보, 문장, 도형, 음향, 동영상을 전송, 게시하거나 링크 시키는 경우</p>
+								<p style="margin-left: 60px;">15.4.3 사적인 정치적 판단이나, 종교적 견해의 내용으로 회사가 서비스 성격에 부합하지 않는다고 판단하는 경우</p>
+								<p style="margin-left: 60px;">15.4.4 불법 복제 또는 해킹을 조장하는 내용인 경우</p>
+								<p style="margin-left: 60px;">15.4.5 영리를 목적으로 하는 광고 등 상업적 이용이라고 판단되는 경우</p>
+								<p style="margin-left: 60px;">15.4.6 범죄와 결부되었다고 객관적으로 인정되는 내용일 경우</p>
+								<p style="margin-left: 60px;">15.4.7 다른 이용자 또는 제 3자의 저작권 등 기타 권리를 침해하는 내용인 경우</p>
+								<p style="margin-left: 60px;">15.4.8 회사에서 규정한 게시물 원칙에 어긋나거나, 게시판 성격에 부합하지 않는 경우</p>
+								<p style="margin-left: 60px;">15.4.9 기타 관계 법령에 위배된다고 판단되는 경우</p>
+								<p style="margin-left: 60px;">15.4.10 사실이 아니거나 잘못된 정보로 확인된 경우</p>
+								<br><br>
+								<p>제 16조 (대량 크롤링 및 인공 지능 학습 금지)</p>
+								<br>
+								<p>회원은 회사의 명시적인 사전 서면 허가 없이 데이터 등을 추출하기 위하여 로봇(봇), 크롤러, 스파이더, 스크레이퍼, 매크로 프로그램 또는 기타 자동화 수단이나 수동 프로세스를 이용하여 회사의 웹 ∙ 앱 ∙ 서버에 접근하거나 회사 서비스에 포함된 콘텐츠 및 정보를 모니터링, 복제, 수집, 확인, 정리, 사용하는 등의 행위를 해서는 안됩니다.</p>
+								<br>
+								<p style="margin-left: 60px;">16.1 YOMI을 통해 제공하는 제반 콘텐츠 및 서비스와, 이외의 외부 플랫폼에 유통된 모든 콘텐츠를 대상으로 로봇, 매크로, 스파이더, 스크래퍼 등 자동화 도구를 활용하는 행위를 해서는 안됩니다.</p>
+								<p style="margin-left: 60px;">16.2. 자동화 도구를 활용해 로그인, 콘텐츠·페이지·데이터 수집, 댓글·좋아요·제보 등 커뮤니케이션, 반복 접속 등 서비스에 과부하를 주는 행위를 해서는 안됩니다.</p>
+								<p style="margin-left: 60px;">16.3. 회사가 YOMI을 통해 제공하는 콘텐츠와 서비스 내용을 인공지능(AI) 모델 학습 데이터로 활용할 경우 그 활용이 공익 및 비영리 목적임을 분명히 해야 합니다. 학습 데이터로 활용 시 회사와 반드시 합의해야 합니다. 그렇지 않을 경우, 민형사상 책임을 물을 수 있습니다.</p>
+								<p style="margin-left: 60px;">16.4. 인공 지능 및 대량 크롤링(또는 스크랩핑) 행위로 인해 데이터 소유권과 콘텐츠 및 서비스 저작권 침해가 된다고 판단되면, 회사는 형사고소, 민사 크롤링 금지청구, 민사 손해배상 청구 등의 조치를 취할 수 있습니다.</p>
+								<p style="margin-left: 60px;">16.5. 크롤링(crawling, 또는 스크랩핑, scraping)이란 웹페이지의 내용을 그대로 가져와서 필요한 데이터를 추출해 내는 행위를 말하고, 크롤링이 웹페이지에 대하여 이루어지면 웹크롤링이라 부른다.</p>
+								<br><br>
+								<p>제 17조 (관할 법원)</p>
+								<br>
+								<p>본 약관과 관련한 소송은 회사의 소재지를 관할하는 법원을 관할 법원으로 합니다.</p>
+								<br><br>
+								<p>제 18조 (분쟁 해결)</p>
+								<br>
+								<p style="margin-left: 60px;">18.1 회사는 회원이 제기하는 정당한 의견이나 불만을 반영하고 그 피해를 보상 처리하기 위하여 YOMI 관리담당자를 둡니다.</p>
+								<p style="margin-left: 60px;">18.2 회사는 회원으로부터 제출되는 불만 사항 및 의견이 정당하다고 판단하는 경우 우선적으로 그 사항을 처리합니다. 단, 신속한 처리가 어렵다고 판단되는 경우에는 회원에게 그 사유와 처리 일정을 즉시 통보해 드립니다.</p>
+								<br><br>
+								<p>제 19조 (손해배상)</p>
+								<br>
+								<p style="margin-left: 60px;">19.1 회사는 무료로 제공되는 서비스와 관련하여 회원에게 어떠한 손해가 발생하더라도 동 손해가 회사의 고의 또는 중대한 과실에 의한 경우를 제외하고 이에 대하여 책임을 부담하지 아니합니다.</p>
+								<p style="margin-left: 60px;">19.2 회원이 이 약관의 규정을 위반하여 회사 또는 제 3자에게 손해가 발생하는 경우, 이 약관을 위반한 회원은 회사 및 제 3자에 발생한 손해를 배상할 책임이 있습니다.</p>
+								<br><br>
+								<p>제 20조 (면책조항)</p>
+								<br>
+								<p>회사는 YOMI 서비스 이용과 관련하여 불가항력으로 인하여 서비스를 제공할 수 없는 경우에는 서비스 제공에 관한 책임이 면제됩니다.</p>
+								<br>
+								<p>[부칙]</p>
+								<br>
+								<p>(시행일) 본 약관은 2024년 8월 13일부터 시행합니다.</p>
+								<br>
+								<p>(공고일) 2024년 8월 8일</p>
+							</div>
+					</div>
+				</div>
+			</main>
+			
+			<main>
+				<div class="view-details">
+					<div class="container page4 close">
+						<span class="material-icons back2" >arrow_back</span>
+						<div class="title">개인 정보 처리 방침</div>
+							<div class="content-page">
+								<p class="text-right">시행일 : 2024년 08월 08일</p>
+								<br><br>
+								<p>개인정보보호법에 따라 개인정보의 항목, 개인정보의 수집 및 이용 목적, 개인 정보의 보유 및 이용 기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.</p>
+								<br>
+								<strong>1. 개인정보의 수집 및 이용 목적</strong>
+								<br><br>
+								<p>① 서비스 제공에 관한 계약 이행 및 서비스 제공에 따른 요금 정산</p>
+								<p>- 콘텐츠 제공, 물품 배송 또는 청구서 등 발송, 금융거래 본인 인증 및 금융 서비스, 구매 및 요금 결제, 요금 추심</p>
+								<p>② 회원 관리</p>
+								<p>- 회원제 서비스 이용에 따른 본인 확인, 개인 식별, 불량 회원의 부정 이용 방지와 비인가 사용 방지, 가입 의사 확인, 가입 및 가입 횟수 제한, 불만 처리 등 민원 처리, 고지 사항 전달</p>
+								<br><br>
+								<strong>2. 수집하는 개인정보 항목</strong>
+								<br><br>
+								<p>① 최초 회원 가입 시 회원 식별 및 최적화된 서비스 제공을 위해 아래와 같은 정보를 수집합니다.</p>
+								<p>- 이름, 아이디, 닉네임, 비밀번호, e-mail, 연락처, 주소, 생년월일, 성별, 직업</p>
+								<p>② 서비스 이용 과정이나 사업 처리 과정에서 아래와 같은 정보들이 생성되어 수집 될 수 있습니다.</p>
+								<p>- 쿠키, 서비스 이용 기록(로그인 일시, IP주소, 부정 이용 등), 결제 기록, 위치 정보, 기기 정보(기기고유식별자 및 OS 버전)</p>
+								<strong>3. 개인정보의 보유 및 이용 기간</strong>
+								<br><br>
+								<p>원칙적으로 개인정보 수집 및 이용 목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다.</p>
+								<p>단, 다음의 정보에 대해서는 아래의 이유로 명시한 기간 동안 보존합니다.</p>
+								<br>
+								<p>① 회원 탈퇴 시 보존 개인정보</p>
+								<p>- 보존 항목: 회원님께서 제공한 이름, 아이디, 이메일 주소, 주소, 전화번호</p>
+								<p>- 보존 근거: 불량 이용자의 재가입 방지, 명예훼손 등 권리 침해 분쟁 및 수사 협조</p>
+								<p>- 보존 기간: 회원 탈퇴 후 1년간</p>
+								<br>
+								<p>② 상거래 관련 보존 개인정보</p>
+								<p>전자상거래 등에서의 소비자 보호에 관한 법률, 전자문서 및 전자거래 기본법, 통신비밀보호법 등 법령에서 일정 기간 정보의 보관을 규정하는 경우는 아래와 같습니다. 블루R은 이 기간 동안 법령의 규정에 따라 개인정보를 보관하며, 본 정보를 다른 목적으로는 절대 이용하지 않습니다.</p>
+								<p>- 보존 항목: 상거래 이력</p>
+								<p>- 보존 근거: 상법, 전자상거래 등에서의 소비자보호에 관한 법률</p>
+								<p>- 보존 기간: 계약 또는 청약철회 등에 관한 기록 : 5년 보관</p>
+								<p>- 대금 결제 및 재화 등의 공급에 관한 기록 : 5년 보관</p>
+								<p>- 소비자의 불만 또는 분쟁 처리에 관한 기록 : 3년 보관</p>
+								<br>
+								<p>③ 개인 정보 파기의 절차 및 방법</p>
+								<p>회사는 개인 정보 보유 기간의 경과, 처리 목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인 정보를 파기합니다.</p>
+								<p>이용자로부터 동의 받은 개인정보 보유 기간이 경과하거나 처리 목적이 달성 되었음에도 불구하고 다른 법령에 따라 개인 정보를 계속 보존하여야 하는 경우에는, 해당 개인 정보를 별도의 데이터베이스(DB)로 옮기거나 보관 장소를 달리하여 보존합니다. 별도 보존되는 개인 정보는 법률에 의한 경우가 아니고서는 보존 목적 이외의 다른 목적으로 이용되지 않습니다.</p>
+								<p>개인 정보의 파기 절차 및 방법은 다음과 같습니다.</p>
+								<p>- 파기 절차</p>
+								<p>회사는 파기 사유가 발생한 개인정보를 선정하고, 회사의 개인정보 보호 책임자의 승인을 받아 개인 정보를 파기합니다.</p>
+								<p>- 파기 방법</p>
+								<p>회사는 전자적 파일 형태로 기록 저장된 개인정보는 기록을 재생할 수 없도록 로우 레벨 포맷(Low Level Format) 등의 방법을 이용하여 파기하며, 종이 문서에 기록 저장된 개인 정보는 분쇄기로 분쇄하거나 소각하여 파기합니다.</p>
+								<br><br>
+								<strong>4. 개인정보 수집 및 이용 동의를 거부할 권리</strong>
+								<br><br>
+								<p>이용자는 개인정보의 수집 및 이용 동의를 거부할 권리가 있습니다. 회원 가입 시 수집하는 최소한의 개인정보, 즉, 필수 항목에 대한 수집 및 이용 동의를 거부하실 경우, 회원 가입이 어려울 수 있습니다.</p>
+								<br><br>
+								<strong>5. 자동 수집 장치의 설치, 운용 및 그 거부에 관한 사항</strong>
+								<br><br>
+								<p>회사는 회원에게 개인화되고 맞춤화된 서비스를 제공하기 위해 이용자의 정보를 저장하고 수시로 불러오는 쿠키(cookie)를 사용합니다.</p>
+								<p>- 쿠키의 사용 목적</p>
+								<p>회원과 비회원의 접속 빈도나 방문 시간 등의 분석, 이용자의 취향과 관심 분야의 파악 및 자취 추적, 각종 이벤트 참여 정도 및 방문 회수 파악 등을 통한 타겟 마케팅 및 개인 맞춤 서비스 제공</p>
+								<p>- 쿠키 설정 거부 방법</p>
+								<p>이용자는 쿠키 설치에 대해 거부할 수 있습니다. 단, 쿠키 설치를 거부하였을 경우 로그인이 필요한 일부 서비스의 이용이 어려울 수 있습니다.</p>
+								<p>- 설정 방법(IE 기준): 웹 브라우저 상단의 도구 > 인터넷 옵션 > 개인정보 > 사이트 차단</p>
+								<br><br>
+								<strong>6.  개인정보 보호 책임자 및 담당부서</strong>
+								<br><br>
+								<p>성명: 김도엽</p>
+								<p>직책: 사원</p>
+								<p>이메일: dy971023@gmail.com</p>
+								<p>담당부서: 고객서비스팀</p>
+							</div>
+					</div>
+				</div>
+			</main>
+			<main>
+				<div class="view-details">
+					<div class="container page5 close">
+						<span class="material-icons back3" >arrow_back</span>
+						<div class="title">선택정보 수집 및 이용 방침</div>
+							<div class="content-page">
+								<p class="text-right">시행일 : 2024년 08월 08일</p>
+								<br><br>
+								<strong>[선택] 개인정보 수집 및 이용 동의</strong>
+								<br><br>
+								<strong>1. 개인정보의 수집 및 이용 목적</strong>
+								<br><br>
+								<p>- 보다 좋은 서비스를 위하여 회원의 인구통계학적 자료와 회원의 접속 빈도, 회원의 서비스 이용에 대한 통계 등을 마케팅에 활용할 수 있습니다.</p>
+								<p>- 회원이 수집 및 이용에 동의한 개인정보를 활용하여, 이메일을 통해 회원에게 유용한 혜택, 이벤트, 광고 정보를 전송할 수 있습니다.</p>
+								<p>- 회원이 수집 및 이용에 동의한 개인정보를 활용하여, SMS/MMS 등 다양한 전자적 전송 매체를 통해 회원에게 유용한 혜택, 이벤트, 광고 정보를 전송할 수 있습니다.</p>
+								<p>- 회원님의 개인정보는 광고를 의뢰한 개인이나 단체에는 제공되지 않습니다.</p>
+								<br><br>
+								<strong>2. 수집하는 개인정보 항목</strong>
+								<br><br>
+								<p>① 최초 회원 가입 시 회원 식별 및 최적화된 서비스 제공을 위해 아래와 같은 정보를 수집합니다.</p>
+								<p>- 이름, 아이디, 닉네임, 비밀번호, e-mail, 연락처, 주소, 생년월일, 성별, 직업</p>
+								<p>② 서비스 이용 과정이나 사업 처리 과정에서 아래와 같은 정보들이 생성되어 수집될 수 있습니다.</p>
+								<p>- 쿠키, 서비스 이용 기록(로그인 일시, IP주소, 부정 이용 등), 결제 기록, 위치 정보, 기기 정보(기기 고유 식별자 및 OS 버전)</p>
+								<br><br>
+								<strong>3. 개인정보의 보유 및 이용 기간</strong>
+								<br><br>
+								<p>원칙적으로 개인정보 수집 및 이용 목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다</p>
+								<p>단, 다음의 정보에 대해서는 아래의 이유로 명시한 기간 동안 보존합니다.</p>
+								<br>
+								<p>① 회원 탈퇴 시 보존 개인정보</p>
+								<p>- 보존 항목: 회원님께서 제공한 이름, 아이디, 이메일 주소, 주소, 전화번호</p>
+								<p>- 보존 근거: 불량 이용자의 재가입 방지, 명예훼손 등 권리침 해 분쟁 및 수사 협조</p>
+								<p>- 보존 기간: 회원 탈퇴 후 1년간</p>
+								<br>
+								<p>② 상거래 관련 보존 개인정보</p>
+								<p>- 보존 항목: 상거래 이력</p>
+								<p>- 보존 근거: 상법, 전자 상거래 등에서의 소비자 보호에 관한 법률</p>
+								<p>- 보존 기간: 계약 또는 청약철회 등에 관한 기록 : 5년</p>
+								<p>- 대금 결제 및 재화 등의 공급에 관한 기록 : 5년</p>
+								<p>- 소비자의 불만 또는 분쟁 처리에 관한 기록 : 3년</p>
+								<br><br>
+								<strong>4. 수신 동의 거부 및 철회 방법 안내</strong>
+								<br><br>
+								<p>본 동의는 거부하실 수 있습니다. 다만 거부 시 동의를 통해 제공 가능한 각종 혜택, 이벤트 안내를 받아 보실 수 없습니다. 동의한 이후에도 더 이상 상품•서비스 영업, 홍보, 마케팅, 쿠폰 발송을 원하시지 않는 경우 회원 정보 수정 페이지에서 수신 여부를 변경하실 수 있습니다.</p>
+								<br><br>
+								<strong>5. 자동 수집 장치의 설치, 운용 및 그 거부에 관한 사항</strong>
+								<br><br>
+								<p>회사는 회원에게 개인화되고 맞춤화된 서비스를 제공하기 위해 이용자의 정보를 저장하고 수시로 불러오는 쿠키(cookie)를 사용합니다.</p>
+								<p>- 쿠키의 사용 목적</p>
+								<p>회원과 비회원의 접속 빈도나 방문 시간 등의 분석, 이용자의 취향과 관심 분야의 파악 및 자취 추적, 각종 이벤트 참여 정도 및 방문 회수 파악 등을 통한 타겟 마케팅 및 개인 맞춤 서비스 제공</p>
+								<p>- 쿠키 설정 거부 방법</p>
+								<p>이용자는 쿠키 설치에 대해 거부할 수 있습니다. 단, 쿠키 설치를 거부하였을 경우 로그인이 필요한 일부 서비스의 이용이 어려울 수 있습니다.</p>
+								<p>- 설정 방법(IE 기준): 웹 브라우저 상단의 도구 > 인터넷 옵션 > 개인정보 > 사이트 차단</p>
+								<br><br>
+								<strong>6.  개인정보 보호 책임자 및 담당부서</strong>
+								<br><br>
+								<p>성명: 김도엽</p>
+								<p>직책: 사원</p>
+								<p>이메일: dy971023@gmail.com</p>
+								<p>담당부서: 고객서비스팀</p>
+							</div>
+					</div>
+				</div>
+			</main>
 		</section>
 	    <script>
+			//전체 체크 
+			$(".no0>input[type=checkbox]").on("click",function(){
+				const allcheck = $(".no0>input[type=checkbox]")
+				console.log(allcheck.is(":checked"))
+				if(allcheck.is(":checked")){
+					$("input[type=checkbox]").prop("checked",true)
+				}else{
+					$("input[type=checkbox]").prop("checked",false)
+				}
+			});
+
+		
+
 	    
 	    	//다음페이지 넘어가는 로직
 	        $(".next-btn>button").on("click",function(){
@@ -188,6 +539,64 @@
 	            page1.removeClass("close");
 	            page1.addClass("show");
 	        });
+
+			//약관동의 넘어가는 로직
+			$(".indetail1").on("click",function(){
+	            const page1 = $(".page1");
+	            const page3 = $(".page3");
+				page3.removeClass("close");
+	            page1.addClass("close");
+	            page3.addClass("show");
+	            
+	            
+	        });
+	        //뒤로가기 버튼 
+	        $(".back1").on("click",function(){
+	            const page3 = $(".page3");
+	            page3.removeClass("show");
+	            page3.addClass("close");
+	            const page1 = $(".page1");
+	            page1.removeClass("close");
+	            page1.addClass("show");
+	        });
+
+			//개인정보처리 넘어가는 로직
+			$(".indetail2").on("click",function(){
+	            
+				const page1 = $(".page1");
+	            const page4 = $(".page4");
+				page4.removeClass("close");
+	            page1.addClass("close");
+	            page4.addClass("show");
+	        });
+	        //뒤로가기 버튼 
+	        $(".back2").on("click",function(){
+	            const page4 = $(".page4");
+	            page4.removeClass("show");
+	            page4.addClass("close");
+	            const page1 = $(".page1");
+	            page1.removeClass("close");
+	            page1.addClass("show");
+	        });
+			//선택사항 넘어가는 로직
+			$(".indetail3").on("click",function(){
+	            
+				const page1 = $(".page1");
+	            const page5 = $(".page5");
+				page5.removeClass("close");
+	            page1.addClass("close");
+	            page5.addClass("show");
+	        });
+	        //뒤로가기 버튼 
+	        $(".back3").on("click",function(){
+	            const page5 = $(".page5");
+	            page5.removeClass("show");
+	            page5.addClass("close");
+	            const page1 = $(".page1");
+	            page1.removeClass("close");
+	            page1.addClass("show");
+	        });
+
 	        
 			//이메일 선택시 input disabled 로직
 	        $('.select').change(function() {
@@ -337,7 +746,15 @@
 	      $(".next-btn>button").attr("disabled", true);
 	    }
 	  });
-	  
+	  $(".no0").on("click",function(){
+		if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
+	      $(".next-btn>button").attr("disabled", false);					
+	      
+	      console.log('true')
+	    }else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
+	      $(".next-btn>button").attr("disabled", true);
+		}
+	  });
 	  
 	  //아이디 중복체크
 	  $("input[name=memberId]").on("keyup",function(){
@@ -431,7 +848,6 @@
 	        var email2 = $('#inputBox2').val();
 	        var finalEmail = '';
 	        finalEmail = email1 +'@'+ email2 ;
-	        alert(finalEmail);
 	        $('#memberEmail').val(finalEmail);
 	        const email = $('#memberEmail').val();
 			if(email1 == ""){
@@ -467,10 +883,26 @@
 				$(".email-check-msg").text("");
 				$(".email-check-msg").removeClass("invalid").removeClass("valid");
 			}else{
-				$(".email-check-msg").text("영문 대 소문자 숫자 ._%+- 기호만 사용가능합니다.");
+				$(".email-check-msg").text("영문 대 소문자 숫자 ._%+- 기호만 사용가능하며  최소 네자리 이상입력하셔야합니다.");
 				$(".email-check-msg").addClass("invalid");
 			}
 		});
+	    $("#sendBtn").on("click",function(){
+	    	const receiver = $("#memberEmail").val();
+	    	console.log($("#memberEmail").val());
+	    	$.ajax({
+	    		url : "/member/sendCode",
+	    		data : {receiver : receiver},
+	    		type : "post",
+	    		success : function(data){
+	    			console.log(data);
+	    		},
+	    		error : function(){
+	    			console.log("에러")
+	    		}
+	    	})
+	    });
+	    
 		
 		//생년월일 입력시 조건에 안맞으면 메세지 출력
 		$("#birth-year,#birth-month,#birth-day").on("change",function(){
@@ -512,7 +944,69 @@
 				$(".name-check-msg").removeClass("invalid");
 			}
 		});
-	
+		//핸드폰 유효성 검사 
+		$(".phone1").on("change",function(){
+			const input = $(this).val();
+			const phone1reg = /^01([0|1|6|7|8|9]?)$/
+			console.log(input.length)
+			if(input.length <3){
+				$(".phone-check-msg").text("(* 입력한 수 부족 *)번호 앞 세자리수 입력해주세요.");
+				$(".phone-check-msg").addClass("invalid");
+			}else{
+				if(phone1reg.test(input)){
+					$(".phone-check-msg").text("");
+					$(".phone-check-msg").removeClass("invalid");
+				}else{
+					$(".phone-check-msg").text("핸드폰의 앞 세자리수는 010,011 등의 형식으로 입력해주세요.");
+					$(".phone-check-msg").addClass("invalid");
+				}
+			}			
+		});
+		$(".phone2").on("change",function(){
+			const input = $(this).val();
+			const phone2reg = /^[0-9]{4}$/
+			
+			if(input.length <4){
+					$(".phone-check-msg").text("(* 입력한 수 부족 *)중간번호 네자리 입력해주세요.");
+					$(".phone-check-msg").addClass("invalid");
+			}else{
+				if(phone2reg.test(input)){
+					$(".phone-check-msg").text("");
+					$(".phone-check-msg").removeClass("invalid");
+				}else{
+					$(".phone-check-msg").text("핸드폰 번호를 확인해주세요.");
+					$(".phone-check-msg").addClass("invalid");
+				}
+			}
+		});
+		$(".phone3").on("change",function(){
+			const input = $(this).val();
+			const phone2reg = /^[0-9]{4}$/
+			
+			if(input.length <4){
+					$(".phone-check-msg").text("(* 입력한 수 부족 *)뒷번호 네자리 입력해주세요.");
+					$(".phone-check-msg").addClass("invalid");
+			}else{
+				if(phone2reg.test(input)){
+					$(".phone-check-msg").text("");
+					$(".phone-check-msg").removeClass("invalid");
+				}else{
+					$(".phone-check-msg").text("핸드폰 번호를 확인해주세요.");
+					$(".phone-check-msg").addClass("invalid");
+				}
+			}
+		});
+		
+		$(".phone1,.phone2,.phone3").on("change",function(){
+			var phone1 = $(".phone1").val();
+			var phone2 = $(".phone2").val();
+			var phone3 = $(".phone3").val();
+			var finalPhone = "";
+			finalPhone = phone1 + phone2 + phone3 ;
+			$("input[name=memberPhone]").val(finalPhone);
+			
+			
+		});
 		
 		
 		//지도 Api
@@ -539,6 +1033,8 @@
 				$(".addr-check-msg").removeClass("invalid");
 			}
 		});
+		
+		
 	        
 		
     </script>

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import kr.co.iei.member.model.dto.Member;
+
 import kr.co.iei.restr.model.dao.RestrDao;
 import kr.co.iei.restr.model.dto.BestReview;
 import kr.co.iei.restr.model.dto.Restaurant;
@@ -21,6 +22,7 @@ import kr.co.iei.restr.model.dto.Restaurant;
 import kr.co.iei.restr.model.dto.RestrMenu;
 import kr.co.iei.restr.model.dto.Review;
 import kr.co.iei.restr.model.dto.ReviewImg;
+import kr.co.iei.restr.model.dto.ReviewListData;
 
 @Service
 public class RestrService {
@@ -30,11 +32,11 @@ public class RestrService {
 
 	public Restaurant selectOneRestr(int restrNo, Member member) {
 		Restaurant r = restrDao.selectOneRestr(restrNo);
-		if(r != null && member != null) {
+		if (r != null && member != null) {
 			int memberNo = member.getMemberNo();
 			int isLike = restrDao.selectIsLike(restrNo, memberNo);
 			r.setIsLike(isLike);
-			
+
 			int isBookmark = restrDao.selectIsBookmark(restrNo, memberNo);
 			r.setIsBookmark(isBookmark);
 		}
@@ -81,7 +83,7 @@ public class RestrService {
 			return -1;
 		}
 	}
-	
+
 	@Transactional
 	public int bookmarkPush(int restrNo, int isbookmark, int memberNo) {
 		int result = 0;
@@ -97,7 +99,7 @@ public class RestrService {
 			return -1;
 		}
 	}
-	
+
 	@Transactional
 	public int reviewLikePush(int reviewNo, int isReviewLike, int memberNo) {
 		int result = 0;
@@ -117,7 +119,8 @@ public class RestrService {
 	public List selectRestrList(int start, int amount, String selectedValue) {
 		int end = start + amount - 1;
 		List list = new ArrayList();
-		if(selectedValue.equals("default")) {			
+
+		if (selectedValue.equals("default")) {
 			list = restrDao.selectRestrList(start, end);
 		} else {
 			list = restrDao.selectRestrListStar(start, end);
@@ -130,6 +133,11 @@ public class RestrService {
 		return restrTotalCount;
 	}
 
+	public int submitRestrTotalCount(String searchKeyword) {
+		int submitRestrTotalCount = restrDao.submitRestrTotalCount(searchKeyword);
+		return submitRestrTotalCount;
+	}
+
 	public List selectRestrMenu(int restrNo) {
 		List list = restrDao.selectRestrMenu(restrNo);
 		return list;
@@ -137,9 +145,9 @@ public class RestrService {
 
 	public int writeReview(Review review, List<ReviewImg> reviewImgList) {
 		int result = restrDao.writeReview(review);
-		if(result > 0) {
-			for(ReviewImg reviewImg : reviewImgList) {
-				reviewImg.setReviewNo(review.getReviewNo()); 
+		if (result > 0) {
+			for (ReviewImg reviewImg : reviewImgList) {
+				reviewImg.setReviewNo(review.getReviewNo());
 				int imgResult = restrDao.insertReviewImg(reviewImg);
 			}
 		}
@@ -172,7 +180,7 @@ public class RestrService {
 	public List selectReviewList(int start, int amount, int restrNo) {
 		int end = start + amount - 1;
 		List<Review> reviewList = restrDao.selectReviewList(start, end, restrNo);
-		
+
 		for (Review review : reviewList) {
 			int reviewLikeCount = restrDao.selectReviewLike(review.getReviewNo());
 			review.setReviewLikeCount(reviewLikeCount);
@@ -192,7 +200,7 @@ public class RestrService {
 
 	public Restaurant selectOneRestrWith(int restrNo) {
 		Restaurant r = restrDao.selectOneRestr(restrNo);
-		if(r!=null) {
+		if (r != null) {
 			List tagList = restrDao.selectRestrTag(restrNo);
 			List menuList = restrDao.selectRestrMenu(restrNo);
 			r.setRestrMenu(menuList);
@@ -201,64 +209,66 @@ public class RestrService {
 		}
 		return null;
 	}
+
 	@Transactional
 	public int updateRestr(Restaurant r, List<RestrMenu> menuList, String[] tagName, int[] delMenuNo, int[] delTagNo,
 			int updateImgCount) {
-		//1. restaurant 테이블을 업데이트 한다
-		int result=0;
-		int delCount=0;
-		int insertCount=0;
-		switch(updateImgCount) {
-		case 0:
-			result = restrDao.updateRestr(r);
-			break;
-		case 1: case 2:
-			result = restrDao.updateRestrWithOne(r, updateImgCount);
-			break;
-		case 3:
-			result = restrDao.updateRestrWithAll(r);
-			break;
+		// 1. restaurant 테이블을 업데이트 한다
+		int result = 0;
+		int delCount = 0;
+		int insertCount = 0;
+		switch (updateImgCount) {
+			case 0:
+				result = restrDao.updateRestr(r);
+				break;
+			case 1:
+			case 2:
+				result = restrDao.updateRestrWithOne(r, updateImgCount);
+				break;
+			case 3:
+				result = restrDao.updateRestrWithAll(r);
+				break;
 		}
-		//2. menu, tag 삭제할 것들을 삭제한다
-		if(delMenuNo!=null) {
-			for(int i=0; i<delMenuNo.length; i++) {
-				result+=restrDao.deleteMenu(delMenuNo[i]);
+		// 2. menu, tag 삭제할 것들을 삭제한다
+		if (delMenuNo != null) {
+			for (int i = 0; i < delMenuNo.length; i++) {
+				result += restrDao.deleteMenu(delMenuNo[i]);
 			}
-			delCount+=delMenuNo.length;
+			delCount += delMenuNo.length;
 		}
-		if(delTagNo!=null) {
-			for(int i=0; i<delTagNo.length; i++) {
-				result+=restrDao.deleteTag(delTagNo[i]);
+		if (delTagNo != null) {
+			for (int i = 0; i < delTagNo.length; i++) {
+				result += restrDao.deleteTag(delTagNo[i]);
 			}
-			delCount+=delTagNo.length;
+			delCount += delTagNo.length;
 		}
-		//3. menu, tag 추가할것들을 추가한다
-		for(RestrMenu menu : menuList) {
+		// 3. menu, tag 추가할것들을 추가한다
+		for (RestrMenu menu : menuList) {
 			result += restrDao.insertRestrMenu(menu, r.getRestrNo());
 		}
-		insertCount+=menuList.size();
-		if(tagName!=null) {
-			for(int i=0; i<tagName.length;i++) {
+		insertCount += menuList.size();
+		if (tagName != null) {
+			for (int i = 0; i < tagName.length; i++) {
 				result += restrDao.insertRestrTag(tagName[i], r.getRestrNo());
 			}
-			insertCount+=tagName.length;
+			insertCount += tagName.length;
 		}
-		//4. int result가 괜찮은지 확인하는 if문을 작성, 맞으면 그 값을, 아니면 0을 반환한다.
-		if(result == 1 + delCount + insertCount) {
+		// 4. int result가 괜찮은지 확인하는 if문을 작성, 맞으면 그 값을, 아니면 0을 반환한다.
+		if (result == 1 + delCount + insertCount) {
 			return result;
 		}
 		return 0;
 	}
 
 	public List<String> deleteRestr(int restrNo) {
-		List<String>delFilepath = new ArrayList<String>();
+		List<String> delFilepath = new ArrayList<String>();
 		Member member = new Member();
 		Restaurant r = selectOneRestr(restrNo, member);
-		if(r!=null) {
+		if (r != null) {
 			delFilepath.add(r.getRestrImg1());
 			delFilepath.add(r.getRestrImg2());
 			int result = restrDao.deleteRestr(restrNo);
-			if(result>0) {
+			if (result > 0) {
 				return delFilepath;
 			}
 		}
@@ -274,9 +284,9 @@ public class RestrService {
 	public int insertKeyword(int reviewNo, String[] keywords) {
 		int result = 0;
 		for (String keyword : keywords) {
-	        System.out.println("keyword: " + keyword);
-	        result = restrDao.insertKeyword(reviewNo, keyword);
-	    }
+			System.out.println("keyword: " + keyword);
+			result = restrDao.insertKeyword(reviewNo, keyword);
+		}
 		return result;
 	}
 
@@ -312,7 +322,7 @@ public class RestrService {
 
 	public List restrSearch(String searchKeyword, String selectedValue) {
 		List list = new ArrayList();
-		if(selectedValue.equals("default")) {			
+		if (selectedValue.equals("default")) {
 			list = restrDao.restrSearch(searchKeyword);
 		} else {
 			list = restrDao.restrSearchStar(searchKeyword);
@@ -322,14 +332,75 @@ public class RestrService {
 
 	public List selectBestReview() {
 		List<BestReview> list = restrDao.selectBestReview();
-		for(BestReview review : list) {
-			if(review.getReviewImg1()==null) {
+		for (BestReview review : list) {
+			if (review.getReviewImg1() == null) {
 				review.setReviewImg1Exist(false);
-			}else {
+			} else {
 				review.setReviewImg1Exist(true);
 			}
 		}
 		return list;
+	}
+
+	public ReviewListData selectAllReview(int reqPage) {
+
+		int numPerPage = 12;
+
+		int end = reqPage * numPerPage;
+		int start = end - numPerPage + 1;
+
+		List list = restrDao.selectAllReview(start, end);
+
+		int totalCount = restrDao.selectReviewCount();
+
+		int totalPage = 0;
+		if (totalCount % numPerPage == 0) {
+			totalPage = totalCount / numPerPage;
+		} else {
+			totalPage = totalCount / numPerPage + 1;
+		}
+
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+
+		String pageNavi = "<ul class='pagination'>";
+
+		if (pageNo != 1) {
+			pageNavi += "<li class='page-item'>";
+			pageNavi += "<a class='page-link' href='/restaurant/reviewList?reqPage=" + (pageNo - 1) + "'>";
+			pageNavi += "<span aria-hidden='true'>&laquo;</span>";
+			pageNavi += "</a></li>";
+		}
+
+		for (int i = 0; i < pageNaviSize; i++) {
+			pageNavi += "<li class='page-item'>";
+			if (pageNo == reqPage) {
+				pageNavi += "<a class='page-link' href='/restaurant/reviewList?reqPage=" + pageNo + "'>";
+			} else {
+				pageNavi += "<a class='page-link' href='/restaurant/reviewList?reqPage=" + pageNo + "'>";
+			}
+
+			pageNavi += pageNo;
+			pageNavi += "</a></li>";
+			pageNo++;
+
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+
+		if (pageNo <= totalPage) {
+			pageNavi += "<li class='page-item'>";
+			pageNavi += "<a class='page-link' aria-label='Next' href='/restaurant/reviewList?reqPage=" + pageNo + "'>";
+			pageNavi += "<span aria-hidden='true'>&raquo;</span>";
+			pageNavi += "</a></li>";
+		}
+
+		pageNavi += "</ul>";
+
+		ReviewListData rld = new ReviewListData(list, pageNavi);
+
+		return rld;
 	}
 
 }

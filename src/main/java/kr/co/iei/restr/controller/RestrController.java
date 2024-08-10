@@ -2,7 +2,9 @@ package kr.co.iei.restr.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +29,7 @@ import kr.co.iei.restr.model.dto.RestrMenu;
 import kr.co.iei.restr.model.dto.RestrTag;
 import kr.co.iei.restr.model.dto.Review;
 import kr.co.iei.restr.model.dto.ReviewImg;
+import kr.co.iei.restr.model.dto.ReviewListData;
 import kr.co.iei.restr.model.dto.ReviewTag;
 import kr.co.iei.restr.model.service.RestrService;
 import kr.co.iei.util.FileUtils;
@@ -134,13 +137,20 @@ public class RestrController {
 	// 검색
 	@ResponseBody
 	@GetMapping(value = "/restrSearch") 
-	public List restrSearch(String searchKeyword, String selectedValue) {
+	public Map<String, Object> restrSearch(String searchKeyword, String selectedValue, Model model) {
+		Map<String, Object> response = new HashMap<>();
+		
+		int submitRestrTotalCount = restrService.submitRestrTotalCount(searchKeyword);
+		response.put("submitRestrTotalCount", submitRestrTotalCount);
+		
 		List<Restaurant> list = restrService.restrSearch(searchKeyword, selectedValue);
 		for (Restaurant restr : list) {
 			Double restrStar = restrService.RestrStarAvg(restr.getRestrNo());
 			restr.setStar(restrStar);
 		}
-		return list;
+		response.put("restaurants", list);
+		
+		return response;
 	}
 
 	// 맛집 좋아요
@@ -418,5 +428,14 @@ public class RestrController {
 		model.addAttribute("loc", "/restaurant/restrList");
 		return "common/msg2";
 	}
-
+	
+	
+	// 리뷰 리스트
+	@GetMapping(value = "/reviewList")
+	public String selectAllReview(Model model, int reqPage) {
+		ReviewListData rld = restrService.selectAllReview(reqPage);
+		model.addAttribute("list", rld.getList());
+		model.addAttribute("pageNavi", rld.getPageNavi());
+		return "restaurant/reviewList";
+	}
 }
