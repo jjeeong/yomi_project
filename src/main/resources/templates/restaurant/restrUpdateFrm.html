@@ -37,7 +37,7 @@
 	<main class="main restrFrm">
 		<div class="round-box frm">
 			<h2 class="page-title">맛집 수정</h2>
-			<form action="/restaurant/restrUpdate" method="post" enctype="multipart/form-data" id="updateFrm">
+			<form action="/restaurant/restrUpdate" method="post" enctype="multipart/form-data" id="updateFrm" onsubmit="return false;">
 				<input type="hidden" name="restrNo" th:value="${r.restrNo}">
 				<div class="info basic round-box shadow">
 					<h3>1. 기본 정보</h3>
@@ -350,23 +350,40 @@
 	<script th:inline="javascript">
 		//태그 추가
 		$("#insertTag").on("click", function () {
+			let doInsert = true;
 		    const tagText = $("#restrTag").val();
 		    if (tagText == "") {
 		        alert("태그를 입력해주세요");
+		        doInsert = false;
 		        return;
 		    }
-		    const tagDiv = $("<div>");
-		    tagDiv.addClass("tag");
-		    const tagDivHtml = "<span class='tag-name update-tag-name'>" + tagText + "</span><span class='material-symbols-outlined' onclick='deleteTag(this);'>cancel</span>";
-		    tagDiv.html(tagDivHtml);
-		    $("div.tag-box").append(tagDiv);
-		    $("#restrTag").val("");
-		    //list에 넣는 작업 필요
+		    const tagNames = $(".tag-name");
+		    tagNames.each(function(index, item){
+		    	if(tagText == $(item).text()){
+		    		swal.fire({
+		    			title:"태그 입력 불가",
+		    			text:"중복된 태그입니다",
+		    			icon:"info"
+		    		});
+		    		doInsert = false;
+		    		return;//왜 return이 안먹을까?
+		    	}
+		    });//foreach
+		    if(doInsert){
+			    const tagDiv = $("<div>");
+			    tagDiv.addClass("tag");
+			    const tagDivHtml = "<span class='tag-name update-tag-name'>" + tagText + "</span><span class='material-symbols-outlined' onclick='deleteTag(this);'>cancel</span>";
+			    tagDiv.html(tagDivHtml);
+			    $("div.tag-box").append(tagDiv);
+			    $("#restrTag").val("");
+			    //list에 넣는 작업 필요
+		    }
 		})
 	
 	
 		function completeTr(btn) {
 			const tds = $(btn).parents("tr").children();
+			const menuNames = $("table.table").find("td.menuName");
 			let isCorrect = true;
 			tds.each(function (index, item) {
 				if (index < 2) {
@@ -387,6 +404,17 @@
 					}
 				}
 			});
+			menuNames.each(function(index,item){
+	    		if($(item).text() == tds.first().find("input").val()){
+	    			swal.fire({
+	    				title: "메뉴 추가 불가",
+	    				text:"동일한 메뉴는 추가할 수 없습니다.",
+	    				icon : "info"
+	    			});
+	    			isCorrect = false;
+	    			return;
+	    		}
+	    	})
 			if (isCorrect) {
 				tds.each(function (index, item) {
 					if (index == 2) {

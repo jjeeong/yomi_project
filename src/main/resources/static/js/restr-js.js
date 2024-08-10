@@ -240,6 +240,13 @@ function deleteTag(span, restrTagNo) {
     $("form#updateFrm").append(delTagInput);
 }
 
+//태그 작성하고 엔터치면 추가될 수 있도록
+$("#restrTag").on("keyup", function(event){
+	  if (event.which == 13) {
+        $("#insertTag").click();
+    }
+})
+
 
 
 

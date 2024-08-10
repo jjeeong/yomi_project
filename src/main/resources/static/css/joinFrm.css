@@ -121,6 +121,7 @@ body {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
     
 }
+
 .page2>span{
     float: left;
     margin-top: 15px;
@@ -171,7 +172,6 @@ body {
 
 .phone-group>input{
     width: calc(100%);
-    margin-right: 10px;
 }
 
 .gender-group{
@@ -261,8 +261,14 @@ body {
 
 /*---------------------------------------------------------------------------------------------------------*/
 
-
-
+.page3,.page4,.page5{
+    background-color: white;
+    width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1.3px solid black;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
 
 select::-ms-expand { 
 	display: none;
@@ -417,3 +423,37 @@ transform: rotate(180deg);
 .form-group2> #female{
 	margin-left : 30px;
 }
+
+.content-page>p{
+    margin-bottom: 10px;
+    margin: 10px 30px;
+    font-family: 'g_m';
+}
+
+.content-page>strong{
+    margin-left: 20px;
+}
+.text-right{
+    text-align: right;
+    margin-top: 15px;
+}
+.back1,.back2,.back3{
+    float: left;
+    margin: 20px;
+    cursor: pointer;
+}
+
+.indetail1:hover,.indetail2:hover,.indetail3:hover{
+    text-decoration: underline;
+    cursor: pointer;
+    color: black;
+    font-family: 'g_b';
+
+}
+
+.phone-group>.bar{
+	margin: 0 10px;
+	font-famil: 'g_black';
+	font-size:18px;
+}
+
