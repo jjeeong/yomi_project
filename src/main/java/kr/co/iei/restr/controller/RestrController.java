@@ -281,12 +281,14 @@ public class RestrController {
 	
 	//---------------------------------------------------------------------------
 	// 헷갈려서 나눠두겠습니다 위쪽 정원 / 아래쪽 수진
-
+	
+	//맛집 등록페이지 이동
 	@GetMapping(value = "/writeFrm")
 	public String writeFrm() {
 		return "restaurant/restrWriteFrm";
 	}// restFrm()
-
+	
+	//맛집 등록 작업
 	@PostMapping(value = "/restrWrite")//실험 결과 : 여러개 쓸거면 그냥 일일이 받아서 합치자.. 뭔가 더 복잡해진다..
 	public String write(Restaurant r, String[] menuName, int[] menuPrice, String[] tagName, MultipartFile imageFile1,
 			MultipartFile imageFile2, Model model) {
@@ -317,7 +319,8 @@ public class RestrController {
 		}
 		return "common/msg2";
 	}
-
+	
+	//맛집 수정페이지 이동
 	@GetMapping(value = "/updateFrm")
 	public String updateFrm(int restrNo, Model model) {
 		Restaurant r = restrService.selectOneRestrWith(restrNo);
@@ -333,6 +336,7 @@ public class RestrController {
 		}
 	}// restFrm()
 	
+	//맛집 수정 작업
 	@PostMapping(value="/restrUpdate")//시간 남으면...? 메뉴 수정할때 수정한 메뉴는 순서 유지되게끔 해보기 ( 현재는 기존거는 수정버튼 누르면 아예 지우는 걸로 되어있음 )
 	public String restrUpdate(Restaurant r, String[] menuName, int[] menuPrice, String[] tagName, MultipartFile imageFile1,
 			MultipartFile imageFile2, int[] delTagNo, String filepath1, String filepath2, int[] delMenuNo, Model model) {
@@ -391,6 +395,7 @@ public class RestrController {
 		return "common/msg2";
 	}
 	
+	//맛집삭제
 	@GetMapping(value="/deleteRestr")
 	public String deleteRestr(int restrNo, Model model) {
 		List<String> delFilepath = new ArrayList<String>();
