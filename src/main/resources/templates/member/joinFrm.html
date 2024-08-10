@@ -124,6 +124,12 @@
 	                                <span class="material-icons done">done</span>
 	                            </div>
 	                            <p class="input-msg email-check-msg"></p>
+	                            <div class="certification">
+		                            <div class="section-title">인증하기</div>
+		                            <div>
+		                            	<button type="button" id="sendBtn">인증하기</button>
+		                            </div>
+		                        </div>
 	                        </div>
 	                        <div class="form-section">
 	                            <div class="section-title">개인정보</div>
@@ -877,10 +883,26 @@
 				$(".email-check-msg").text("");
 				$(".email-check-msg").removeClass("invalid").removeClass("valid");
 			}else{
-				$(".email-check-msg").text("영문 대 소문자 숫자 ._%+- 기호만 사용가능합니다.");
+				$(".email-check-msg").text("영문 대 소문자 숫자 ._%+- 기호만 사용가능하며  최소 네자리 이상입력하셔야합니다.");
 				$(".email-check-msg").addClass("invalid");
 			}
 		});
+	    $("#sendBtn").on("click",function(){
+	    	const receiver = $("#memberEmail").val();
+	    	console.log($("#memberEmail").val());
+	    	$.ajax({
+	    		url : "/member/sendCode",
+	    		data : {receiver : receiver},
+	    		type : "post",
+	    		success : function(data){
+	    			console.log(data);
+	    		},
+	    		error : function(){
+	    			console.log("에러")
+	    		}
+	    	})
+	    });
+	    
 		
 		//생년월일 입력시 조건에 안맞으면 메세지 출력
 		$("#birth-year,#birth-month,#birth-day").on("change",function(){
@@ -1011,6 +1033,8 @@
 				$(".addr-check-msg").removeClass("invalid");
 			}
 		});
+		
+		
 	        
 		
     </script>
