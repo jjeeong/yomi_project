@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import kr.co.iei.restr.model.dto.BestRestrRowMapper;
+import kr.co.iei.restr.model.dto.BestReviewRowMapper;
 import kr.co.iei.restr.model.dto.Restaurant;
 import kr.co.iei.restr.model.dto.RestaurantRowMapper;
 
@@ -50,6 +51,9 @@ public class RestrDao {
 	@Autowired
 	private BestRestrRowMapper bestRestrRowMapper;
 
+	@Autowired
+	private BestReviewRowMapper bestReviewRowMapper;
+	
 	public Restaurant selectOneRestr(int restrNo) {
 		String query = "select * from restaurant where restr_no = ?";
 		Object[] params = { restrNo };
@@ -364,12 +368,11 @@ public class RestrDao {
 		return starAddr;
 	}
 
-	public List selectBest() {//별점 베스트 12개 뽑기.. 정렬이 된지는 알수 없음.. 
-		String query = "select restr_name, restr_no, restr_img1,(select round(avg(review_star),1) from review r where r.restr_no=restr.restr_no)review_star from restaurant restr \r\n" + 
-				"where restr_no in (\r\n" + 
-				"select restr_no from \r\n" + 
-				"(select rownum as rnum, r.* from \r\n" + 
-				"(select avg(review_star), restr_no from review group by restr_no order by 1 desc)r)r2 where rnum<13)";
+	public List selectBest() {//별점 베스트 12개 뽑기.. 베스트 순으로 12개, 별점이 같을 경우 오래된 것 부터
+		String query = "select * from (select rownum rnum, br.* from (select (select round(avg(review_star),1) from review where restr_no = r.restr_no)review_star, \r\n" + 
+				"        restr_no, restr_name, restr_img1 \r\n" + 
+				"from restaurant r \r\n" + 
+				"order by 1 desc nulls last, 2)br) where rnum<13";
 		List list = jdbc.query(query, bestRestrRowMapper);
 		return list;
 	}
@@ -449,6 +452,20 @@ public class RestrDao {
 	    Object[] params = {"%" + searchKeyword + "%", "%" + searchKeyword + "%", "%" + searchKeyword + "%"};
 	    List list = jdbc.query(query, restaurantRowMapper, params);
 	    return list;
+	}
+
+	public List selectBestReview() {
+		String query = "select * from \r\n" + 
+				"(select rownum rnum, brv.* \r\n" + 
+				"from (select (select count(*) \r\n" + 
+				"from review_like \r\n" + 
+				"where review_no = r.review_no)like_count,review_star, restr_no, review_content,\r\n" + 
+				"(select member_name from member_tbl where member_no = r.member_no) member_name, \r\n" + 
+				"restr_img1,restr_name,\r\n" + 
+				"(select review_filepath from review_img where review_img_no = (select max(review_img_no) from review_img where review_no = r.review_no)) review_img1\r\n" + 
+				"from review r join restaurant using (restr_no) order by 1 desc,2) brv) where rnum<13";
+		List list = jdbc.query(query, bestReviewRowMapper);
+		return list;
 	}
 
 }

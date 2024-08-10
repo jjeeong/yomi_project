@@ -35,16 +35,20 @@ public class ReportController {
 	@GetMapping(value="/insertReviewReport")
 	@ResponseBody
 	public int insertReviewReport(@SessionAttribute Member member,int reportBoardType, int reportReviewNo, int respondentNo, String reportType, String reportContent) {
+		Report r = new Report();
+		r.setReporterNo(member.getMemberNo());
+		r.setReportReviewNo(reportReviewNo);
+		r.setReportBoardType(reportBoardType);
+		int count = reportService.checkDuplication(r);
+		if(count == -2) {
+			return -2;
+		}
 		if(member.getMemberNo()==respondentNo) {
 			return -1;
 		}else {
-			Report r = new Report();
-			r.setReportBoardType(reportBoardType);
-			r.setReportContent(reportContent);
-			r.setReporterNo(member.getMemberNo());
-			r.setReportReviewNo(reportReviewNo);
-			r.setReportType(reportType);
 			r.setRespondentNo(respondentNo);
+			r.setReportType(reportType);
+			r.setReportContent(reportContent);
 			int result = reportService.insertReviewReport(r);
 			return result;			
 		}

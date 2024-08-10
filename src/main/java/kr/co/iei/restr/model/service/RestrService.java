@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.restr.model.dao.RestrDao;
+import kr.co.iei.restr.model.dto.BestReview;
 import kr.co.iei.restr.model.dto.Restaurant;
 
 import kr.co.iei.restr.model.dto.RestrMenu;
@@ -315,6 +316,18 @@ public class RestrService {
 			list = restrDao.restrSearch(searchKeyword);
 		} else {
 			list = restrDao.restrSearchStar(searchKeyword);
+		}
+		return list;
+	}
+
+	public List selectBestReview() {
+		List<BestReview> list = restrDao.selectBestReview();
+		for(BestReview review : list) {
+			if(review.getReviewImg1()==null) {
+				review.setReviewImg1Exist(false);
+			}else {
+				review.setReviewImg1Exist(true);
+			}
 		}
 		return list;
 	}

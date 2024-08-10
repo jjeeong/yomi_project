@@ -541,6 +541,7 @@
             				reportContent : reportContent
             			},
             			success : function(data){
+            				console.log(data);
             				if(data>0){
             					reportSwal.fire({
             						title : "신고 완료",
@@ -552,6 +553,13 @@
             					reportSwal.fire({
             						title : "신고  불가",
             						text : "자기 자신을 신고할 수 없습니다.",
+            						icon : "error",
+            						color : "var(--mainFont)"
+            					});
+            				}else if(data == -2){
+            					reportSwal.fire({
+            						title : "신고  불가",
+            						text : "이미 신고한 게시물입니다.",
             						icon : "error",
             						color : "var(--mainFont)"
             					});

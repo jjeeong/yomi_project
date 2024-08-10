@@ -173,6 +173,12 @@ public class ReportService {
 				"			  </ul>";
 		return pageNavi;
 	}
+
+
+	public int checkDuplication(Report r) {
+		int count = reportDao.checkDuplication(r);
+		return count;
+	}
 	
 
 		

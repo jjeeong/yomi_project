@@ -156,4 +156,30 @@ public class ReportDao {
 		int totalCount = jdbc.queryForObject(query, Integer.class, params);
 		return totalCount;
 	}
+
+	public int checkDuplication(Report r) {
+		String query="";
+		Object[] params = new Object[2];
+		params[0] = r.getReporterNo();
+		switch(r.getReportBoardType()) {
+		case 1:
+			query = "select count(*) from report where reporter_no=? and report_review_no=?";
+			params[1]=r.getReportReviewNo();
+			break;
+		case 2:
+			query = "select count(*) from report where reporter_no=? and report_board_no=?";
+			params[1]=r.getReportBoardNo();
+			break;
+		case 3:
+			query = "select count(*) from report where reporter_no=? and report_board_comment_no=?";
+			params[1]=r.getReportBoardCommentNo();
+			break;
+		}//switch
+		int count = jdbc.queryForObject(query, Integer.class, params);
+		System.out.println(count);
+		if(count==0) {
+			return 0;
+		}
+		return -2;
+	}
 }

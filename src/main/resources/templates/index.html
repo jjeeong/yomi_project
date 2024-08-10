@@ -32,6 +32,13 @@
 			font-size : 17px;
 			line-height : 25px;
 		}
+		.content-page{
+			display : none;
+		}
+		.content-page.show{
+			display : block;
+		}
+		
 	</style>
 </head>
 
@@ -44,7 +51,7 @@
 					<div class="bg-fade">
 						<div class="carousel-item active">
 							<div class="active-box">
-								<a th:each="num : ${#numbers.sequence(0,3)}" th:href="${'/restaurant/restrView?restrNo='+restrList[num].restrNo}">
+								<a th:each="num : ${#numbers.sequence(0,3)}" th:href="${'/restaurant/restrView?restrNo='+restrList[num].restrNo}" th:if="${restrList.size()>=4}">
 									<div class="restr-box round-box">
 										<div class="img-box round-box shadow">
 											<img th:src="@{'/yomi/'+${restrList[num].restrImg1}}" class="restr-img">
@@ -95,7 +102,7 @@
 						</div>
 						<div class="carousel-item">
 							<div class="active-box">
-								<a th:each="num : ${#numbers.sequence(4,7)}" th:href="${'/restaurant/restrView?restrNo='+restrList[num].restrNo}">
+								<a th:each="num : ${#numbers.sequence(4,7)}" th:href="${'/restaurant/restrView?restrNo='+restrList[num].restrNo}" th:if="${restrList.size()>=8}">
 									<div class="restr-box round-box">
 										<div class="img-box round-box shadow">
 											<img th:src="@{'/yomi/'+${restrList[num].restrImg1}}" class="restr-img">
@@ -146,7 +153,7 @@
 						</div>
 						<div class="carousel-item">
 							<div class="active-box">
-								<a th:each="num : ${#numbers.sequence(8,11)}" th:href="${'/restaurant/restrView?restrNo='+restrList[num].restrNo}">
+								<a th:each="num : ${#numbers.sequence(8,11)}" th:href="${'/restaurant/restrView?restrNo='+restrList[num].restrNo}" th:if="${restrList.size()==12}">
 									<div class="restr-box round-box">
 										<div class="img-box round-box shadow">
 											<img th:src="@{'/yomi/'+${restrList[num].restrImg1}}" class="restr-img">
@@ -220,155 +227,193 @@
 						<span><a href="#">리뷰 더보기</a></span>
 					</div>
 					<div class="best-review-content">
+						<div class="content-page show">
+							<a th:each="num : ${#numbers.sequence(0,3)}" th:href="${'/restaurant/restrView?restrNo='+reviewList[num].restrNo}" th:if="${reviewList.size()>=4}">
+								<div class="content-list">
+									<div class="restr-info">
+										<div class="img-box">
+											<img th:src="@{'/review/'+${reviewList[num].reviewImg1}}" th:if="${reviewList[num].reviewImg1Exist}">
+											<img th:src="@{'/yomi/'+${reviewList[num].restrImg1}}" th:unless="${reviewList[num].reviewImg1Exist}">
+										</div>
+										<div class="span-box">
+											<span th:text="${reviewList[num].restrName}"></span>
+										</div>
+									</div>
+									<div class="reviewer-info">
+										<div class="reviewer-id">
+											<span th:text="${reviewList[num].memberName}"></span>
+										</div>
+										<div class="star star-origin star-wrap">
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="score-num" th:text="${reviewList[num].reviewStar}"></span>
+											<div class="star-on">
+												<div class="star-score star-wrap star-on-wrap">
+													<span class="material-icons">
+														grade
+													</span>
+													<span class="material-icons">
+														grade
+													</span>
+													<span class="material-icons">
+														grade
+													</span>
+													<span class="material-icons">
+														grade
+													</span>
+													<span class="material-icons">
+														grade
+													</span>
+												</div>
+											</div>
+										</div>
+										<div class="review-content round-box">
+											<p th:text="${reviewList[num].reviewContent}">리뷰 내용...</p>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 						<div class="content-page">
-							<div class="content-list">
-								<div class="restr-info">
-									<div class="img-box">
-										<img src="/image/error 페이지용.jpg">
+							<a th:each="num : ${#numbers.sequence(4,7)}" th:href="${'/restaurant/restrView?restrNo='+reviewList[num].restrNo}" th:if="${reviewList.size()>=8}">
+								<div class="content-list">
+									<div class="restr-info">
+										<div class="img-box">
+											<img th:src="@{'/review/'+${reviewList[num].reviewImg1}}" th:if="${reviewList[num].reviewImg1Exist}">
+											<img th:src="@{'/yomi/'+${reviewList[num].restrImg1}}" th:unless="${reviewList[num].reviewImg1Exist}">
+										</div>
+										<div class="span-box">
+											<span th:text="${reviewList[num].restrName}"></span>
+										</div>
 									</div>
-									<div class="span-box">
-										<span>상호명</span>
-									</div>
-								</div>
-								<div class="reviewer-info">
-									<div class="reviewer-id">
-										<span>사용자ID</span>
-									</div>
-									<div class="star">
-										<span class="material-icons">
-											grade
-										</span>
-										<span class="material-icons">
-											grade
-										</span>
-										<span class="material-icons">
-											grade
-										</span>
-										<span class="material-icons-outlined">
-											grade
-										</span>
-										<span class="material-icons-outlined">
-											grade
-										</span>
-									</div>
-									<div class="review-content round-box">
-										<p>리뷰 내용...</p>
-									</div>
-								</div>
-							</div>
-							<div class="content-list">
-								<div class="restr-info">
-									<div class="img-box">
-										<img src="/image/error 페이지용.jpg">
-									</div>
-									<div class="span-box">
-										<span>상호명</span>
-									</div>
-								</div>
-								<div class="reviewer-info">
-									<div class="reviewer-id">
-										<span>사용자ID</span>
-									</div>
-									<div class="star">
-										<span class="material-icons">
-											grade
-										</span>
-										<span class="material-icons">
-											grade
-										</span>
-										<span class="material-icons">
-											grade
-										</span>
-										<span class="material-icons-outlined">
-											grade
-										</span>
-										<span class="material-icons-outlined">
-											grade
-										</span>
-									</div>
-									<div class="review-content round-box">
-										<p>리뷰 내용...</p>
+									<div class="reviewer-info">
+										<div class="reviewer-id">
+											<span th:text="${reviewList[num].memberName}"></span>
+										</div>
+										<div class="star star-origin star-wrap">
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="score-num" th:text="${reviewList[num].reviewStar}"></span>
+											<div class="star-on">
+												<div class="star-score star-wrap star-on-wrap">
+													<span class="material-icons">
+														grade
+													</span>
+													<span class="material-icons">
+														grade
+													</span>
+													<span class="material-icons">
+														grade
+													</span>
+													<span class="material-icons">
+														grade
+													</span>
+													<span class="material-icons">
+														grade
+													</span>
+												</div>
+											</div>
+										</div>
+										<div class="review-content round-box">
+											<p th:text="${reviewList[num].reviewContent}">리뷰 내용...</p>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="content-list">
-								<div class="restr-info">
-									<div class="img-box">
-										<img src="/image/error 페이지용.jpg">
+							</a>
+						</div>
+						<div class="content-page">
+							<a th:each="num : ${#numbers.sequence(8,11)}" th:href="${'/restaurant/restrView?restrNo='+reviewList[num].restrNo}" th:if="${reviewList.size()==12}">
+								<div class="content-list">
+									<div class="restr-info">
+										<div class="img-box">
+											<img th:src="@{'/review/'+${reviewList[num].reviewImg1}}" th:if="${reviewList[num].reviewImg1Exist}">
+											<img th:src="@{'/yomi/'+${reviewList[num].restrImg1}}" th:unless="${reviewList[num].reviewImg1Exist}">
+										</div>
+										<div class="span-box">
+											<span th:text="${reviewList[num].restrName}"></span>
+										</div>
 									</div>
-									<div class="span-box">
-										<span>상호명</span>
-									</div>
-								</div>
-								<div class="reviewer-info">
-									<div class="reviewer-id">
-										<span>사용자ID</span>
-									</div>
-									<div class="star">
-										<span class="material-icons">
-											grade
-										</span>
-										<span class="material-icons">
-											grade
-										</span>
-										<span class="material-icons">
-											grade
-										</span>
-										<span class="material-icons-outlined">
-											grade
-										</span>
-										<span class="material-icons-outlined">
-											grade
-										</span>
-									</div>
-									<div class="review-content round-box">
-										<p>리뷰 내용...</p>
-									</div>
-								</div>
-							</div>
-							<div class="content-list">
-								<div class="restr-info">
-									<div class="img-box">
-										<img src="/image/error 페이지용.jpg">
-									</div>
-									<div class="span-box">
-										<span>상호명</span>
-									</div>
-								</div>
-								<div class="reviewer-info">
-									<div class="reviewer-id">
-										<span>사용자ID</span>
-									</div>
-									<div class="star">
-										<span class="material-icons">
-											grade
-										</span>
-										<span class="material-icons">
-											grade
-										</span>
-										<span class="material-icons">
-											grade
-										</span>
-										<span class="material-icons-outlined">
-											grade
-										</span>
-										<span class="material-icons-outlined">
-											grade
-										</span>
-									</div>
-									<div class="review-content round-box">
-										<p>리뷰 내용...</p>
+									<div class="reviewer-info">
+										<div class="reviewer-id">
+											<span th:text="${reviewList[num].memberName}"></span>
+										</div>
+										<div class="star star-origin star-wrap">
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="material-icons">
+												grade
+											</span>
+											<span class="score-num" th:text="${reviewList[num].reviewStar}"></span>
+											<div class="star-on">
+												<div class="star-score star-wrap star-on-wrap">
+													<span class="material-icons">
+														grade
+													</span>
+													<span class="material-icons">
+														grade
+													</span>
+													<span class="material-icons">
+														grade
+													</span>
+													<span class="material-icons">
+														grade
+													</span>
+													<span class="material-icons">
+														grade
+													</span>
+												</div>
+											</div>
+										</div>
+										<div class="review-content round-box">
+											<p th:text="${reviewList[num].reviewContent}">리뷰 내용...</p>
+										</div>
 									</div>
 								</div>
-							</div>
+							</a>
 						</div>
 					</div>
 					<div class="best-review-btn">
 						<div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-							<button type="button" class="btn"><span class="material-icons-outlined">
+							<button type="button" class="btn prev"><span class="material-icons-outlined">
 									chevron_left
 								</span></button>
-							<button type="button" class="btn"><span class="material-icons-outlined">
+							<button type="button" class="btn next"><span class="material-icons-outlined">
 									chevron_right
 								</span></button>
 						</div>
@@ -420,9 +465,32 @@
 			$("div.ad").on("click", function(){
 				location.href="https://kh-academy.co.kr/main/main.kh";
 			})
+			//베스트 리뷰 이전 버튼
+			$("button.prev").on("click", function(){
+				const bestReviewPages = $("div.content-page");
+				const showPage = $("div.content-page.show");
+				bestReviewPages.removeClass("show");
+				const prevPage = showPage.prev();
+				if(prevPage.length == 0){
+					bestReviewPages.last().addClass("show");
+				}else{
+				showPage.prev().addClass("show");
+				}
+			});
+			//베스트 리뷰 이후 버튼
+			$("button.next").on("click", function(){
+				const bestReviewPages = $("div.content-page");
+				const showPage = $("div.content-page.show");
+				bestReviewPages.removeClass("show");
+				const nextPage = showPage.next();
+				if(nextPage.length == 0){
+					bestReviewPages.first().addClass("show");
+				}else{
+				showPage.next().addClass("show");
+				}
+			});
 			
 			
-			//별점별 다르게 하는거 구현해야함
 		</script>
 	</main>
 	<th:block th:include="common/footer"></th:block>

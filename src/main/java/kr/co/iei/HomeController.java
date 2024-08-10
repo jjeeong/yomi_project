@@ -14,15 +14,13 @@ import kr.co.iei.restr.model.service.RestrService;
 public class HomeController {
 	@Autowired
 	private RestrService restrService;
-	@Autowired
-	private BoardService boardService;
 	
 		@GetMapping(value="/")
 		public String main(Model model) {
 			List restrList = restrService.selectBest();
-			System.out.println(restrList);
-			//List boardList = boardService.selectBest(); =>좋아요 수 구현되면 할것
+			List reviewList = restrService.selectBestReview();
 			model.addAttribute("restrList", restrList);
+			model.addAttribute("reviewList", reviewList);
 			return "index";
 		}
 //		

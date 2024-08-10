@@ -539,15 +539,16 @@ main.index div.content>div.best-review div.content-list>div.restr-info {
 }
 
 main.index div.best-review div.img-box {
-    height: 140px;
+	overflow: hidden;
     display: flex;
     align-items: center;
 }
 
 main.index div.best-review div.img-box>img {
+    height: 140px;
     width: 100%;
     object-fit: cover;
-    object-position: bottom;
+    object-position: center;
 }
 
 main.index div.best-review div.span-box {
@@ -562,6 +563,7 @@ main.index div.content>div.best-review div.content-list>div.reviewer-info {
     padding-top: 5px;
     padding-left: 5px;
     color: var(--pointFont);
+    font-size : 16px;
 }
 
 main.index div.content>div.best-review div.content-list div.review-content {
