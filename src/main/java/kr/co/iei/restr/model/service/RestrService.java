@@ -14,12 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import kr.co.iei.member.model.dto.Member;
+
 import kr.co.iei.restr.model.dao.RestrDao;
 import kr.co.iei.restr.model.dto.Restaurant;
 
 import kr.co.iei.restr.model.dto.RestrMenu;
 import kr.co.iei.restr.model.dto.Review;
 import kr.co.iei.restr.model.dto.ReviewImg;
+import kr.co.iei.restr.model.dto.ReviewListData;
 
 @Service
 public class RestrService {
@@ -116,6 +118,7 @@ public class RestrService {
 	public List selectRestrList(int start, int amount, String selectedValue) {
 		int end = start + amount - 1;
 		List list = new ArrayList();
+		
 		if(selectedValue.equals("default")) {			
 			list = restrDao.selectRestrList(start, end);
 		} else {
@@ -127,6 +130,11 @@ public class RestrService {
 	public int selectRestrTotalCount() {
 		int restrTotalCount = restrDao.selectRestrTotalCount();
 		return restrTotalCount;
+	}
+	
+	public int submitRestrTotalCount(String searchKeyword) {
+		int submitRestrTotalCount = restrDao.submitRestrTotalCount(searchKeyword);
+		return submitRestrTotalCount;
 	}
 
 	public List selectRestrMenu(int restrNo) {
@@ -317,6 +325,68 @@ public class RestrService {
 			list = restrDao.restrSearchStar(searchKeyword);
 		}
 		return list;
+	}
+
+	public ReviewListData selectAllReview(int reqPage) {
+
+		int numPerPage = 12;
+
+		int end = reqPage * numPerPage;
+		int start = end - numPerPage + 1;
+
+		List list = restrDao.selectAllReview(start, end);
+				
+		int totalCount = restrDao.selectReviewCount();
+
+		int totalPage = 0;
+		if(totalCount%numPerPage == 0) {
+			totalPage = totalCount/numPerPage;
+		} else {
+			totalPage = totalCount/numPerPage + 1;
+		}
+
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1)/pageNaviSize)*pageNaviSize + 1;
+				
+		String pageNavi = "<ul class='pagination'>";
+				
+
+		if(pageNo != 1) {
+			pageNavi += "<li class='page-item'>";
+			pageNavi += "<a class='page-link' href='/restaurant/reviewList?reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<span aria-hidden='true'>&laquo;</span>";
+			pageNavi += "</a></li>";
+		}
+				
+		for(int i=0; i<pageNaviSize; i++) {
+			pageNavi += "<li class='page-item'>";
+			if(pageNo == reqPage) {
+				pageNavi += "<a class='page-link' href='/restaurant/reviewList?reqPage="+pageNo+"'>";	
+			} else {				
+				pageNavi += "<a class='page-link' href='/restaurant/reviewList?reqPage="+pageNo+"'>";
+		}
+					
+			pageNavi += pageNo;
+			pageNavi += "</a></li>";
+			pageNo ++;
+
+			if(pageNo > totalPage) {
+				break;
+			}
+		}
+
+		if(pageNo <= totalPage) {
+			pageNavi += "<li class='page-item'>";
+			pageNavi += "<a class='page-link' aria-label='Next' href='/restaurant/reviewList?reqPage="+pageNo+"'>";
+			pageNavi += "<span aria-hidden='true'>&raquo;</span>";
+			pageNavi += "</a></li>";
+		}
+				
+		pageNavi += "</ul>";
+
+		ReviewListData rld = new ReviewListData(list, pageNavi);
+				
+		return rld;
 	}
 
 }

@@ -103,8 +103,7 @@
 						restrInfoDiv.append(restrNameDiv).append(restrRestrRatingDiv).append(restrDetailsDiv);
 						restrA.append(img).append(restrInfoDiv);
 						
-						$(".restr-list").append(restrA);
-						
+						$(".restr-list").append(restrA);					
 					}
 
 					start = start + amount;
@@ -129,35 +128,41 @@
 		});
 		
 		$(".restr-type-div select[name='restr-type']").on("change", function() {
-	        selectedValue = $(this).val();
+		    selectedValue = $(this).val();
 		    currentCount = 0;
-			start = 1;
-	        $(".restr-item").remove();
-			$(".restr-not").remove();
-			
-			searchKeyword = searchKeywordInput.value;
-	        
-			if(searchKeyword == null){
-	        	$("#more-btn").click();
-			} else {
-				$("#submit").click();
-			}
-	        
-	    });
+		    start = 1;
+		    $(".restr-item").remove();
+		    $(".restr-not").remove();
+
+		    searchKeyword = searchKeywordInput.value;
+
+		    if (searchKeyword === "") {
+		        $("#more-btn").show();
+		        $("#more-btn").click();
+		    } else {
+		        $("#submit").click();
+		    }
+		});
 		
 		$("#submit").on("click", function(){
 			searchKeyword = searchKeywordInput.value;
 			
+			let submitCurrentCount = 0;
+			let submitStart = 1;
+			
 			$.ajax({
 				url : "/restaurant/restrSearch",
 				type : "get",
-				data : {searchKeyword : searchKeyword, selectedValue : selectedValue},
+				data : {submitStart : submitStart, searchKeyword : searchKeyword, selectedValue : selectedValue},
 				success : function(data) {
+					
+					let submitRestrTotalCount = data.submitRestrTotalCount;
+					
 					$("#more-btn").remove();
 					$(".restr-item").remove();
 					$(".restr-not").remove();
 					
-					if(data.length == 0) {
+					if(data.restaurants.length == 0) {
 						$(".restr-type-div").css("display", "none");
 						const notH3 = $("<h3>").text(searchKeyword + "에 대한 맛집이 존재하지 않습니다.");
 						const notDiv = $("<div>").addClass("restr-not").append(notH3);
@@ -166,8 +171,8 @@
 						$(".restr-type-div").css("display", "block");
 					}
 					
-					for(let i=0; i<data.length; i++) {
-						const r = data[i];
+					for(let i=0; i<data.restaurants.length; i++) {
+						const r = data.restaurants[i];
 						
 						const restrA = $("<a>");
 						restrA.addClass("restr-item");
@@ -201,8 +206,7 @@
 						restrInfoDiv.append(restrNameDiv).append(restrRestrRatingDiv).append(restrDetailsDiv);
 						restrA.append(img).append(restrInfoDiv);
 						
-						$(".restr-list").append(restrA);
-						
+						$(".restr-list").append(restrA);	
 					}
 
 				},
