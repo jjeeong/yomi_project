@@ -17,6 +17,7 @@ import kr.co.iei.admin.service.AdminService;
 import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.member.model.service.MemberService;
 import kr.co.iei.report.model.service.ReportService;
+import kr.co.iei.restr.model.service.RestrService;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -25,9 +26,10 @@ public class AdminController {
 	private ReportService reportService;
 	@Autowired
 	private MemberService memberService;
-
 	@Autowired
 	private AdminService adminService;
+	@Autowired
+	private RestrService restrService;
 
 	@GetMapping(value = "/checkReport")
 	public String checkReport() {
@@ -35,15 +37,16 @@ public class AdminController {
 
 	}
 
-
-	
 	
 	@GetMapping(value="/adminMypage")
 	public String adminMypage(@SessionAttribute Member member,Model model) {
 
 		String memberId = member.getMemberId();
+		int memberNo = member.getMemberNo();
 		Member m = memberService.selectOneMember(memberId);
+		List list = restrService.selectListRestr(memberNo);
 		model.addAttribute("m", m);
+		model.addAttribute("rs",list);
 		return "admin/adminMypage";
 	}
 
@@ -147,5 +150,5 @@ public class AdminController {
 		List myreviews = adminService.reviewsMember(memberNo);
 		model.addAttribute("v",myreviews);
 		return "admin/myreviews";
-	}		
+	}	
 }

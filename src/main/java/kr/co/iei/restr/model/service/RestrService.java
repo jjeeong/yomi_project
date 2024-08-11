@@ -277,5 +277,10 @@ public class RestrService {
 		List tagCountList = restrDao.tagCountList(restrNo);
 		return tagCountList;
 	}
+	
+	public List selectListRestr(int memberNo) {
+		List list = restrDao.selectListRestr(memberNo);
+		return list;
+	}
 
 }

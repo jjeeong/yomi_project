@@ -162,8 +162,5 @@ public class BoardController {
 			return "redirect:/board/view?boardNo="+b.getBoardNo();
 		}
 	}
-	}
-
-
-	
+}
 

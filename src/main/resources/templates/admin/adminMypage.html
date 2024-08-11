@@ -61,22 +61,22 @@
                     <h2 class="baba">즐겨찾기한 맛집</h2>
                     <div class="bookmark-container">
                         <div class="bookmark-item">
-                            <div class="bookmark-photo1">
-                                <img src="이미지/맛집1.jpg" alt="사진1">
+                            <div class="bookmark-photo1"></div><!-- th:each="rs: ${list}"> -->
+                                <img src="이미지/맛집1.jpg" alt="사진1"> <!--  th:text="${rs.restrImg1}"-->
                             </div>
-                            <div class="bookmark-name">맛집 1</div>
+                            <div class="bookmark-name" ><!--th:text="${rs.restrName}">  -->
                         </div>
                         <div class="bookmark-item">
-                            <div class="bookmark-photo2">
-                                <img src="이미지/맛집2.jpg" alt="사진2">
+                            <div class="bookmark-photo2"></div><!-- th:each="rs: ${list}"> -->
+                                <img src="이미지/맛집2.jpg" alt="사진2"> <!-- th:text="${rs.restrImg1}">-->
                             </div>
-                            <div class="bookmark-name">맛집 2</div>
+                            <div class="bookmark-name" ><!--th:text="${rs.restrName}">  -->
                         </div>
                         <div class="bookmark-item">
-                            <div class="bookmark-photo3">
-                                <img src="이미지/맛집3.jpg" alt="사진3">
+                            <div class="bookmark-photo3"></div><!-- th:each="rs: ${list}"> -->
+                                <img src="이미지/맛집3.jpg" alt="사진3"> <!-- th:text="${rs.restrImg1}" -->
                             </div>
-                            <div class="bookmark-name">맛집 3</div>
+                            <div class="bookmark-name" ><!--th:text="${rs.restrName}">  -->
                         </div>
                     </div>
                 </div>

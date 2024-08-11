@@ -33,12 +33,13 @@ body {
     width: calc(100% - 40px);
     max-width: 500px;
     height: auto;
-    background-color: #ffab40; /* 주황색 배경으로 변경 */
+    background-color: #ffab40;
     border-radius: 15px;
     margin: 20px auto;
     padding: 10px;
     text-align: center;
-    color: white; /* 흰색 글자 */
+    color: white;
+    margin: 10px;
 }
 
 /* 나머지 CSS 코드 유지 */
