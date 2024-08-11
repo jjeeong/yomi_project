@@ -99,6 +99,15 @@ public class MemberDao {
 		}
 	}
 
+
+	public int updatePw(Member m) {
+		String query = "update member_tbl set member_pw = ? where member_name=? and member_id=? and member_email =? ";
+		Object[] params = {m.getMemberPw(),m.getMemberName(),m.getMemberId(),m.getMemberEmail()};
+		int result = jdbc.update(query,params);
+		
+		return result;
+	}
+
 		
 		
 	}
