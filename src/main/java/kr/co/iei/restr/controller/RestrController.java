@@ -277,7 +277,12 @@ public class RestrController {
 		if (member == null) {
 			return -10;
 		} else {
-			return 1;
+			int result = restrService.selectRestrReview(restrNo, member.getMemberNo());
+			if(result > 0) {
+				return -5;
+			} else {
+				return 1;
+			}
 		}
 	}
 	

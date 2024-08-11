@@ -79,12 +79,18 @@
 						<p>(작성된 리뷰가 없습니다.)</p>
 					</th:block>
 				</div>
+				<div class="like-counts" style="color: gray;">
+					<span class="material-icons">favorite</span>
+					<span id="like-count" th:text="${r.likeCount}" style="margin-right: 10px;"></span>
+					<span class="material-icons">bookmark</span>
+					<span id="bookmark-count" th:text="${r.bookmarkCount}"></span>
+				</div>
 				<div class="shop-information">
 					<div>
-						<span class="material-icons">location_on</span><span id="addr1" th:text="${r.restrAddr1}"></span> <span id="addr2" th:text="${r.restrAddr2}"></span>
+						<span class="material-icons icon">location_on</span><span id="addr1" th:text="${r.restrAddr1}"></span> <span id="addr2" th:text="${r.restrAddr2}"></span>
 					</div>
 					<div>
-						<span class="material-icons">call</span> <span th:text="${r.restrTel}"></span>
+						<span class="material-icons icon">call</span> <span th:text="${r.restrTel}"></span>
 					</div>
 				</div>
 				<div class="menu-and-tag">
@@ -138,8 +144,7 @@
 
 				<div class="review-form collapsed">
 
-					<form action="/restaurant/writeReview" method="post"
-						id="review-frm" enctype="multipart/form-data">
+					<form action="/restaurant/writeReview" method="post" id="review-frm" enctype="multipart/form-data">
 						<div class="stars2">
 							<div class="star-rating" id="star-rating">
 								<span class="material-icons" data-value="1">grade</span> <span
@@ -725,6 +730,12 @@
                                     text: "로그인 후 이용해 주세요",
                                     icon: "info"
                                 });
+                            } else if(response == -5){
+                            	Swal.fire({
+                                    title: "이미 리뷰를 작성한 맛집",
+                                    text: "맛집당 하나의 리뷰만 작성 가능합니다.",
+                                    icon: "info"
+                                });
                             } else {
                                 reviewForm.classList.remove("collapsed");
                                 toggleBtn.textContent = "접기";
@@ -831,6 +842,8 @@
                             $(obj).css("color", "#B3B3B3");
                             $(obj).attr("id", "like-none");
                         }
+                      	//현재 좋아요 갯수 변경
+						$("#like-count").text(data);
                     }
                 },
                 error: function () {
@@ -879,6 +892,8 @@
                             $(obj).css("color", "#B3B3B3");
                             $(obj).attr("id", "bookmark-none");
                         }
+                      	//현재 북마크 갯수 변경
+						$("#bookmark-count").text(data);
                     }
                 },
                 error: function () {

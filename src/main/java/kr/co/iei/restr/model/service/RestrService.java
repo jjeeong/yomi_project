@@ -38,8 +38,14 @@ public class RestrService {
 			r.setIsLike(isLike);
 
 			int isBookmark = restrDao.selectIsBookmark(restrNo, memberNo);
-			r.setIsBookmark(isBookmark);
+			r.setIsBookmark(isBookmark);			
 		}
+		
+		int likeCount = restrDao.selectRestrLikeCount(restrNo);
+		r.setLikeCount(likeCount);
+		
+		int bookmarkCount = restrDao.selectRestrBookmarkCount(restrNo);
+		r.setBookmarkCount(bookmarkCount);
 		return r;
 	}
 
@@ -405,5 +411,11 @@ public class RestrService {
 
 		return rld;
 	}
+
+	public int selectRestrReview(int restrNo, int memberNo) {
+		int result = restrDao.selectRestrReview(restrNo, memberNo);
+		return result;
+	}
+
 
 }

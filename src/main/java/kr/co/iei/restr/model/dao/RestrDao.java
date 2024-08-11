@@ -486,5 +486,12 @@ public class RestrDao {
 		return result;
 	}
 
+	public int selectRestrReview(int restrNo, int memberNo) {
+		String query = "select count(*) from review where member_no = ? and restr_no = ?";
+		Object[] params = {memberNo, restrNo};
+		int result = jdbc.queryForObject(query, Integer.class, params);
+		return result;
+	}
+
 
 }
