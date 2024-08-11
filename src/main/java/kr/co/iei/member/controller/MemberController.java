@@ -101,10 +101,25 @@ public class MemberController {
 		}
 	}
 	
+	@GetMapping(value="/findIdFrm")
+	public String findIdFrm() {
+		return "/member/findId";
+	}
+		
+	@PostMapping(value="/findId")
+	public String findId(Member m,Model model) {
+		Member member = memberService.findId(m);
+		model.addAttribute("member" , member);
+		
+		
+		return "/member/findIdselect";
+	}
+	
+	
+	
 	@ResponseBody
-	@PostMapping(value="sendCode")
+	@PostMapping(value="/sendCode")
 	public String sendCode(String receiver) {
-		System.out.println(receiver);
 		//인증메일 제목 생성
 		String emailTitle = "YOMIYOMI 인증메일입니다.";
 		//인증메일 인증코드 생성
@@ -127,10 +142,13 @@ public class MemberController {
 			}
 		}
 		String emailContent = "<h1>안녕하세요. YOMIYOMI 입니다.</h1>"
-							+"<h3>회원 가입을 위한 인증번호는 [<span style='font-size : 22px;'>"
+							+"<h3>회원 가입을 위한 인증번호는 "
 							+sb.toString()
-							+"</span>]입니다.</h3>";
+							+"입니다.</h3>";
 		emailSender.sendMail(emailTitle, receiver, emailContent);
+		System.out.println("cot"+emailTitle);
+		System.out.println("cot"+receiver);
+		System.out.println("cot"+emailContent);
 		return sb.toString();
 		
 	}

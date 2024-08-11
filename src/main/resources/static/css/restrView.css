@@ -12,6 +12,7 @@ body, html {
 	height: 100%;
 }
 
+
 .shop-img img {
 	margin-right: 10px;
 	width: 300px;
@@ -61,16 +62,7 @@ body, html {
 	color: #A3A3A3;
 }
 
-.shop-information {
-	height: 150px;
-	border-bottom: 1px solid black;
-}
-
-.shop-information span {
-	font-size: 20px;
-}
-
-.shop-information .material-icons {
+.shop-information .icon {
 	font-size: 30px;
 }
 
@@ -131,7 +123,7 @@ body, html {
 
 /* ----------- 리뷰 ---------------- */
 .review-wrap {
-	background-color: #EBEBEB;
+	background-color: var(--color1);
 	width: 900px;
 	padding-bottom: 30px;
 	margin: 30px auto;
@@ -199,7 +191,7 @@ textarea {
 	width: 200px;
 	border-radius: 30px;
 	padding: 10px;
-	background-color: #FC7A1E;
+	background-color: var(--point2);
 	border: none;
 	color: white;
 	cursor: pointer;
@@ -279,7 +271,7 @@ textarea {
 }
 
 .star {
-	color: #FC7A1E;
+	color: var(--point2);
 	font-size: 24px;
 	margin-right: 5px;
 }
@@ -333,7 +325,7 @@ textarea {
 .blog-header {
 	font-size: 25px;
 	font-family: g_b;
-	color: #FC7A1E;
+	color: var(--point2);
 	border-bottom: 1px solid #ccc;
 }
 
@@ -364,14 +356,14 @@ textarea {
 }
 
 .stars2 .star-rating .material-icons.selected {
-	color: #FC7A1E;
+	color: var(--point2);
 }
 
 .stars2 .star-rating .material-icons.half::before {
 	content: 'star_half';
 	position: absolute;
 	left: 0;
-	color: #FC7A1E;
+	color: var(--point2);
 	overflow: hidden;
 	width: 50%;
 	white-space: nowrap;
@@ -391,7 +383,7 @@ textarea {
 	margin-left: 10px;
 	margin-bottom: 10px;
 	border: none;
-	background-color: #FC7A1E;
+	background-color: var(--point2);
 	width: 120px;
 	height: 40px;
 	color: #fff;
@@ -410,7 +402,7 @@ textarea {
 	float: left;
 	padding: 5px 10px 0px 10px;
 	height: 30px;
-	background-color: #FC7A1E;
+	background-color: var(--point2);
 	margin: 5px;
 	color: #fff;
 	border-radius: 10px;
@@ -423,7 +415,7 @@ textarea {
 .keywords>div {
 	padding: 5px 10px 0px 10px;
 	height: 30px;
-	background-color: #F7B788;
+	background-color: #var(--sub);
 	margin: 5px;
 	color: #fff;
 	border-radius: 10px;
@@ -442,7 +434,7 @@ textarea {
 	width: 400px;
 	height: 50px;
 	border-radius: 10px;
-	background-color: #FC7A1E;
+	background-color: var(--point2);
 	border: none;
 	font-size: 20px;
 	margin: 0 auto;
@@ -455,7 +447,7 @@ textarea {
 
 .report-btn {
 	border: none;
-	background-color: #F7B788;
+	background-color: #var(--sub);
 	float: right;
 	width: 60px;
 	height: 30px;
@@ -490,7 +482,7 @@ textarea {
 }
 
 .star-on-wrap>span {
-	color: #FC7A1E;
+	color: var(--point2);
 }
 
 .stars1 p {
@@ -522,4 +514,12 @@ textarea {
 	width: 15px;
 	font-family: g_b;
 	margin-right: 10px;
+}
+.like-counts {
+	height: 30px;
+}
+.like-counts span {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

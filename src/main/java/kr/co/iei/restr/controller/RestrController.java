@@ -64,7 +64,7 @@ public class RestrController {
 		} else {
 			//쿠키 저장이 여기가 맞나 싶소...
 			cookieUtils.setCookie(request, response, "restrNo", String.valueOf(restrNo));
-			cookieUtils.setCookie(request, response, "restrName", r.getRestrName());
+			//cookieUtils.setCookie(request, response, "restrName", r.getRestrName());
 			//cookieUtils.setCookie(request, response, "restrImg1", r.getRestrImg1());
 			//=>얘는 톰캣이 허용하지 않는 문자를 사용하나봄.. 안됨
 			//여기까지 쿠키 저장..
@@ -152,13 +152,13 @@ public class RestrController {
 	// 검색
 	@ResponseBody
 	@GetMapping(value = "/restrSearch") 
-	public Map<String, Object> restrSearch(String searchKeyword, String selectedValue, Model model) {
+	public Map<String, Object> restrSearch(int submitStart, int amount, String searchKeyword, String selectedValue, Model model) {
 		Map<String, Object> response = new HashMap<>();
 		
 		int submitRestrTotalCount = restrService.submitRestrTotalCount(searchKeyword);
-		response.put("submitRestrTotalCount", submitRestrTotalCount);
+		response.put("submitRestrTotalCount", submitRestrTotalCount);		
+		List<Restaurant> list = restrService.restrSearch(searchKeyword, selectedValue, submitStart, amount);
 		
-		List<Restaurant> list = restrService.restrSearch(searchKeyword, selectedValue);
 		for (Restaurant restr : list) {
 			Double restrStar = restrService.RestrStarAvg(restr.getRestrNo());
 			restr.setStar(restrStar);
@@ -277,7 +277,12 @@ public class RestrController {
 		if (member == null) {
 			return -10;
 		} else {
-			return 1;
+			int result = restrService.selectRestrReview(restrNo, member.getMemberNo());
+			if(result > 0) {
+				return -5;
+			} else {
+				return 1;
+			}
 		}
 	}
 	

@@ -4,44 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내 리뷰</title>
-    <link rel="stylesheet" href="myreviews.css">
+    <link rel="stylesheet" href="/css/myreviews.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .rating-stars {
+            display: inline-block;
+            font-size: 1.5em; /* 별의 크기 */
+            color: #dcdcdc; /* 기본 별 색상 */
+            position: relative;
+        }
+        .rating-stars i {
+            color: gold; /* 별 색상 */
+            font-size: 1em; /* 개별 별의 크기 */
+            display: inline-block;
+            position: relative;
+        }
+        .rating-stars .fa-star-half {
+            position: absolute;
+            width: 50%;
+            overflow: hidden;
+            color: gold;
+            left: 0;
+        }
+        .rating-stars .base-star{
+        	
+        	width:145px;
+        }
+        .base-star{
+        	overflow: hidden;
+        
+        }
+        .base-star>i{
+        	float:left;
+        	margin-left : 0;
+        	display: block;
+        	width:27px;
+        }
+        .rating-stars .show-star-rate{
+        	position: absolute;
+        	top: 0;
+        	left: 0;
+        	width : 0px;
+        	overflow: hidden;
+        }
+    </style>
 </head>
 <body>
+    <th:block th:include="common/header"></th:block>
     <div class="reviews-container">
         <h1 class="reviewH">내가 작성한 리뷰 목록</h1>
         <div class="line"></div>
-        <div class="review-item">
-            <div class="review-header">
-                <div class="rating">
-                    <span class="star">★</span>
-                    <span class="star">★</span>
-                    <span class="star">★</span>
-                    <span class="star">☆</span>
-                    <span class="star">☆</span>
-                </div>
-                <div class="review-photo">
-                    <img src="이미지/기본프사.jfif" alt="profilephoto" class="photodish">
-                </div>
-                <button class="delete-button" onclick="deleteReview(this)">X</button>
-            </div>
-            <div class="review-content">
-                <div class="review-text">
-                    <p>내용내용내용내용내용내용내용내용내용내용내용내용내용.</p>
-                </div>
-                <div class="edit-content" style="display: none;">
-                    <textarea rows="4">이 음식은 정말 맛있었어요! 특히 소스가 정말 마음에 들었습니다.</textarea>
-                    <button class="save-button" onclick="saveReview(this)">저장</button>
-                </div>
-            </div>
-            <p>...내용내용내용내용내용내용내용내용내용내용내용내용내용.</p>             
+        <table class="review-table">
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>별점</th>
+                    <th>내용</th>
+                    <th>작성일</th>
+                    <th>가게번호</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="re : ${v}">
+                    <td th:text="${re.reviewNo}"></td>
+                    <td>
+                        <div class="rating-stars" th:data="${re.reviewStar}">
+	                        <div class="base-star star-wrap">
+		                        <i class="fa-regular fa-star"></i>
+		                        <i class="fa-regular fa-star"></i>
+		                        <i class="fa-regular fa-star"></i>
+		                        <i class="fa-regular fa-star"></i>
+		                        <i class="fa-regular fa-star"></i>
+		                        <div class="show-star-rate">
+			                        <div class="base-star star-on-wrap">
+				                        <i class="fa-solid fa-star"></i>
+				                        <i class="fa-solid fa-star"></i>
+				                        <i class="fa-solid fa-star"></i>
+				                        <i class="fa-solid fa-star"></i>
+				                        <i class="fa-solid fa-star"></i>
+			                        </div>
+		                        </div>
+	                        </div>
+                        </div>
+                    </td>
+                    <td th:text="${re.reviewContent}"></td>
+                    <td th:text="${re.reviewRegDate}"></td>
+                    <td th:text="${re.restrNo}"></td>
+                </tr>
+            </tbody>
+        </table>      
         </div>
     </div>
-
-    <!-- 더보기 버튼 추가 -->
-    <div class="more-button-container">
-        <button class="more-button">더보기</button>
-    </div>
-
-    <script src="myreviews.js"></script>
+    <th:block th:include="common/footer"></th:block>
+    <script>
+    	$(function(){
+    		$(".rating-stars").each(function(i,item){
+    			const width = $(item).attr("data")*29;
+    			$(this).find(".show-star-rate").css("width",width+"px");
+    		});
+    	});   
+    </script>
 </body>
 </html>

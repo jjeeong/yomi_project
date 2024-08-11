@@ -52,7 +52,7 @@ header a {
 }
 
 .header-top>div {
-    height: 50px;
+    height: 70px;
 }
 
 .header-top>.logo {
@@ -63,13 +63,13 @@ header a {
 }
 
 .header-top>.logo>a {
-    line-height: 50px;
+    line-height: 70px;
     font-size: 24px;
 }
 
 .header-top>.search {
     width: 60%;
-    padding: 5px 0;
+    padding: 15px 0;
     margin: 0 200px;
     min-width: 300px;
 }
@@ -109,7 +109,7 @@ header .search span {
 
 header .header-top>.text-end {
     width: 20%;
-    line-height: 50px;
+    line-height: 70px;
     font-size: 15px;
     padding-right: 50px;
     min-width: 280px;
@@ -243,6 +243,7 @@ footer.footer {
     min-height: 100px;
     background-color: var(--monocolor);
     margin-bottom: 0;
+    
 }
 
 /* 신고 모달 */
@@ -627,7 +628,7 @@ main.index aside.recent>.recent-wrap>div.recent-box {
     border: 1px solid var(--point1);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 5px;
 }
 

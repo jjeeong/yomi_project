@@ -29,35 +29,39 @@ public class CookieUtils {
 		cookieName = URLEncoder.encode(cookieName, StandardCharsets.UTF_8);//invalid[32] 인코딩필요>>img파일 이름은 이것도 안되나봄..
 		String currentCookieVal = getCookieValue(request, cookieName);
 		String[] cookievalues;
-		if(currentCookieVal != null) {
-			cookievalues=currentCookieVal.split("/"); //톰캣 8,9는 쉼표를 지원안한다고 함[44]invalid
-			if(cookievalues.length>=3) {
-				for(int i=0; i<cookievalues.length; i++) {
-					if(i<2) {
-						cookievalues[i]=cookievalues[i+1];
-					}else {
-						cookievalues[i]=null;
-					}//if/else
-				}//for
-				cookievalues[2] = cookieValue;
-			}//if 길이가 3보다 크면
-			else {
-				cookievalues = Arrays.copyOf(cookievalues, cookievalues.length+1);
-				cookievalues[cookievalues.length-1] = cookieValue;
+		try {
+			if(currentCookieVal != null) {
+				cookievalues=currentCookieVal.split("/"); //톰캣 8,9는 쉼표를 지원안한다고 함[44]invalid + 스페이스바도 지원안함 그러면 상호명도 자바에서는 안되겠네..
+				if(cookievalues.length>=3) {
+					for(int i=0; i<cookievalues.length; i++) {
+						if(i<2) {
+							cookievalues[i]=cookievalues[i+1];
+						}else {
+							cookievalues[i]=null;
+						}//if/else
+					}//for
+					cookievalues[2] = cookieValue;
+				}//if 길이가 3보다 크면
+				else {
+					cookievalues = Arrays.copyOf(cookievalues, cookievalues.length+1);
+					cookievalues[cookievalues.length-1] = cookieValue;
+				}
+				String newCookieValue = String.join("/", cookievalues);
+				Cookie cookie = new Cookie(cookieName, newCookieValue);
+				cookie.setMaxAge(60*60*24);
+				cookie.setPath("/");
+				response.addCookie(cookie);
+				System.out.println(cookie.getValue());
+				
+			}else {
+				Cookie cookie = new Cookie(cookieName, cookieValue);
+				cookie.setMaxAge(60*60*24);
+				cookie.setPath("/");
+				response.addCookie(cookie);
+				System.out.println(cookie.getValue());
 			}
-			String newCookieValue = String.join("/", cookievalues);
-			Cookie cookie = new Cookie(cookieName, newCookieValue);
-			cookie.setMaxAge(60*60*24);
-			cookie.setPath("/");
-			response.addCookie(cookie);
-			System.out.println(cookie.getValue());
-			
-		}else {
-			Cookie cookie = new Cookie(cookieName, cookieValue);
-			cookie.setMaxAge(60*60*24);
-			cookie.setPath("/");
-			response.addCookie(cookie);
-			System.out.println(cookie.getValue());
+		} catch (IllegalArgumentException e) {
+			System.out.println(cookieName + cookieValue);
 		}
 		
 		

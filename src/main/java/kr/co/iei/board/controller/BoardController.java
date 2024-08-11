@@ -163,6 +163,7 @@ public class BoardController {
 			return "redirect:/board/view?boardNo="+b.getBoardNo();
 		}
 	}
+
 	
 	
 	@PostMapping(value="/insertComment")
@@ -182,6 +183,7 @@ public class BoardController {
 		model.addAttribute("loc","/board/view?check=1&boardNo=" +bc.getCommentBoardNo());
 		return "common/msg";
 	}
+
 	@PostMapping(value="/updateComment")
 	public String updateComment(BoardComment bc , Model model) {
 		int result = boardService.updateComment(bc);
@@ -231,4 +233,7 @@ public class BoardController {
 
 
 	
+
+
+
 

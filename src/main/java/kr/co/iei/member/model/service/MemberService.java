@@ -41,6 +41,13 @@ public class MemberService {
 		Member member = memberDao.selectOneMemberEmail(memberEmail);
 		return member;
 	}
+
+
+	public Member findId(Member m) {
+		Member member = memberDao.findId(m);
+		
+		return member;
+	}
 	
 }
 

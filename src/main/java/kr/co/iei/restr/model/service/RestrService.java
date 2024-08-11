@@ -38,8 +38,14 @@ public class RestrService {
 			r.setIsLike(isLike);
 
 			int isBookmark = restrDao.selectIsBookmark(restrNo, memberNo);
-			r.setIsBookmark(isBookmark);
+			r.setIsBookmark(isBookmark);			
 		}
+		
+		int likeCount = restrDao.selectRestrLikeCount(restrNo);
+		r.setLikeCount(likeCount);
+		
+		int bookmarkCount = restrDao.selectRestrBookmarkCount(restrNo);
+		r.setBookmarkCount(bookmarkCount);
 		return r;
 	}
 
@@ -314,18 +320,26 @@ public class RestrService {
 		List tagCountList = restrDao.tagCountList(restrNo);
 		return tagCountList;
 	}
+	
+	public List selectListRestr(int memberNo) {
+		List list = restrDao.selectListRestr(memberNo);
+		return list;
+	}
 
 	public int selectIsReviewLike(int reviewNo, int memberNo) {
 		int isLike = restrDao.selectIsReviewLike(reviewNo, memberNo);
 		return isLike;
 	}
 
-	public List restrSearch(String searchKeyword, String selectedValue) {
+	public List restrSearch(String searchKeyword, String selectedValue, int start, int amount) {
+		int end = start + amount - 1;
 		List list = new ArrayList();
+		
 		if (selectedValue.equals("default")) {
-			list = restrDao.restrSearch(searchKeyword);
+			list = restrDao.restrSearch(searchKeyword, start, end);
 		} else {
-			list = restrDao.restrSearchStar(searchKeyword);
+			list = restrDao.restrSearchStar(searchKeyword, start, end);
+			System.out.println("리스트 : " + list);
 		}
 		return list;
 	}
@@ -402,5 +416,11 @@ public class RestrService {
 
 		return rld;
 	}
+
+	public int selectRestrReview(int restrNo, int memberNo) {
+		int result = restrDao.selectRestrReview(restrNo, memberNo);
+		return result;
+	}
+
 
 }

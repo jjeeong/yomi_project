@@ -400,18 +400,8 @@ public class RestrDao {
 	}
 
 	//검색결과
-	public List restrSearch(String searchKeyword) {
-		/**
-		String query = "SELECT restr_no, restr_addr1, restr_addr2, restr_content, restr_img1, restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel\r\n" + 
-				"FROM RESTAURANT\r\n" + 
-				"left JOIN restr_tag USING (restr_no)\r\n" + 
-				"left JOIN restr_menu USING (restr_no)\r\n" + 
-				"WHERE RESTR_TAG_NAME LIKE ?\r\n" + 
-				"OR RESTR_MENU_NAME LIKE ?\r\n" + 
-				"OR RESTR_NAME LIKE ?\r\n" + 
-				"GROUP BY restr_no, restr_addr1, restr_addr2, restr_content, restr_img1,\r\n" + 
-				"restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel";
-				**/
+	public List restrSearch(String searchKeyword, int start, int end) {
+		/*
 		String query = "SELECT restr_no, restr_addr1, restr_addr2, restr_content, restr_img1, restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel\r\n" + 
 				"FROM RESTAURANT\r\n" + 
 				"LEFT JOIN restr_tag USING (restr_no)\r\n" + 
@@ -419,52 +409,47 @@ public class RestrDao {
 				"WHERE restr_tag_name LIKE ? OR restr_menu_name LIKE ? OR restr_name LIKE ?\r\n" + 
 				"GROUP BY restr_no, restr_addr1, restr_addr2, restr_content, restr_img1, restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel\r\n" + 
 				"ORDER BY restr_no DESC";
+		*/
+		String query = "SELECT * \r\n" + 
+				"FROM (\r\n" + 
+				"    SELECT r.*, ROWNUM AS rnum\r\n" + 
+				"    FROM (\r\n" + 
+				"        SELECT restr_no, restr_addr1, restr_addr2, restr_content, restr_img1, restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel\r\n" + 
+				"        FROM RESTAURANT\r\n" + 
+				"        LEFT JOIN restr_tag USING (restr_no)\r\n" + 
+				"        LEFT JOIN restr_menu USING (restr_no)\r\n" + 
+				"        WHERE restr_tag_name LIKE ?\r\n" + 
+				"           OR restr_menu_name LIKE ?\r\n" + 
+				"           OR restr_name LIKE ?\r\n" + 
+				"        GROUP BY restr_no, restr_addr1, restr_addr2, restr_content, restr_img1, restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel\r\n" + 
+				"        ORDER BY restr_no DESC\r\n" + 
+				"    ) r\r\n" + 
+				")\r\n" + 
+				"WHERE rnum BETWEEN ? AND ?";
 		
-		Object[] params = {"%"+searchKeyword +"%","%"+searchKeyword+"%","%"+searchKeyword+"%"}; 
+		Object[] params = {"%"+searchKeyword +"%","%"+searchKeyword+"%","%"+searchKeyword+"%", start, end}; 
 		List<Restaurant> list = jdbc.query(query, restaurantRowMapper, params); 
 		return list;
 	}
 
-	public List restrSearchStar(String searchKeyword) {
-	    String query = "SELECT \r\n" + 
-	    		"    restr.restr_no, \r\n" + 
-	    		"    restr.restr_addr1, \r\n" + 
-	    		"    restr.restr_addr2, \r\n" + 
-	    		"    restr.restr_content, \r\n" + 
-	    		"    restr.restr_img1, \r\n" + 
-	    		"    restr.restr_img2, \r\n" + 
-	    		"    restr.restr_mapx, \r\n" + 
-	    		"    restr.restr_mapy, \r\n" + 
-	    		"    restr.restr_name, \r\n" + 
-	    		"    restr.restr_tel\r\n" + 
-	    		"FROM \r\n" + 
-	    		"    restaurant restr\r\n" + 
-	    		"LEFT JOIN \r\n" + 
-	    		"    review rev ON restr.restr_no = rev.restr_no\r\n" + 
-	    		"LEFT JOIN \r\n" + 
-	    		"    restr_tag rt ON restr.restr_no = rt.restr_no\r\n" + 
-	    		"LEFT JOIN \r\n" + 
-	    		"    restr_menu rm ON restr.restr_no = rm.restr_no\r\n" + 
-	    		"WHERE \r\n" + 
-	    		"    rt.restr_tag_name LIKE ? \r\n" + 
-	    		"    OR rm.restr_menu_name LIKE ? \r\n" + 
-	    		"    OR restr.restr_name LIKE ?\r\n" + 
-	    		"GROUP BY \r\n" + 
-	    		"    restr.restr_no, \r\n" + 
-	    		"    restr.restr_addr1, \r\n" + 
-	    		"    restr.restr_addr2, \r\n" + 
-	    		"    restr.restr_content, \r\n" + 
-	    		"    restr.restr_img1, \r\n" + 
-	    		"    restr.restr_img2, \r\n" + 
-	    		"    restr.restr_mapx, \r\n" + 
-	    		"    restr.restr_mapy, \r\n" + 
-	    		"    restr.restr_name, \r\n" + 
-	    		"    restr.restr_tel\r\n" + 
-	    		"ORDER BY \r\n" + 
-	    		"    ROUND(AVG(rev.review_star), 1) DESC nulls last, \r\n" + 
-	    		"    restr.restr_no DESC";
+	public List restrSearchStar(String searchKeyword, int start, int end) {
+	    String query = "SELECT * FROM ( " +
+	                   "    SELECT r.*, ROWNUM rnum FROM ( " +
+	                   "        SELECT restr.restr_no, restr.restr_addr1, restr.restr_addr2, restr.restr_content, " +
+	                   "               restr.restr_img1, restr.restr_img2, restr.restr_mapx, restr.restr_mapy, " +
+	                   "               restr.restr_name, restr.restr_tel, ROUND(AVG(rev.review_star), 1) AS avg_star " +
+	                   "        FROM restaurant restr " +
+	                   "        LEFT JOIN review rev ON restr.restr_no = rev.restr_no " +
+	                   "        LEFT JOIN restr_tag rt ON restr.restr_no = rt.restr_no " +
+	                   "        LEFT JOIN restr_menu rm ON restr.restr_no = rm.restr_no " +
+	                   "        WHERE rt.restr_tag_name LIKE ? OR rm.restr_menu_name LIKE ? OR restr.restr_name LIKE ? " +
+	                   "        GROUP BY restr.restr_no, restr.restr_addr1, restr.restr_addr2, restr.restr_content, " +
+	                   "                 restr.restr_img1, restr.restr_img2, restr.restr_mapx, restr.restr_mapy, restr.restr_name, restr.restr_tel " +
+	                   "        ORDER BY avg_star DESC NULLS LAST, restr.restr_no DESC " +
+	                   "    ) r " +
+	                   ") WHERE rnum BETWEEN ? AND ?";
 
-	    Object[] params = {"%" + searchKeyword + "%", "%" + searchKeyword + "%", "%" + searchKeyword + "%"};
+	    Object[] params = {"%" + searchKeyword + "%", "%" + searchKeyword + "%", "%" + searchKeyword + "%", start, end};
 	    List list = jdbc.query(query, restaurantRowMapper, params);
 	    return list;
 	}
@@ -501,5 +486,19 @@ public class RestrDao {
 		return result;
 	}
 
+	public int selectRestrReview(int restrNo, int memberNo) {
+		String query = "select count(*) from review where member_no = ? and restr_no = ?";
+		Object[] params = {memberNo, restrNo};
+		int result = jdbc.queryForObject(query, Integer.class, params);
+		return result;
+	}
+
+
+	public List selectListRestr(int memberNo) {
+		String query = "select * from restaurant where restr_no in (select restr_no from RESTAURANT_FAVORITES where member_no=?)";
+		Object[] params = {memberNo};
+		List selectListRestr = jdbc.query(query, restaurantRowMapper, memberNo);
+		return selectListRestr;
+	}
 
 }
