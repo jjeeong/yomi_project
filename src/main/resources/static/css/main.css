@@ -627,7 +627,7 @@ main.index aside.recent>.recent-wrap>div.recent-box {
     border: 1px solid var(--point1);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 5px;
 }
 

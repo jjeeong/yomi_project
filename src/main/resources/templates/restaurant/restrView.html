@@ -593,20 +593,35 @@
             	}
             })
             //여기까지 신고접수
-            //수진 js2 : 이미지 주소를 쿠키로 가져오기
+            //수진 js2 : 이미지 주소를 쿠키로 가져오기 + 상호명도여기서 쿠키 가져와야할듯
             $(document).ready(function(){
+            	//1. 이미지 주소
             	const imgsrc = $("div.shop-img").first().children().attr("src");
-            	const cookieName = "restrImg1";
+            	const cookieNameForImg = "restrImg1";
             	
-            	let existingValue = Cookies.get(cookieName);
-            	let cookieValues = existingValue? existingValue.split(","):[];
+            	let existingImgValue = Cookies.get(cookieNameForImg);
+            	let imgCookieValues = existingImgValue? existingImgValue.split(","):[];
             	
-            	if(cookieValues.length>=3){
-            		cookieValues.shift();
+            	if(imgCookieValues.length>=3){
+            		imgCookieValues.shift();
             	}
-            	cookieValues.push(imgsrc);
+            	imgCookieValues.push(imgsrc);
             	
-            	Cookies.set(cookieName, cookieValues.join(","), {path:"/", expires:1});
+            	Cookies.set(cookieNameForImg, imgCookieValues.join(","), {path:"/", expires:1});
+            	
+            	//2. 상호명
+            	const restrName = $("h2#shop-title").text();
+            	const cookieNameForName = "restrName";
+            	
+            	let existingNameValue = Cookies.get(cookieNameForName);
+            	let nameCookieValues = existingNameValue? existingNameValue.split(","):[];
+            	
+            	if(nameCookieValues.length>=3){
+            		nameCookieValues.shift();
+            	}
+            	nameCookieValues.push(restrName);
+            	
+            	Cookies.set(cookieNameForName, nameCookieValues.join(","), {path:"/", expires:1});
             });
             //이미지 주소 쿠키로 저장하기 끝
         </script>

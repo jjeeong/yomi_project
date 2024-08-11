@@ -27,8 +27,6 @@ public class HomeController {
 			List reviewList = restrService.selectBestReview();
 			model.addAttribute("restrList", restrList);
 			model.addAttribute("reviewList", reviewList);
-			//System.out.println(recentRestr);
-		
 			return "index";
 		}
 //		

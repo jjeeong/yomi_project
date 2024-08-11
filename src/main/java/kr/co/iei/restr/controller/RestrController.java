@@ -64,7 +64,7 @@ public class RestrController {
 		} else {
 			//쿠키 저장이 여기가 맞나 싶소...
 			cookieUtils.setCookie(request, response, "restrNo", String.valueOf(restrNo));
-			cookieUtils.setCookie(request, response, "restrName", r.getRestrName());
+			//cookieUtils.setCookie(request, response, "restrName", r.getRestrName());
 			//cookieUtils.setCookie(request, response, "restrImg1", r.getRestrImg1());
 			//=>얘는 톰캣이 허용하지 않는 문자를 사용하나봄.. 안됨
 			//여기까지 쿠키 저장..

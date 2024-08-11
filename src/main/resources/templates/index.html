@@ -38,7 +38,12 @@
 		.content-page.show{
 			display : block;
 		}
-		
+		.recent-box{
+			min-height : 429px;
+		}
+		.recent-item{
+			display : none;
+		}
 	</style>
 </head>
 
@@ -425,7 +430,7 @@
 					<div class="recent-title">
 						<span>최근 본 맛집</span>
 					</div>
-					<div class="recent-box round-box">
+					<div class="recent-box round-box shadow">
 						<div class="recent-item">
 							<div class="img-box">
 								<img src="" alt="">
@@ -490,40 +495,45 @@
 				}
 			});
 			//쿠키값 출력
+			//맛집번호
 			const restrNo = new Array();
 			const restrNoCookie = Cookies.get("restrNo");
 			const restrValArr = restrNoCookie.split("/");
 			restrValArr.forEach(function(item){
 				restrNo.push(item);
 			})
+			//맛집이름
 			const restrName = new Array();
 			const restrNameCookie = Cookies.get("restrName");
-			const restrNameValArr = restrNameCookie.split("/");
+			const restrNameValArr = restrNameCookie.split(",");
 			restrNameValArr.forEach(function(item){
 				restrName.push(item);
 			})
-			
+			//썸네일
 			const restrImg1 = new Array();
 			const restrImgCookie = Cookies.get("restrImg1");
 			const restrImgArr = restrImgCookie.split(",");
 			restrImgArr.forEach(function(item){
 				restrImg1.push(item);
 			})
+			//넣기
+			//없는 것들은 안나오게 해야함
 			const imgbox = $("div.recent-item").find("img");
-			imgbox.each(function(index, item){
-				$(item).attr("src", restrImg1[index]);
+			restrImg1.forEach(function(item, index){
+				imgbox.eq(index).attr("src", item);
 			});
 			const namebox = $("div.recent-name").children();
-			namebox.each(function(index, item){
-				$(item).text(restrName[index]);
+			restrName.forEach(function(item, index){
+				namebox.eq(index).text(item);
 			});
-			console.log(typeof restrNo[0]);
+			//console.log(typeof restrNo[0]);
 			const divbox = $("div.recent-item");
 			divbox.css("cursor", "pointer");
-			divbox.each(function(index, item){
-				$(item).on("click", function(){
-					location.href="/restaurant/restrView?restrNo="+restrNo[index];
+			restrNo.forEach(function(item, index){
+				divbox.eq(index).on("click", function(){
+					location.href="/restaurant/restrView?restrNo="+item;
 				});
+				divbox.eq(index).show();
 			});
 		</script>
 	</main>
