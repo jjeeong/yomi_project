@@ -151,5 +151,10 @@ public class BoardService {
 		int result = boardDao.insertComment(bc);
 		return result;
 	}
+
+	public int updateComment(BoardComment bc) {
+		int result = boardDao.updateComment(bc);
+		return result;
+	}
 }
 

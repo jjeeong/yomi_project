@@ -147,4 +147,11 @@ public class BoardDao {
 		return result;
 	}
 
+	public int updateComment(BoardComment bc) {
+		String query = "update board_comment set comment_content=? where comment_no=?";
+		Object[] params = {bc.getCommentContent(),bc.getCommentNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
 }

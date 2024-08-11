@@ -177,8 +177,9 @@
 			height: 60px;
 			width: 100%;
 			background: white;
-			padding: 5px;		
+			padding: 7px;		
 			border : 1px solid #FC7A1E;	
+			border-radius: 15px;
 		}
 		
 		.update-delete{
@@ -198,6 +199,16 @@
 			color : black;
 			border-bottom : 1px solid black;
 		}
+		
+		.input-item>[name=commentContent]{
+			width:100%;
+			height:60px;
+			border: 1px solid #FC7A1E;	
+			border-radius: 15px;
+			padding : 7px;
+		}
+
+		
 	</style>
 </head>
 
@@ -252,7 +263,7 @@
 								<div class="form-group">
 									
 									<textarea name="commentContent" id="commentInput" class="form-control" rows="3"
-										placeholder="댓글을 입력하세요"></textarea>
+										placeholder="댓글을 입력하세요" ></textarea>
 									<input type="hidden" name="commentWriter" th:value="${session.member.memberId}">
 									<input type="hidden" name="commentBoardNo" th:value="${b.boardNo}">
 
@@ -272,8 +283,13 @@
 			<div class="date-zone" th:text=${bc.commentRegDate}></div>
 			<div class="like-zone"><span class="material-icons-outlined">thumb_up</span></div>
 			<div class="comment-zone" th:text="${bc.commentContent}"></div>
-				<div class="update-delete">
-					<a href="javascript:void(0)">수정</a>
+			
+			<div class="input-item" style="display : none;">
+				<textarea name="commentContent" th:text="${bc.commentContent}"></textarea>
+			</div>
+			
+				<div class="update-delete" th:if="${session.member.memberId == bc.commentWriter}">
+					<a href="javascript:void(0)" th:onclick="modifyComment(this,[[${bc.CommentNo}]],[[${b.boardNo}]]);">수정</a>
 					<a href="javascript:void(0)">삭제</a>
 					<a href="javascript:void(0)">답글달기</a>
 					<a href="javascript:void(0)">신고</a>
@@ -519,8 +535,47 @@
 				});//ajax
 			}//else
 		}//insertReport
-
+			
+		
+		function modifyComment(obj, commentNo, boardNo){
+			//숨겨놨던 div를 화면
+			$(obj).parent().prev().show();
+			
+			$(obj).parent().prev().prev().hide();
+			
+			$(obj).text("수정완료");
+			$(obj).attr("onclick","modifyComplete(this,"+commentNo+","+boardNo+");");
+			
+			$(obj).next().text("수정취소");
+			$(obj).next().attr("onclick","modifyCancle(this,"+commentNo+","+boardNo+");");
+			
+			$(obj).next().next().hide();
+		}
+		
+	function modifyComplete(obj, commentNo, boardNo){
+		const form =$("<form>");
+		
+		form.attr("action","/board/updateComment");
+		form.attr("method","post");
+		form.hide();
+		
+		const commentNoInput = $("<input>");
+		commentNoInput.attr("type","text");
+		commentNoInput.attr("name","commentNo");
+		commentNoInput.val(commentNo);
+		
+		const commentBoardNoInput =$("<input type='text' name='commentBoardNo'>");
+		commentBoardNoInput.val(boardNo);
+		
+		const commentContent =$(obj).parent().prev().clone();
+		
+		form.append(commentNoInput).append(commentBoardNoInput).append(commentContent);
+		
+		$("body").append(form);
+		form.submit();
+	}
 	</script>
+	
 	<th:block th:include="common/footer"></th:block>
 </body>
 

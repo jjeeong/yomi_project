@@ -88,7 +88,7 @@ public class BoardController {
 		if(member != null) {
 			memberNo = member.getMemberNo();
 		}
-			System.out.println("check : " +check);
+			
 			Board b = boardService.selectOneBoard(boardNo,check,memberNo);
 			if(b == null) {
 				model.addAttribute("title","조회실패");
@@ -182,7 +182,21 @@ public class BoardController {
 		model.addAttribute("loc","/board/view?check=1&boardNo=" +bc.getCommentBoardNo());
 		return "common/msg";
 	}
-	
+	@PostMapping(value="/updateComment")
+	public String updateComment(BoardComment bc , Model model) {
+		int result = boardService.updateComment(bc);
+		if(result > 0 ) {
+			model.addAttribute("title", "성공");
+			model.addAttribute("msg", "댓글이 수정되었습니다.");
+			model.addAttribute("icon", "success");
+		}else {
+			model.addAttribute("title", " 실패");
+			model.addAttribute("msg", "잠시 후 다시 시도해주세요");
+			model.addAttribute("icon", "warning");
+		}
+		 model.addAttribute("loc","/board/view?check=1&boardNo="+bc.getCommentBoardNo());
+		 return "common/msg";
+	}
 	}
 
 
