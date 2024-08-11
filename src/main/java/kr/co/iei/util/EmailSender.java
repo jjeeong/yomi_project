@@ -1,6 +1,6 @@
 package kr.co.iei.util;
 
-import java.io.UnsupportedEncodingException;
+import java.io.UnsupportedEncodingException;	
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +22,14 @@ public class EmailSender {
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		
+		System.out.println(emailTitle);
+		System.out.println(receiver);
+		System.out.println(emailContent);
 		try {
 			//메일 전송 시간 설정
 			helper.setSentDate(new Date());
 			//보내는사람 정보
-			helper.setFrom(new InternetAddress("d971023y@gmail.com", "YOMIYOMI"));
+			helper.setFrom(new InternetAddress("kdy971023@gmail.com", "YOMIYOMI"));
 			//받는사람 이메일 주소
 			helper.setTo(receiver);
 			//제목설정
