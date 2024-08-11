@@ -36,14 +36,18 @@ body{
     background-color: var(--bgcolor)
 }
 .login-container{
-    padding-top: 120px;
-    margin: 0 auto;
-    width: 800px;
-    height: 600px;
+    background-color: white;
+    width: 600px;
+    height: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1.3px solid black;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
     
 
 }
 .login-container >h2{
+    margin-top:90px;
     margin-bottom: 20px;
     text-align: center;
     font-size: 35px;
@@ -92,6 +96,23 @@ body{
 }
 .find-links>a[id=find-pw]{
     margin-left: 90px;
+}
+
+.show{
+    display:block;
+    opacity:1;
+    animation: formopen;
+    animation-duration: 0.5s
+}
+
+
+@keyframes formopen {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
 }
 
 
