@@ -214,6 +214,19 @@ public class BoardController {
 		 model.addAttribute("loc","/board/view?check=1&boardNo="+bc.getCommentBoardNo());
 			return "common/msg";
 	}
+	
+	@ResponseBody
+	@PostMapping(value="/likePush")
+	public int likePush(int commentNo, int isLike, @SessionAttribute(required = false)Member member) {
+		if(member == null) {
+			return -10;
+		}else {
+			int memberNo = member.getMemberNo();
+			int result = boardService.likePush(commentNo, isLike, memberNo);
+			return result;
+		}
+	
+	}
 	}
 
 
