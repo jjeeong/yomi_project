@@ -124,21 +124,39 @@
 		
 				<!-- 여기까지 -->
 				<script>
-						//마커를 담을 배열
-						var markers=[];
-						//지도 생성중..
-						var mapContainer = document.getElementById("kakaoMap");
-						var	mapOption={
-								center: new kakao.maps.LatLng(37.566826, 126.9786567),
-								level :3 //지도의 확대 레벨
-							};
-						var kakaoMap = new kakao.maps.Map(mapContainer, mapOption);
-						//장소 검색 객체 생성
-						var search = new kakao.maps.services.Places();
-						//인포윈도우 생성
-						var infoWindow = new kakao.maps.InfoWindow({zIndex:1});
+					//마커를 담을 배열
+					var markers=[];
+					//지도 생성중..
+					var mapContainer = document.getElementById("kakaoMap");
+					var	mapOption={
+							center: new kakao.maps.LatLng(37.566826, 126.9786567),
+							level :3 //지도의 확대 레벨
+						};
+					var kakaoMap = new kakao.maps.Map(mapContainer, mapOption);
+					//장소 검색 객체 생성
+					var search = new kakao.maps.services.Places();
+					//인포윈도우 생성
+					var infoWindow = new kakao.maps.InfoWindow({zIndex:1});
+					
+					// 지도를 표시하는 div 크기를 변경하는 함수입니다
+					function resizeMap() {
+					    var mapContainer = document.getElementById('kakaoMap');
+					    mapContainer.style.width = '100%';
+					    mapContainer.style.height = '450px'; 
+					}
+
+					function relayout() {    
+					    
+					    // 지도를 표시하는 div 크기를 변경한 이후 지도가 정상적으로 표출되지 않을 수도 있습니다
+					    // 크기를 변경한 이후에는 반드시  map.relayout 함수를 호출해야 합니다 
+					    // window의 resize 이벤트에 의한 크기변경은 map.relayout 함수가 자동으로 호출됩니다
+					    kakaoMap.relayout();
+					}
+					
+					
 					$("#nameSearch").on("click", function(){
-						
+						resizeMap();
+						relayout();
 						//키워드로 장소 검색
 						$("button#search").on("click", function(){
 							const restrName = $("input#name").val();
