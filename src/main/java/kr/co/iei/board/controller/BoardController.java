@@ -163,6 +163,7 @@ public class BoardController {
 			return "redirect:/board/view?boardNo="+b.getBoardNo();
 		}
 	}
+
 	
 	
 	@PostMapping(value="/insertComment")
@@ -182,8 +183,11 @@ public class BoardController {
 		model.addAttribute("loc","/board/view?check=1&boardNo=" +bc.getCommentBoardNo());
 		return "common/msg";
 	}
-	}
+}
 
 
 	
+
+
+
 

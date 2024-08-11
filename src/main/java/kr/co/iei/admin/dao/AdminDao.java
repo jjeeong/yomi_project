@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import kr.co.iei.admin.dto.AdminRowMapper;
+import kr.co.iei.admin.dto.ReadRowMapper;
 import kr.co.iei.admin.service.AdminService;
 import kr.co.iei.board.model.dto.BoardRowMapper;
 import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.restr.model.dto.ReviewRowMapper;
-
 
 
 @Repository
@@ -24,10 +24,10 @@ public class AdminDao {
 	@Autowired
 	private BoardRowMapper boardRowMapper;
 	@Autowired
-	private ReviewRowMapper reviewRowMapper;
+	private ReadRowMapper reviewRowMapper;
 	
 	public List selectAdminList(int start,int end) {
-		String query = "select * from (select  rownum as rnum, n.* from (select * from member_tbl order by 1 desc)n) where rnum between ? and ?";
+		String query = "select * from (select  rownum as rnum, n.*,(select count(*) from report where RESPONDENT_NO = n.member_no and report_check =1) report_count from (select * from member_tbl order by 1 desc)n) where rnum between ? and ?";
 		Object[] params = {start,end};
 		List list = jdbc.query(query, adminRowMapper , params);
 		return list;
@@ -47,7 +47,7 @@ public class AdminDao {
 	}
 	
 	public  List blackMember() {
-		String query = "select * from member_tbl where member_grade=3";
+		String query = "select m.*,(select count(*) from report where RESPONDENT_NO = m.member_no and report_check =1) report_count  from member_tbl m where member_grade=3";
 		List list = jdbc.query(query, adminRowMapper);
 		return list;
 	}
@@ -70,15 +70,11 @@ public class AdminDao {
 		Object[] params = {memberId};
 		List list = jdbc.query(query,boardRowMapper,params);
 		return list;				
-	}
-		
+	}		
 	public List reviewsMember(int memberNo) {
-		String query = "select * from reviews where member_no=?";
+		String query = "select * from review where member_no=?";
 		Object[] params = {memberNo};
 		List list = jdbc.query(query,reviewRowMapper,params);
 		return list;
-	}
-	
-	
-		
+	}			
 }
