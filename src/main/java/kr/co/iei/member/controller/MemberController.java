@@ -110,9 +110,9 @@ public class MemberController {
 	public String findId(Member m,Model model) {
 		Member member = memberService.findId(m);
 		model.addAttribute("member" , member);
+		System.out.println(member.toString());
 		
-		
-		return "/member/findIdselect";
+		return "/member/findIdSelect";
 	}
 	
 	
