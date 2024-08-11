@@ -182,6 +182,7 @@ public class BoardController {
 		model.addAttribute("loc","/board/view?check=1&boardNo=" +bc.getCommentBoardNo());
 		return "common/msg";
 	}
+	
 	}
 
 

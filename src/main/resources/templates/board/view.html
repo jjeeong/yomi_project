@@ -13,8 +13,6 @@
 		html {
 			margin: 0;
 			padding: 0;
-			height: 100%;
-			display: flex;
 			flex-direction: column;
 		}
 
@@ -42,10 +40,9 @@
 		}
 
 		.comments-section {
-			background-color: #EBEBEB;
-			;
 			border-radius: 15px;
 			padding: 15px;
+			
 		}
 
 		.comments-section h3 {
@@ -114,6 +111,7 @@
 
 		.btn-outline-danger {
 			margin-right: 7px;
+			margin-bottom: 15px;
 		}
 
 		.thumbnail {
@@ -129,6 +127,76 @@
 		.readCount {
 			font-size: 17px;
 			font-family: g_b;
+		}
+		
+		.btn-secondary{
+			margin-top: 10px;
+			margin-bottom: 25px;
+		}
+		
+		.commentBox{
+	
+			margin-top: 100px;
+			overflow: hidden;
+			margin-bottom: 50px;
+		}
+		
+		.comment-detail{
+			overflow: hidden;
+			padding-top: 8px;
+			padding-bottom: 15px;
+		}
+		
+		.id-zone{
+		float : left;
+		width: 75px;
+		height:25px;
+		padding-top : 5px;
+		font-family : g_b;
+		font-size: 17px;
+		
+		
+		}
+		
+		.date-zone{
+			margin-left:30px;
+			width : 100px;
+			height: 25px;
+			
+			float: left;
+			
+		}
+		
+		.material-icons-outlined{
+		margin-left: 30px;
+		color : #FC7A1E;
+		}
+		
+		
+		.comment-zone{
+			height: 60px;
+			width: 100%;
+			background: white;
+			padding: 5px;		
+			border : 1px solid #FC7A1E;	
+		}
+		
+		.update-delete{
+		float : right;
+		margin: 5px;
+		margin-right: 27px;
+		
+		}
+		
+		.update-delete a{
+			text-decoration: none;
+			color : black;
+		}
+		
+		.update-delete a:hover{
+			text-decoration: none;
+			color : black;
+			border-bottom : 1px solid black;
 		}
 	</style>
 </head>
@@ -171,30 +239,47 @@
 				<div class="btn-like-report">
 					<button type="button" class="btn btn-outline-danger" onclick="reportPost()">게시글 신고하기</button>
 				</div>
+				
 				<!-- 댓글시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 				<div th:if="${session.member !=null}" class="inputCommentBox">
 					<form action="/board/insertComment" method="post">
-						<div class="comments-section mt-4">
+						<div class="comments-section mt-4" th:if="${session.member.memberGrade !=3}">
 							<h3>댓글</h3>
 							<div id="commentsList" class="comments-list">
 								<!-- 댓글 리스트 표시 -->
 							</div>
 							<div class="comment-form mt-3">
 								<div class="form-group">
-									<label for="commentInput">댓글 작성</label>
+									
 									<textarea name="commentContent" id="commentInput" class="form-control" rows="3"
 										placeholder="댓글을 입력하세요"></textarea>
 									<input type="hidden" name="commentWriter" th:value="${session.member.memberId}">
 									<input type="hidden" name="commentBoardNo" th:value="${b.boardNo}">
 
 								</div>
-								<button name="comment" type="submit" class="btn btn-secondary">댓글 달기</button>
+								<button name="comment" type="submit" class="btn btn-secondary" >댓글 달기</button>
 							</div>
 						</div>
 					</form>
 				</div>
 
-
+<!--   ....................... 댓글출력 시작....................................... -->
+	
+	<div class=commentBox>
+	
+		<div class="comment-detail" th:each="bc : ${b.commentList}">
+			<div class="id-zone" th:text="${bc.commentWriter}"></div>
+			<div class="date-zone" th:text=${bc.commentRegDate}></div>
+			<div class="like-zone"><span class="material-icons-outlined">thumb_up</span></div>
+			<div class="comment-zone" th:text="${bc.commentContent}"></div>
+				<div class="update-delete">
+					<a href="javascript:void(0)">수정</a>
+					<a href="javascript:void(0)">삭제</a>
+					<a href="javascript:void(0)">답글달기</a>
+					<a href="javascript:void(0)">신고</a>
+				</div>
+		</div>
+	</div>
 
 
 
