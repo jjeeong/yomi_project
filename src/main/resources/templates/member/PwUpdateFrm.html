@@ -15,10 +15,13 @@
                     <strong style="display:block" id="strong">비밀번호 변경</strong>
                     <span>아이디 :  <p class="select" style="display : inline-block" th:text="${member.memberId}"></p></span>
                     <div class=update-form>
-                    	<form class="update-form" action="/member/updatePw" method="post">
+                    	<form class="update-form" action="/member/updatePw" method="post" autocomplete="off">
 	                    	<p class="before" style="display : none" th:text="${member.memberPw}"></p>
-	                    	<input type="password" name=memberPw placeholder="새 비밀번호 입력">
-	                    	<input type="password" name=memberPwRe placeholder="새 비밀번호 확인 입력">
+	                    	<input type="password" name="memberPw" placeholder="새 비밀번호 입력">
+	                    	<input type="password" name="memberPwRe" placeholder="새 비밀번호 확인 입력">
+	                    	<input type="hidden" name="memberName" th:value="${member.memberName}">	
+	                    	<input type="hidden" name="memberId" th:value="${member.memberId}">	 
+	                    	<input type="hidden" name="memberEmail" th:value="${member.memberEmail}">	
 	                    	<pre class="msg"></pre>
 	                    	<button class="submit-btn" type="button">변경하기</button>
                     	</form>

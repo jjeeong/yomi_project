@@ -125,7 +125,7 @@ public class MemberController {
 	@PostMapping(value="/findPwUpdate")
 	public String findPwUpdate(Member m,Model model) {
 		Member member = memberService.findName(m);
-		model.addAttribute("member" , member);
+		model.addAttribute("member", member);
 		if(member != null) {
 			return "/member/PwUpdateFrm";
 		}else {
@@ -135,7 +135,6 @@ public class MemberController {
 	@PostMapping(value="/updatePw")
 	public String updatePw(Member m,Model model) {
 		int result = memberService.updatePw(m);
-		
 		if(result>0) {
 			model.addAttribute("title","비밀번호 변경 성공");
 			model.addAttribute("msg","비밀번호 변경이 완료됐습니다.");
