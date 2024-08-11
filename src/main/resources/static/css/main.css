@@ -633,13 +633,13 @@ main.index aside.recent>.recent-wrap>div.recent-box {
 
 main.index aside.recent>.recent-wrap div.img-box {
     width: 100px;
-    height: 100px;
     overflow: hidden;
     margin: 0 auto;
 }
 
 main.index aside.recent>.recent-wrap div.img-box>img {
-    height: 100%;
+    height: 100px;
+    width: 100%;
     object-fit: cover;
     object-position: center;
 }

@@ -2,9 +2,11 @@ package kr.co.iei.restr.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.restr.model.dto.BlogSearchResult;
 import kr.co.iei.restr.model.dto.Restaurant;
@@ -32,6 +37,7 @@ import kr.co.iei.restr.model.dto.ReviewImg;
 import kr.co.iei.restr.model.dto.ReviewListData;
 import kr.co.iei.restr.model.dto.ReviewTag;
 import kr.co.iei.restr.model.service.RestrService;
+import kr.co.iei.util.CookieUtils;
 import kr.co.iei.util.FileUtils;
 
 @Controller
@@ -46,14 +52,23 @@ public class RestrController {
 	@Value("${file.root}")
 	private String root; // application.properties에 설정되어있는 file.root값을 가지고와서 문자열로 지정
 
+	@Autowired
+	private CookieUtils cookieUtils;
 	// 맛집 상세 페이지
 	@GetMapping(value = "/restrView")
-	public String restrView(Model model, int restrNo, @SessionAttribute (required = false) Member member) {
+	public String restrView(Model model, int restrNo, @SessionAttribute (required = false) Member member, HttpServletResponse response, HttpServletRequest request) {
 		Restaurant r = restrService.selectOneRestr(restrNo, member);
 
 		if (r == null) {
 			return "redirect:/";
 		} else {
+			//쿠키 저장이 여기가 맞나 싶소...
+			cookieUtils.setCookie(request, response, "restrNo", String.valueOf(restrNo));
+			cookieUtils.setCookie(request, response, "restrName", r.getRestrName());
+			//cookieUtils.setCookie(request, response, "restrImg1", r.getRestrImg1());
+			//=>얘는 톰캣이 허용하지 않는 문자를 사용하나봄.. 안됨
+			//여기까지 쿠키 저장..
+			
 			//블로그 API
 			String searchResult = restrService.searchBlog(r.getRestrName());
 			List<BlogSearchResult> searchResults = parseSearchResults(searchResult);
@@ -428,6 +443,8 @@ public class RestrController {
 		model.addAttribute("loc", "/restaurant/restrList");
 		return "common/msg2";
 	}
+	
+	
 	
 	
 	// 리뷰 리스트

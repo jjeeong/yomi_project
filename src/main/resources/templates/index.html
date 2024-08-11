@@ -428,7 +428,7 @@
 					<div class="recent-box round-box">
 						<div class="recent-item">
 							<div class="img-box">
-								<img src="/image/main 페이지용.jpg" alt="">
+								<img src="" alt="">
 							</div>
 							<div class="recent-name">
 								<span>상호명</span>
@@ -436,7 +436,7 @@
 						</div>
 						<div class="recent-item">
 							<div class="img-box">
-								<img src="/image/main 페이지용.jpg" alt="">
+								<img src="" alt="">
 							</div>
 							<div class="recent-name">
 								<span>상호명</span>
@@ -444,7 +444,7 @@
 						</div>
 						<div class="recent-item">
 							<div class="img-box">
-								<img src="/image/main 페이지용.jpg" alt="">
+								<img src="" alt="">
 							</div>
 							<div class="recent-name">
 								<span>상호명</span>
@@ -489,8 +489,42 @@
 				showPage.next().addClass("show");
 				}
 			});
+			//쿠키값 출력
+			const restrNo = new Array();
+			const restrNoCookie = Cookies.get("restrNo");
+			const restrValArr = restrNoCookie.split("/");
+			restrValArr.forEach(function(item){
+				restrNo.push(item);
+			})
+			const restrName = new Array();
+			const restrNameCookie = Cookies.get("restrName");
+			const restrNameValArr = restrNameCookie.split("/");
+			restrNameValArr.forEach(function(item){
+				restrName.push(item);
+			})
 			
-			
+			const restrImg1 = new Array();
+			const restrImgCookie = Cookies.get("restrImg1");
+			const restrImgArr = restrImgCookie.split(",");
+			restrImgArr.forEach(function(item){
+				restrImg1.push(item);
+			})
+			const imgbox = $("div.recent-item").find("img");
+			imgbox.each(function(index, item){
+				$(item).attr("src", restrImg1[index]);
+			});
+			const namebox = $("div.recent-name").children();
+			namebox.each(function(index, item){
+				$(item).text(restrName[index]);
+			});
+			console.log(typeof restrNo[0]);
+			const divbox = $("div.recent-item");
+			divbox.css("cursor", "pointer");
+			divbox.each(function(index, item){
+				$(item).on("click", function(){
+					location.href="/restaurant/restrView?restrNo="+restrNo[index];
+				});
+			});
 		</script>
 	</main>
 	<th:block th:include="common/footer"></th:block>
