@@ -290,8 +290,8 @@
 			
 				<div class="update-delete" th:if="${session.member.memberId == bc.commentWriter}">
 					<a href="javascript:void(0)" th:onclick="modifyComment(this,[[${bc.CommentNo}]],[[${b.boardNo}]]);">수정</a>
-					<a href="javascript:void(0)">삭제</a>
-					<a href="javascript:void(0)">답글달기</a>
+					<a href="javascript:void(0)" th:onclick="deleteComment(this,[[${bc.CommentNo}]],[[${b.boardNo}]]);">삭제</a>
+					<a href="javascript:void(0)" class="recShow">답글달기</a>
 					<a href="javascript:void(0)">신고</a>
 				</div>
 		</div>
@@ -574,8 +574,29 @@
 		$("body").append(form);
 		form.submit();
 	}
-	</script>
 	
+	function modifyCancle(obj ,commentNo, boardNo){
+		
+		$(obj).parent().prev().hide();
+		
+		$(obj).parent().prev().prev().show();
+		
+		$(obj).prev().text("수정")
+		$(obj).prev().attr("onclick","modifyComment(this,"+commentNo+","+boardNo+");");
+		
+		$(obj).text("삭제");
+		
+		$(obj).attr("onclick","deleteComment(this,"+commentNo+","+boardNo+");");
+		
+		$(obj).next().show();
+	}
+	function deleteComment(obj, commentNo, boardNo){
+		if(confirm("댓글을 삭제하시겠습니까 ?")){
+			location.href="/board/deleteComment?commentNo="+commentNo+"&commentBoardNo="+boardNo;
+			
+		}
+};
+	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
 

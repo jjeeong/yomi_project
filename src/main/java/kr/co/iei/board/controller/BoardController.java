@@ -197,6 +197,23 @@ public class BoardController {
 		 model.addAttribute("loc","/board/view?check=1&boardNo="+bc.getCommentBoardNo());
 		 return "common/msg";
 	}
+	
+	@GetMapping(value="/deleteComment")
+	public String deleteComment(BoardComment bc, Model model) {
+		int result = boardService.deleteComment(bc);
+		
+		if(result > 0) {
+			model.addAttribute("title", "성공");
+			model.addAttribute("msg", "댓글이 삭제되었습니다.");
+			model.addAttribute("icon", "success");
+		}else {
+			model.addAttribute("title", "실패");
+			model.addAttribute("msg", "삭제 안해줄껀데 ㅋ");
+			model.addAttribute("icon", "warning");
+		}
+		 model.addAttribute("loc","/board/view?check=1&boardNo="+bc.getCommentBoardNo());
+			return "common/msg";
+	}
 	}
 
 

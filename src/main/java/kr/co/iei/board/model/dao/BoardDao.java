@@ -154,4 +154,11 @@ public class BoardDao {
 		return result;
 	}
 
+	public int deleteComment(BoardComment bc) {
+		String query ="delete from board_comment where comment_no=?";
+		Object[] params = {bc.getCommentNo()};
+		int result =jdbc.update(query,params);
+		return result;
+	}
+
 }

@@ -156,5 +156,10 @@ public class BoardService {
 		int result = boardDao.updateComment(bc);
 		return result;
 	}
+
+	public int deleteComment(BoardComment bc) {
+		int result = boardDao.deleteComment(bc);
+		return result;
+	}
 }
 
