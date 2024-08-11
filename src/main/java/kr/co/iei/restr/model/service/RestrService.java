@@ -320,12 +320,15 @@ public class RestrService {
 		return isLike;
 	}
 
-	public List restrSearch(String searchKeyword, String selectedValue) {
+	public List restrSearch(String searchKeyword, String selectedValue, int start, int amount) {
+		int end = start + amount - 1;
 		List list = new ArrayList();
+		
 		if (selectedValue.equals("default")) {
-			list = restrDao.restrSearch(searchKeyword);
+			list = restrDao.restrSearch(searchKeyword, start, end);
 		} else {
-			list = restrDao.restrSearchStar(searchKeyword);
+			list = restrDao.restrSearchStar(searchKeyword, start, end);
+			System.out.println("리스트 : " + list);
 		}
 		return list;
 	}

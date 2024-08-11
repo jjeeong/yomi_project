@@ -39,8 +39,9 @@
 	         -->
 	    </div>
 	    <button class="more-btn" id="more-btn">맛집 더보기</button>
+	    <button class="more-btn" id="search-more-btn" style="display: none;">맛집 더보기</button>
     </div>  
-    
+
     <script th:inline="javascript">
 	    const restrTotalCount = [[${restrTotalCount}]]; 
 		let currentCount = 0;
@@ -48,9 +49,12 @@
 		let selectedValue = "default"
 		const searchKeywordInput = document.getElementById('searchKeyword');
 		let searchKeyword = "";
+		const amount = 5;		//더보기 한 번 클릭할 때마다 추가로 가져올 게시물 수
+		
+		let submitCurrentCount = 0;
+		let submitStart = 1;
     
 		$("#more-btn").on("click", function(){
-			const amount = 5;		//더보기 한 번 클릭할 때마다 추가로 가져올 게시물 수
 			$.ajax({
 				url : "/restaurant/more",
 				type : "get",
@@ -119,102 +123,120 @@
 			});
 		}); 
 		$("#more-btn").click();
+			
 		
+		$(".restr-type-div select[name='restr-type']").on("change", function() {
+		    selectedValue = $(this).val();
+		    currentCount = 0;
+		    start = 1;
+		    submitCurrentCount = 0;
+			submitStart = 1;
+		    $(".restr-item").remove();
+		    $(".restr-not").remove();
+		    
+		    $("#more-btn").show();
+		    $("#search-more-btn").hide();
 
+		    searchKeyword = searchKeywordInput.value;
+
+		    if (searchKeyword == null) {
+		        $("#more-btn").show();
+		        $("#more-btn").click();
+		    } else {
+		    	$("#search-more-btn").show();
+		        $("#submit").click();
+		    }
+		});
+		
+		
+		$("#search-more-btn").on("click", function() {
+			submitSearchResult();
+	    });
+		
 		$("#searchKeyword").on("keydown", function(event) {
 		    if (event.key === "Enter") {
 		        $("#submit").click();
 		    }
 		});
 		
-		$(".restr-type-div select[name='restr-type']").on("change", function() {
-		    selectedValue = $(this).val();
-		    currentCount = 0;
-		    start = 1;
-		    $(".restr-item").remove();
-		    $(".restr-not").remove();
+		$("#submit").on("click", function() {
+	        searchKeyword = searchKeywordInput.value;
+	        submitCurrentCount = 0;
+			submitStart = 1;
+			
+			$("#more-btn").remove();
+	        $(".restr-item").remove();
+	        $(".restr-not").remove();
 
-		    searchKeyword = searchKeywordInput.value;
-
-		    if (searchKeyword === "") {
-		        $("#more-btn").show();
-		        $("#more-btn").click();
-		    } else {
-		        $("#submit").click();
-		    }
-		});
+	        submitSearchResult();
+	    });
 		
-		$("#submit").on("click", function(){
-			searchKeyword = searchKeywordInput.value;
-			
-			let submitCurrentCount = 0;
-			let submitStart = 1;
-			
-			$.ajax({
-				url : "/restaurant/restrSearch",
-				type : "get",
-				data : {submitStart : submitStart, searchKeyword : searchKeyword, selectedValue : selectedValue},
-				success : function(data) {
-					
-					let submitRestrTotalCount = data.submitRestrTotalCount;
-					
-					$("#more-btn").remove();
-					$(".restr-item").remove();
-					$(".restr-not").remove();
-					
-					if(data.restaurants.length == 0) {
-						$(".restr-type-div").css("display", "none");
-						const notH3 = $("<h3>").text(searchKeyword + "에 대한 맛집이 존재하지 않습니다.");
-						const notDiv = $("<div>").addClass("restr-not").append(notH3);
-						$(".restr-list").append(notDiv);
-					} else {
-						$(".restr-type-div").css("display", "block");
-					}
-					
-					for(let i=0; i<data.restaurants.length; i++) {
-						const r = data.restaurants[i];
-						
-						const restrA = $("<a>");
-						restrA.addClass("restr-item");
-						const img = $("<img>");
-						img.attr("src", "/yomi/"+r.restrImg1);
-						const restrInfoDiv = $("<div>");
-						restrInfoDiv.addClass("restr-info");
-						
-						const restrNameDiv = $("<a>");
-						restrNameDiv.addClass("restr-name");					
-						restrNameDiv.text(r.restrName);
-						restrA.attr("href","/restaurant/restrView?restrNo="+r.restrNo);
-						const restrRestrRatingDiv = $("<div>");
-						restrRestrRatingDiv.addClass("restr-rating");
-						const starSpan = $("<span>");
-						starSpan.addClass("material-icons");
-						starSpan.text("grade");
-						const gradeSpan = $("<span>").addClass("grade");
-						
-						if(r.star != null) {						
-							gradeSpan.text(r.star);
-						} else {
-							gradeSpan.text("평가중");
-						}
-						
-						const restrDetailsDiv = $("<div>");
-						restrDetailsDiv.addClass("restr-details");
-						restrDetailsDiv.text(r.restrAddr1 + " " + r.restrAddr2);
-						
-						restrRestrRatingDiv.append(starSpan).append(gradeSpan);
-						restrInfoDiv.append(restrNameDiv).append(restrRestrRatingDiv).append(restrDetailsDiv);
-						restrA.append(img).append(restrInfoDiv);
-						
-						$(".restr-list").append(restrA);	
-					}
+		function submitSearchResult() {
+		    $("#search-more-btn").show();
 
-				},
-				error : function() {
-					console.log("error");
-				}
-			});
-		});
+		    $.ajax({
+		        url : "/restaurant/restrSearch",
+		        type : "get",
+		        data : {
+		            submitStart : submitStart,
+		            amount : amount,
+		            searchKeyword : searchKeyword,
+		            selectedValue : selectedValue
+		        },
+		        success : function(data) {
+		            let submitRestrTotalCount = data.submitRestrTotalCount;
+
+		            if (data.restaurants.length === 0) {
+		                $(".restr-type-div").css("display", "none");
+		                const notH3 = $("<h3>").text(searchKeyword + "에 대한 맛집이 존재하지 않습니다.");
+		                const notDiv = $("<div>").addClass("restr-not").append(notH3);
+		                $(".restr-list").append(notDiv);
+		            } else {
+		                $(".restr-type-div").css("display", "block");
+
+		                for (let i = 0; i < data.restaurants.length; i++) {
+		                    const r = data.restaurants[i];
+		                    const restrA = $("<a>").addClass("restr-item");
+		                    const img = $("<img>").attr("src", "/yomi/" + r.restrImg1);
+		                    const restrInfoDiv = $("<div>").addClass("restr-info");
+
+		                    const restrNameDiv = $("<a>").addClass("restr-name").text(r.restrName);
+		                    restrA.attr("href", "/restaurant/restrView?restrNo=" + r.restrNo);
+		                    const restrRestrRatingDiv = $("<div>").addClass("restr-rating");
+		                    const starSpan = $("<span>").addClass("material-icons").text("grade");
+		                    const gradeSpan = $("<span>").addClass("grade");
+
+		                    if (r.star != null) {
+		                        gradeSpan.text(r.star);
+		                    } else {
+		                        gradeSpan.text("평가중");
+		                    }
+
+		                    const restrDetailsDiv = $("<div>").addClass("restr-details").text(r.restrAddr1 + " " + r.restrAddr2);
+
+		                    restrRestrRatingDiv.append(starSpan).append(gradeSpan);
+		                    restrInfoDiv.append(restrNameDiv).append(restrRestrRatingDiv).append(restrDetailsDiv);
+		                    restrA.append(img).append(restrInfoDiv);
+
+		                    $(".restr-list").append(restrA);
+		                }
+
+		                submitStart += amount;
+		                submitCurrentCount += data.restaurants.length;
+
+		                if (submitCurrentCount < submitRestrTotalCount) {
+		                    $("#search-more-btn").show();
+		                } else {
+		                    $("#search-more-btn").hide();
+		                }
+		            }
+		        },
+		        error: function() {
+		            console.log("error");
+		        }
+		    });
+		}
+
 
 	</script>
 
