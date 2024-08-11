@@ -110,12 +110,28 @@ public class MemberController {
 	public String findId(Member m,Model model) {
 		Member member = memberService.findId(m);
 		model.addAttribute("member" , member);
-		System.out.println(member.toString());
-		
-		return "/member/findIdSelect";
+		if(member != null) {
+			return "/member/findIdSelect";
+		}else {
+			return "/member/null";
+		}
 	}
 	
+	@GetMapping(value="/findPwFrm")
+	public String findPwFrm() {
+		return "/member/findPw";
+	}	
 	
+	@PostMapping(value="/findPwUpdate")
+	public String findPwUpdate(Member m,Model model) {
+		Member member = memberService.findName(m);
+		model.addAttribute("member" , member);
+		if(member != null) {
+			return "/member/PwUpdateFrm";
+		}else {
+			return "/member/null";
+		}
+	}
 	
 	@ResponseBody
 	@PostMapping(value="/sendCode")

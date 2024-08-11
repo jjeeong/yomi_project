@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>비밀번호변경</title>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<main class="content">
+        <div class="findPwUpdate-container show">
+            <h4>아이디 찾기</h4>
+            <div class="findPwUpate-content">
+                <div class="findPwUpdate-input">
+                    <strong style="display:block" id="strong">비밀번호 변경</strong>
+                    <span>아이디 :  <p class="select" style="display : inline-block" th:text="${member.memberId}"></p></span>
+                    <div class=Update-form>
+                    	<form action="/member/updatePw" method="post">
+	                    	<input type="text" name=memberPw>
+	                    	<input type="text" name=memberPwRe>
+                    	</form>
+                    </div>
+                    <div>
+    	            </div>
+                </div>
+            </div>
+        </div>
+    </main>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

@@ -48,6 +48,12 @@ public class MemberService {
 		
 		return member;
 	}
+
+	public Member findName(Member m) {
+		Member member = memberDao.findName(m);
+		
+		return member;
+	}
 	
 }
 

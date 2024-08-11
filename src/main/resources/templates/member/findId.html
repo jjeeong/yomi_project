@@ -20,13 +20,26 @@
                         <span for="email">이메일 주소</span>
                         <input type="text" id="email" name="memberEmail" placeholder="가입시 이메일">
                         <button class="sendBtn"type="button">인증하기</button>
-	                    <button style="display : block" class="submit-btn"type="submit">다음</button>
+	                    <pre class="msg"></pre>
+	                    <button style="display : block" class="submit-btn"type="button" >다음</button>
                     </form>
-                    <pre class="msg"></pre>
                 </div>
             </div>
         </div>
     </main>
+    <script>
+    	$(".submit-btn").on("click",function(){
+    		console.log('asdasd')
+    		const input1 = $("input[name=memberName]").val();
+    		const input2 = $("input[name=memberEmail]").val();
+    		if(input1 == "" || input2 == ""){
+    			$(".msg").text("* 정보를 모두 입력해주세요.");
+    		}else{
+    			$(".login-form").submit();
+    		}
+    			
+    	});
+    </script>
 	<th:block th:include="common/footer"></th:block>
 </body>
 </html>

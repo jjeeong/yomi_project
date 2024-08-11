@@ -3,29 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 찾기</title>
+<link rel="stylesheet" href="/css/findPw.css">
 </head>
 <body>
 	<th:block th:include="common/header"></th:block>
 	 <main class="content">
-        <div class="login-container show">
+        <div class="findPw-container show">
             
-            <h2>로그인</h2>
-            <div class="login-content">
-                <div class="login-input">
-                    <form class="login-form" action="/member/login" method="post" autocomplete="off">
-                        <input type="text" name="memberId" placeholder="아이디" >
-                        <input type="password" name="memberPw" placeholder="비밀번호" >
-                        <button class="login-btn"type="submit">로그인</button>
+            <h4>비밀번호 찾기</h4>
+            <div class="findPw-content">
+                <div class="findPw-input">
+                    <form class="find-form" action="/member/findPwUpdate" method="post" autocomplete="off">
+                        <span for="name">이름</span>
+                        <input type="text" id="name" name="memberName" placeholder="이름">
+                        <span for="id">아이디</span>
+                        <input type="text" id="id" name="memberId" placeholder="아이디" >
+                        <span for="email">이메일 주소</span>
+                        <input type="text" id="email" name="memberEmail" placeholder="가입시 이메일">
+                        <button class="sendBtn"type="button">인증하기</button>
+                        <pre class="msg"></pre>
+	                    <button style="display : block" class="submit-btn"type="button">다음</button>
                     </form>
-                    <pre class="msg"></pre>
-                    <div class="find-links">
-                        <a href="#" id="find-id">아이디 찾기</a>
-                        <a href="#" id="find-pw">비밀번호</a>
-                    </div>
+                    
                 </div>
             </div>
         </div>
     </main>
+    <script>
+ 	$(".submit-btn").on("click",function(){
+		const input1 = $("input[name=memberName]").val();
+		const input2 = $("input[name=memberEmail]").val();
+		const input3 = $("input[name=memberId]").val();
+		if(input1 == "" || input2 == "" || input3 == ""){
+			$(".msg").text("* 정보를 모두 입력해주세요.");
+		}else{
+			$(".find-form").submit();
+		}
+			
+	});
+    </script>
 	<th:block th:include="common/footer"></th:block>
 </body>
 </html>
