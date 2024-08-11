@@ -28,11 +28,7 @@ public class HomeController {
 			model.addAttribute("restrList", restrList);
 			model.addAttribute("reviewList", reviewList);
 			//System.out.println(recentRestr);
-			Cookie[] c = request.getCookies();
-			for(Cookie cookie : c) {
-				System.out.println(cookie.getName());
-				
-			}
+		
 			return "index";
 		}
 //		
