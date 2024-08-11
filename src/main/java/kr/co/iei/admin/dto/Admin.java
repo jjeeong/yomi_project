@@ -21,6 +21,6 @@ public class Admin {
 	private String memberPhoto;
 	private String memberRegDate;
 	private int memberBirthDate;
-	private int    memberReport;
+	private int    reportCount;
 
 }

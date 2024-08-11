@@ -27,6 +27,7 @@ public class AdminRowMapper implements RowMapper<Admin> {
 		m.setMemberPw(rs.getString("member_pw"));
 		m.setMemberRegDate(rs.getString("member_reg_date"));
 		m.setMemberBirthDate(rs.getInt("member_birthdate"));
+		m.setReportCount(rs.getInt("report_count"));
 		
 		return m;
 	}
