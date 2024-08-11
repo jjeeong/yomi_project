@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: g_b;
-     src: url(/css/Gothic_A1/GothicA1-Bold.ttf) */
+    src: url(/css/Gothic_A1/GothicA1-Bold.ttf) */
 }
 
 @font-face {
@@ -35,7 +35,7 @@
     padding: 0;
 }
 
-.findId-container{
+.findIdSelect-container{
 	background-color: white;
     width: 600px;
     height: 500px;
@@ -45,56 +45,30 @@
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
 }
 
-.findId-container>h4 {
+.findIdSelect-container>h4 {
 	border-bottom :1px solid black;
 	margin-bottom : 70px;
 }
 .findId-input{
-	margin-left: 50px;
+	margin-left : 20px;
 }
-.findId-input>#strong{
-	margin-bottom : 30px;
+.findId-input .select{
+	font-size:20px;
+	color: var(--point2);
+	font-family: 'g_black';
 }
-.findId-input button{
-	 	margin-bottom:10px;
- 	width:80px;
+.findId-input>div>button{
+	margin-bottom:10px;
+ 	width:120px;
  	height:40px;
  	font-family: 'g_b';
  	font-size:18px;
  	background-color: var(--point1);
- 	color:white;
  	border:none;
  	border-radius: 5px;
+ 	margin: 0 5px;
 }
-.login-form>input{
-	display:block;
-	margin-top: 10px;
-    width: calc(40%);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    justify: right;
-}
-.login-form>span:first-child{
-	font-size:18px;
-	margin-left : 18px;
-	
-}
-
-.login-form>#name{
-	display:inline-block;
-	margin-left:43px;
-	margin-right:200px;
-}
-.login-form>#email{
-	display:inline-block;
-	margin-left:15px;
-}
-.login-form>.sendBtn{
-	margin-left:10px;
-	display:inlin-block;
-}
-.submit-btn{
-	
-	margin-top:20px;
+.findId-input>div>button>a{
+	text-decoration : none;
+	color:white;
 }

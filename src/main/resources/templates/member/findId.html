@@ -14,14 +14,14 @@
             <div class="findId-content">
                 <div class="findId-input">
                     <strong id="strong">본인확인 이메일로 인증</strong>
-                    <form class="login-form" action="/member/findId" method="post" autocomplete="off">
+                    <form class="login-form" action="/member/findId" method="post" >
                         <span for="name">이름</span>
                         <input type="text" id="name" name="memberName" placeholder="이름" >
                         <span for="email">이메일 주소</span>
-                        <input type="text" id="email" name="memberEamil" placeholder="가입시 이메일">
+                        <input type="text" id="email" name="memberEmail" placeholder="가입시 이메일">
                         <button class="sendBtn"type="button">인증하기</button>
+	                    <button style="display : block" class="submit-btn"type="submit">다음</button>
                     </form>
-                    <button class="login-btn"type="submit">다음</button>
                     <pre class="msg"></pre>
                 </div>
             </div>
