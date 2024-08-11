@@ -101,7 +101,19 @@ public class MemberController {
 		}
 	}
 	
-	
+	@GetMapping(value="/findIdFrm")
+	public String findIdFrm() {
+		return "/member/findId";
+	}
+		
+	@PostMapping(value="/findId")
+	public String findId(Member m,Model model) {
+		Member member = memberService.findId(m);
+		model.addAttribute("member" , member);
+		
+		
+		return "/member/findIdselect";
+	}
 	
 	
 	

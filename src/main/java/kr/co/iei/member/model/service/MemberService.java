@@ -42,9 +42,12 @@ public class MemberService {
 		return member;
 	}
 
-	
 
-	
+	public Member findId(Member m) {
+		Member member = memberDao.findId(m);
+		
+		return member;
+	}
 	
 }
 

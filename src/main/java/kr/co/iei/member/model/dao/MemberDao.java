@@ -75,6 +75,18 @@ public class MemberDao {
 		
 	}
 
+
+	public Member findId(Member m) {
+		String query ="select * from member_tbl where member_name = ? and member_email = ?";
+		Object[] params = {m.getMemberName(),m.getMemberEmail()};
+		List list = jdbc.query(query, memberRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return (Member)list.get(0);
+		}
+	}
+
 		
 		
 	}
