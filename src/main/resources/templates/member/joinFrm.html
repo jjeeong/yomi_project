@@ -126,8 +126,14 @@
 	                            <p class="input-msg email-check-msg"></p>
 	                            <div class="certification">
 		                            <div class="section-title">인증하기</div>
-		                            <div>
+		                            <div class="sendBtn">
 		                            	<button type="button" id="sendBtn">인증하기</button>
+		                            </div>
+		                            <div id="auth" style="display : none;">
+		                            	<input type="text" id="authCode" placeholder="인증번호입력">
+		                            	<button type="button" class="btn-primary" id="authBtn">인증하기</button>
+		                            	<span id="timeZone"></span>
+		                            	<span id="authMsg"></span>
 		                            </div>
 		                        </div>
 	                        </div>
@@ -850,29 +856,46 @@
 	        finalEmail = email1 +'@'+ email2 ;
 	        $('#memberEmail').val(finalEmail);
 	        const email = $('#memberEmail').val();
+	        const emailReg = /^[a-zA-Z0-9._%+-]{4,15}$/ ;
 			if(email1 == ""){
 				$(".email-check-msg").text("이메일을 입력해주세요.");
 				$(".email-check-msg").addClass("invalid");
+			}else if(email2 ==""){
+				$(".email-check-msg").text("도메인을 입력해주세요.");
+				$(".email-check-msg").addClass("invalid");
 			}else{
-	        	$.ajax({
-					url : "/member/ajaxCheckEmail",
-					type : "get",
-					data : {email:email},
-					success : function(data){
-						console.log(data)
-						if(data == 0){
-							$(".email-check-msg").text("사용 가능한 이메일 입니다.");
-							$(".email-check-msg").addClass("valid");
-						}else{
-							$(".email-check-msg").text("이미 사용중인 이메일 입니다.");
-							$(".email-check-msg").addClass("invalid");
-						}
-					},
-					error : function(){
-						console.log("에러 발생");
+				if(emailReg.test(email1)){
+					$(".email-check-msg").removeClass("invalid");
+					$.ajax({
+						url : "/member/ajaxCheckEmail",
+						type : "get",
+						data : {email:email},
+						success : function(data){
+							console.log(data)
+							if(data == 0){
+								$(".email-check-msg").text("사용 가능한 이메일 입니다.");
+								$(".email-check-msg").addClass("valid");
+								if($(".email-check-msg").hasClass("valid")){
+									$('#sendBtn').attr("disabled", false);
+								}
+							}else{
+								$(".email-check-msg").text("이미 사용중인 이메일 입니다.");
+								$(".email-check-msg").addClass("invalid");
+								if($(".email-check-msg").hasClass("invalid")){
+									$('#sendBtn').attr("disabled", true);
+								}
+							}
+						},
+						error : function(){
+							console.log("에러 발생");
 					}
 				});
-			} 
+				}else{
+					$(".email-check-msg").text("영문 대 소문자 숫자 ._%+- 기호만 사용가능하며  최소 네자리 이상입력하셔야합니다.");
+					$(".email-check-msg").addClass("invalid");
+					$('#sendBtn').attr("disabled", true);
+				}
+			}
 		});     
 	
 	    $("#inputBox1").on("change",function(){	
@@ -887,22 +910,83 @@
 				$(".email-check-msg").addClass("invalid");
 			}
 		});
+	    
+	    
+	    $("#sendBtn").on("click",function(){
+	    	const inputMsg = $(".email-check-msg");
+	    	if(inputMsg.hasClass("invalid")){
+	    		$(".email-check-msg").text("체크표시를 눌러 이메일 중복체크를 해주세요.")
+	    	}else if(inputMsg.hasClass("valid")){
+	    		$("#auth").show();
+	    	}
+	    });
+	    
+	    
+	    let mailCode = null;
 	    $("#sendBtn").on("click",function(){
 	    	const receiver = $("#memberEmail").val();
-	    	console.log($("#memberEmail").val());
+	    	console.log(receiver);
 	    	$.ajax({
 	    		url : "/member/sendCode",
 	    		data : {receiver : receiver},
 	    		type : "post",
 	    		success : function(data){
 	    			console.log(data);
+	    			mailCode = data;
+	    			$("#auth").show();
+	    			authTime();
 	    		},
 	    		error : function(){
 	    			console.log("에러")
 	    		}
 	    	})
 	    });
-	    
+	    let intervalId = null;
+	    function authTime(){
+	    	$("#timeZone").html("<span id='min'>3</span> : <span id='sec'>00</span>");
+	    	intervalId = window.setInterval(function(){
+	    		const min = $("#min").text();
+	    		const sec = $("#sec").text();
+	    		if(sec == "00"){
+	    			//0초 다음은 분을 내려야하므로
+	    			if(min == "0"){
+						window.clearInterval(intervalId);
+						mailCode = null;
+						$("#authMsg").text("인증시간이 만료되었습니다.");
+						$("#authMsg").css("color","red");
+	    			}else{
+		    			const newMin = Number(min) -1;
+		    			$("#min").text(newMin);
+		    			$("#sec").text(59);
+	    			}
+	    		}else{
+	    			//0초가 아니면 초를 내리면 됨
+	    			const newSec = Number(sec) - 1;
+	    			if(newSec < 10){
+						$("#sec").text("0"+newSec);	    				
+	    			}else{
+	    				$("#sec").text(newSec);
+	    			}
+	    		}
+	    	},100);
+	    }
+	    $("#authBtn").on("click",function(){
+	    	const authCode = $("#authCode").val();
+	    	if(authCode == mailCode){
+	    		$("#authMsg").text("인증완료");
+	    		$("#authMsg").css("color","blue");
+	    		
+	    		window.clearInterval(intervalId);
+	    		$("#inputBox1").prop("readonly",true);
+	    		$("#sendBtn").prop("disabled",true);
+	    		$("#authCode").prop("readonly",true);
+	    		$("#authBtn").prop("disabled",true);
+	    		$("#timeZone").remove();
+	    	}else{
+	    		$("#authMsg").text("인증번호를 확인하세요.");
+	    		$("#authMsg").css("color","red");
+	    	}
+	    })
 		
 		//생년월일 입력시 조건에 안맞으면 메세지 출력
 		$("#birth-year,#birth-month,#birth-day").on("change",function(){
