@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>비밀번호변경</title>
+<link rel="stylesheet" href="/css/updatePw.css">
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<main class="content">
+        <div class="updatePw-container show">
+            <h4>비밀번호 변경</h4>
+            <div class="updatePw-content">
+                <div class="updatePw-input">
+                    <strong style="display:block" id="strong">비밀번호 변경</strong>
+                    <span>아이디 :  <p class="select" style="display : inline-block" th:text="${member.memberId}"></p></span>
+                    <div class=update-form>
+                    	<form class="update-form" action="/member/updatePw" method="post" autocomplete="off">
+	                    	<p class="before" style="display : none" th:text="${member.memberPw}"></p>
+	                    	<input type="password" name="memberPw" placeholder="새 비밀번호 입력">
+	                    	<input type="password" name="memberPwRe" placeholder="새 비밀번호 확인 입력">
+	                    	<input type="hidden" name="memberName" th:value="${member.memberName}">	
+	                    	<input type="hidden" name="memberId" th:value="${member.memberId}">	 
+	                    	<input type="hidden" name="memberEmail" th:value="${member.memberEmail}">	
+	                    	<pre class="msg"></pre>
+	                    	<button class="submit-btn" type="button">변경하기</button>
+                    	</form>
+                    </div>
+                    <div>
+    	            </div>
+                </div>
+            </div>
+        </div>
+    <script>
+	    $(".submit-btn").on("click",function(){
+			console.log('asdasd')
+			const input1 = $("input[name=memberPw]").val();
+			const input2 = $("input[name=memberPwRe]").val();
+			if(input1 == "" || input2 == ""){
+				$(".msg").text("* 비밀번호를 모두 입력해주세요.");
+			}else{
+				const regArr =  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/ ;
+				const check = regArr.test(input1);
+				if(!check){
+					$(".msg").removeClass("valid").removeClass("invalid");
+				    $(".msg").text("* 비밀번호는 8글자이상 영문대소문자 숫자 특수문자(@$!%*#?&)\n를 포함해야합니다.");
+					$(".msg").addClass("invalid");  
+				}else{
+					$(".msg").removeClass("valid").removeClass("invalid");
+					$(".msg").text("");
+					$(".update-form").submit();
+				}
+			}
+				
+		});
+		  $("input[name=memberPw]").on("change",function(){
+			  const before = $(".before").text();
+			  const pwValue = $("input[name=memberPw]").val();
+			  const regArr =  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/ ;
+			  const check = regArr.test(pwValue);      
+			  
+			  if(before == pwValue){
+				  $(".msg").removeClass("valid").removeClass("invalid");
+				  $(".msg").text("* 비밀번호가 기존과 같습니다.");
+				  $(".msg").addClass("invalid");
+			  }else{
+				  if(check){
+					  $(".msg").removeClass("valid").removeClass("invalid");
+					  $(".msg").text("사용가능합니다.ok.");
+					  $(".msg").addClass("valid");
+				  }else if(!check){
+					  $(".msg").removeClass("valid").removeClass("invalid");
+					  $(".msg").text("* 비밀번호는 8글자이상 영문대소문자 숫자 특수문자(@$!%*#?&)\n를 포함해야합니다.");
+					  $(".msg").addClass("invalid");
+				  }
+			  }
+			 
+		  });
+		  $("input[name=memberPwRe]").on("change",function(){
+				$(".msg").removeClass("valid").removeClass("invalid");
+				const pwValue = $("input[name=memberPw]").val();
+				const pwReValue = $("input[name=memberPwRe]").val();
+				if(pwReValue==""){
+					$(".msg").removeClass("valid").removeClass("invalid");
+					$(".msg").text("");
+				}else if(pwValue === pwReValue){
+					$(".msg").text("비밀번호가 일치합니다.ok.");
+					$(".msg").addClass("valid");
+				}else{
+					$(".msg").text("* 비밀번호가 일치하지 않습니다.");
+					$(".msg").addClass("invalid");
+				}
+			});	
+    
+    
+    
+    </script>
+    </main>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

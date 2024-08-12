@@ -25,7 +25,6 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zzl0s76r4r&submodules=geocoder"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-
 <body>
 	<th:block th:include="common/header"></th:block>
 	<div>
@@ -87,10 +86,10 @@
 				</div>
 				<div class="shop-information">
 					<div>
-						<span class="material-icons icon">location_on</span><span id="addr1" th:text="${r.restrAddr1}"></span> <span id="addr2" th:text="${r.restrAddr2}"></span>
+						<span class="material-icons icon">location_on</span><span id="addr1" th:text="${r.restrAddr1}"></span><span id="addr2" th:text="${r.restrAddr2}"></span>
 					</div>
 					<div>
-						<span class="material-icons icon">call</span> <span th:text="${r.restrTel}"></span>
+						<span class="material-icons icon">call</span><span th:text="${r.restrTel}"></span>
 					</div>
 				</div>
 				<div class="menu-and-tag">
@@ -707,6 +706,9 @@
                 const keywordDiv = $("<div>").addClass("keyword-item").text(label);
                 $(".keywords").append(keywordDiv);
             });
+            
+         	// 모달 닫기
+            $("#exampleModal").modal('hide');
         });
 
 

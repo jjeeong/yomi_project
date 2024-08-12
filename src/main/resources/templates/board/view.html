@@ -295,13 +295,17 @@
 			<div class="input-item" style="display : none;">
 				<textarea name="commentContent" th:text="${bc.commentContent}"></textarea>
 			</div>
-			
-				<div class="update-delete" th:if="${session.member.memberId == bc.commentWriter}">
+			<!-- 수진 : 여기 수정했습니다!! session.member가 null이 아닌 조건이 필요해서 추가했고, 신고와 답글달기는 본인이 아니어도 가능하게 해놔야 하기 때문에 따로 빼뒀어요~ -->
+			<div class="update-delete">
+				<th:block th:if="${session.member!=null && session.member.memberId == bc.commentWriter}">
 					<a href="javascript:void(0)" th:onclick="modifyComment(this,[[${bc.CommentNo}]],[[${b.boardNo}]]);">수정</a>
 					<a href="javascript:void(0)" th:onclick="deleteComment(this,[[${bc.CommentNo}]],[[${b.boardNo}]]);">삭제</a>
-					<a href="javascript:void(0)">답글달기</a>
-					<a href="javascript:void(0)">신고</a>
-				</div>
+				</th:block>
+				<th:block th:if="${session.member!=null}">
+					<a href="javascript:void(0)" class="recShow">답글달기</a>
+					<a href="javascript:void(0)" th:onclick="reportComment(this, [[${bc.commentNo}]]);">신고</a>
+				</th:block>
+			</div>
 		</div>
 	</div>
 
@@ -455,7 +459,7 @@
 		function reportPost() {
 			$("#reportBoardType").val(2);
 			$("#reportBoardTypeSpan").text("맛집 추천 게시글");
-			$("input#reportContentNo").val([[${ b.boardNo }]]);
+			$("input#reportContentNo").val([[${b.boardNo }]]);
 			$("input#reportContentNo").attr("name", "reportBoardNo");
 			$("div.respondent-id").children().eq(2).text("[[${b.boardWriter}]]");
 			$("input#reportType6").next().next().on("change", function () {
@@ -468,8 +472,22 @@
 			});
 		}
 		//댓글 신고
-		function reportComment() {
-
+		function reportComment(obj, commentNo) {
+			$("#reportBoardType").val(3);
+			$("#reportBoardTypeSpan").text("게시글 댓글");
+			$("input#reportContentNo").val(commentNo);
+			$("input#reportContentNo").attr("name", "reportBoardCommentNo");
+			const boardCommentWriter = $(obj).parent().prevAll().last().text();
+			
+			$("div.respondent-id").children().eq(2).text(boardCommentWriter);
+			$("input#reportType6").next().next().on("change", function () {
+				const content = $(this).val()
+				$("input#reportType6").val(content);
+			});
+			$(".insertReportModal").modal("show");
+			$("button.btn-point-modal").on("click", function () {
+				insertReport(boardCommentWriter);
+			});
 		}
 
 		//2. 신고버튼 누르면 신고작성되기
@@ -479,7 +497,7 @@
 			const respondentId = boardWriter;
 			const reportType = $("input[name=reportType]:checked").val();
 			const reportContent = $("textarea#reportContent").val();
-			console.log(reportBoardType, reportContentNo, respondentId, reportType, reportContent);
+			//console.log(reportBoardType, reportContentNo, respondentId, reportType, reportContent);
 			if (reportType == "") {
 				reportSwal.fire({
 					title: "신고 불가",
@@ -506,6 +524,7 @@
 						reportContent: reportContent
 					},
 					success: function (data) {
+						//console.log(data);
 						if (data > 0) {
 							reportSwal.fire({
 								title: "신고 완료",
@@ -520,7 +539,14 @@
 								icon: "error",
 								color: "var(--mainFont)"
 							});
-						} else {
+						}else if(data == -2){
+							reportSwal.fire({
+								title : "신고  불가",
+        						text : "이미 신고한 게시물입니다.",
+        						icon : "error",
+        						color : "var(--mainFont)"
+							});
+						}else {
 							reportSwal.fire({
 								title: "신고  불가",
 								text: "해당 게시글을 신고할 수 없습니다.",
@@ -539,6 +565,7 @@
 					},
 					complete: function () {
 						$("#staticBackdrop").modal("hide");
+						$("input#reset").click();
 					}
 				});//ajax
 			}//else

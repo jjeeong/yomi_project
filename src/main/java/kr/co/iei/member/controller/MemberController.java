@@ -110,12 +110,45 @@ public class MemberController {
 	public String findId(Member m,Model model) {
 		Member member = memberService.findId(m);
 		model.addAttribute("member" , member);
-		
-		
-		return "/member/findIdselect";
+		if(member != null) {
+			return "/member/findIdSelect";
+		}else {
+			return "/member/null";
+		}
 	}
 	
+	@GetMapping(value="/findPwFrm")
+	public String findPwFrm() {
+		return "/member/findPw";
+	}	
 	
+	@PostMapping(value="/findPwUpdate")
+	public String findPwUpdate(Member m,Model model) {
+		Member member = memberService.findName(m);
+		model.addAttribute("member", member);
+		if(member != null) {
+			return "/member/PwUpdateFrm";
+		}else {
+			return "/member/null";
+		}
+	}
+	@PostMapping(value="/updatePw")
+	public String updatePw(Member m,Model model) {
+		int result = memberService.updatePw(m);
+		if(result>0) {
+			model.addAttribute("title","비밀번호 변경 성공");
+			model.addAttribute("msg","비밀번호 변경이 완료됐습니다.");
+			model.addAttribute("icon","success");
+			model.addAttribute("loc","/");
+			return "common/msg";
+		}else {
+			model.addAttribute("title","비밀번호 변경실패");
+			model.addAttribute("msg","관리자에게 문의하세요.");
+			model.addAttribute("icon","warning");
+			model.addAttribute("loc","/member/loginFrm");
+			return "common/msg";
+		}
+	}
 	
 	@ResponseBody
 	@PostMapping(value="/sendCode")
@@ -142,9 +175,9 @@ public class MemberController {
 			}
 		}
 		String emailContent = "<h1>안녕하세요. YOMIYOMI 입니다.</h1>"
-							+"<h3>회원 가입을 위한 인증번호는 "
+							+"<h3>회원 가입을 위한 인증번호는 [<span style='color:red'>"
 							+sb.toString()
-							+"입니다.</h3>";
+							+"</span>]입니다.</h3>";
 		emailSender.sendMail(emailTitle, receiver, emailContent);
 		System.out.println("cot"+emailTitle);
 		System.out.println("cot"+receiver);

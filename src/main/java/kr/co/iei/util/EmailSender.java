@@ -37,6 +37,7 @@ public class EmailSender {
 			//내용설정
 			helper.setText(emailContent, true);
 			
+			sender.send(message);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

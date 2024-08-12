@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>아이디 찾기 결과</title>
+<link rel="stylesheet" href="/css/findIdSelect.css">
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<main class="content">
+        <div class="findIdSelect-container show">
+            <h4>아이디 찾기</h4>
+            <div class="findId-content">
+                <div class="findId-input">
+                    <strong style="display:block" id="strong">아이디 찾기 결과</strong>
+                    <span>고객님의 정보와 일치하는 아이디는 <p class="select" style="display : inline-block" th:text="${member.memberId}"></p>입니다.</span>
+                    <div>
+                    	<form action="/member/findPwUpdate" method="post" autocomplete="off">
+                    		<input type="hidden" name="memberName" th:value="${member.memberName}">	
+	                    	<input type="hidden" name="memberId" th:value="${member.memberId}">	 
+	                    	<input type="hidden" name="memberEmail" th:value="${member.memberEmail}">	
+		                    <button class="login-btn"type="button"><a href="/member/loginFrm">로그인하기</a></button>
+		                    <button class="login-btn"type="submit">비밀번호 변경</button>
+	                    </form>
+    	            </div>
+                </div>
+            </div>
+        </div>
+    </main>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

@@ -35,7 +35,7 @@
     padding: 0;
 }
 
-.findId-container{
+.findPw-container{
 	background-color: white;
     width: 600px;
     height: 500px;
@@ -45,18 +45,18 @@
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
 }
 
-.findId-container>h4 {
+.findPw-container>h4 {
 	border-bottom :1px solid black;
 	margin-bottom : 70px;
 }
-.findId-input{
+.findPw-input{
 	margin-left: 50px;
 }
-.findId-input>#strong{
+.findPw-input>#strong{
 	margin-bottom : 30px;
 }
-.findId-input button{
-	 	margin-bottom:10px;
+.findPw-input button{
+	margin-bottom:10px;
  	width:80px;
  	height:40px;
  	font-family: 'g_b';
@@ -67,7 +67,7 @@
  	border-radius: 5px;
  	line-height:40px;
 }
-.findId-form>input{
+.find-form>input{
 	display:block;
 	margin-top: 10px;
     width: calc(40%);
@@ -75,13 +75,11 @@
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-.findId-form>label{
+.find-form>label:first-child{
 	font-size:18px;
-	margin-left : 18px;
-	font-family:'g_b'
-	
+	margin-left : 25px;
 }
-.findId-form>#auth input{
+.find-form>#auth input{
 		display:inline-block;
 	margin-top: 10px;
     width: calc(40%);
@@ -90,35 +88,48 @@
     border-radius: 5px;
     margin-left : 20px;
 }
-.findId-form>#auth label{
-	font-size:18px;
-	margin-left : 18px;
-	font-family:'g_b'
+.find-form>#auth button{
+	margin-left : 10px;	
+}
+	
+.find-form>label[for="id"]{
+	margin-left : 13px;	
+}
+.find-form label{
+	font-family:'g_b';
+}
+.find-form>#auth label{
+	display:inline-block;
+	margin-left:5px;
 }
 
-.findId-form>#name{
+.find-form>#name{
 	display:inline-block;
-	margin-left:73px;
-	margin-right:160px;
+	margin-left:40px;
+ 	margin-right:190px;
 }
-.findId-form>#email{
+.find-form>#id{
 	display:inline-block;
-	margin-left:15px;
+	margin-left:40px;
+ 	margin-right:190px;
 }
-.findId-form>.sendBtn{
+.find-form>#email{
+	display:inline-block;
+	margin-left:17px;
+}
+.find-form>.sendBtn{
 	margin-left:10px;
 	display:inline-block;
-}
-.findId-form>#auth button{
-	margin-left : 10px;	
 }
 .submit-btn{
 	
 	margin-top:20px;
 }
+
 .msg{
 	margin-top:5px;
 	font-size:16px;
 	color:red;
 	font-family: 'g_m';
 }
+
