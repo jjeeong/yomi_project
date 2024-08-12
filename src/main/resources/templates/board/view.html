@@ -151,20 +151,16 @@
 		float : left;
 		width: 75px;
 		height:25px;
-		padding-top : 5px;
+		padding-bottom:5px;
 		font-family : g_b;
 		font-size: 17px;
-		
-		
 		}
 		
 		.date-zone{
 			margin-left:30px;
 			width : 100px;
 			height: 25px;
-			
 			float: left;
-			
 		}
 		
 		.material-icons-outlined{
@@ -303,7 +299,7 @@
 				<div class="update-delete" th:if="${session.member.memberId == bc.commentWriter}">
 					<a href="javascript:void(0)" th:onclick="modifyComment(this,[[${bc.CommentNo}]],[[${b.boardNo}]]);">수정</a>
 					<a href="javascript:void(0)" th:onclick="deleteComment(this,[[${bc.CommentNo}]],[[${b.boardNo}]]);">삭제</a>
-					<a href="javascript:void(0)" class="recShow">답글달기</a>
+					<a href="javascript:void(0)">답글달기</a>
 					<a href="javascript:void(0)">신고</a>
 				</div>
 		</div>
