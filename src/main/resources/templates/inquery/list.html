@@ -83,11 +83,11 @@
 						 -->
 					
 						<tr th:each="inquery: ${list}">
-							<td th:if="${inquery.inqueryOpen == 1 || session.member.memberId == inquery.inqueryWriter}" th:text="${inquery.inqueryNo}"></td>
-							<td th:if="${inquery.inqueryOpen == 1 || session.member.memberId == inquery.inqueryWriter}" class="left"><a th:href="@{/inquery/view(inqueryNo=${inquery.inqueryNo})}" th:text="${inquery.inqueryTitle}"></a></td>
-							<td th:if="${inquery.inqueryOpen == 1 || session.member.memberId == inquery.inqueryWriter}" th:text="${inquery.inqueryWriter}"></td>
-							<td th:if="${inquery.inqueryOpen == 1 || session.member.memberId == inquery.inqueryWriter}" th:text="${inquery.inqueryRegDate}"></td>
-							<td th:if="${inquery.inqueryOpen == 1 || session.member.memberId == inquery.inqueryWriter}" th:text="${inquery.inqueryReadCount}"></td>						
+							<td th:text="${inquery.inqueryNo}"></td>
+							<td class="left"><a th:href="@{/inquery/view(inqueryNo=${inquery.inqueryNo})}" th:text="${inquery.inqueryTitle}"></a></td>
+							<td th:text="${inquery.inqueryWriter}"></td>
+							<td th:text="${inquery.inqueryRegDate}"></td>
+							<td th:text="${inquery.inqueryReadCount}"></td>						
 						</tr>	
 						
 						

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,12 +40,23 @@ public class InqueryController {
 
 		
 	@GetMapping(value = "/list")
-	public String list(Model model, int reqPage) {
-						
+	public String list(Model model, int reqPage, @SessionAttribute(required = false) Member member) {
+	
+		
+		if(member == null) {
 			InqueryListData ild = inqueryService.selectInqueryList(reqPage);
 			model.addAttribute("list",ild.getList());
-			model.addAttribute("pageNavi", ild.getPageNavi());		
-			return "inquery/list";
+			model.addAttribute("pageNavi", ild.getPageNavi());
+		}else{
+			InqueryListData ild = inqueryService.selectInqueryList(reqPage, member);
+			model.addAttribute("list",ild.getList());
+			model.addAttribute("pageNavi", ild.getPageNavi());
+		}
+		
+		
+		
+		
+		return "inquery/list";
 	}
 	
 	@GetMapping(value = "/editorFrm")
@@ -66,13 +78,13 @@ public class InqueryController {
 	
 	@PostMapping(value = "/write")
 	public String write(Inquery inq, MultipartFile[] upfile, Model model, Integer open) {
+		
+		//open = 0 : 공개 X / open = 1 : 공개 O
 		if(open == null) {
 			open = 0;
 		}else{
 			open = 1;
 		}
-		
-		
 		
 		List<InqueryFile> fileList = new ArrayList<InqueryFile>();
 		
@@ -162,6 +174,7 @@ public class InqueryController {
 	@PostMapping(value = "/update")
 	public String update(Inquery inq, MultipartFile[] upfile, int[] delFileNo, Model model, String open) {
 		
+		//open = 0 : 공개 X / open = 1 : 공개 O
 		if(open == null) {
 			open = "0";
 		}else {
