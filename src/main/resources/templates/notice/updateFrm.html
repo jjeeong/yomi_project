@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>문의사항 수정</title>
+<link rel="stylesheet" href="/css/notice.css">
+<style>
+	.inquery-update-wrap{
+		width:1000px;
+		margin:0 auto;
+	}
+	.inquery-update-wrap .input-item>input[type=text]{
+		border-bottom: none;
+		padding:0;
+	}
+	.file-wrap{
+		display:flex;
+		gap:20px;
+	}
+	.file-wrap>.files{
+		display: flex;
+		align-items: center;
+	}
+	.file-wrap>.files>.delBtn{
+		font-size:18px;
+		color : #ff3d00;
+		cursor: pointer;
+	}
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
+	<main class="content">
+		<section class="section inquery-update-wrap">
+		<div class="totalWrap">
+			<div class="page-title">문의사항 수정</div>
+			<form action="/notice/update" class="inqueryUpdateFrm" method="post" enctype="multipart/form-data">
+				<table class="tbl">
+					
+					<tr>
+						<th style="width:15%; border-bottom:1px solid black; border-top:1px solid black;">제목</th>
+						<td style="border-top:1px solid black;">
+							<div class="input-item">
+								<input type="text" name="noticeTitle" style="outline:none;" th:value="${notice.noticeTitle}">
+								<input type="hidden" name="noticeNo" th:value="${notice.noticeNo}">
+							</div>
+						</td>
+					</tr>
+					
+					<tr>
+						<th style="border-bottom:1px solid black;">첨부파일</th>
+						<td>
+							<!-- 기존 첨부파일 목록 출력(파일을 지울 수 있는 버튼 제공) -->
+							<div class="file-wrap">
+								<div th:each="file : ${notice.fileList}" class="files">
+									<span class="delFilename" th:text="${file.fileName}"></span>
+									<span class="material-icons delBtn" th:onclick="deleteFile(this,[[${file.fileNo}]]);">remove_circle</span>
+								</div>
+							</div>
+						</td>
+					</tr>
+					
+					<tr>
+						<th style="border-bottom:1px solid black;">추가파일</th>
+						<td class="left">
+							<!-- input type=file에는 value를 설정할 수 없음(보안상 이유) -->
+							<input type="file" name="upfile" multiple>
+						</td>
+					</tr>
+					
+					<tr>
+						<th style="border-bottom:1px solid black;">내용</th>
+						<td class="left">
+							<div class="input-item">
+								<textarea name="noticeContent" id="noticeContent" th:text="${notice.noticeContent}"></textarea>
+							</div>
+						</td>
+					</tr>
+					
+					
+					
+					<tr>
+						<td colspan="2">
+							<button type="submit" class="btn-primary lg" name="updateInquery">수정하기</button>
+						</td>
+					</tr>
+					
+				</table>
+			</form>
+			</div>
+		</section>
+	</main>
+		
+		
+		
+		
+	<script>	
+		// 1. Summernote 에디터를 초기화, onImageUpload 콜백 함수를 설정하여 사용자가 이미지를 업로드할 수 있게 합니다. -> 2. controller로 이동	
+			$('#noticeContent').summernote({
+				height:500,
+				// 한글로 나옴
+				lang:"ko-KR",
+				// 밑에 세줄 : 텍스트에디터 크기 고정
+				disableResize:true,
+				disableResizeEditor:true,
+				resize:false,
+				//사용자가 어떤 행동을 하면 이 함수가 돌아감
+				callbacks:{
+					//사용자가 이미지를 올리면 동작할 함수 지정
+					onImageUpload:function(files){
+						//이미지를 선택하면 해당 파일을 매개변수로 받음
+						//이미지를 처리할 함수를 실행 -> 이때 매개변수로 첨부한 파일, 에디터객체를 전송
+						//이미지 파일을 서버로 업로드
+						uploadImage(files[0],this);	
+					}
+				}
+			});
+		
+		//controller 후 -> 3.서버에서 반환한 이미지 URL을 Summernote 에디터에 삽입
+		function uploadImage(file, editor){
+			//ajax로 서버에 이미지 업로드
+			//업로드 결과로 업로드된 파일의 filepath를 받아옴
+			//받아온 filepath를 이용해서 editor 화면에 표현
+			
+			//ajax로 파일 업로드
+			//<form>역할의 객체 생성
+			console.log(1);
+			const form = new FormData();
+			form.append("upfile",file);
+			/*
+			<form>
+				<input type="file" name="upfile">
+			</form>
+			*/
+			$.ajax({
+				url:"/notice/editorImage",
+				type:"post",
+				data:form,
+				processData:false,
+				contentType:false,
+				success:function(data){					
+					$(editor).summernote("insertImage",data);
+				},
+				error:function(){
+					console.log("에러");
+				}
+			});
+			//processData:데이터 전송 시 기본적으로 문자열로 전송하게 세팅 -> 그 기본 세팅을 무효화
+			//contentType:enctype="application/x-www-form-urlencoded;charset=utf-8"
+			//			-> enctype 기본값 해제
+			//processData, contentType 기본설정을 해제해야 파일 전송 가능
+			//enctype="multipart/form-data"
+		}
+		
+		
+	
+	
+	
+	
+	
+	
+	 <!-- 수정하기 버튼 클릭 시 -->	
+		 $("[name=updateInquery]").on("click",function(event){
+			 
+			 event.preventDefault();
+			 Swal.fire({
+					title:'문의사항 수정',
+					text:'수정하시겠습니까?',
+					icon:'info',
+					showCancelButton:true,
+					confirmButtonText:'수정',
+					cancelButtonText:'취소',
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33'
+				}).then((result)=>{
+					if(result.isConfirmed){
+						$(".inqueryUpdateFrm").submit();
+					}
+				});		 
+		 });				
+	
+	
+	<!-- 첨부파일 삭제버튼 클릭 시 -->	
+		function deleteFile(obj, fileNo) {
+		    Swal.fire({
+		        title: '파일 삭제',
+		        text: '첨부파일을 삭제하시겠습니까?',
+		        icon: 'info',
+		        showCancelButton: true,  // 취소 버튼을 표시하도록 설정
+		        confirmButtonText: '삭제',
+		        cancelButtonText: '취소', // 취소 버튼의 텍스트
+		        confirmButtonColor: '#3085d6',
+		        cancelButtonColor: '#d33'
+		    }).then((result) => {
+		        if (result.isConfirmed) {
+		            // 삭제가 확인되면 처리
+		            const input = $("<input>");
+		            input.attr("name", "delFileNo");
+		            input.attr("type", "hidden");
+		            input.val(fileNo);
+		            $(".inqueryUpdateFrm").append(input);
+		            $(obj).parent().remove();
+		        }
+		    });
+		}
+	</script>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>
