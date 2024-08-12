@@ -12,7 +12,7 @@ public class BestReviewRowMapper implements RowMapper<BestReview>{
 	@Override
 	public BestReview mapRow(ResultSet rs, int rowNum) throws SQLException {
 		BestReview br = new BestReview();
-		br.setMemberName(rs.getString("member_name"));
+		br.setMemberName(rs.getString("member_name")==null?"(탈퇴 회원)":rs.getString("member_name"));
 		br.setRestrImg1(rs.getString("restr_img1"));
 		br.setRestrNo(rs.getInt("restr_no"));
 		br.setReviewImg1(rs.getString("review_img1"));

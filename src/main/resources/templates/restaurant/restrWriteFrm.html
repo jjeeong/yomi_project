@@ -290,18 +290,26 @@
 
 			    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
 
-			        alert('검색 결과가 존재하지 않습니다.');
+			    	swal.fire({
+			        	title : "검색 결과가 존재하지 않습니다",
+			        	icon : "info",
+			        	iconColor : "var(--point1)",
+			        	color : "var(--pointFont)"
+			        });
 			        return;
 
 			    } else if (status === kakao.maps.services.Status.ERROR) {
 
-			        alert('검색 결과 중 오류가 발생했습니다.');
+			    	swal.fire({
+			        	title : "검색 결과중 오류가 발생했습니다",
+			        	icon : "error",
+			        });
 			        return;
 
 			    }//if/else if
 			}//function placeSearchCB
 			
-			console.log(11);
+			//console.log(11);
 			//여기서부터는 그냥 복붙한거임 한번 다시 살펴보길
 			//검색결과 목록과 마커를 표출하는 함수
 			function displayPlaces(places) {
@@ -503,12 +511,11 @@
 		        query: address
 		    }, function (status, response) {
 		        if (status === naver.maps.Service.Status.ERROR) {
-		            return alert('Something Wrong!');
-		        }
-
-		        if (response.v2.meta.totalCount === 0) {
-		            return alert('totalCount' + response.v2.meta.totalCount);
-		        }
+		            return swal.fire({
+		            	title :"시스템 오류가 발생!",
+		            	text:"현재 지도 기능을 사용하기 어렵습니다. 나중에 시도해주세요.",
+		            	icon:"error"
+		            });
 
 		        var htmlAddresses = [],
 		            item = response.v2.addresses[0],
@@ -549,8 +556,11 @@
 		        ].join(',')
 		    }, function (status, response) {
 		        if (status === naver.maps.Service.Status.ERROR) {
-		            return alert('시스템 오류입니다!');
-		            //sw 쓸 수 있으면 써도 되고..
+		            return swal.fire({
+		            	title :"시스템 오류가 발생!",
+		            	text:"현재 지도 기능을 사용하기 어렵습니다. 나중에 시도해주세요.",
+		            	icon:"error"
+		            });
 		        }
 		        var items = response.v2.results,
 		            address = '',
@@ -648,7 +658,12 @@
 			let doInsert = true;
 		    const tagText = $("#restrTag").val();
 		    if (tagText == "") {
-		        alert("태그를 입력해주세요");
+		    	swal.fire({
+		        	title:"태그 입력 오류",
+		        	text:"태그를 입력하지 않았습니다.",
+		        	icon:"info",
+		        	iconColor : "var(--point1)"
+		        });
 		        doInsert = false;
 		        return;
 		    }
