@@ -255,18 +255,24 @@ public class RestrController {
 			int result = restrService.writeReview(review, reviewImgList);
 			
 			//리뷰 키워드 삽입
-			if(keywords.length > 5) {
+			if(keywords != null && keywords.length > 5) {
 				model.addAttribute("title", "키워드 개수 초과");
 				model.addAttribute("msg", "키워드 수는 최대 5개입니다.");
 				model.addAttribute("icon", "error");
 				model.addAttribute("loc", "restrView?restrNo=" + restaurant.getRestrNo());
 				return "common/msg2";
-			} else {				
+			} else {
 				if (result > 0 && keywords != null) {
 					int tagResult = restrService.insertKeyword(reviewNo, keywords);
 				}
 			}
-			return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();
+			
+			model.addAttribute("title", "작성 완료");
+			model.addAttribute("msg", "리뷰 작성을 완료하셨습니다.");
+			model.addAttribute("icon", "success");
+			model.addAttribute("loc", "restrView?restrNo=" + restaurant.getRestrNo());
+			return "common/msg2";
+			//return "redirect:/restaurant/restrView?restrNo=" + restaurant.getRestrNo();
 		}	
 	}
 
@@ -309,8 +315,32 @@ public class RestrController {
 		return reviewList;
 	}
 	
-	//---------------------------------------------------------------------------
-	// 헷갈려서 나눠두겠습니다 위쪽 정원 / 아래쪽 수진
+	// 리뷰 리스트
+	@GetMapping(value = "/reviewList")
+	public String selectAllReview(Model model, int reqPage) {
+		ReviewListData rld = restrService.selectAllReview(reqPage);
+		model.addAttribute("list", rld.getList());
+		model.addAttribute("pageNavi", rld.getPageNavi());
+		return "restaurant/reviewList";
+	}
+	
+	@GetMapping(value = "/reviewDelete")
+	public String reviewDelete(int reviewNo, Model model, int restrNo) {
+		int result = restrService.reviewDelete(reviewNo);
+		if(result > 0) {
+			model.addAttribute("title", "삭제 완료");
+			model.addAttribute("msg", "삭제되었습니다.");
+			model.addAttribute("icon", "success");
+			model.addAttribute("loc", "restrView?restrNo=" + restrNo);
+		} else {
+			model.addAttribute("title", "삭제 실패");
+			model.addAttribute("msg", "잠시 후 다시 시도해주세요.");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "restrView?restrNo=" + restrNo);
+		}
+		return "common/msg2";
+	}
+	
 	
 	//맛집 등록페이지 이동
 	@GetMapping(value = "/writeFrm")
@@ -449,15 +479,4 @@ public class RestrController {
 		return "common/msg2";
 	}
 	
-	
-	
-	
-	// 리뷰 리스트
-	@GetMapping(value = "/reviewList")
-	public String selectAllReview(Model model, int reqPage) {
-		ReviewListData rld = restrService.selectAllReview(reqPage);
-		model.addAttribute("list", rld.getList());
-		model.addAttribute("pageNavi", rld.getPageNavi());
-		return "restaurant/reviewList";
-	}
 }

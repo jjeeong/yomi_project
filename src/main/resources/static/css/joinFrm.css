@@ -472,7 +472,7 @@ transform: rotate(180deg);
 	background-color: var(--point2);
 }	
 .certification>#auth>input{
-	 width: calc(75%);
+	 width: 250px;
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;

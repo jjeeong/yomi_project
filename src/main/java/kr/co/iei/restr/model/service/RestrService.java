@@ -422,5 +422,20 @@ public class RestrService {
 		return result;
 	}
 
+	@Transactional
+	public int reviewDelete(int reviewNo) {
+		int result = restrDao.reviewDelete(reviewNo);
+		return result;
+	}
+
+	public List selectRecent(List<Integer> restrNoList) {
+		List recentList = new ArrayList<Restaurant>();
+		for(int restrNo : restrNoList) {
+			Restaurant r = restrDao.selectRecent(restrNo);
+			recentList.add(r);
+		}
+		return recentList;
+	}
+
 
 }
