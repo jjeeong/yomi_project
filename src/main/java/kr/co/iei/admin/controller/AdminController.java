@@ -46,7 +46,7 @@ public class AdminController {
 		Member m = memberService.selectOneMember(memberId);
 		List list = restrService.selectListRestr(memberNo);
 		model.addAttribute("m", m);
-		model.addAttribute("rs",list);
+		model.addAttribute("list",list);
 		return "admin/adminMypage";
 	}
 
