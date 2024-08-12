@@ -26,6 +26,9 @@
 		color : #ff3d00;
 		cursor: pointer;
 	}
+	.isOpenCheckbox{
+	float:left;
+}
 </style>
 </head>
 <body>
@@ -39,6 +42,22 @@
 			<div class="page-title">문의사항 수정</div>
 			<form action="/inquery/update" class="inqueryUpdateFrm" method="post" enctype="multipart/form-data">
 				<table class="tbl">
+								
+					<!-- 공개여부 -->
+					<tr>
+				 		<th style="border-top:1px solid black;">공개여부</th>
+				 		<td style="padding:15px;">
+					 		<input class="isOpenCheckbox" type="checkbox" name="open" value="checked">					 		
+				 		</td>					 							 		
+				 	</tr>
+					
+					
+					
+					
+					
+					
+					
+					
 					
 					<tr>
 						<th style="width:15%; border-bottom:1px solid black; border-top:1px solid black;">제목</th>
@@ -79,9 +98,7 @@
 							</div>
 						</td>
 					</tr>
-					
-					
-					
+				
 					<tr>
 						<td colspan="2">
 							<button type="submit" class="btn-primary lg" name="updateInquery">수정하기</button>
@@ -93,10 +110,7 @@
 			</div>
 		</section>
 	</main>
-		
-		
-		
-		
+				
 	<script>	
 		// 1. Summernote 에디터를 초기화, onImageUpload 콜백 함수를 설정하여 사용자가 이미지를 업로드할 수 있게 합니다. -> 2. controller로 이동	
 			$('#inqueryContent').summernote({
@@ -154,14 +168,7 @@
 			//processData, contentType 기본설정을 해제해야 파일 전송 가능
 			//enctype="multipart/form-data"
 		}
-		
-		
-	
-	
-	
-	
-	
-	
+
 	 <!-- 수정하기 버튼 클릭 시 -->	
 		 $("[name=updateInquery]").on("click",function(event){
 			 
