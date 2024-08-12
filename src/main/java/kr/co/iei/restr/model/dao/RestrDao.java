@@ -501,4 +501,11 @@ public class RestrDao {
 		return selectListRestr;
 	}
 
+	public int reviewDelete(int reviewNo) {
+		String query = "delete from review where review_no = ?";
+		Object[] params = {reviewNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
 }
