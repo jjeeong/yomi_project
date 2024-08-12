@@ -15,6 +15,7 @@
     text-align: center;
     font-size: 25px;
     font-family: g_m, g_black;
+    padding-top : 15px;
 }
 
 [name=write-btn] {
@@ -98,9 +99,7 @@
          
     <div class="main-content">
         <div class="list-name">
-            <p>맛집 게시판 목록
-            	
-            </p>
+            <p>맛집 게시판 목록</p>         
             <div class="write-btn">
                 <button type="button" name="write-btn" id="write-btn" th:if="${session.member!=null && session.member.memberGrade !=3}">글쓰기</button>
             </div>

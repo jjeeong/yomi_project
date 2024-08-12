@@ -150,14 +150,13 @@
 		.id-zone{
 		float : left;
 		width: 75px;
-		height:25px;
-		padding-bottom:5px;
+		height:25px;		
 		font-family : g_b;
 		font-size: 17px;
 		}
 		
 		.date-zone{
-			margin-left:30px;
+			margin-left:40px;
 			width : 100px;
 			height: 25px;
 			float: left;
@@ -196,7 +195,7 @@
 			
 		}
 		
-		.update-delete a:hover{
+		.update-delete a:last-child:hover{
 			text-decoration: none;
 			color : black;
 			border-bottom : 1px solid black;
@@ -287,8 +286,8 @@
 			<div class="id-zone" th:text="${bc.commentWriter}"></div>
 			<div class="date-zone" th:text=${bc.commentRegDate}></div>
 			<div class="like-zone">
-				<span th:if="${bc.isLike == 1}" class="material-icons" th:onclick="likePush(this.[[${bc.commentNo}]])">thumb_up_alt</span>
-				<span th:if="${bc.isLike == 0}" class="material-icons" th:onclick="likePush(this.[[${bc.commentNo}]])">thumb_up_off_alt</span>
+				<span th:if="${bc.isLike == 1}" class="material-icons" th:onclick="likePush(this,[[${bc.commentNo}]])">thumb_up_alt</span>
+				<span th:if="${bc.isLike == 0}" class="material-icons" th:onclick="likePush(this,[[${bc.commentNo}]])">thumb_up_off_alt</span>
 				<span th:text="${bc.likeCount}"></span>
 			</div>
 			<div class="comment-zone" th:text="${bc.commentContent}"></div>
@@ -302,15 +301,14 @@
 					<a href="javascript:void(0)" th:onclick="deleteComment(this,[[${bc.CommentNo}]],[[${b.boardNo}]]);">삭제</a>
 				</th:block>
 				<th:block th:if="${session.member!=null}">
-					<a href="javascript:void(0)" class="recShow">답글달기</a>
+					<a href="javascript:void(0)" >답글달기</a>
 					<a href="javascript:void(0)" th:onclick="reportComment(this, [[${bc.commentNo}]]);">신고</a>
 				</th:block>
 			</div>
 		</div>
 	</div>
 
-
-
+	
 
 
 
@@ -641,6 +639,46 @@
 			}
 		});
 };
+
+function likePush(obj, commentNo){
+	console.log(obj);
+	const currentText =$(obj).text();
+	
+	const isLike = (currentText == "thumb_up_off_alt")?0:1;
+	$.ajax({
+		url : "/board/likePush",
+		data : {commentNo : commentNo, isLike : isLike},
+		type : "post",
+		
+		success : function(data){
+			if(data == -10){
+				swal.fire({
+					title : "로그인 필요",
+					text : "로그인 후 이용해 주세요",
+					icon : "info"
+					});
+			}else if(data == -1){
+				swal.fire({
+					title : "데이터 처리 오류",
+					text : "잠시 후 다시 시도해주세요",
+					icon : "warning"
+					});
+			}else{
+				if(isLike == 0){
+					//아이콘 변경
+					$(obj).text("thumb_up_alt")
+				}else{
+					$(obj).text("thumb_up_off_alt");
+				}
+				//현재 좋아요 갯수 변경
+				$(obj).nextAll().last().text(data);
+			}
+		},
+		error : function(){
+			console.log("error");
+		}
+	})
+}
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
