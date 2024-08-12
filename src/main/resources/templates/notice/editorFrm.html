@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의사항 작성</title>
-<link rel="stylesheet" href="/css/inquery.css">
+<title>공지사항 작성</title>
+<link rel="stylesheet" href="/css/notice.css">
 <style>
 .tbl th,
 .tbl td {
@@ -41,7 +41,7 @@
 	<main class="content inquery-write-container">
 		<section class="section inquery-write-wrap">
 		<div class="totalWrap">
-			<div class="page-title">문의사항(QnA) 작성</div>
+			<div class="page-title">공지사항</div>
 			
 				<!-- 
 					첨부파일을 포함해서 데이터를 전송하는 경우
@@ -49,17 +49,13 @@
 					enctype="multipart/form-data"
 					두 값이 반드시 명시되어야 함
 				 -->
-				 <form action="/inquery/write" method="post" enctype="multipart/form-data">
+				 <form action="/notice/write" method="post" enctype="multipart/form-data">
 				 	<table class="tbl">
-				 	<tr>
-				 		<td class="isOpen">공개여부(미완)</td>
-				 	</tr>
-				 		
 				 	<tr>
 						<th style="border-top:1px solid black;">제목</th>
 						<td colspan="3" style="border-top:1px solid black;">
 							<div class="input-item">
-								<input type="text" name="inqueryTitle" style="outline:none;">
+								<input type="text" name="noticeTitle" style="outline:none;">
 							</div>
 						</td>
 					</tr>
@@ -67,8 +63,8 @@
 					<tr>
 						<th style="width:10%;">작성자</th>
 						<td style="width:40%;">
-							<span th:text="${session.member.memberId}"></span>
-							<input type="hidden" name="inqueryWriter" th:value="${session.member.memberId}">
+							<span th:text="${session.member.memberName}"></span>
+							<input type="hidden" name="memberNo" th:value="${session.member.memberNo}">
 						</td>
 						<th style="width:10%; ">첨부파일</th>
 						<td style="width:40%;">
@@ -80,7 +76,7 @@
 					<tr>
 						<td colspan="4" class="left">
 							<!-- 본문은 여러줄의 값을 입력하므로 input이 아닌 textarea로 받음 -->
-							<textarea name="inqueryContent" id="inqueryContent"></textarea>								
+							<textarea name="noticeContent" id="noticeContent"></textarea>								
 						</td>
 					</tr>
 					
@@ -101,7 +97,7 @@
 	
 	<script>
 	// 1. Summernote 에디터를 초기화, onImageUpload 콜백 함수를 설정하여 사용자가 이미지를 업로드할 수 있게 합니다. -> 2. controller로 이동	
-		$("#inqueryContent").summernote({
+		$("#noticeContent").summernote({
 			height:500,
 			// 한글로 나옴
 			lang:"ko-KR",
@@ -136,7 +132,7 @@
 			</form>
 			*/
 			$.ajax({
-				url:"/inquery/editorImage",
+				url:"/notice/editorImage",
 				type:"post",
 				data:form,
 				processData:false,

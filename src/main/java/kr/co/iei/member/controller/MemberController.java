@@ -35,7 +35,6 @@ public class MemberController {
 		Member member = memberService.selectOneMember(m);
 		if(member == null) {
 			model.addAttribute("member", "no");
-			
 			return "/member/login";
 		}else {
 			session.setAttribute("member", member);

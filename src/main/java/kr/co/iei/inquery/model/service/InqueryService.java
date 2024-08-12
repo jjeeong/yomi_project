@@ -30,7 +30,6 @@ public class InqueryService {
 		int start = end - numPerPage + 1;
 		// start : 1(10-10+1), 11(20-10+1), 21(30-10+1), ... / end : : 10(1*10), 20(2*10), 30(3*10), ...
 		List list = inqueryDao.selectInqueryList(start, end);
-		System.out.println("리스트"+list);
 		//페이지 네비게이션
 		int totalCount = inqueryDao.selectInqueryTotalCount();
 		//totalPage : 전체 페이지 수
