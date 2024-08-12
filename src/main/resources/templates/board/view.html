@@ -127,6 +127,7 @@
 		.readCount {
 			font-size: 17px;
 			font-family: g_b;
+			
 		}
 		
 		.btn-secondary{
@@ -232,7 +233,7 @@
 							th:if="${session.member != null && session.member.memberId == b.boardWriter}">수정</button>
 						<button type="button" id="delete" name="delete" class="delete"
 							th:onclick="boardDelete([[${b.boardNo}]]);"
-							th:if="${session.member != null && session.member.memberId == b.boardWriter}">삭제</button>
+							th:if="${session.member != null && (session.member.memberId == b.boardWriter || session.member.memberGrade == 1)}">삭제</button>
 					</div>
 					<div class="content-detail">
 						<div class="form-group">
@@ -307,6 +308,20 @@
 			</div>
 		</div>
 	</div>
+<!-- --------------------------------대댓글-------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 			</div>
 		</div>
