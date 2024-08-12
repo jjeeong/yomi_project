@@ -151,5 +151,30 @@ public class BoardService {
 		int result = boardDao.insertComment(bc);
 		return result;
 	}
+	@Transactional
+	public int updateComment(BoardComment bc) {
+		int result = boardDao.updateComment(bc);
+		return result;
+	}
+	@Transactional
+	public int deleteComment(BoardComment bc) {
+		int result = boardDao.deleteComment(bc);
+		return result;
+	}
+	@Transactional
+	public int likePush(int commentNo, int isLike, int memberNo) {
+		int result = 0;
+		
+		if(isLike == 0) {
+			result = boardDao.insertBoardCommentLike(commentNo, memberNo);	
+		}else if(isLike == 1 ){
+			result = boardDao.deleteBoardCommentLike(commentNo,memberNo);		
+		}if(result >  0) {
+			int likeCount = boardDao.selectBoardCommentLikeCount(commentNo);
+			return likeCount;
+		}else {
+			return -1;		
+		}
+	}
 }
 

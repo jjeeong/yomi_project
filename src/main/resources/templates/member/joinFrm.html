@@ -877,6 +877,7 @@
 								$(".email-check-msg").addClass("valid");
 								if($(".email-check-msg").hasClass("valid")){
 									$('#sendBtn').attr("disabled", false);
+									$('#sendBtn').addClass("ok");
 								}
 							}else{
 								$(".email-check-msg").text("이미 사용중인 이메일 입니다.");
@@ -912,35 +913,37 @@
 		});
 	    
 	    
-	    $("#sendBtn").on("click",function(){
-	    	const inputMsg = $(".email-check-msg");
-	    	if(inputMsg.hasClass("invalid")){
-	    		$(".email-check-msg").text("체크표시를 눌러 이메일 중복체크를 해주세요.")
-	    	}else if(inputMsg.hasClass("valid")){
-	    		$("#auth").show();
-	    	}
-	    });
-	    
-	    
 	    let mailCode = null;
 	    $("#sendBtn").on("click",function(){
 	    	const receiver = $("#memberEmail").val();
-	    	console.log(receiver);
-	    	$.ajax({
-	    		url : "/member/sendCode",
-	    		data : {receiver : receiver},
-	    		type : "post",
-	    		success : function(data){
-	    			console.log(data);
-	    			mailCode = data;
-	    			$("#auth").show();
-	    			authTime();
-	    		},
-	    		error : function(){
-	    			console.log("에러")
-	    		}
-	    	})
+	    	const inputMsg = $(".email-check-msg");
+	    	if($("#sendBtn").hasClass("ok")){
+		    	if(inputMsg.hasClass("invalid")){
+		    		$(".email-check-msg").text("체크표시를 눌러 이메일 중복체크를 해주세요.")
+		    	}else if(inputMsg.hasClass("valid")){
+		    		console.log(receiver);
+			    	$.ajax({
+			    		url : "/member/sendCode",
+			    		data : {receiver : receiver},
+			    		type : "post",
+			    		success : function(data){
+			    			console.log(data);
+			    			mailCode = data;
+			    			alert("인증번호가 전송돼었습니다.")
+			    			$("#sendBtn").css("display","none");
+			    			$("#auth").show();
+			    			authTime();
+			    		},
+			    		error : function(){
+			    			console.log("에러")
+			    			}
+			    		});
+			 	   }
+		    }else{
+	    		$(".email-check-msg").text("체크표시를 눌러 이메일 중복체크를 해주세요.")
+	    	}
 	    });
+	    	
 	    let intervalId = null;
 	    function authTime(){
 	    	$("#timeZone").html("<span id='min'>3</span> : <span id='sec'>00</span>");
@@ -968,7 +971,7 @@
 	    				$("#sec").text(newSec);
 	    			}
 	    		}
-	    	},100);
+	    	},1000);
 	    }
 	    $("#authBtn").on("click",function(){
 	    	const authCode = $("#authCode").val();

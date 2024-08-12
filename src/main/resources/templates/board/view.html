@@ -13,8 +13,6 @@
 		html {
 			margin: 0;
 			padding: 0;
-			height: 100%;
-			display: flex;
 			flex-direction: column;
 		}
 
@@ -42,10 +40,9 @@
 		}
 
 		.comments-section {
-			background-color: #EBEBEB;
-			;
 			border-radius: 15px;
 			padding: 15px;
+			
 		}
 
 		.comments-section h3 {
@@ -114,6 +111,7 @@
 
 		.btn-outline-danger {
 			margin-right: 7px;
+			margin-bottom: 15px;
 		}
 
 		.thumbnail {
@@ -130,6 +128,96 @@
 			font-size: 17px;
 			font-family: g_b;
 		}
+		
+		.btn-secondary{
+			margin-top: 10px;
+			margin-bottom: 25px;
+		}
+		
+		.commentBox{
+	
+			margin-top: 100px;
+			overflow: hidden;
+			margin-bottom: 50px;
+		}
+		
+		.comment-detail{
+			overflow: hidden;
+			padding-top: 8px;
+			padding-bottom: 15px;
+		}
+		
+		.id-zone{
+		float : left;
+		width: 75px;
+		height:25px;
+		padding-top : 5px;
+		font-family : g_b;
+		font-size: 17px;
+		
+		
+		}
+		
+		.date-zone{
+			margin-left:30px;
+			width : 100px;
+			height: 25px;
+			
+			float: left;
+			
+		}
+		
+		.material-icons-outlined{
+		margin-left: 30px;
+		color : #FC7A1E;
+		}
+		
+		
+		.comment-zone{
+			height: 60px;
+			width: 100%;
+			background: white;
+			padding: 7px;		
+			border : 1px solid #FC7A1E;	
+			border-radius: 15px;
+		}
+		
+		.update-delete{
+		float : right;
+		margin: 5px;
+		margin-right: 27px;
+		
+		}
+		
+		.update-delete a{
+			text-decoration: none;
+			color : black;	
+		}
+		
+		.update-delete a:last-child{
+			text-decoration: none;
+			color : red;	
+			
+		}
+		
+		.update-delete a:hover{
+			text-decoration: none;
+			color : black;
+			border-bottom : 1px solid black;
+			color : red;
+		}
+		
+		.input-item>[name=commentContent]{
+			width:100%;
+			height:60px;
+			border: 1px solid #FC7A1E;	
+			border-radius: 15px;
+			padding : 7px;
+		}
+		.like-zone span{
+			color : #FC7A1E;	
+		}
+		
 	</style>
 </head>
 
@@ -171,30 +259,59 @@
 				<div class="btn-like-report">
 					<button type="button" class="btn btn-outline-danger" onclick="reportPost()">게시글 신고하기</button>
 				</div>
+				
 				<!-- 댓글시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 				<div th:if="${session.member !=null}" class="inputCommentBox">
 					<form action="/board/insertComment" method="post">
-						<div class="comments-section mt-4">
+						<div class="comments-section mt-4" th:if="${session.member.memberGrade !=3}">
 							<h3>댓글</h3>
 							<div id="commentsList" class="comments-list">
 								<!-- 댓글 리스트 표시 -->
 							</div>
 							<div class="comment-form mt-3">
 								<div class="form-group">
-									<label for="commentInput">댓글 작성</label>
+									
 									<textarea name="commentContent" id="commentInput" class="form-control" rows="3"
-										placeholder="댓글을 입력하세요"></textarea>
+										placeholder="댓글을 입력하세요" ></textarea>
 									<input type="hidden" name="commentWriter" th:value="${session.member.memberId}">
 									<input type="hidden" name="commentBoardNo" th:value="${b.boardNo}">
 
 								</div>
-								<button name="comment" type="submit" class="btn btn-secondary">댓글 달기</button>
+								<button name="comment" type="submit" class="btn btn-secondary" >댓글 달기</button>
 							</div>
 						</div>
 					</form>
 				</div>
 
-
+<!--   ....................... 댓글출력 시작....................................... -->
+	
+	<div class=commentBox>
+	
+		<div class="comment-detail" th:each="bc : ${b.commentList}">
+			<div class="id-zone" th:text="${bc.commentWriter}"></div>
+			<div class="date-zone" th:text=${bc.commentRegDate}></div>
+			<div class="like-zone">
+				<span th:if="${bc.isLike == 1}" class="material-icons" th:onclick="likePush(this.[[${bc.commentNo}]])">thumb_up_alt</span>
+				<span th:if="${bc.isLike == 0}" class="material-icons" th:onclick="likePush(this.[[${bc.commentNo}]])">thumb_up_off_alt</span>
+				<span th:text="${bc.likeCount}"></span>
+			</div>
+			<div class="comment-zone" th:text="${bc.commentContent}"></div>
+			<div class="input-item" style="display : none;">
+				<textarea name="commentContent" th:text="${bc.commentContent}"></textarea>
+			</div>
+			<!-- 수진 : 여기 수정했습니다!! session.member가 null이 아닌 조건이 필요해서 추가했고, 신고와 답글달기는 본인이 아니어도 가능하게 해놔야 하기 때문에 따로 빼뒀어요~ -->
+			<div class="update-delete">
+				<th:block th:if="${session.member!=null && session.member.memberId == bc.commentWriter}">
+					<a href="javascript:void(0)" th:onclick="modifyComment(this,[[${bc.CommentNo}]],[[${b.boardNo}]]);">수정</a>
+					<a href="javascript:void(0)" th:onclick="deleteComment(this,[[${bc.CommentNo}]],[[${b.boardNo}]]);">삭제</a>
+				</th:block>
+				<th:block th:if="${session.member!=null}">
+					<a href="javascript:void(0)" class="recShow">답글달기</a>
+					<a href="javascript:void(0)" th:onclick="reportComment(this, [[${bc.commentNo}]]);">신고</a>
+				</th:block>
+			</div>
+		</div>
+	</div>
 
 
 
@@ -359,8 +476,22 @@
 			});
 		}
 		//댓글 신고
-		function reportComment() {
-
+		function reportComment(obj, commentNo) {
+			$("#reportBoardType").val(3);
+			$("#reportBoardTypeSpan").text("게시글 댓글");
+			$("input#reportContentNo").val(commentNo);
+			$("input#reportContentNo").attr("name", "reportBoardCommentNo");
+			const boardCommentWriter = $(obj).parent().prevAll().last().text();
+			
+			$("div.respondent-id").children().eq(2).text(boardCommentWriter);
+			$("input#reportType6").next().next().on("change", function () {
+				const content = $(this).val()
+				$("input#reportType6").val(content);
+			});
+			$(".insertReportModal").modal("show");
+			$("button.btn-point-modal").on("click", function () {
+				insertReport(boardCommentWriter);
+			});
 		}
 
 		//2. 신고버튼 누르면 신고작성되기
@@ -370,7 +501,7 @@
 			const respondentId = boardWriter;
 			const reportType = $("input[name=reportType]:checked").val();
 			const reportContent = $("textarea#reportContent").val();
-			console.log(reportBoardType, reportContentNo, respondentId, reportType, reportContent);
+			//console.log(reportBoardType, reportContentNo, respondentId, reportType, reportContent);
 			if (reportType == "") {
 				reportSwal.fire({
 					title: "신고 불가",
@@ -397,6 +528,7 @@
 						reportContent: reportContent
 					},
 					success: function (data) {
+						//console.log(data);
 						if (data > 0) {
 							reportSwal.fire({
 								title: "신고 완료",
@@ -411,7 +543,14 @@
 								icon: "error",
 								color: "var(--mainFont)"
 							});
-						} else {
+						}else if(data == -2){
+							reportSwal.fire({
+								title : "신고  불가",
+        						text : "이미 신고한 게시물입니다.",
+        						icon : "error",
+        						color : "var(--mainFont)"
+							});
+						}else {
 							reportSwal.fire({
 								title: "신고  불가",
 								text: "해당 게시글을 신고할 수 없습니다.",
@@ -430,11 +569,82 @@
 					},
 					complete: function () {
 						$("#staticBackdrop").modal("hide");
+						$("input#reset").click();
 					}
 				});//ajax
 			}//else
 		}//insertReport
-
+			
+		
+		function modifyComment(obj, commentNo, boardNo){
+			//숨겨놨던 div를 화면
+			$(obj).parent().prev().show();
+			
+			$(obj).parent().prev().prev().hide();
+			
+			$(obj).text("수정완료");
+			$(obj).attr("onclick","modifyComplete(this,"+commentNo+","+boardNo+");");
+			
+			$(obj).next().text("수정취소");
+			$(obj).next().attr("onclick","modifyCancle(this,"+commentNo+","+boardNo+");");
+			
+			$(obj).next().next().hide();
+		}
+		
+	function modifyComplete(obj, commentNo, boardNo){
+		const form =$("<form>");
+		
+		form.attr("action","/board/updateComment");
+		form.attr("method","post");
+		form.hide();
+		
+		const commentNoInput = $("<input>");
+		commentNoInput.attr("type","text");
+		commentNoInput.attr("name","commentNo");
+		commentNoInput.val(commentNo);
+		
+		const commentBoardNoInput =$("<input type='text' name='commentBoardNo'>");
+		commentBoardNoInput.val(boardNo);
+		
+		const commentContent =$(obj).parent().prev().clone();
+		
+		form.append(commentNoInput).append(commentBoardNoInput).append(commentContent);
+		
+		$("body").append(form);
+		form.submit();
+	}
+	
+	function modifyCancle(obj ,commentNo, boardNo){
+		
+		$(obj).parent().prev().hide();
+		
+		$(obj).parent().prev().prev().show();
+		
+		$(obj).prev().text("수정")
+		$(obj).prev().attr("onclick","modifyComment(this,"+commentNo+","+boardNo+");");
+		
+		$(obj).text("삭제");
+		
+		$(obj).attr("onclick","deleteComment(this,"+commentNo+","+boardNo+");");
+		
+		$(obj).next().show();
+	}
+	
+	function deleteComment(obj, commentNo, boardNo){
+		swal.fire({
+			title: "댓글 삭제",
+			text:"댓글 삭제하시겠습니까?",
+			icon: "question",
+			iconColor: "var(--point1)",
+			showCancelButton: true,
+			confirmButtonText : "확인",
+			cancelButtonText: "취소",
+		}).then(result=>{
+			if (result.isConfirmed) {
+			location.href = "/board/deleteComment?commentNo="+commentNo+"&commentBoardNo="+boardNo;	
+			}
+		});
+};
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>

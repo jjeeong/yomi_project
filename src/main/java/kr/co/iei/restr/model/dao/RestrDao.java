@@ -486,12 +486,26 @@ public class RestrDao {
 		return result;
 	}
 
+	public int selectRestrReview(int restrNo, int memberNo) {
+		String query = "select count(*) from review where member_no = ? and restr_no = ?";
+		Object[] params = {memberNo, restrNo};
+		int result = jdbc.queryForObject(query, Integer.class, params);
+		return result;
+	}
+
 
 	public List selectListRestr(int memberNo) {
 		String query = "select * from restaurant where restr_no in (select restr_no from RESTAURANT_FAVORITES where member_no=?)";
 		Object[] params = {memberNo};
 		List selectListRestr = jdbc.query(query, restaurantRowMapper, memberNo);
 		return selectListRestr;
+	}
+
+	public int reviewDelete(int reviewNo) {
+		String query = "delete from review where review_no = ?";
+		Object[] params = {reviewNo};
+		int result = jdbc.update(query, params);
+		return result;
 	}
 
 }

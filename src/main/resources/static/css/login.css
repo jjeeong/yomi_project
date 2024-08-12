@@ -36,14 +36,18 @@ body{
     background-color: var(--bgcolor)
 }
 .login-container{
-    padding-top: 120px;
-    margin: 0 auto;
-    width: 800px;
-    height: 600px;
+    background-color: white;
+    width: 600px;
+    height: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1.3px solid black;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
     
 
 }
 .login-container >h2{
+    margin-top:90px;
     margin-bottom: 20px;
     text-align: center;
     font-size: 35px;
@@ -55,8 +59,14 @@ body{
 .login-form>input{
     width: 400px;
     height: 50px;
+    	display:block;
+	margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    justify: right;
 }
-.login-form>input[name=id]{
+.login-form>input[name="memberId"]{
     margin-bottom: 10px;
 }
 
@@ -91,7 +101,24 @@ body{
     margin-left: 60px;
 }
 .find-links>a[id=find-pw]{
-    margin-left: 90px;
+    margin-left: 100px;
+}
+
+.show{
+    display:block;
+    opacity:1;
+    animation: formopen;
+    animation-duration: 0.5s
+}
+
+
+@keyframes formopen {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
 }
 
 

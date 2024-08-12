@@ -57,24 +57,36 @@ public class ReportController {
 	@GetMapping(value="/insertOtherReport")
 	@ResponseBody
 	public int insertOtherReport(@SessionAttribute Member member,int reportBoardType, int reportContentNo, String respondentId, String reportType, String reportContent) {
-		if(member.getMemberId()==respondentId) {
+		System.out.println(respondentId);
+		if(member.getMemberId().equals(respondentId)) {
 			return -1;
 		}else {
 			Member m = memberService.selectOneMember(respondentId);
 			Report r = new Report();
 			r.setReportBoardType(reportBoardType);
-			r.setReportContent(reportContent);
 			r.setReporterNo(member.getMemberNo());
+			r.setReportContent(reportContent);
 			r.setReportType(reportType);
 			r.setRespondentNo(m.getMemberNo());
 			int result=0;
+			int count=0;
 			switch(reportBoardType) {
 			case 2:
 				r.setReportBoardNo(reportContentNo);
+				count = reportService.checkDuplication(r);
+				//System.out.println(r);
+				if(count ==-2) {
+					return -2;
+				}
 				result = reportService.insertBoardReport(r);
 				break;
 			case 3:
 				r.setReportBoardCommentNo(reportContentNo);
+				//System.out.println(r);
+				count = reportService.checkDuplication(r);
+				if(count ==-2) {
+					return -2;
+				}
 				result = reportService.insertBoardCommentReport(r);
 				break;
 			}

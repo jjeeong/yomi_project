@@ -75,6 +75,39 @@ public class MemberDao {
 		
 	}
 
+
+	public Member findId(Member m) {
+		String query ="select * from member_tbl where member_name = ? and member_email = ?";
+		Object[] params = {m.getMemberName(),m.getMemberEmail()};
+		List list = jdbc.query(query, memberRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return (Member)list.get(0);
+		}
+	}
+
+
+	public Member findName(Member m) {
+		String query ="select * from member_tbl where member_name = ? and member_email = ? and member_id = ?" ;
+		Object[] params = {m.getMemberName(),m.getMemberEmail(),m.getMemberId()};
+		List list = jdbc.query(query, memberRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return (Member)list.get(0);
+		}
+	}
+
+
+	public int updatePw(Member m) {
+		String query = "update member_tbl set member_pw = ? where member_name=? and member_id=? and member_email =? ";
+		Object[] params = {m.getMemberPw(),m.getMemberName(),m.getMemberId(),m.getMemberEmail()};
+		int result = jdbc.update(query,params);
+		
+		return result;
+	}
+
 		
 		
 	}

@@ -25,11 +25,10 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zzl0s76r4r&submodules=geocoder"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-
 <body>
 	<th:block th:include="common/header"></th:block>
 	<div>
-
+		
 		<div class="restr-wrap">
 			<div class="restr-wrap-content">
 				<div class="shop-imgs">
@@ -79,12 +78,18 @@
 						<p>(작성된 리뷰가 없습니다.)</p>
 					</th:block>
 				</div>
+				<div class="like-counts" style="color: gray;">
+					<span class="material-icons">favorite</span>
+					<span id="like-count" th:text="${r.likeCount}" style="margin-right: 10px;"></span>
+					<span class="material-icons">bookmark</span>
+					<span id="bookmark-count" th:text="${r.bookmarkCount}"></span>
+				</div>
 				<div class="shop-information">
 					<div>
-						<span class="material-icons">location_on</span><span id="addr1" th:text="${r.restrAddr1}"></span> <span id="addr2" th:text="${r.restrAddr2}"></span>
+						<span class="material-icons icon">location_on</span><span id="addr1" th:text="${r.restrAddr1}"></span><span id="addr2" th:text="${r.restrAddr2}"></span>
 					</div>
 					<div>
-						<span class="material-icons">call</span> <span th:text="${r.restrTel}"></span>
+						<span class="material-icons icon">call</span><span th:text="${r.restrTel}"></span>
 					</div>
 				</div>
 				<div class="menu-and-tag">
@@ -111,10 +116,8 @@
 			</div>
 		</div>
 
-		<input type="hidden" id="mapx" th:value="${r.restrMapx}"> <input
-			type="hidden" id="mapy" th:value="${r.restrMapy}">
-		<div id="map"
-			style="width: 100%; height: 400px; margin: 0 auto; border: solid black 1px;"></div>
+		<input type="hidden" id="mapx" th:value="${r.restrMapx}"> <input type="hidden" id="mapy" th:value="${r.restrMapy}">
+		<div id="map" style="width: 100%; height: 400px; margin: 0 auto; border: solid black 1px;"></div>
 
 
 		<!-- 리뷰 -->
@@ -138,8 +141,7 @@
 
 				<div class="review-form collapsed">
 
-					<form action="/restaurant/writeReview" method="post"
-						id="review-frm" enctype="multipart/form-data">
+					<form action="/restaurant/writeReview" method="post" id="review-frm" enctype="multipart/form-data">
 						<div class="stars2">
 							<div class="star-rating" id="star-rating">
 								<span class="material-icons" data-value="1">grade</span> <span
@@ -458,6 +460,10 @@
                             }
 
                             const tagDiv = $("<div>").addClass("write-tag");
+                            
+                            const memberNo = $("#memberNo").val();
+                            
+                            
 
                             review.reviewTag.forEach(tag => {
                                 const tagSpan = $("<span>").addClass("tag").text(tag.reviewTagName);
@@ -465,6 +471,14 @@
                             });
 
                             reviewDiv.append(reviewHeadDiv).append(reviewRatingDiv).append(reviewContentDiv).append(tagDiv);
+                            
+                            //삭제버튼
+                            if(review.memberNo == memberNo) {
+	                            const buttonDiv = $("<div>").addClass("button-div");
+	                            const deleteButton = $("<button>").addClass("del-btn").text("삭제").on("click", function() {reviewDelete(this, review.reviewNo,[[${r.restrNo}]]);});
+	                            buttonDiv.append(deleteButton);
+	                            reviewDiv.append(buttonDiv);
+                            }
 
                             const reviewList = $("<div>").addClass("review-list").append(reviewDiv);
 
@@ -650,6 +664,7 @@
 		</div>
 	</div>
 	<th:block th:if="${session.member != null}">
+		<input type="hidden" id="memberNo" th:value="${session.member.memberNo}">
 		<div class="buttons" th:if="${session.member.memberGrade} == 1">
 			<button class="delete-btn">삭제하기</button>
 			<button class="update-btn">수정하기</button>
@@ -702,6 +717,9 @@
                 const keywordDiv = $("<div>").addClass("keyword-item").text(label);
                 $(".keywords").append(keywordDiv);
             });
+            
+         	// 모달 닫기
+            $("#exampleModal").modal('hide');
         });
 
 
@@ -723,6 +741,12 @@
                                 Swal.fire({
                                     title: "로그인 필요",
                                     text: "로그인 후 이용해 주세요",
+                                    icon: "info"
+                                });
+                            } else if(response == -5){
+                            	Swal.fire({
+                                    title: "이미 리뷰를 작성한 맛집",
+                                    text: "맛집당 하나의 리뷰만 작성 가능합니다.",
                                     icon: "info"
                                 });
                             } else {
@@ -831,6 +855,8 @@
                             $(obj).css("color", "#B3B3B3");
                             $(obj).attr("id", "like-none");
                         }
+                      	//현재 좋아요 갯수 변경
+						$("#like-count").text(data);
                     }
                 },
                 error: function () {
@@ -879,12 +905,40 @@
                             $(obj).css("color", "#B3B3B3");
                             $(obj).attr("id", "bookmark-none");
                         }
+                      	//현재 북마크 갯수 변경
+						$("#bookmark-count").text(data);
                     }
                 },
                 error: function () {
                     console.log("error : " + error);
                 }
             });
+        }
+        
+        //리뷰 삭제
+        function reviewDelete(obj, reviewNo, restrNo) {
+        	const swal = Swal.mixin({
+        	    customClass: {
+        	        confirmButton: "btn btn-point-swal btn-lg",
+        	        cancelButton: "btn btn-mono-swal btn-lg",
+        	        title: "point",
+        	    },
+        	    buttonsStyling: false
+        	});
+ 
+        	swal.fire({
+        		title : "리뷰 삭제",
+        		text:"정말 삭제하시겠습니까?",
+        		icon:"question",
+        		iconColor : "var(--point1)",
+        		showCancelButton : true,
+        		cancelButtonText : "취소",
+        	    confirmButtonText: "삭제",
+        	}).then(result=>{
+        		if(result.isConfirmed){
+		            location.href = "/restaurant/reviewDelete?reviewNo="+reviewNo+"&restrNo="+restrNo;
+        		}
+        	});
         }
                         
         function reviewLikePush(obj, reviewNo) {

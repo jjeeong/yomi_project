@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.iei.member.model.dao.MemberDao;
 import kr.co.iei.member.model.dto.Member;
@@ -42,9 +42,25 @@ public class MemberService {
 		return member;
 	}
 
-	
 
+	public Member findId(Member m) {
+		Member member = memberDao.findId(m);
+		
+		return member;
+	}
+
+	public Member findName(Member m) {
+		Member member = memberDao.findName(m);
+		
+		return member;
+	}
 	
+	@Transactional
+	public int updatePw(Member m) {
+		int result = memberDao.updatePw(m);
+		
+		return result;
+	}
 	
 }
 

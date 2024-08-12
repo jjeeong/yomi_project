@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>비밀번호 찾기</title>
+<link rel="stylesheet" href="/css/findPw.css">
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	 <main class="content">
+        <div class="findPw-container show">
+            
+            <h4>비밀번호 찾기</h4>
+            <div class="findPw-content">
+                <div class="findPw-input">
+                    <form class="find-form" action="/member/findPwUpdate" method="post" autocomplete="off">
+                        <label for="name">이름</label>
+                        <input type="text" id="name" name="memberName" placeholder="이름">
+                        <label for="id">아이디</label>
+                        <input type="text" id="id" name="memberId" placeholder="아이디" >
+                        <label for="email">이메일 주소</label>
+                        <input type="text" id="email" name="memberEmail" placeholder="가입시 이메일">
+                        <button class="sendBtn"type="button">인증하기</button>
+                        <pre class="msg"></pre>
+                        <div id="auth" style="display : none;">
+                        	<label for="authCode">인증하기 </label>
+                           	<input type="text" id="authCode" placeholder="인증번호입력">
+                           	<button type="button" class="btn-primary" id="authBtn">인증하기</button>
+                           	<span id="timeZone"></span>
+                           	<span id="authMsg"></span>
+		                </div>
+	                    <button style="display : block" class="submit-btn"type="button">다음</button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+   
+    <script>
+ 	$(".submit-btn").on("click",function(){
+ 		const input1 = $("input[name=memberName]").val();
+		const input2 = $("input[name=memberEmail]").val();
+		const input3 = $("input[name=memberId]").val();
+		if(input1 == "" || input2 == "" || input3 == ""){
+			$(".msg").text("* 정보를 모두 입력한 후 이메일 인증을 완료해주세요.");
+		}else{
+			if($(".btn-primary").hasClass("ok")){
+				$(".find-form").submit();
+			}else{
+				$(".msg").text("* 이메일 인증을 완료해주세요.");
+			}
+		}
+			
+	});
+ 	
+ 	
+ 	let mailCode = null;
+ 	$(".sendBtn").on("click",function(){
+		const input1 = $("input[name=memberName]").val();
+		const input2 = $("input[name=memberEmail]").val();
+		const input3 = $("input[name=memberId]").val();
+		if(input1 == "" || input2 == "" || input3 == ""){
+			$(".msg").text("* 정보를 모두 입력해주세요.");
+		}else{
+	    	const receiver = $("#email").val();
+	    	console.log(receiver);
+	    	$.ajax({
+	    		url : "/member/sendCode",
+	    		data : {receiver : receiver},
+	    		type : "post",
+	    		success : function(data){
+	    			console.log(data);
+	    			mailCode = data;
+	    			$(".sendBtn").css("display","none");
+	    			alert("인증번호가 발송됐습니다.")
+	    			$("#auth").show();
+	    			authTime();
+	    		},
+	    		error : function(){
+	    			console.log("에러")
+	    		}
+	    	})
+		}
+    });
+ 	let intervalId = null;
+    function authTime(){0
+    	$("#timeZone").html("<span id='min'>3</span> : <span id='sec'>00</span>");
+    	intervalId = window.setInterval(function(){
+    		const min = $("#min").text();
+    		const sec = $("#sec").text();
+    		if(sec == "00"){
+    			//0초 다음은 분을 내려야하므로
+    			if(min == "0"){
+					window.clearInterval(intervalId);
+					mailCode = null;
+					$("#authMsg").text("인증시간이 만료되었습니다.");
+					$("#authMsg").css("color","red");
+    			}else{
+	    			const newMin = Number(min) -1;
+	    			$("#min").text(newMin);
+	    			$("#sec").text(59);
+    			}
+    		}else{
+    			//0초가 아니면 초를 내리면 됨
+    			const newSec = Number(sec) - 1;
+    			if(newSec < 10){
+					$("#sec").text("0"+newSec);	    				
+    			}else{
+    				$("#sec").text(newSec);
+    			}
+    		}
+    	},100);
+    }
+   	 $("#authBtn").on("click",function(){
+    	const authCode = $("#authCode").val();
+    	if(authCode == mailCode){
+    		$("#authMsg").text("인증완료");
+    		$("#authMsg").css("color","blue");
+    		$(".btn-primary").addClass("ok");
+    		$(".msg").text("");
+    		window.clearInterval(intervalId);
+    		$("#email").prop("readonly",true);
+    		$("#sendBtn").prop("disabled",true);
+    		$("#authCode").prop("readonly",true);
+    		$("#authBtn").prop("disabled",true);
+    		$("#timeZone").remove();
+    	}else{
+    		$("#authMsg").text("인증번호를 확인하세요.");
+    		$("#authMsg").css("color","red");
+    	}
+    });
+    
+ 	
+ 	
+ 	
+    </script>
+    </main>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>
