@@ -430,7 +430,8 @@ public class RestrService {
 	public List reviewSearch(int restrNo) {
 		List list = restrDao.reviewSearch(restrNo);
 		return list;
-
+	}
+	
 	public List selectRecent(List<Integer> restrNoList) {
 		List recentList = new ArrayList<Restaurant>();
 		for(int restrNo : restrNoList) {

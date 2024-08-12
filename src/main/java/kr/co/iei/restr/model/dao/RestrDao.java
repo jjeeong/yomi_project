@@ -512,7 +512,7 @@ public class RestrDao {
 	    Object[] params = {restrNo};
 	    List<Review> list = jdbc.query(query, reviewDataRowMapper, params);
 	    return list;
-
+	}
 	public Restaurant selectRecent(int restrNo) {
 		// TODO Auto-generated method stub
 		String query = "select restr_no, restr_img1, restr_name from restaurant where restr_no = ?";
