@@ -59,36 +59,7 @@ body {
     border: 3px solid #ff5722;
     
 }
-.bookmark {
-    margin-top: -20px;
-    margin-left: 70px;
-}
-.bookmark h2 {
-    margin-bottom: 50px;
-    font-size: 1.5em;
-    text-align: left;
-}
-.bookmark-container {
-    display: flex;
-    justify-content: space-around;
-}
-.bookmark-item {
-    width: 30%;
-    text-align: center;
-}
-.bookmark-photo img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-}
-.bookmark-name {
-    margin-top: 10px;
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #5d4037;
-    text-align: left;
-    
-}
+
 .buttons {
     display: flex;
     justify-content: space-around;
@@ -155,4 +126,111 @@ body {
 .baba{
 	 margin-bottom: 30px;
 	 left: 10px;
+}
+.primary1{
+    width: 950px;
+    height: 550px;
+    margin-top: 80px;
+    margin: 0px auto;
+    margin-bottom: -130px;
+}
+.prititle{
+    width: 800px;
+    height: 50px;
+    margin: 0px auto;      
+    margin-top: 30px;
+    text-align-last: left;
+    margin-bottom: -75px;
+}
+.photobox{
+    width: 850px;
+    height: 400px;
+    
+    margin: 0px auto;
+    margin-top: 70px;
+}
+.photomini{
+    width: 270px;
+    height: 350px;
+    
+    float: left;
+    margin-left: 10px;
+    
+}
+.photoin{
+    width: 230px;
+    height: 230px;
+    
+    margin: 0px auto;
+    margin-top: 20px;
+}
+.phototitle{
+    width: 230px;
+    height: 30px;
+    
+    margin: 0px auto;
+    margin-top:50px;
+    margin-top:10px;    
+}
+.photo{
+    width: 230px;
+    height: 230px;
+}
+.photomini1{
+    width: 270px;
+    height: 350px;
+    
+    margin: 0px auto;
+    
+    float: left;
+    margin-left: 10px;   
+}
+.photoin1{
+    width: 230px;
+    height: 230px;
+    
+    margin: 0px auto;
+    margin-top: 20px;
+}
+.phototitle1{
+    width: 230px;
+    height: 30px;
+    
+    margin: 0px auto;
+    margin-top:50px;   
+    margin-bottom: 200px;
+    margin-top:10px; 
+}
+.photo1{
+    width: 230px;
+    height: 230px;
+}
+.photomini2{
+    width: 270px;
+    height: 350px;
+    
+    float: left;
+    margin-left: 10px;
+    
+}
+.photo2{
+    width: 230px;
+    height: 230px;
+}
+.phototitle2{
+    width: 230px;
+    height: 30px;
+    
+    margin: 0px auto;
+    margin-top:10px;   
+}
+.photoin2{
+    width: 230px;
+    height: 230px;
+    
+    margin: 0px auto;
+    margin-top: 20px;
+}
+.photobox{
+    margin-top: 70px;
 }

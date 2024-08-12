@@ -191,6 +191,7 @@
 		                const notH3 = $("<h3>").text(searchKeyword + "에 대한 맛집이 존재하지 않습니다.");
 		                const notDiv = $("<div>").addClass("restr-not").append(notH3);
 		                $(".restr-list").append(notDiv);
+		                $("#search-more-btn").hide();
 		            } else {
 		                $(".restr-type-div").css("display", "block");
 
