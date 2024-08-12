@@ -422,5 +422,11 @@ public class RestrService {
 		return result;
 	}
 
+	@Transactional
+	public int reviewDelete(int reviewNo) {
+		int result = restrDao.reviewDelete(reviewNo);
+		return result;
+	}
+
 
 }

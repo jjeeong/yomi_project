@@ -254,7 +254,7 @@ textarea {
 
 .author-icon {
 	border-radius: 30px;
-	width: 50px;
+	width: 56px;
 	height: 50px;
 	background-color: #ccc;
 	margin-right: 10px;
@@ -263,7 +263,7 @@ textarea {
 .author-info {
 	display: flex;
 	flex-direction: column;
-	width: 700px;
+	width: 650px;
 }
 
 .author-name {
@@ -543,4 +543,14 @@ textarea {
 
 .keyword-item {
 	background-color: var(--sub);
+}
+.button-div {
+	margin-top: 5px;
+}
+.button-div>button {
+	border: none;
+	background-color: var(--color2);
+	width: 50px;
+	height: 25px;
+	font-size: 13px;
 }
