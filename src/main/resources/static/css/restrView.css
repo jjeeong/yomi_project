@@ -61,9 +61,20 @@ body, html {
 	font-size: 25px;
 	color: #A3A3A3;
 }
-
-.shop-information .icon {
-	font-size: 30px;
+.shop-information {
+	border-bottom: 1px solid black;
+	padding-bottom: 10px;
+}
+.shop-information>div {
+	display: flex;
+	flex-direction:row;
+	align-items: center;
+}
+.shop-information span {
+	font-size: 20px;
+}
+.shop-information .material-icons {
+	font-size: 40px;
 }
 
 .menu-and-tag {
@@ -455,8 +466,8 @@ textarea {
 	border-radius: 10px;
 }
 
-<!--
-평균 별점 -->.star-wrap {
+<!--평균 별점 -->
+.star-wrap {
 	overflow: hidden;
 }
 
@@ -516,10 +527,20 @@ textarea {
 	margin-right: 10px;
 }
 .like-counts {
-	height: 30px;
+	display:flex;	
+	flex-direction:row;
+	height: 40px;
+	margin-left: 10px;
 }
 .like-counts span {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+#addr2 {
+	margin-left: 5px;
+}
+
+.keyword-item {
+	background-color: var(--sub);
 }
