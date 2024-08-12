@@ -25,19 +25,21 @@ public class InqueryDao {
 	private InqueryCommentRowMapper inqueryCommentRowMapper;
 	
 	public List selectInqueryList(int start, int end) {
+//		String query = "select * from (select rownum as rnum, n.* from(select * from inquery where inquery_open=1 order by 1 desc)n) where rnum between ? and ?";
 		String query = "select * from (select rownum as rnum, n.* from(select * from inquery order by 1 desc)n) where rnum between ? and ?";
 		Object[] params = {start, end};
 		List list = jdbc.query(query, inqueryRowMapper, params);
 		return list;
 	}
 	public int selectInqueryTotalCount() {
+//		String query = "select count(*) from Inquery where inquery_open=1";
 		String query = "select count(*) from Inquery";
 		int totalCount = jdbc.queryForObject(query, Integer.class); //query문 실행해서 Integer.class로 바로 꺼내기
 		return totalCount;
 	}
-	public int insertInquery(Inquery inq) {
-		String query = "insert into inquery values(inquery_seq.nextval,?,?,?,0,0,to_char(sysdate,'yyyy-mm-dd'))";
-		Object[] params = {inq.getInqueryWriter(), inq.getInqueryTitle(), inq.getInqueryContent()};
+	public int insertInquery(Inquery inq, int open) {
+		String query = "insert into inquery values(inquery_seq.nextval,?,?,?,?,0,to_char(sysdate,'yyyy-mm-dd'))";
+		Object[] params = {inq.getInqueryWriter(), inq.getInqueryTitle(), inq.getInqueryContent(), open};		
 		int result = jdbc.update(query,params);
 		return result;
 	}
@@ -100,9 +102,9 @@ public class InqueryDao {
 		int result = jdbc.update(query, params);
 		return result;
 	}
-	public int updateInquery(Inquery inq) {
-		String query = "update inquery set inquery_title=?, inquery_content=?, inquery_read_count = inquery_read_count -1 where inquery_no=?";
-		Object[] params = {inq.getInqueryTitle(), inq.getInqueryContent(), inq.getInqueryNo()};
+	public int updateInquery(Inquery inq, String open) {
+		String query = "update inquery set inquery_title=?, inquery_content=?, inquery_open=?,inquery_read_count = inquery_read_count -1 where inquery_no=?";
+		Object[] params = {inq.getInqueryTitle(), inq.getInqueryContent(), open, inq.getInqueryNo()};
 		int result = jdbc.update(query, params);
 		return result;
 	}

@@ -44,9 +44,9 @@
 				
 				<div class="list-header">					
 					<a th:if="${session.member != null && session.member.memberGrade == 2}" class="btn-point" id="write-btn" href="/inquery/editorFrm">글쓰기</a>
-					<form action="/inquery/search" method="get" id="searchFrm">
-					
+					<!-- 검색기능 -->
 					<!-- 
+					<form action="/inquery/search" method="get" id="searchFrm">										 
 						<div class="input-item">
 							<div class="select">							
 								<select name="type">
@@ -57,9 +57,8 @@
 							<input type="text" name="keyword">
 							<button type="submit" class="btn-primary">조회</button>
 						</div>							
-					-->
-					
 					</form>						
+					 -->
 				</div>
 				
 				<div>
@@ -68,27 +67,48 @@
 						<tr>
 							<th style="width:10%;">글번호</th>
 							<th style="width:45%;">제목</th>
-							<th style="width:15%;">작성자</th>
+							<th style="width:15%;">작성자</th> 
 							<th style="width:20%;">작성일</th>
 							<th style="width:10%;">조회수</th>
 						</tr>
 						
-						<tr th:each="inquery : ${list}">
-							<td th:text="${inquery.inqueryNo}"></td>
-							<td class="left"><a th:href="@{/inquery/view(inqueryNo=${inquery.inqueryNo})}" th:text="${inquery.inqueryTitle}"></a></td>
-							<td th:text="${inquery.inqueryWriter}"></td>
-							<td th:text="${inquery.inqueryRegDate}"></td>
-							<td th:text="${inquery.inqueryReadCount}"></td>
-						</tr>			
+						<!-- 
+						<tr th:each="inquery: ${list}">
+							<td th:if="${inquery.inqueryOpen == 1 || (inquery.inqueryOpen == 0 && session.member.memberId == inquery.inqueryWriter)}" th:text="${inquery.inqueryNo}"></td>
+							<td th:if="${inquery.inqueryOpen == 1 || (inquery.inqueryOpen == 0 && session.member.memberId == inquery.inqueryWriter)}" class="left"><a th:href="@{/inquery/view(inqueryNo=${inquery.inqueryNo})}" th:text="${inquery.inqueryTitle}"></a></td>
+							<td th:if="${inquery.inqueryOpen == 1 || (inquery.inqueryOpen == 0 && session.member.memberId == inquery.inqueryWriter)}" th:text="${inquery.inqueryWriter}"></td>
+							<td th:if="${inquery.inqueryOpen == 1 || (inquery.inqueryOpen == 0 && session.member.memberId == inquery.inqueryWriter)}" th:text="${inquery.inqueryRegDate}"></td>
+							<td th:if="${inquery.inqueryOpen == 1 || (inquery.inqueryOpen == 0 && session.member.memberId == inquery.inqueryWriter)}" th:text="${inquery.inqueryReadCount}"></td>						
+						</tr>								
+						 -->
+					
+						<tr th:each="inquery: ${list}">
+							<td th:if="${inquery.inqueryOpen == 1 || session.member.memberId == inquery.inqueryWriter}" th:text="${inquery.inqueryNo}"></td>
+							<td th:if="${inquery.inqueryOpen == 1 || session.member.memberId == inquery.inqueryWriter}" class="left"><a th:href="@{/inquery/view(inqueryNo=${inquery.inqueryNo})}" th:text="${inquery.inqueryTitle}"></a></td>
+							<td th:if="${inquery.inqueryOpen == 1 || session.member.memberId == inquery.inqueryWriter}" th:text="${inquery.inqueryWriter}"></td>
+							<td th:if="${inquery.inqueryOpen == 1 || session.member.memberId == inquery.inqueryWriter}" th:text="${inquery.inqueryRegDate}"></td>
+							<td th:if="${inquery.inqueryOpen == 1 || session.member.memberId == inquery.inqueryWriter}" th:text="${inquery.inqueryReadCount}"></td>						
+						</tr>	
+						
+						
 					
 					</table>
 				</div>	
-				
 				<!-- 
 					th:text로 문자열을 넣으면 태그로 동작하지 않고 문자열로 표현
 					문자열을 태그로 인식시키려면 th:utext를 사용
 				 -->
-				<div id="pageNavi" th:utext="${pageNavi}"></div>				
+				<!--  
+				-->
+					<div id="pageNavi" th:utext="${pageNavi}"></div> 
+				<!-- 
+				<tr th:each="inquery: ${list}">
+					<td th:if="${inquery.inqueryOpen == 1 || session.member.memberId == inquery.inqueryWriter}" id="pageNavi" th:utext="${pageNavi}">
+						
+					</td>
+				</tr>		
+				 -->
+			
 			</div>
 		</section>
 	</main>

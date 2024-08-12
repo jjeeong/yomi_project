@@ -36,14 +36,15 @@ public class InqueryController {
 	
 	@Autowired
 	private FileUtils fileUtils; 
-	
+
 		
 	@GetMapping(value = "/list")
 	public String list(Model model, int reqPage) {
-		InqueryListData ild = inqueryService.selectInqueryList(reqPage);
-		model.addAttribute("list",ild.getList());
-		model.addAttribute("pageNavi", ild.getPageNavi());
-		return "inquery/list";
+						
+			InqueryListData ild = inqueryService.selectInqueryList(reqPage);
+			model.addAttribute("list",ild.getList());
+			model.addAttribute("pageNavi", ild.getPageNavi());		
+			return "inquery/list";
 	}
 	
 	@GetMapping(value = "/editorFrm")
@@ -51,9 +52,7 @@ public class InqueryController {
 		return "inquery/editorFrm";
 	}
 	
-	
-	
-	
+
 	//2. updateFrm, editorFrm 로부터 호출 
 	@ResponseBody
 	@PostMapping(value = "/editorImage", produces = "text/plain;charset=utf-8")
@@ -66,7 +65,14 @@ public class InqueryController {
 	
 	
 	@PostMapping(value = "/write")
-	public String write(Inquery inq, MultipartFile[] upfile, Model model) {
+	public String write(Inquery inq, MultipartFile[] upfile, Model model, Integer open) {
+		if(open == null) {
+			open = 0;
+		}else{
+			open = 1;
+		}
+		
+		
 		
 		List<InqueryFile> fileList = new ArrayList<InqueryFile>();
 		
@@ -84,7 +90,7 @@ public class InqueryController {
 		}
 		// inq : inqueryTile.inqueryWriter, inqueryContent
 		// fileList : (InqueryFile) x 첨부파일갯수
-		int result = inqueryService.insertInquery(inq,fileList);
+		int result = inqueryService.insertInquery(inq,fileList,open);	
 		if(result>0) {
 			model.addAttribute("title","작성성공!");
 			model.addAttribute("msg","공지사항 작성에 성공했습니다.");
@@ -111,7 +117,7 @@ public class InqueryController {
 			model.addAttribute("loc","/inquery/list?regPage=1");
 			return "common/msg";
 		}else {
-			model.addAttribute("inq",inq);		
+			model.addAttribute("inq",inq);
 			return "inquery/view";
 		}		
 	}
@@ -154,7 +160,14 @@ public class InqueryController {
 	}
 	
 	@PostMapping(value = "/update")
-	public String update(Inquery inq, MultipartFile[] upfile, int[] delFileNo, Model model) {
+	public String update(Inquery inq, MultipartFile[] upfile, int[] delFileNo, Model model, String open) {
+		
+		if(open == null) {
+			open = "0";
+		}else {
+			open = "1";
+		}
+		
 		// 새로 추가된 파일 업로드 작업
 		//System.out.println("no"+inq.getInqueryNo());
 		//System.out.println("upfile:"+upfile);
@@ -172,8 +185,8 @@ public class InqueryController {
 			}
 		}
 		//System.out.println("fileList:"+fileList);
-		// 수정요청하면서 데이터 3개전달 (n : inquery테이블 수정, fileList : inquery_file추가, delFileNo : inquery_file 삭제용)
-		List<InqueryFile> delFileList = inqueryService.updateInquery(inq, fileList, delFileNo);
+		// 수정요청하면서 데이터 4개전달 (n : inquery테이블 수정, fileList : inquery_file추가, delFileNo : inquery_file 삭제용, open : 공개유무)
+		List<InqueryFile> delFileList = inqueryService.updateInquery(inq, fileList, delFileNo, open);
 		if(delFileList == null) {
 			model.addAttribute("title", "수정 실패");
 			model.addAttribute("msg", "처리중 문제가 발생했습니다.. 잠시후 다시 시도해주세요..");

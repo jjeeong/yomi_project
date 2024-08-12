@@ -31,6 +31,12 @@
     --mainFont: #5E6276;
 }
 
+.isOpen{
+	background-color : var(--point2);
+	color : white;
+}
+
+
 .totalWrap{
 	width : 1300px;
 	margin :0 auto;
@@ -297,7 +303,7 @@ section.section.bg-section {
 
 .input-item > textarea {
   width: 100%;
-  height: 156px;
+  height: 100px;
   padding: 15px;
   resize: none;
   font-size: 16px;
@@ -512,9 +518,10 @@ section.section.bg-section {
 .posting-comment {
   display: flex;
   list-style-type: none;
+  box-sizing: border-box;
 }
 .posting-comment > li {
-  box-sizing: border-box;
+  box-sizing: border-box;  
   
 }
 .posting-comment > li:first-child {
@@ -526,7 +533,7 @@ section.section.bg-section {
   border-right: 1px solid #ccc;
 }
 .posting-comment.reply > li:first-child {
-  width: 20%;
+  width: 50%;
 }
 .posting-comment > li:first-child .material-icons {
   font-size: 30px;

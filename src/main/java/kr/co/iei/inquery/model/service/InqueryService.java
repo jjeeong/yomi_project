@@ -29,8 +29,7 @@ public class InqueryService {
 		int end = reqPage * numPerPage;
 		int start = end - numPerPage + 1;
 		// start : 1(10-10+1), 11(20-10+1), 21(30-10+1), ... / end : : 10(1*10), 20(2*10), 30(3*10), ...
-		List list = inqueryDao.selectInqueryList(start, end);
-		System.out.println("리스트"+list);
+		List list = inqueryDao.selectInqueryList(start, end);		
 		//페이지 네비게이션
 		int totalCount = inqueryDao.selectInqueryTotalCount();
 		//totalPage : 전체 페이지 수
@@ -100,8 +99,8 @@ public class InqueryService {
 	}
 
 	@Transactional
-	public int insertInquery(Inquery inq, List<InqueryFile> fileList) {
-		int result = inqueryDao.insertInquery(inq);
+	public int insertInquery(Inquery inq, List<InqueryFile> fileList, int open) {
+		int result = inqueryDao.insertInquery(inq,open);
 		if(result > 0) {
 			int inqueryNo = inqueryDao.selectInqueryNo();
 			for(InqueryFile inqueryFile : fileList) {
@@ -155,10 +154,10 @@ public class InqueryService {
 	}
 
 	@Transactional
-	public List<InqueryFile> updateInquery(Inquery inq, List<InqueryFile> fileList, int[] delFileNo) {
+	public List<InqueryFile> updateInquery(Inquery inq, List<InqueryFile> fileList, int[] delFileNo, String open) {
 		List<InqueryFile> delFileList = new ArrayList<InqueryFile>();
 		//inquery업데이트, inquery_file insert(추가한 파일이 있을때만), inquery_file delete(삭제한 파일이 있을때만)
-		int result = inqueryDao.updateInquery(inq);
+		int result = inqueryDao.updateInquery(inq, open);
 		if(result>0) {
 			//추가한 파일이 있는 경우 추가파일 insert
 			for(InqueryFile inqueryFile : fileList) {
