@@ -75,16 +75,34 @@
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-.find-form>span:first-child{
+.find-form>label:first-child{
 	font-size:18px;
 	margin-left : 25px;
 }
-.find-form>span[for="id"]{
+.find-form>#auth input{
+		display:inline-block;
+	margin-top: 10px;
+    width: calc(40%);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-left : 20px;
+}
+.find-form>#auth button{
+	margin-left : 10px;	
+}
+	
+.find-form>label[for="id"]{
 	margin-left : 13px;	
 }
-.find-form span{
+.find-form label{
 	font-family:'g_b';
 }
+.find-form>#auth label{
+	display:inline-block;
+	margin-left:5px;
+}
+
 .find-form>#name{
 	display:inline-block;
 	margin-left:40px;
@@ -114,3 +132,4 @@
 	color:red;
 	font-family: 'g_m';
 }
+
