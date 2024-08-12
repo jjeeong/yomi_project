@@ -67,7 +67,7 @@
  	border-radius: 5px;
  	line-height:40px;
 }
-.login-form>input{
+.findId-form>input{
 	display:block;
 	margin-top: 10px;
     width: calc(40%);
@@ -75,24 +75,42 @@
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-.login-form>span:first-child{
+.findId-form>label{
 	font-size:18px;
 	margin-left : 18px;
+	font-family:'g_b'
 	
 }
-
-.login-form>#name{
-	display:inline-block;
-	margin-left:43px;
-	margin-right:200px;
+.findId-form>#auth input{
+		display:inline-block;
+	margin-top: 10px;
+    width: calc(40%);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-left : 20px;
 }
-.login-form>#email{
+.findId-form>#auth label{
+	font-size:18px;
+	margin-left : 18px;
+	font-family:'g_b'
+}
+
+.findId-form>#name{
+	display:inline-block;
+	margin-left:73px;
+	margin-right:160px;
+}
+.findId-form>#email{
 	display:inline-block;
 	margin-left:15px;
 }
-.login-form>.sendBtn{
+.findId-form>.sendBtn{
 	margin-left:10px;
 	display:inline-block;
+}
+.findId-form>#auth button{
+	margin-left : 10px;	
 }
 .submit-btn{
 	

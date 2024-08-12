@@ -175,9 +175,9 @@ public class MemberController {
 			}
 		}
 		String emailContent = "<h1>안녕하세요. YOMIYOMI 입니다.</h1>"
-							+"<h3>회원 가입을 위한 인증번호는 "
+							+"<h3>회원 가입을 위한 인증번호는 [<span style='color:red'>"
 							+sb.toString()
-							+"입니다.</h3>";
+							+"</span>]입니다.</h3>";
 		emailSender.sendMail(emailTitle, receiver, emailContent);
 		System.out.println("cot"+emailTitle);
 		System.out.println("cot"+receiver);
