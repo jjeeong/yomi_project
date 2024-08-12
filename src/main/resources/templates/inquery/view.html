@@ -32,6 +32,7 @@
 		<div class="totalWrap">
 			<div class="page-title">문의사항(QnA)</div>
 			
+			
 			<table class="tbl inquery-view">
 			
 			<tr th:if="${session.member != null && session.member.memberId == inq.inqueryWriter}">
@@ -97,11 +98,7 @@
 							<th:block th:if="${session.member != null}">
 								<th:block th:if="${session.member.memberId == ic.inqueryCommentWriter}">						
 									<a th:if="${session.member.memberId == ic.inqueryCommentWriter}" href="javascript:void(0)" th:onclick="modifyComment(this,[[${ic.inqueryCommentNo}]],[[${inq.inqueryNo}]]);" style="text-decoration:none; color:black;">수정</a>
-									<a th:if="${session.member.memberId == ic.inqueryCommentWriter}" href="javascript:void(0)" th:onclick="deleteComment(this,[[${ic.inqueryCommentNo}]],[[${inq.inqueryNo}]]);" style="text-decoration:none; color:black;">삭제</a>
-									<!-- 
-									<a th:if="${session.member != null && session.member.memberGrade != 3}" href="javascript:void(0)" th:onclick="modifyComment(this,[[${ic.inqueryCommentNo}]],[[${inq.inqueryNo}]]);" style="text-decoration:none; color:black;">수정</a>
-									<a th:if="${session.member != null && session.member.memberGrade != 3}" href="javascript:void(0)" th:onclick="deleteComment(this,[[${ic.inqueryCommentNo}]],[[${inq.inqueryNo}]]);" style="text-decoration:none; color:black;">삭제</a>										
-									 -->
+									<a th:if="${session.member.memberId == ic.inqueryCommentWriter}" href="javascript:void(0)" th:onclick="deleteComment(this,[[${ic.inqueryCommentNo}]],[[${inq.inqueryNo}]]);" style="text-decoration:none; color:black;">삭제</a>									
 								</th:block>
 								<a th:if="${session.member != null && session.member.memberGrade != 3}" href="javascript:void(0)" class="recShow" style="text-decoration:none; color:black;">답글쓰기</a>
 							</th:block>
@@ -124,7 +121,7 @@
 								<input type="hidden" name="inqueryRef" th:value="${inq.inqueryNo}">
 								<input type="hidden" name="inqueryCommentRef" th:value="${ic.inqueryCommentNo}">
 								<div class="input-item">
-									<textarea name="inqueryCommentContent"></textarea>
+									<textarea name="inqueryCommentContent" style="border:1px solid black;"></textarea>
 								</div>
 							</li>
 							<li>
@@ -178,7 +175,7 @@
 							</div>
 						</li>
 						<li>
-							<button type="submit" class="btn-primary">등록</button>
+							<button type="submit" class="btn-primary" style="width:100px; height:100px;">등록</button>
 						</li>
 					</ul>	
 				</form>
