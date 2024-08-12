@@ -78,6 +78,7 @@
     	    		success : function(data){
     	    			console.log(data);
     	    			mailCode = data;
+    	    			$(".sendBtn").css("display","none");
     	    			alert("인증번호가 발송됐습니다.")
     	    			$("#auth").show();
     	    			authTime();
