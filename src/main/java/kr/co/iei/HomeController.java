@@ -30,7 +30,7 @@ public class HomeController {
 			model.addAttribute("reviewList", reviewList);
 			List<Integer>restrNoList = new ArrayList<Integer>();
 			String cookieValue=cookieUtils.getCookieValue(request, "restrNo");
-			System.out.println(cookieValue.toString());
+			//System.out.println(cookieValue.toString());
 			if(cookieValue !=null) {
 				String[] cookieString = cookieValue.split("/");
 				for(int i=0; i<cookieString.length; i++) {

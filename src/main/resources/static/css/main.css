@@ -243,7 +243,27 @@ footer.footer {
     min-height: 100px;
     background-color: var(--monocolor);
     margin-bottom: 0;
+    padding : 0 20px;
     
+}
+footer.footer div.cite-info div.footer-img-box{
+	position : relative;
+}
+
+footer.footer div.cite-info div.span-box{
+	display : flex;
+	flex-direction : column;
+	justify-content : center;
+	position : absolute;
+	bottom: 4px;
+	left : 60px;
+	
+}
+
+footer.footer div.cite-info span{
+	margin : 0;
+	padding : 0;
+	font-family : g_b;
 }
 
 /* 신고 모달 */

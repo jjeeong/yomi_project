@@ -231,7 +231,7 @@
 					</div>
 					<div class="best-review-content">
 						<div class="content-page show">
-							<a th:each="num : ${#numbers.sequence(0,3)}" th:href="${'/restaurant/restrView?restrNo='+reviewList[num].restrNo}" th:if="${reviewList.size()>=4}">
+							<a th:each="num : ${#numbers.sequence(0,3)}" th:href="${'/restaurant/restrView?restrNo='+reviewList[num].restrNo}" th:if="${reviewList.size()>=4}" style="color : var(--mainFont);">
 								<div class="content-list">
 									<div class="restr-info">
 										<div class="img-box">
@@ -291,7 +291,7 @@
 							</a>
 						</div>
 						<div class="content-page">
-							<a th:each="num : ${#numbers.sequence(4,7)}" th:href="${'/restaurant/restrView?restrNo='+reviewList[num].restrNo}" th:if="${reviewList.size()>=8}">
+							<a th:each="num : ${#numbers.sequence(4,7)}" th:href="${'/restaurant/restrView?restrNo='+reviewList[num].restrNo}" th:if="${reviewList.size()>=8}" style="color : var(--mainFont);">
 								<div class="content-list">
 									<div class="restr-info">
 										<div class="img-box">
@@ -351,7 +351,7 @@
 							</a>
 						</div>
 						<div class="content-page">
-							<a th:each="num : ${#numbers.sequence(8,11)}" th:href="${'/restaurant/restrView?restrNo='+reviewList[num].restrNo}" th:if="${reviewList.size()==12}">
+							<a th:each="num : ${#numbers.sequence(8,11)}" th:href="${'/restaurant/restrView?restrNo='+reviewList[num].restrNo}" th:if="${reviewList.size()==12}" style="color : var(--mainFont);">
 								<div class="content-list">
 									<div class="restr-info">
 										<div class="img-box">
