@@ -36,6 +36,7 @@ main.restrFrm h2.page-title {
 main.restrFrm div.frm div.info {
     background-color: var(--bgcolor);
     padding: 20px 40px;
+    margin-bottom: 50px;
 }
 
 main.restrFrm span.inputName,
@@ -118,9 +119,6 @@ main.restrFrm span.inputName+button.btn {
     margin-left: 10px;
 }
 
-main.restrFrm div.info {
-    margin-bottom: 50px;
-}
 
 
 main.restrFrm .tbl {

@@ -246,7 +246,19 @@ $("#restrTag").on("keyup", function(event){
         $("#insertTag").click();
     }
 })
-
-
+//인풋에서 엔터쳤을때 form 추가 방지111 
+$("input[type=text]").on("keyup", function(event){
+	if(event.which == 13{
+		console.log(event);
+		event.preventDefault();
+		return false;
+	}
+});
+//이름으로 검색시 엔터쳐도 괜찮게..
+$("input#name").keydown(function(){
+	if(event.keyCode ===13){
+		$("#search").click();
+	}
+})
 
 
