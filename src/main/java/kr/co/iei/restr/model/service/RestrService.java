@@ -428,5 +428,14 @@ public class RestrService {
 		return result;
 	}
 
+	public List selectRecent(List<Integer> restrNoList) {
+		List recentList = new ArrayList<Restaurant>();
+		for(int restrNo : restrNoList) {
+			Restaurant r = restrDao.selectRecent(restrNo);
+			recentList.add(r);
+		}
+		return recentList;
+	}
+
 
 }
