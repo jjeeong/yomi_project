@@ -33,6 +33,19 @@ public class HomeController {
 			List reviewList = restrService.selectBestReview();
 			model.addAttribute("restrList", restrList);
 			model.addAttribute("reviewList", reviewList);
+			List<Integer>restrNoList = new ArrayList<Integer>();
+			String cookieValue=cookieUtils.getCookieValue(request, "restrNo");
+			//System.out.println(cookieValue.toString());
+			if(cookieValue !=null) {
+				String[] cookieString = cookieValue.split("/");
+				for(int i=0; i<cookieString.length; i++) {
+					restrNoList.add(Integer.parseInt(cookieString[i]));
+					System.out.println(cookieString[i]);
+				}
+			}
+			List recentList = restrService.selectRecent(restrNoList);
+			System.out.println(recentList.toString());
+			model.addAttribute("recentList", recentList);
 			return "index";
 		}
 

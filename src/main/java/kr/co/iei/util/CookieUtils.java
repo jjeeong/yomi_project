@@ -32,6 +32,12 @@ public class CookieUtils {
 		try {
 			if(currentCookieVal != null) {
 				cookievalues=currentCookieVal.split("/"); //톰캣 8,9는 쉼표를 지원안한다고 함[44]invalid + 스페이스바도 지원안함 그러면 상호명도 자바에서는 안되겠네..
+				//중복 체크를 해야함..
+				for(int i=0;i<cookievalues.length;i++) {
+					if(cookievalues[i].equals(cookieValue)) {
+						return;
+					}
+				}
 				if(cookievalues.length>=3) {
 					for(int i=0; i<cookievalues.length; i++) {
 						if(i<2) {
@@ -61,7 +67,7 @@ public class CookieUtils {
 				System.out.println(cookie.getValue());
 			}
 		} catch (IllegalArgumentException e) {
-			System.out.println(cookieName + cookieValue);
+			System.out.println(cookieName + cookieValue);//혹시 오류나면..해당 쿠키 키값이랑 value값 받아오게..>이걸로 restrName, restrImg1이 오류난다는걸 깨달음
 		}
 		
 		

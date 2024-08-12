@@ -220,6 +220,7 @@ public class BoardController {
 	@ResponseBody
 	@PostMapping(value="/likePush")
 	public int likePush(int commentNo, int isLike, @SessionAttribute(required = false)Member member) {
+		
 		if(member == null) {
 			return -10;
 		}else {

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.iei.restr.model.dto.BestRestrRowMapper;
 import kr.co.iei.restr.model.dto.BestReviewRowMapper;
+import kr.co.iei.restr.model.dto.RecentRestrRowMapper;
 import kr.co.iei.restr.model.dto.Restaurant;
 import kr.co.iei.restr.model.dto.RestaurantRowMapper;
 
@@ -57,6 +58,9 @@ public class RestrDao {
 
 	@Autowired
 	private BestReviewRowMapper bestReviewRowMapper;
+	
+	@Autowired
+	private RecentRestrRowMapper recentRestrRowMapper;
 	
 	public Restaurant selectOneRestr(int restrNo) {
 		String query = "select * from restaurant where restr_no = ?";
@@ -508,6 +512,16 @@ public class RestrDao {
 	    Object[] params = {restrNo};
 	    List<Review> list = jdbc.query(query, reviewDataRowMapper, params);
 	    return list;
+
+	public Restaurant selectRecent(int restrNo) {
+		// TODO Auto-generated method stub
+		String query = "select restr_no, restr_img1, restr_name from restaurant where restr_no = ?";
+		Object[] params = {restrNo};
+		List list = jdbc.query(query, recentRestrRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}
+		return (Restaurant)list.get(0);
 	}
 
 }

@@ -162,25 +162,27 @@ public class BoardDao {
 	}
 
 	public int insertBoardCommentLike(int commentNo, int memberNo) {
-		String query ="insert into board_comment_like values(?.?)"; 
+		String query ="insert into board_comment_like values(?,?)"; 
 		Object[] params = {commentNo,memberNo};
 		int result = jdbc.update(query,params);
 		return result;
 	}
 
 	public int deleteBoardCommentLike(int commentNo, int memberNo) {
-		String query = "delete from board_comment_like where board comment_no=? and member_no=?";
+		String query = "delete from board_comment_like where comment_no=? and member_no=?";
 		Object[] params = {commentNo,memberNo};
 		int result = jdbc.update(query,params);
 		return result;
 	}
 
 	public int selectBoardCommentLikeCount(int commentNo) {
-		String query = "select count(*) from board_comment_like where board_comment_no=?";
+		String query = "select count(*) from board_comment_like where comment_no=?";
 		Object[] params = {commentNo};
 		int likeCount = jdbc.queryForObject(query,Integer.class, params);
 		return likeCount;
 	}
+	
+	
 
 	public List selectBoardSearch(String search) {
 		String query = "select * from board where board_title like ? or board_content like ?";
