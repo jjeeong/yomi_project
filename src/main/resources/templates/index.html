@@ -41,9 +41,7 @@
 		.recent-box{
 			min-height : 429px;
 		}
-		.recent-item{
-			display : none;
-		}
+		
 	</style>
 </head>
 
@@ -431,30 +429,15 @@
 						<span>최근 본 맛집</span>
 					</div>
 					<div class="recent-box round-box shadow">
-						<div class="recent-item">
+						<div class="recent-item" th:each="recent : ${recentList}" th:onclick="goToView([[${recent.restrNo}]]);">
 							<div class="img-box">
-								<img src="" alt="">
+								<img th:src="@{'/yomi/'+${recent.restrImg1}}" alt="">
 							</div>
 							<div class="recent-name">
-								<span>상호명</span>
+								<span th:text="${recent.restrName}">상호명</span>
 							</div>
 						</div>
-						<div class="recent-item">
-							<div class="img-box">
-								<img src="" alt="">
-							</div>
-							<div class="recent-name">
-								<span>상호명</span>
-							</div>
-						</div>
-						<div class="recent-item">
-							<div class="img-box">
-								<img src="" alt="">
-							</div>
-							<div class="recent-name">
-								<span>상호명</span>
-							</div>
-						</div>
+						
 					</div>
 				</div>
 			</aside>
@@ -494,6 +477,12 @@
 				showPage.next().addClass("show");
 				}
 			});
+			
+			function goToView(restrNo){
+				location.href="/restaurant/restrView?restrNo="+restrNo;
+			}
+			/* 쿠키값을 restrNo로만 받고 나머지 정보는 DB에서 출력할것(이건 이전에 3개 다 받은거..)
+			방식 : 다 받고, 들어갈 3개 div값 중에 default 는 display none/ 값이 들어가는 것만 show로 나오게
 			//쿠키값 출력
 			//맛집번호
 			const restrNo = new Array();
@@ -535,6 +524,8 @@
 				});
 				divbox.eq(index).show();
 			});
+			
+			*/
 		</script>
 	</main>
 	<th:block th:include="common/footer"></th:block>
