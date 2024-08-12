@@ -339,7 +339,6 @@ public class RestrService {
 			list = restrDao.restrSearch(searchKeyword, start, end);
 		} else {
 			list = restrDao.restrSearchStar(searchKeyword, start, end);
-			System.out.println("리스트 : " + list);
 		}
 		return list;
 	}
@@ -426,6 +425,11 @@ public class RestrService {
 	public int reviewDelete(int reviewNo) {
 		int result = restrDao.reviewDelete(reviewNo);
 		return result;
+	}
+
+	public List reviewSearch(int restrNo) {
+		List list = restrDao.reviewSearch(restrNo);
+		return list;
 	}
 
 

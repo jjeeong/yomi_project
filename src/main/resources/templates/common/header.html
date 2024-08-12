@@ -34,8 +34,10 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css
                 </a>
             </div>
             <div class="search">
-                <form class="col-12 mb-3 me-lg-3" action="" method="">
-                    <input type="text" name="search">
+                <form class="col-12 mb-3 me-lg-3" action="/searchList" method="get">
+
+                	<input type="text" name="search" th:value="${search}">
+
                     <button class="none-btn" type="submit">
                         <span class="material-icons-outlined">
                             search
