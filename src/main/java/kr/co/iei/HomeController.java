@@ -40,7 +40,7 @@ public class HomeController {
 				String[] cookieString = cookieValue.split("/");
 				for(int i=0; i<cookieString.length; i++) {
 					restrNoList.add(Integer.parseInt(cookieString[i]));
-					System.out.println(cookieString[i]);
+					//System.out.println(cookieString[i]);
 				}
 			}
 			List recentList = restrService.selectRecent(restrNoList);
