@@ -31,7 +31,7 @@
 
 .main-content {
     padding: 20px;
-    width: 1200px; 
+    width: 1400px; 
     height: 1000px;
     margin: 0 auto; 
     flex: 1; 
@@ -63,6 +63,11 @@
     margin-left: 15px;
 }
 
+.semi-board:hover{
+	background: #eee;
+	size : 1.2em;
+}
+
 .img>img{
     
     width: 150px;
@@ -91,7 +96,17 @@
 	.store-content p{
 		font-size: 23px;
 	}
-
+		
+	.store-content2{
+	text-decoration: none;
+	color : black;
+	}
+	
+	.storeName{
+		font-family: g_b;
+	}
+	
+	
 </style>
 </head>
 <body>
@@ -104,18 +119,16 @@
                 <button type="button" name="write-btn" id="write-btn" th:if="${session.member!=null && session.member.memberGrade !=3}">글쓰기</button>
             </div>
         </div>
-				
-				
-        <div class="semi-board" th:each="board : ${list}">
+        <div class="semi-board shadow" th:each="board : ${list}">
             <div class="info">
                 <a class="img" th:href="'/board/view?boardNo='+${board.boardNo}">
                     <img th:src="@{'/board/thumbNailImg/' + ${board.thumbNailImg}}">
                     </a>
                 </div>
-                
                 <div class="store-content" >
-                <p th:text="${board.boardStoreName}">가게명:</p>
-                <p th:text="${board.boardAddr}">위치:</p>         
+                <a class="store-content2" th:href="'/board/view?boardNo='+${board.boardNo}">
+                <p class="storeName" th:text="'가게명 : '+${board.boardStoreName}"></p>
+                <p class="storeAddr" th:text="'위치 : '+${board.boardAddr}"></p>         
                 </div>
             </div>
         </div>    
@@ -130,7 +143,10 @@
         document.getElementById('write-btn').addEventListener('click', function() {
             window.location.href = 'writeFrm';
         });
- 
+ 			
+        
+        
+        
     </script>
 </body>
 </html>

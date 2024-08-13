@@ -20,7 +20,7 @@ public class BoardService {
 	private BoardDao boardDao;
 
 	public BoardListData selectBoardList(int reqPage) {
-		int numPerPage = 6;
+		int numPerPage = 8;
 
 		int end = reqPage * numPerPage;
 		int start = end - numPerPage + 1;
