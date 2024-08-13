@@ -38,7 +38,7 @@
 
 
 .totalWrap{
-	width : 1300px;
+	width : 100%;
 	margin :0 auto;
 	padding:30px;
 	background-color : white;
@@ -85,6 +85,9 @@ body {
   color: var(--main2);
   
 }
+
+
+
 
 
 section.section {
@@ -221,16 +224,14 @@ section.section.bg-section {
   width: 100%;
   border-spacing: 0;
 }
-
-
 .tbl td{
 	border-bottom: 1px solid var(--pointFont);
 }
-
 .tbl th,
 .tbl td {
   text-align: center;
-  padding: 10px 20px;
+  padding: 10px;
+  border-bottom: 1px solid var(--pointFont);
 }
 .tbl th.left,
 .tbl td.left {
@@ -261,6 +262,7 @@ section.section.bg-section {
 .input-item {
   display: flex;
   gap: 10px;
+  padding-bottom : 10px;
 }
 .input-item > input {
   flex: 1;
@@ -490,6 +492,11 @@ section.section.bg-section {
   line-height: 40px;
   overflow: hidden;
 }
+.pagination.circle-style{
+	margin-top : 50px;
+	
+}
+
 .pagination.circle-style > li {
   border-radius: 50%;
 }
@@ -611,7 +618,7 @@ ul{
 }
 .inputCommentBox>form>ul>li:nth-child(2)>div>textarea{
 	font-size:14px;
-	width:1000px;
+	width:850px;
 	min-height: 50px;
 }
 .commentBox .input-item>textarea{
@@ -619,9 +626,11 @@ ul{
 	height:50px;
 	min-height: 50px;
 }
+
 .inputCommentBox>form>ul>li:last-child{
 	width:10%;
 }
+
 .inputCommentBox>form>ul>li:last-child>button{
 	width:100%;
 	height:100%;
