@@ -86,6 +86,22 @@
         background-color: rgba(0, 0, 0, 0.5);
         border-radius: 50%;
     }
+    .not-thing {
+	    width: 900px;
+	    height: 500px;
+	    background-color: #fff;
+	    border-radius: 30px;
+	    margin: 30px auto 60px auto;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    text-align: center;
+	    box-shadow: 0 0px 10px gray;
+	}
+	
+	.not-thing h2 {
+	    margin: 0;
+	}
 </style>
 <style>
 		.map-wrap, .map-wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
@@ -130,17 +146,10 @@
 </head>
 <body>
     <th:block th:include="common/header"></th:block>
+    
     <div class="container mt-5">
-        <!-- 캐러셀 -->
         <div id="carouselExampleIndicators" class="carousel slide">
-            <div class="carousel-indicators">
-                <th:block th:each="data, iterStat : ${restrReviewData}">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" 
-                            th:attr="data-bs-slide-to=${iterStat.index}" 
-                            th:classappend="${iterStat.index == 0} ? 'active' : ''"
-                            class="rounded-circle"></button>
-                </th:block>
-            </div>
+            <th:block th:if="${#lists.size(restrReviewData) > 1}">
             <div class="carousel-inner">
                 <th:block th:each="data, iterStat : ${restrReviewData}">
                     <div class="carousel-item" th:classappend="${iterStat.index == 0} ? 'active' : ''">
@@ -202,16 +211,24 @@
                 </th:block>
             </div>
             
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </a>
-        </div>
-    </div>
+	            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+	                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	                <span class="visually-hidden">Previous</span>
+	            </a>
+	            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+	                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	                <span class="visually-hidden">Next</span>
+	            </a>
+	        </th:block>
+	        </div>
+	    </div>
+    
+		<th:block th:if="${#lists.size(restrReviewData) < 1}">
+			<div class="not-thing">
+				<h2 th:text="${search} + '에 대한 검색 결과가 존재하지 않습니다.'"></h2>
+			</div>
+		</th:block>
+    
     <section class="map">
     	<div class="map-wrap">
 			<div id="kakaoMap" style="width : 90%; height : 450px; margin: 0 auto;">
@@ -222,9 +239,15 @@
 		    </div>
 		</div>
     </section>
+    
+
+    <input type="hidden" id="search" th:value="${search}">
+
+    
     <th:block th:include="common/footer"></th:block>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+    
         document.addEventListener("DOMContentLoaded", function() {
             // 레스토랑 별점 적용
             document.querySelectorAll(".restr").forEach(function(element) {
@@ -240,8 +263,7 @@
                 review.querySelector(".star-on").style.width = reviewChangeWidth + "%";
             });
         });
-    </script>
-    <script>
+
 			//마커를 담을 배열
 			var markers=[];
 			// 지도를 표시하는 div 크기를 변경하는 함수입니다
@@ -266,7 +288,6 @@
 			var infowindowK = new kakao.maps.InfoWindow({zIndex:1});
 			
 			searchPlace("[[${search}]]");
-			console.log([[${search}]]);
 			function searchPlace(keyword){
 				//장소검색 객체를 통해 키워드로 장소검색 요청
 				search.keywordSearch(keyword, placesSearchCB);
