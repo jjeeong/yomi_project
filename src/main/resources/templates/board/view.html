@@ -84,7 +84,12 @@
 		.btn {
 			float: right;
 		}
-
+		
+		
+		.content-detail{
+			font-family: g_m;
+			font-size: 29px;
+		}
 		[name=update] {
 			margin-right: 5px;
 			border: none;
@@ -132,7 +137,12 @@
 		
 		.btn-secondary{
 			margin-top: 10px;
-			margin-bottom: 25px;
+			margin-bottom: 25px;			
+		}
+		
+			.btn-secondary:hover{
+			margin-top: 10px;
+			margin-bottom: 25px;		
 		}
 		
 		.commentBox{
@@ -168,7 +178,9 @@
 		color : #FC7A1E;
 		}
 		
-		
+		.readCount-wrap{
+			padding-top: 15px;
+		}
 		.comment-zone{
 			height: 60px;
 			width: 100%;
@@ -224,7 +236,9 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-12">
+					<div class="readCount-wrap">
 					<span class="readCount" th:text="'조회수 : '+${b.readCount}"></span>
+					</div>
 					<div class="thumbnail">
 						<img class="thumbnail-img2" th:src="@{'/board/thumbNailImg/' + ${b.thumbNailImg}}">
 					</div>
@@ -237,6 +251,10 @@
 					</div>
 					<div class="content-detail">
 						<div class="form-group">
+							<span class="addr">제목:<span>
+									<span th:text="${b.boardTitle}"></span>
+						</div>
+						<div class="form-group">
 							<span class="name">가게명:<span>
 									<span th:text="${b.boardStoreName}">
 						</div>
@@ -244,6 +262,7 @@
 							<span class="addr">위치:<span>
 									<span th:text="${b.boardAddr}"></span>
 						</div>
+						
 					</div>
 					<form id="storeForm" class="store-content">
 						<div class="content-wrap">
@@ -258,7 +277,7 @@
 				
 				<!-- 댓글시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 				<div th:if="${session.member !=null}" class="inputCommentBox">
-					<form action="/board/insertComment" method="post">
+					<form action="/board/insertComment" method="post" class="comment-submit">
 						<div class="comments-section mt-4" th:if="${session.member.memberGrade !=3}">
 							<h3>댓글</h3>
 							<div id="commentsList" class="comments-list">
@@ -273,7 +292,7 @@
 									<input type="hidden" name="commentBoardNo" th:value="${b.boardNo}">
 
 								</div>
-								<button name="comment" type="submit" class="btn btn-secondary" >댓글 달기</button>
+								<button name="comment" type="button" class="btn btn-secondary" >댓글 달기</button>
 							</div>
 						</div>
 					</form>
@@ -302,25 +321,12 @@
 					<a href="javascript:void(0)" th:onclick="deleteComment(this,[[${bc.CommentNo}]],[[${b.boardNo}]]);">삭제</a>
 				</th:block>
 				<th:block th:if="${session.member!=null}">
-					<a href="javascript:void(0)" >답글달기</a>
+					
 					<a href="javascript:void(0)" th:onclick="reportComment(this, [[${bc.commentNo}]]);">신고</a>
 				</th:block>
 			</div>
 		</div>
 	</div>
-<!-- --------------------------------대댓글-------------------------------------------- -->
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 			</div>
@@ -683,6 +689,23 @@ function likePush(obj, commentNo){
 		}
 	})
 }
+
+
+
+
+$(".btn-secondary").on("click",function(){
+	
+	var input1 = $(".form-control").val();	
+	if(input1==""){
+		swal.fire({
+			title : "댓글 작성",
+			text : "댓글을  입력해주세요 !",
+			icon : "info"
+			});
+	}else{
+		$(".comment-submit").submit();
+	}
+});
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
