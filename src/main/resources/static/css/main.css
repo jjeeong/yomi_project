@@ -701,9 +701,13 @@ main.report-list h2.page-title {
     margin-top: 50px;
 }
 
-main.report-list div.tbl {
-    
+main.report-list div.table-top{
+	display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 25px;
 }
+
 
 main.report-list table.report-list {
     margin: 0 auto;
@@ -774,7 +778,6 @@ main.report-list div.dropdown>button.dropdown-custom::after {
 
 main.report-list div.search {
     align-self: flex-end;
-    margin-right: 17px;
     margin-bottom: 10px;
 }
 

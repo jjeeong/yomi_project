@@ -66,6 +66,10 @@ public class WebConfig implements WebMvcConfigurer{
 									"/notice/filedown",
 									"/board/list",
 									"/board/view",
+									"/review/**",
+									"/board/thumbNailImg/**",
+									"/inquery/**",
+									"/inquerySummernote/**",
 									"/board/editor/**",
 									"/notice/editor/**", //주의할점: notice/**에는 controller뿐 아니라 다른 사진이든 뭐든 다 걸리므로 예외처리할때 주의할것
 									"/restaurant/restrView",
