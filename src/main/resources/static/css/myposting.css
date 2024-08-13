@@ -194,3 +194,15 @@ body {
     border-radius: 10px;
     color: #6d4c41; /* 갈색 글자 */
 }
+.delete-btn1{
+	background-color: red; /* 진한 오렌지색 */
+    color: white;
+    border: none;
+    padding: 5px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    
+}

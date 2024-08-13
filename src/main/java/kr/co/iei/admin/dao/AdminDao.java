@@ -76,5 +76,18 @@ public class AdminDao {
 		Object[] params = {memberNo};
 		List list = jdbc.query(query,reviewRowMapper,params);
 		return list;
+	}
+	public int deletReviews(int reviewNo) {
+		String query = "delete from review where review_no=?";
+		Object[] params = {reviewNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	
+	public int deletBoard(int boardNo) {
+		String query = "delete from board where board_no=?";
+		Object[] params = {boardNo};
+		int result = jdbc.update(query,params);
+		return result;
 	}			
 }

@@ -14,7 +14,8 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     height: 900px;
     position: relative; 
-    flex-direction: column; 
+    flex-direction: column;
+    margin-top: 20px; 
 }
 .profile h1 {
     text-align: center;
@@ -233,4 +234,14 @@ body {
 }
 .photobox{
     margin-top: 70px;
+}
+.Pwinput{
+	.Pwinput {
+    background-color: #ffe0b2;
+    border: none; /* Remove border */
+    outline: none; /* Remove outline */
+    padding: 10px; /* Optional: add padding if needed */
+    border-radius: 5px; /* Optional: add border-radius if needed */
+}
+
 }

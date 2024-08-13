@@ -26,26 +26,36 @@
             color: gold;
             left: 0;
         }
-        .rating-stars .base-star{
-        	
-        	width:145px;
+        .rating-stars .base-star {
+            width: 145px;
         }
-        .base-star{
-        	overflow: hidden;
-        
+        .base-star {
+            overflow: hidden;
         }
-        .base-star>i{
-        	float:left;
-        	margin-left : 0;
-        	display: block;
-        	width:27px;
+        .base-star > i {
+            float: left;
+            margin-left: 0;
+            display: block;
+            width: 27px;
         }
-        .rating-stars .show-star-rate{
-        	position: absolute;
-        	top: 0;
-        	left: 0;
-        	width : 0px;
-        	overflow: hidden;
+        .rating-stars .show-star-rate {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0px;
+            overflow: hidden;
+        }
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            
+        }
+        .delete-btn:hover {
+            background-color: darkred;
         }
     </style>
 </head>
@@ -60,8 +70,8 @@
                     <th>번호</th>
                     <th>별점</th>
                     <th>내용</th>
-                    <th>작성일</th>
-                    <th>가게번호</th>
+                    <th>작성일</th>                                       
+                    <th>삭제</th> 
                 </tr>
             </thead>
             <tbody>
@@ -69,40 +79,61 @@
                     <td th:text="${re.reviewNo}"></td>
                     <td>
                         <div class="rating-stars" th:data="${re.reviewStar}">
-	                        <div class="base-star star-wrap">
-		                        <i class="fa-regular fa-star"></i>
-		                        <i class="fa-regular fa-star"></i>
-		                        <i class="fa-regular fa-star"></i>
-		                        <i class="fa-regular fa-star"></i>
-		                        <i class="fa-regular fa-star"></i>
-		                        <div class="show-star-rate">
-			                        <div class="base-star star-on-wrap">
-				                        <i class="fa-solid fa-star"></i>
-				                        <i class="fa-solid fa-star"></i>
-				                        <i class="fa-solid fa-star"></i>
-				                        <i class="fa-solid fa-star"></i>
-				                        <i class="fa-solid fa-star"></i>
-			                        </div>
-		                        </div>
-	                        </div>
+                            <div class="base-star star-wrap">
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <div class="show-star-rate">
+                                    <div class="base-star star-on-wrap">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </td>
                     <td th:text="${re.reviewContent}"></td>
                     <td th:text="${re.reviewRegDate}"></td>
-                    <td th:text="${re.restrNo}"></td>
+                    
+                    <td>
+                        <button class="delete-btn" th:data="${re.reviewNo}">삭제</button>
+                    </td>
                 </tr>
             </tbody>
         </table>      
-        </div>
     </div>
     <th:block th:include="common/footer"></th:block>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    	$(function(){
-    		$(".rating-stars").each(function(i,item){
-    			const width = $(item).attr("data")*29;
-    			$(this).find(".show-star-rate").css("width",width+"px");
-    		});
-    	});   
+        $(function() {
+            $(".rating-stars").each(function(i, item) {
+                const width = $(item).attr("data") * 29;
+                $(this).find(".show-star-rate").css("width", width + "px");
+            });
+        });        
+        	$(".delete-btn").on("click",function(){        		
+        		const reviewNo = $(this).attr("data");
+        		const btn = $(this);
+        		console.log(reviewNo);
+        		
+        		$.ajax({
+        			url : "/admin/deleteReview", 
+        			type : "get",
+        			data : {reviewNo : reviewNo},
+        			success : function(data){
+        				console.log(data);
+        				btn.parent().parent().remove();
+        			},
+        			error : function(){
+        				console.log("에러발생");
+        			}
+        		});         		
+        	});        
     </script>
 </body>
 </html>

@@ -147,5 +147,15 @@ public class AdminService {
 		List result = adminDao.reviewsMember(memberNo);
 		return result;
 	}
+	public int deletReviews(int reviewNo) {
+		int result = adminDao.deletReviews(reviewNo);
+		return result;
+	}
+	
+	public int deletBoard(int boardNo) {
+		int result = adminDao.deletBoard(boardNo);
+		return result;
+	}
+	
 	 
 }
