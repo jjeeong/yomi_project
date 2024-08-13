@@ -184,4 +184,11 @@ public class BoardDao {
 	
 	
 
+	public List selectBoardSearch(String search) {
+		String query = "select * from board where board_title like ? or board_content like ?";
+		Object[] params = {"%"+search+"%","%"+search+"%"};
+		List list = jdbc.query(query, boardRowMapper, params);
+		return list;
+	}
+
 }

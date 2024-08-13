@@ -34,8 +34,10 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css
                 </a>
             </div>
             <div class="search">
-                <form class="col-12 mb-3 me-lg-3" action="" method="">
-                    <input type="text" name="search">
+                <form class="col-12 mb-3 me-lg-3" action="/searchList" method="get">
+
+                	<input type="text" name="search" th:value="${search}">
+
                     <button class="none-btn" type="submit">
                         <span class="material-icons-outlined">
                             search
@@ -95,7 +97,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css
                 <li><a href="/restaurant/reviewList?reqPage=1">리뷰 리스트</a></li>
                 <li class="nav-bar"><a href="#">고객센터</a>
                     <ul class="nav-sub">
-                        <li><a href="#">공지사항</a></li>
+                        <li><a href="/notice/list?reqPage=1">공지사항</a></li>
                         <li><a href="/inquery/list?reqPage=1">문의사항</a></li>
                     </ul>
                 </li>
