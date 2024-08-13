@@ -279,6 +279,71 @@ public class InqueryService {
 		return result;
 	}
 	
+//	검색기능
+	public InqueryListData selectSearchList(String keyword, String type, int reqPage) {
+		int numPerPage = 10;
+		System.out.println("service:"+reqPage);
+		int end = reqPage * numPerPage;
+		int start = end - numPerPage + 1;
+		List list = null;
+		int totalCount = 0;
+		if(type.equals("writer")) {
+			List writer = inqueryDao.selectInqueryWriterList(start, end,keyword);
+			list = writer;
+			int writerTotalCount = inqueryDao.selectInqueryWriterTotalCount(keyword);
+			totalCount += writerTotalCount;
+		}else if(type.equals("title")){
+			
+			List title = inqueryDao.selectInqueryTitleList(start, end, keyword);
+			list = title;
+			int titleTotalCount = inqueryDao.selectInqueryTitleTotalCount(keyword);
+			totalCount += titleTotalCount;
+		}
+		int totalPage = 0;
+		if(totalCount % numPerPage == 0) {
+			totalPage = totalCount / numPerPage;			
+		}else {
+			totalPage = totalCount / numPerPage + 1;
+		}
+		int pageNaviSize = 5;
+		
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		String pageNavi = "<ul class='pagination circle-style'>";
+		if(pageNo != 1) {
+			pageNavi += "<li>";
+			pageNavi += "<a class='page-item' href='/inquery/search?type="+type+"&keyword="+keyword+"&reqPage=" + (pageNo - 1) + "'>";
+			pageNavi += "<span class='material-icons'>chevron_left</span>";
+			pageNavi += "</a></li>";
+		}		
+		for (int i = 0; i < pageNaviSize; i++) {
+			pageNavi += "<li>";
+			if (pageNo == reqPage) {
+				pageNavi += "<a class='page-item active-page' href='/inquery/search?type="+type+"&keyword="+keyword+"&reqPage=" + pageNo + "'>";
+			} else {
+				pageNavi += "<a class='page-item' href='/inquery/search?type="+type+"&keyword="+keyword+"&reqPage=" + pageNo + "'>";
+			}
+			pageNavi += pageNo;
+			pageNavi += "</a></li>";
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		if (pageNo <= totalPage) {
+			pageNavi += "<li>";
+			pageNavi += "<a class='page-item' href='/inquery/search?type="+type+"&keyword="+keyword+"&reqPage=" + pageNo + "'>";
+			pageNavi += "<span class='material-icons'>chevron_right</span>";
+			
+			
+			pageNavi += "</a></li>";
+		}
+
+		pageNavi += "</ul>";
+		System.out.println("Service List:"+list);
+		InqueryListData Ild = new InqueryListData(list, pageNavi);
+		
+		return Ild;
+	}
 	
 	
 	

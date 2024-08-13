@@ -182,6 +182,34 @@ public class InqueryDao {
 		return result;
 	}
 	
+//	검색기능
+	public List selectInqueryWriterList(int start, int end, String keyword) {
+		String query = "select * from (select rownum as rnum, n.* from(select * from inquery where inquery_writer like ? order by 1 desc)n) where rnum between ? and ?";
+		Object[] params = {"%"+keyword+"%",start, end};
+		List list = jdbc.query(query, inqueryRowMapper, params);
+		return list;
+	}
+	public List selectInqueryTitleList(int start, int end, String keyword) {
+		String query = "select * from (select rownum as rnum, n.* from(select * from inquery where inquery_title like ? order by 1 desc)n) where rnum between ? and ?";
+		Object[] params = {"%"+keyword+"%",start, end};
+		List list = jdbc.query(query, inqueryRowMapper, params);
+		return list;
+	}
+	public int selectInqueryWriterTotalCount(String keyword) {
+		String query = "select count(*) from Inquery where inquery_writer like ? ";
+		Object[] params = {"%"+keyword+"%"};
+		int totalCount = jdbc.queryForObject(query, Integer.class,params); 
+		return totalCount;
+	}
+	public int selectInqueryTitleTotalCount(String keyword) {
+		String query = "select count(*) from Inquery where inquery_title like ? ";
+		Object[] params = {"%"+keyword+"%"};
+		int totalCount = jdbc.queryForObject(query, Integer.class,params); 
+		return totalCount;
+	}
+	
+
+	
 }
 
 

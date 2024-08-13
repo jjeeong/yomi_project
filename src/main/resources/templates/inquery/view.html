@@ -45,7 +45,7 @@
 			</tr>
 			
 			<tr>
-				<th colspan="6" th:text="${inq.inqueryTitle}"></th>
+				<th style="border:1px solid black;" colspan="6" th:text="${inq.inqueryTitle}"></th>
 			</tr>
 			
 			<tr>
@@ -59,7 +59,7 @@
 			
 			<tr>
 				<th style="border-left:1px solid black;">첨부파일</th>
-				<td th:if="${session.member != null && session.member.memberId == inq.inqueryWriter}" colspan="5" style="border-right:1px solid black;">
+				<td colspan="5" style="border-right:1px solid black;">
 					<th:block th:each="file : ${inq.fileList}" >
 						<img src="/image/file.png" width="16px">
 						<a th:href="@{/inquery/filedown(filename=${file.filename},filepath=${file.filepath})}" th:text="${file.filename}"></a>
@@ -74,7 +74,11 @@
 			</table>	
 			
 			
-			<!-- 댓글입력 -->
+			
+			
+			
+			
+			
 			
 	
 			<!-- 댓글 출력 -->
@@ -159,7 +163,8 @@
 				</ul>									
 			</th:block>			
 			</div>
-				
+			
+			<!-- 댓글입력 -->			
 			<div th:if="${session.member != null && session.member.memberGrade == 1}" class="inputCommentBox">
 				<form action="/inquery/insertComment" method="post">
 					<ul style="margin-left:5px;">
@@ -171,7 +176,7 @@
 							<input type="hidden" name="inqueryCommentWriter" th:value="${session.member.memberId}">
 							<input type="hidden" name="inqueryRef" th:value="${inq.inqueryNo}">
 							<div class="input-item">
-								<textarea name="inqueryCommentContent" ></textarea>
+								<textarea name="inqueryCommentContent"></textarea>
 							</div>
 						</li>
 						<li>
@@ -264,36 +269,27 @@
 			}
 			$(".inputRecommentBox").eq(index).toggle();
 		});
-	</script>
-
+	</script>					
+				   
 	<script>				
-		function inqueryDelete(inqueryNo){
-			swal.fire({
-				title:"게시글 삭제",
-				text:"게시글을 삭제하시겠습니까?",
-				icon:"warning",
-				buttons:{
-					cancel:{
-						text:"취소",
-						value:false,
-						visible:true,
-						className:"btn-secondary",
-						closeModal:true
-					},
-					confirm:{
-						text:"삭제",
-						value:true,
-						visible:true,
-						className:"btn-point",
-						closeModal:true
-					}
-				}					
-			}).then(function(isConfirm){
-				if(isConfirm){
-					location.href="/inquery/delete?inqueryNo="+inqueryNo;
-				}
-			});
-		}
+	function inqueryDelete(inqueryNo){
+		Swal.fire({
+			   title: '삭제하기',
+			   text: '정말로 게시글을 삭제하시겠습니까.?',
+			   icon: 'warning',
+			   
+			   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+			   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+			   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+			   confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+			   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+			   
+		}).then(result => {
+			if(result.isConfirmed){
+				location.href="/inquery/delete?inqueryNo="+inqueryNo;
+			}
+		});
+	}
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
