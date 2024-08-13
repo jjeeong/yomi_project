@@ -195,14 +195,14 @@ body {
     color: #6d4c41; /* 갈색 글자 */
 }
 .delete-btn1{
-	background-color: red; /* 진한 오렌지색 */
+	 background-color: red;
     color: white;
     border: none;
-    padding: 5px 20px;
-    cursor: pointer;
+    padding: 0px -0px;
+    cursor: pointer; 
     border-radius: 5px;
-    width: 100px;
-    height: 50px;
+    width: 40px;   
     text-align: center;
+}
     
 }

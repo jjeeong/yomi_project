@@ -176,6 +176,7 @@ body {
 .photo{
     width: 230px;
     height: 230px;
+    border-radius: 5px;
 }
 .photomini1{
     width: 270px;
@@ -205,6 +206,7 @@ body {
 .photo1{
     width: 230px;
     height: 230px;
+    border-radius: 5px;
 }
 .photomini2{
     width: 270px;
@@ -217,6 +219,7 @@ body {
 .photo2{
     width: 230px;
     height: 230px;
+    border-radius: 5px;
 }
 .phototitle2{
     width: 230px;
