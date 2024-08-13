@@ -251,8 +251,6 @@ public class RestrController {
 				}
 			}
 			
-			//작성 결과 (img list도 함께 삽입)
-			int result = restrService.writeReview(review, reviewImgList);
 			
 			//리뷰 키워드 삽입
 			if(keywords != null && keywords.length > 5) {
@@ -262,6 +260,8 @@ public class RestrController {
 				model.addAttribute("loc", "restrView?restrNo=" + restaurant.getRestrNo());
 				return "common/msg2";
 			} else {
+				//작성 결과 (img list도 함께 삽입)
+				int result = restrService.writeReview(review, reviewImgList);
 				if (result > 0 && keywords != null) {
 					int tagResult = restrService.insertKeyword(reviewNo, keywords);
 				}
