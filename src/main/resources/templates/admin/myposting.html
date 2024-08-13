@@ -29,6 +29,7 @@
                         <th>제목</th>
                         <th>작성일</th>
                         <th>조회수</th>
+                        <th>삭제</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,12 +38,29 @@
                         <td th:text="${s.boardTitle}"></td>
                         <td th:text="${s.boardRegdate}"></td>
                         <td th:text="${s.readCount}"></td>
+                        <td><button class="delete-btn1" th:data="${s.boardNo}">삭제</button></td>
                     </tr>
                 </tbody>
             </table>                                                                 
         </div>
     </div>
     <th:block th:include="common/footer"></th:block>
-    <script></script>  
+    <script>
+    $(".delete-btn1").on("click",function(){ 
+    	const boardNo = $(this).attr("data");
+    	const btn = $(this);
+		console.log(boardNo);
+		
+		$.ajax({
+			url : "/admin/deleteBoard",
+			type : "get",
+			data : {boardNo : boardNo},
+			success : function(data){
+				console.log(data);
+				btn.parent().parent().remove();
+			}
+			});
+		});   
+    </script>  
 </body>
 </html>

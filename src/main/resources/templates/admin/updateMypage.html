@@ -32,14 +32,14 @@
                             <tr>
                                 <th class="info3">비밀번호</th>
                                 <td class="text">                                   	                                
-                                        <input type="password" name="memberPw" id="memberPw" th:value="${session.member.memberPw}">			       	                                   						        	
+                                        <input type="password" name="memberPw" id="memberPw" th:value="${session.member.memberPw}" class="Pwinput">			       	                                   						        	
                                 </td>			        	                            
                             </tr>
                             <tr>
                                 <th class="info3">전화번호</th>
                                 <td class="text"> 
                                     <div class="input-item">
-                                        <input type="text" name="memberPhone" id="memberPhone" th:value="${session.member.memberPhone}">								
+                                        <input type="text" name="memberPhone" id="memberPhone" th:value="${session.member.memberPhone}" class="Phinput">								
                                     </div>
                                 </td>
                             </tr>
@@ -47,7 +47,7 @@
                                 <th class="info3">주소</th>
                                 <td class="text"> 
                                     <div class="input-item">
-                                        <input type="text" name="memberAddr" id="memberAddr" th:value="${session.member.memberAddr}">		
+                                        <input type="text" name="memberAddr" id="memberAddr" th:value="${session.member.memberAddr}" class="Adinput">		
                                     </div>
                                 </td>													
                             </tr>
@@ -73,10 +73,10 @@
                     </div>
                 </div>              
                 <div class="buttons">
-                    <button class="infofix" type="submit">정보수정</button>                    
+                                       
                     <a th:if="${session.member.memberGrade == 1}" href="/admin/adminPage?reqPage=1" class="admin">관리자페이지</a>
-                    <button class="review">내가 작성한 리뷰 보기</button>
-                    <button class="board">내가 작성한 게시글 보기</button>                   
+                    <button class="review" onclick="location.href='/admin/myreviews'">내가 작성한 리뷰 보기</button>
+                    <button class="board" onclick="location.href='/admin/myposting'">내가 작성한 게시글 보기</button>                   
                     <button type="button" class="memberdelete lg delBtn">회원탈퇴</button>
                 </div>
             </div>

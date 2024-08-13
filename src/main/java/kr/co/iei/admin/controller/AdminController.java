@@ -1,5 +1,6 @@
 package kr.co.iei.admin.controller;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -16,7 +18,9 @@ import kr.co.iei.admin.dto.AdminListData;
 import kr.co.iei.admin.service.AdminService;
 import kr.co.iei.member.model.dto.Member;
 import kr.co.iei.member.model.service.MemberService;
+
 import kr.co.iei.report.model.service.ReportService;
+import kr.co.iei.restr.model.dto.Review;
 import kr.co.iei.restr.model.service.RestrService;
 
 @Controller
@@ -30,6 +34,8 @@ public class AdminController {
 	private AdminService adminService;
 	@Autowired
 	private RestrService restrService;
+	
+	
 
 	@GetMapping(value = "/checkReport")
 	public String checkReport() {
@@ -150,5 +156,18 @@ public class AdminController {
 		List myreviews = adminService.reviewsMember(memberNo);
 		model.addAttribute("v",myreviews);
 		return "admin/myreviews";
-	}	
-}
+	}
+	@ResponseBody
+	@GetMapping(value="/deleteReview")
+	public int deleteReview(int reviewNo) {
+		int result = adminService.deletReviews(reviewNo);
+		return result;
+	}
+	@ResponseBody
+	@GetMapping(value="/deleteBoard")
+	public int deleteBoard(int boardNo) {
+		int result = adminService.deletBoard(boardNo);
+		return result;
+	}
+		
+}	

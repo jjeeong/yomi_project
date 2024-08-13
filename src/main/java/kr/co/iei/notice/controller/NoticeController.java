@@ -91,12 +91,10 @@ public class NoticeController {
 		if(member != null) {
 			memberNo = member.getMemberNo();
 		}
-		System.out.println(noticeNo);
-		System.out.println(check);
 		//로그인이 되어있지않으면 memberNo = 0 / 로그인이 되어있으면 memberNo = 로그인한 회원번호
 		Notice n = noticeService.selectOneNotice(noticeNo,check,memberNo);
-		System.out.println("n"+n);
-		//System.out.println("inq:"+inq);
+		System.out.println(n.getFileList());
+		
 		if(n == null) {
 			model.addAttribute("title","조회실패");
 			model.addAttribute("msg","해당 게시글이 존재하지 않습니다.");

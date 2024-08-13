@@ -490,7 +490,7 @@ public class RestrDao {
 
 
 	public List selectListRestr(int memberNo) {
-		String query = "select * from restaurant where restr_no in (select restr_no from RESTAURANT_FAVORITES where member_no=?)";
+		String query = "select * from (select * from restaurant r where restr_no in (select restr_no from RESTAURANT_FAVORITES where member_no=?) order by (select avg(review_star) from REVIEW where review.RESTR_NO=r.restr_no) desc) where rownum<4";
 		Object[] params = {memberNo};
 		List selectListRestr = jdbc.query(query, restaurantRowMapper, memberNo);
 		return selectListRestr;

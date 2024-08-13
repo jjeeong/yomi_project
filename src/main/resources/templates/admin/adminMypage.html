@@ -61,7 +61,7 @@
                     <h1><div class="prititle">즐겨찾기한 맛집</div></h1>
                     <div class="photobox">
                         <div th:each="rs : ${list}" class="photomini">
-                            <a th:href="'/restaurant/restrView?restrNo=' + ${rs.restrNo}" class="photoin">
+                            <a th:href="'/restaurant/restrView?restrNo=' + ${rs.restrNo}" class="photoin" >                          
                                 <img th:src="'/yomi/'+${rs.restrImg1}" class="photo">  
                             </a>
                             <div th:text="${rs.restrName}" class="phototitle"></div>                        	
@@ -73,7 +73,7 @@
                         <button class="review" onclick="location.href='/admin/myreviews'">내가 작성한 리뷰 보기</button>
                         <button class="board" onclick="location.href='/admin/myposting'" >내가 작성한 게시글 보기</button>                   
                         <button type="button" class="memberdelete lg delBtn">회원탈퇴</button>
-                    </div>
+                    </div>                  
                 </div>
             </div>
         </div>
@@ -107,6 +107,7 @@
             }
         });
     });    
+    
     </script>
     <th:block th:include="common/footer"></th:block>
 </body>
