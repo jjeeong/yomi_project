@@ -92,7 +92,7 @@
 							<td>
 								<div class="btn-box">
 									<button class="btn btn-sm btn-point"
-										th:onclick="showReport(this, [[${report.reportNo}]])" data-bs-toggle="modal"
+										th:onclick="showReport(this, [[${report.reportNo}]], [[${report.reportType}]])" data-bs-toggle="modal"
 										data-bs-target="#staticBackdrop">확인</button>
 									<button class="btn btn-sm btn-mono"
 										th:onclick="deleteReport(this, [[${report.reportNo}]])">삭제</button>
@@ -185,9 +185,9 @@
 			location.href = "/report/updateReport?reportNo=" + reportNo;
 		}//updateReport
 
-		function showReport(obj, reportNo) {
+		function showReport(obj, reportNo, reportType) {
 			let reportBoardType = $(obj).parent().parent().prev().prev().prev().prev().text();
-			console.log(reportBoardType);
+			
 			$("span#report-board-type").text(reportBoardType);
 			$.ajax({
 				url: "/report/showReport",
@@ -197,8 +197,10 @@
 				success: function (data) {
 					if (data != null) {
 						$("span#reporter-id").text(data.reporterId);
-						$("span#report-type").text(data.reportType);
+						$("span#report-type").text(reportType);
 						$("div#reportContent").text(data.reportContent);
+						console.log(data.reportType);
+						console.log($("span#report-type"));
 						if (data.reportBoardType == 2) {
 							const reportBoardNo = data.reportBoardNo;
 							const content = "맛집게시판은 미리보기 할 수 없습니다.<br>더보기를 통해 이동해주세요.<br><a href='/board/view?boardNo=" + reportBoardNo + "' style='display :block; text-align:center;'>더보기</a>";

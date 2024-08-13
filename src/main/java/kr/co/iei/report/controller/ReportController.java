@@ -116,7 +116,7 @@ public class ReportController {
 			model.addAttribute("text", "체크할 신고글이 존재하지 않습니다.");
 			model.addAttribute("icon", "error");
 		}
-		model.addAttribute("loc", "/report/checkReport");
+		model.addAttribute("loc", "/report/checkReport?reqPage=1");
 		return "common/msg2";
 	}
 	
@@ -133,7 +133,7 @@ public class ReportController {
 			model.addAttribute("text", "삭제할 신고글이 존재하지 않습니다.");
 			model.addAttribute("icon", "error");
 		}
-		model.addAttribute("loc", "/report/checkReport");
+		model.addAttribute("loc", "/report/checkReport?reqPage=1");
 		return "common/msg2";
 	}
 	
