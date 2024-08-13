@@ -690,7 +690,7 @@
 	            	$(".birth-check-msg").text("생년월일을 입력해주세요");
 					$(".birth-check-msg").addClass("invalid");
 	            }
-	            if($(".form-group2>.phone").val()==""){
+	            if($(".form-group2>.phone1,.phon2,.phone3").val()==""){
 					event.preventDefault();
 	            	$(".phone-check-msg").text("휴대폰번호을 입력해주세요");
 					$(".phone-check-msg").addClass("invalid");
@@ -707,16 +707,16 @@
 					
 	            }
 	        
-	    			if($(".form-group2>.gender1").is(":checked")){
-	    				$(".gender-check-msg").text("");
-	    				$(".gender-check-msg").removeClass("invalid");
-	    			}
-	    		
-	    		
-	    			if($(".form-group2>.gender2").is(":checked")){
-	    				$(".gender-check-msg").text("");
-	    				$(".gender-check-msg").removeClass("invalid");
-	    			}
+    			if($(".form-group2>.gender1").is(":checked")){
+    				$(".gender-check-msg").text("");
+    				$(".gender-check-msg").removeClass("invalid");
+    			}
+    		
+    		
+    			if($(".form-group2>.gender2").is(":checked")){
+    				$(".gender-check-msg").text("");
+    				$(".gender-check-msg").removeClass("invalid");
+    			}
 	    	
 	            
 	        });
