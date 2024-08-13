@@ -5,6 +5,16 @@
 	<meta charset="UTF-8">
 	<title>신고 현황</title>
 	<link rel="stylesheet" href="/css/sujin.css">
+	<style>
+		.table-top>.page-to-admin>a:hover{
+			color : var(--point1);
+			text-decoration : underline;
+		}
+		.table-top>.page-to-admin>a{
+			color : var(--mainFont);
+			text-decoration : none;
+		}
+	</style>
 </head>
 
 <body>
@@ -14,12 +24,17 @@
 			<div class="page-title">
 				<h2 class="page-title">게시글 신고 현황</h2>
 			</div>
-			<div class="search">
-				<form action="/report/searchById" method="get">
-					<input type="text" name="respondentId" class="searchId" placeholder="검색할 아이디를 입력하세요">
-					<input type="hidden" name="reqPage" value="1">
-					<button class="btn btn-point">검색</button>
-				</form>
+			<div class="table-top">
+				<div class="page-to-admin">
+					<a href="/admin/adminPage?reqPage=1">관리자페이지로 돌아가기</a>
+				</div>			
+				<div class="search">
+					<form action="/report/searchById" method="get">
+						<input type="text" name="respondentId" class="searchId" placeholder="검색할 아이디를 입력하세요">
+						<input type="hidden" name="reqPage" value="1">
+						<button class="btn btn-point">검색</button>
+					</form>
+				</div>
 			</div>
 			<div class="tbl">
 				<table class="tbl report-list">
