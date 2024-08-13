@@ -472,14 +472,14 @@ transform: rotate(180deg);
 	background-color: var(--point2);
 }	
 .certification>#auth>input{
-	 width: 250px;
+	 width: 240px;
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 .certification>#auth>.btn-primary{
- 	margin-right:10px;
+ 	margin-right:5px;
  	width:80px;
  	height:40px;
  	font-family: 'g_b';
