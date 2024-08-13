@@ -93,7 +93,7 @@
 						<div class="input-list restrAddr">
 							<span class="inputName">▪ 주소</span>
 							<button type="button"
-								class="btn btn-mono btn-sm round-box" id="addrSearch">주소로 검색</button>
+								class="btn btn-point btn-sm round-box" id="addrSearch">주소로 검색</button>
 								<button type="button"
 								class="btn btn-sub btn-sm round-box" id="nameSearch" data-bs-toggle="modal" data-bs-target="#searchForName">이름으로 검색</button>
 							<div class="input-box">
@@ -516,7 +516,7 @@
 		            	text:"현재 지도 기능을 사용하기 어렵습니다. 나중에 시도해주세요.",
 		            	icon:"error"
 		            });
-
+		        }
 		        var htmlAddresses = [],
 		            item = response.v2.addresses[0],
 		            point = new naver.maps.Point(item.x, item.y);// item.x : 경도 item.y : 위도
@@ -866,19 +866,19 @@
 				confirmButtonText : "등록 취소",
 				confirmButtonColor : "var(--point1)",
 				cancelButtonColor : "var(--monocolor)"
-				}).then(result=>{
-					if(result.isConfirmed){
-					location.href="/restaurant/restrList";
-					// /을 쓰면 처음부터 읽음 , /를 안쓰면 현재 들어와있는 /restaurant내에서 찾음
-					}
-				});
+			}).then(result=>{
+				if(result.isConfirmed){
+				location.href="/restaurant/restrList";
+				// /을 쓰면 처음부터 읽음 , /를 안쓰면 현재 들어와있는 /restaurant내에서 찾음
+				}
+			});
 		});
 		//input에서 엔터쳤을때 form submit 되지 않도록...
 		$('input[type="text"]').keydown(function() {
 			  if (event.keyCode === 13) {
 			    event.preventDefault();
-			  };
-			});
+			  }
+		});
 		
 		$("input#name").keydown(function(){
 			if(event.keyCode ===13){

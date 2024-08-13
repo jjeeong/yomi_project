@@ -93,7 +93,6 @@ public class NoticeService {
 	}
 
 	public Notice selectOneNotice(int noticeNo, String check, int memberNo) {
-		//문의글 조회
 		Notice n = noticeDao.selectOneNotice(noticeNo);
 		if(n != null) {
 			//조회수 증가
@@ -102,6 +101,7 @@ public class NoticeService {
 			}
 			//해당게시글의 첨부파일을 조회
 			List fileList = noticeDao.selectNoticeFile(noticeNo);
+			System.out.println(fileList);
 			n.setFileList(fileList);
 			
 		}

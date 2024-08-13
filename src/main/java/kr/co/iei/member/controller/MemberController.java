@@ -184,5 +184,23 @@ public class MemberController {
 		return sb.toString();
 		
 	}
+	
+	@RequestMapping(value="/loginMsg")
+	public String loginMsg(Model model) {
+		model.addAttribute("title", "안녕하세요! 먼저 로그인해주세요.");
+		model.addAttribute("msg", "이 기능은 로그인 후 이용 가능합니다.");
+		model.addAttribute("icon", "info");
+		model.addAttribute("loc", "/member/loginFrm");
+		return "common/msg2";
+	}
+	
+	@RequestMapping(value="/adminMsg")
+	public String adminMsg(Model model) {
+		model.addAttribute("title", "접근 제한 : 관리자 권한이 필요합니다.");
+		model.addAttribute("msg", "이 기능은 관리자만 사용할 수 있습니다.");
+		model.addAttribute("icon", "info");
+		model.addAttribute("loc", "/");
+		return "common/msg2";
+	}
 
 }

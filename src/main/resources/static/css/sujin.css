@@ -313,18 +313,10 @@ main.error div.error-content>.error-text>p {
     margin-bottom: 10px;
 }
 
-main.error div.error-content>.img {
+main.error div.error-content>.img{
     display: flex;
     flex-direction: column;
     align-items: end;
-    padding-top: 50px
+    padding-top: 50px;
 }
 
-main.error div.error-content>.img>img {
-    width: 500px;
-}
-
-main.error div.error-content>.img>span {
-    font-family: g_b;
-    color: var(--point1);
-}

@@ -58,6 +58,18 @@
 		}
 			
 	});
+ 	$("#email").on("change",function(){
+		const emailReg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
+		const input = $("#email").val();
+		if(emailReg.test(input)){
+			$("#email").addClass("ok");
+			$("#email").removeClass("no");
+		}else{
+			$("#email").removeClass("ok");
+			$("#email").addClass("no");
+		}
+	});
+	
  	
  	
  	let mailCode = null;
@@ -68,24 +80,28 @@
 		if(input1 == "" || input2 == "" || input3 == ""){
 			$(".msg").text("* 정보를 모두 입력해주세요.");
 		}else{
-	    	const receiver = $("#email").val();
-	    	console.log(receiver);
-	    	$.ajax({
-	    		url : "/member/sendCode",
-	    		data : {receiver : receiver},
-	    		type : "post",
-	    		success : function(data){
-	    			console.log(data);
-	    			mailCode = data;
-	    			$(".sendBtn").css("display","none");
-	    			alert("인증번호가 발송됐습니다.")
-	    			$("#auth").show();
-	    			authTime();
-	    		},
-	    		error : function(){
-	    			console.log("에러")
-	    		}
-	    	})
+			if($("#email").hasClass("ok")){
+    	    	const receiver = $("#email").val();
+    	    	console.log(receiver);
+    	    	$.ajax({
+    	    		url : "/member/sendCode",
+    	    		data : {receiver : receiver},
+    	    		type : "post",
+    	    		success : function(data){
+    	    			console.log(data);
+    	    			mailCode = data;
+    	    			$(".sendBtn").css("display","none");
+    	    			alert("인증번호가 발송됐습니다.")
+    	    			$("#auth").show();
+    	    			authTime();
+    	    		},
+    	    		error : function(){
+    	    			console.log("에러")
+    	    		}
+    	    	})
+			}else if($("#email").hasClass("no")){
+				$(".msg").text("* 이메일 형식을 확인해주세요.");
+			}
 		}
     });
  	let intervalId = null;

@@ -68,9 +68,9 @@ public class NoticeDao {
 		return result;
 	}
 	public List selectNoticeFile(int noticeNo) {
-		String query = "select * from notice_file where notice_no = ?";
+		String query = "select * from notice_file where notice_no=?";
 		Object[] params = {noticeNo};
-		List list = jdbc.query(query, noticeRowMapper, params);
+		List list = jdbc.query(query, noticeFileRowMapper, params);
 		return list;
 	}
 	public int deleteNotice(int noticeNo) {

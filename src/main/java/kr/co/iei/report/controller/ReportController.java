@@ -25,12 +25,6 @@ public class ReportController {
 	@Autowired
 	private MemberService memberService;
 	
-	@GetMapping(value="/reportModal")
-	public String reportModal() {
-		return "report/checkReportInsert";
-	}// 디자인 확인용(나중에 지우든 수정하든 할것)
-	
-	
 	
 	@GetMapping(value="/insertReviewReport")
 	@ResponseBody
@@ -122,7 +116,7 @@ public class ReportController {
 			model.addAttribute("text", "체크할 신고글이 존재하지 않습니다.");
 			model.addAttribute("icon", "error");
 		}
-		model.addAttribute("loc", "/report/checkReport");
+		model.addAttribute("loc", "/report/checkReport?reqPage=1");
 		return "common/msg2";
 	}
 	
@@ -139,7 +133,7 @@ public class ReportController {
 			model.addAttribute("text", "삭제할 신고글이 존재하지 않습니다.");
 			model.addAttribute("icon", "error");
 		}
-		model.addAttribute("loc", "/report/checkReport");
+		model.addAttribute("loc", "/report/checkReport?reqPage=1");
 		return "common/msg2";
 	}
 	

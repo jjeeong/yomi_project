@@ -36,12 +36,25 @@ public class InqueryController {
 	private String root;
 	
 	@Autowired
-	private FileUtils fileUtils; 
+	private FileUtils fileUtils;
 
-		
+
+//	검색기능
+	@GetMapping(value="/search")
+	public String search(String keyword,String type,int reqPage,Model model) {
+		System.out.println("pageNum:"+reqPage);
+		InqueryListData ild = inqueryService.selectSearchList(keyword,type,reqPage);
+		model.addAttribute("list",ild.getList());
+		model.addAttribute("pageNavi", ild.getPageNavi());
+		return "inquery/list";
+	}
+	
+	
+	
+	
+	
 	@GetMapping(value = "/list")
 	public String list(Model model, int reqPage, @SessionAttribute(required = false) Member member) {
-	
 		
 		if(member == null) {
 			InqueryListData ild = inqueryService.selectInqueryList(reqPage);
@@ -51,10 +64,7 @@ public class InqueryController {
 			InqueryListData ild = inqueryService.selectInqueryList(reqPage, member);
 			model.addAttribute("list",ild.getList());
 			model.addAttribute("pageNavi", ild.getPageNavi());
-		}
-		
-		
-		
+		}		
 		
 		return "inquery/list";
 	}
