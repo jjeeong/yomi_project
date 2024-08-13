@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+
+.content{
+	width:1000px;
+	height:600px;
+	background-color : white;
+	margin:0 auto;
+	border-radius: 5px;
+}
+.tbl{
+	width:100%;
+	
+}
+.tbl>tbody>tr>.left{
+	height:100vh;
+}

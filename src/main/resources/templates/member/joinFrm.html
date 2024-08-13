@@ -898,7 +898,24 @@
 				}
 			}
 		});     
-	
+		$(".email2").on("change",function(){
+			const domainReg = /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
+			
+			const input = $(".email2").val();
+			if(domainReg.test(input)){
+				$(".email-check-msg").text("");
+				$(".email-check-msg").removeClass("invalid");
+			}else{
+				$(".email-check-msg").text("도메인 주소를 확인해주세요.");
+				$(".email-check-msg").addClass("invalid");
+			}
+			
+			
+		});
+	  	
+	  	
+	  	
+	  	
 	    $("#inputBox1").on("change",function(){	
 			const memberEmail = $(this).val();
 			const emailReg = /^[a-zA-Z0-9._%+-]{4,15}$/ ;

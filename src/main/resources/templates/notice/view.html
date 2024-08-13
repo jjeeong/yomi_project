@@ -5,7 +5,7 @@
 
 
 <title>공지사항</title>
-<link rel="stylesheet" href="/css/notice.css">
+<link rel="stylesheet" href="/css/view.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
 <style>
@@ -28,11 +28,9 @@
 <body>
 	<th:block th:include="common/header"></th:block>
 	<main class="content">
-		<section class="section inquery-view-wrap">
+		<section class="section">
 		<div class="totalWrap">
-			<div class="page-title">공지사항</div>
-			
-			<table class="tbl inquery-view">
+			<table class="tbl">
 			
 			<tr th:if="${session.member != null && session.member.memberNo == notice.memberNo}">
 				<td colspan="6">
@@ -43,25 +41,23 @@
 				</td>
 			</tr>
 			
-			<tr>
-				<th colspan="6" th:text="${notice.noticeTitle}"></th>
-			</tr>
+		
 			
 			<tr>
-				<th style="width:20%; border-left:1px solid black;">작성자</th>
-				<td style="width:20%;" th:text="${notice.memberName}"></td>
-				<th style="width:15%;">작성일</th>
-				<td style="width:15%;" th:text="${notice.noticeRegDate}"></td>
-				<th style="width:15%;">조회수</th>
-				<td style="width:15%; border-right:1px solid black;" th:text="${notice.noticeReadCount}"></td>
+				<th >작성자</th>
+				<td th:text="${notice.memberName}"></td>
+				<th>작성일</th>
+				<td th:text="${notice.noticeRegDate}"></td>
+				<th>조회수</th>
+				<td th:text="${notice.noticeReadCount}"></td>
 			</tr>
 			
 			<tr>
 				<th style="border-left:1px solid black;">첨부파일</th>
-				<td th:if="${session.member != null && session.member.memberNo == notice.memberNo}" colspan="5" style="border-right:1px solid black;">
+				<td colspan="5" style="border-right:1px solid black;">
 					<th:block th:each="file : ${notice.fileList}" >
 						<img src="/image/file.png" width="16px">
-						<a th:href="@{/notice/filedown(filename=${file.filename},filepath=${file.filepath})}" th:text="${file.filename}"></a>
+						<a th:href="@{/notice/filedown(fileName=${file.fileName},filePath=${file.filePath})}" th:text="${file.fileName}"></a>
 					</th:block>
 				</td>
 			</tr>
@@ -81,6 +77,9 @@
 
 
 	<script>
+		const =
+	
+	
 		function noticeDelete(noticeNo){
 			Swal.fire({
 				   title: '삭제하기',
