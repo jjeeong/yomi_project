@@ -339,7 +339,6 @@ public class RestrService {
 			list = restrDao.restrSearch(searchKeyword, start, end);
 		} else {
 			list = restrDao.restrSearchStar(searchKeyword, start, end);
-			System.out.println("리스트 : " + list);
 		}
 		return list;
 	}
@@ -428,6 +427,11 @@ public class RestrService {
 		return result;
 	}
 
+	public List reviewSearch(int restrNo) {
+		List list = restrDao.reviewSearch(restrNo);
+		return list;
+	}
+	
 	public List selectRecent(List<Integer> restrNoList) {
 		List recentList = new ArrayList<Restaurant>();
 		for(int restrNo : restrNoList) {
@@ -436,6 +440,4 @@ public class RestrService {
 		}
 		return recentList;
 	}
-
-
 }

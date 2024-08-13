@@ -175,5 +175,10 @@ public class BoardService {
 			return -1;		
 		}
 	}
+
+	public List boardSearch(String search) {
+		List list = boardDao.selectBoardSearch(search);
+		return list;
+	}
 }
 

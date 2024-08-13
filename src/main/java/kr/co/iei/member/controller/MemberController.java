@@ -35,7 +35,6 @@ public class MemberController {
 		Member member = memberService.selectOneMember(m);
 		if(member == null) {
 			model.addAttribute("member", "no");
-			
 			return "/member/login";
 		}else {
 			session.setAttribute("member", member);
@@ -175,7 +174,7 @@ public class MemberController {
 			}
 		}
 		String emailContent = "<h1>안녕하세요. YOMIYOMI 입니다.</h1>"
-							+"<h3>회원 가입을 위한 인증번호는 [<span style='color:red'>"
+							+"<h3>본인인증을 위한 인증번호는 [<span style='color:red'>"
 							+sb.toString()
 							+"</span>]입니다.</h3>";
 		emailSender.sendMail(emailTitle, receiver, emailContent);
