@@ -15,6 +15,8 @@
 	<script type="text/javascript"
 		src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=z03gy10mtv&submodules=geocoder"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<!-- 카카오지도API.. -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d0d5d0fa41aa92b8bc69b3cd7cc2eeba&libraries=services,clusterer"></script>
 	<style>
 		.round-box-child {
 			border-radius: 5px;
@@ -30,6 +32,44 @@
 			cursor: pointer;
 		}
 	</style>
+	<style>
+		.map-wrap, .map-wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+		.map-wrap a, .map-wrap a:hover, .map-wrap a:active{color:#000;text-decoration: none;}
+		.map-wrap {position:relative;width:100%;height:500px;}
+		#menu-wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;max-height: 420px;}
+		.bg-white {background:#fff;}
+		#menu-wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+		#menu-wrap .option{text-align: center;}
+		#menu_-wrap .option p {margin:10px 0;}  
+		#menu-wrap .option button {margin-left:5px;}
+		#placesList li {list-style: none;}
+		#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
+		#placesList .item span {display: block;margin-top:4px;}
+		#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+		#placesList .item .info{padding:10px 0 10px 55px;}
+		#placesList .info .gray {color:#8a8a8a;}
+		#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+		#placesList .info .tel {color:#009900;}
+		#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+		#placesList .item .marker_1 {background-position: 0 -10px;}
+		#placesList .item .marker_2 {background-position: 0 -56px;}
+		#placesList .item .marker_3 {background-position: 0 -102px}
+		#placesList .item .marker_4 {background-position: 0 -148px;}
+		#placesList .item .marker_5 {background-position: 0 -194px;}
+		#placesList .item .marker_6 {background-position: 0 -240px;}
+		#placesList .item .marker_7 {background-position: 0 -286px;}
+		#placesList .item .marker_8 {background-position: 0 -332px;}
+		#placesList .item .marker_9 {background-position: 0 -378px;}
+		#placesList .item .marker_10 {background-position: 0 -423px;}
+		#placesList .item .marker_11 {background-position: 0 -470px;}
+		#placesList .item .marker_12 {background-position: 0 -516px;}
+		#placesList .item .marker_13 {background-position: 0 -562px;}
+		#placesList .item .marker_14 {background-position: 0 -608px;}
+		#placesList .item .marker_15 {background-position: 0 -654px;}
+		#pagination {margin:10px auto;text-align: center;}
+		#pagination a {display:inline-block;margin-right:10px;}
+		#pagination .on {font-weight: bold; cursor: default;color:#777;}
+</style>
 </head>
 
 <body>
@@ -37,7 +77,7 @@
 	<main class="main restrFrm">
 		<div class="round-box frm">
 			<h2 class="page-title">맛집 수정</h2>
-			<form action="/restaurant/restrUpdate" method="post" enctype="multipart/form-data" id="updateFrm" onsubmit="return false;">
+			<form action="/restaurant/restrUpdate" method="post" enctype="multipart/form-data" id="updateFrm">
 				<input type="hidden" name="restrNo" th:value="${r.restrNo}">
 				<div class="info basic round-box shadow">
 					<h3>1. 기본 정보</h3>
@@ -52,8 +92,13 @@
 							</div>
 						</div>
 						<div class="input-list restrAddr">
-							<span class="inputName">▪ 주소</span><button type="button"
+							<span class="inputName">▪ 주소</span>
+							<button type="button"
 								class="btn btn-point btn-sm round-box" id="addrSearch">검색</button>
+							<button type="button"
+								class="btn btn-sub btn-sm round-box" id="nameSearch" data-bs-toggle="modal" data-bs-target="#searchForName">
+								이름으로 검색
+							</button>
 							<div class="input-box">
 								<input type="text" name="restrAddr1" id="restrAddr1" class="input-lg" readonly
 									placeholder="주소를 입력하세요" th:value="${r.restrAddr1}">
@@ -108,7 +153,7 @@
 														원</span>
 												</td>
 												<td>
-													<button class="btn btn-sm btn-mono"
+													<button type="button" class="btn btn-sm btn-mono"
 														th:onclick="updateTr(this,[[${m.restrMenuNo}]]);">
 														수정
 													</button>
@@ -164,11 +209,304 @@
 					</div>
 				</div>
 				<div class="submit-btn">
-					<button type="submit" id="submit" class="btn btn-point btn-lg">수 정</button>
+					<input type="submit" id="submit-input" style="display : none;">
+					<button type="button" id="submit" class="btn btn-point btn-lg">수 정</button>
 					<button type="button" id="cancel" class="btn btn-mono btn-lg">취 소</button>
 				</div>
 			</form>
 		</div>
+		<!-- 이름으로 주소 검색 모달 만들기 -->
+		<div class="modal fade insertReportModal" id="searchForName" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true" >
+			<div class="modal-dialog">
+				<div class="modal-div modal-content" style="min-width :498px;">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="staticBackdropLabel" style="left : 33%; ">이름으로 맛집 검색</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="search-box" style="border-top : 1px solid var(--pointFont); border-bottom : 1px solid var(--pointFont); padding : 20px 10px;">
+							<div class="input-box-wrap" >
+								<label for="name" style="width : 20%; text-align : center;">
+									<span class="info-name">이름</span>
+									<span class="info-dot"> : </span>
+								</label>
+								<input type="text" id="name" placeholder="맛집 이름을 입력하세요." style="width : 60%;">
+								<button id="search" class="btn btn-sm btn-point">검색</button>
+							</div>
+						</div>
+						<div class="map-wrap">
+							<div id="kakaoMap" style="width : 100%; height : 450px;">
+							</div>
+							<div id="menu-wrap" class="bg_white">
+						        <ul id="placesList"></ul>
+						        <div id="pagination"></div>
+						    </div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-mono-modal" data-bs-dismiss="modal">취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 여기까지 -->
+		<script>
+			//swal 설정
+			
+			const swal = Swal.mixin({
+			    customClass: {
+			        confirmButton: "btn btn-point-swal btn-lg",
+			        cancelButton: "btn btn-mono-swal btn-lg swal",
+			        title: "point",
+			    },
+			    confirmButtonText: "확인",
+			    buttonsStyling: false
+			});
+	
+		
+			const mapModalEl = document.getElementById("searchForName");
+			mapModalEl.addEventListener("shown.bs.modal", event=>{
+				relayout();
+			});
+			//마커를 담을 배열
+			var markers=[];
+			// 지도를 표시하는 div 크기를 변경하는 함수입니다
+			
+			//지도 생성중..
+			var mapContainer = document.getElementById("kakaoMap");
+			var	mapOption={
+					center: new kakao.maps.LatLng(37.566826, 126.9786567),
+					level :3 //지도의 확대 레벨
+				};
+			function relayout() {    
+			    
+			    // 지도를 표시하는 div 크기를 변경한 이후 지도가 정상적으로 표출되지 않을 수도 있습니다
+			    // 크기를 변경한 이후에는 반드시  map.relayout 함수를 호출해야 합니다 
+			    // window의 resize 이벤트에 의한 크기변경은 map.relayout 함수가 자동으로 호출됩니다
+			    kakaoMap.relayout();
+			}
+			var kakaoMap = new kakao.maps.Map(mapContainer, mapOption);
+			//장소 검색 객체 생성
+			var search = new kakao.maps.services.Places();
+			//인포윈도우 생성
+			var infowindowK = new kakao.maps.InfoWindow({zIndex:1});
+			$("#nameSearch").on("click", function(){
+				$("button#search").on("click", function(){
+					const restrName = $("input#name").val();
+					if(restrName==""){
+						swal.fire({
+							title : "이름을 입력하세요",
+							icon :"info",
+							color : "var(--pointFont)",
+							iconColor : "var(--point1)"
+						});
+					}else{
+						searchPlace(restrName);
+					}
+				});//search버튼
+			});//
+			function searchPlace(keyword){
+				//장소검색 객체를 통해 키워드로 장소검색 요청
+				search.keywordSearch(keyword, placesSearchCB);
+			}
+			//장소검색이 완료됐을때 호출되는 콜백 함수
+			function placesSearchCB(data, status, pagination){
+				if (status === kakao.maps.services.Status.OK) {
+
+			        // 정상적으로 검색이 완료됐으면
+			        // 검색 목록과 마커를 표출합니다
+			        displayPlaces(data);
+
+			        // 페이지 번호를 표출합니다
+			        displayPagination(pagination);
+
+			    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+
+			        swal.fire({
+			        	title : "검색 결과가 존재하지 않습니다",
+			        	icon : "info",
+			        	iconColor : "var(--point1)",
+			        	color : "var(--pointFont)"
+			        });
+			        return;
+
+			    } else if (status === kakao.maps.services.Status.ERROR) {
+
+			    	 swal.fire({
+				        	title : "검색 결과중 오류가 발생했습니다",
+				        	icon : "error",
+				        });
+			        return;
+
+			    }//if/else if
+			}//function placeSearchCB
+			
+			//console.log(11);
+			//여기서부터는 그냥 복붙한거임 한번 다시 살펴보길
+			//검색결과 목록과 마커를 표출하는 함수
+			function displayPlaces(places) {
+  					var listEl = document.getElementById('placesList'); 
+ 						var menuEl = document.getElementById('menu-wrap');
+  					var fragment = document.createDocumentFragment(); 
+  					var bounds = new kakao.maps.LatLngBounds(); 
+  					var listStr = '';
+  
+			    // 검색 결과 목록에 추가된 항목들을 제거합니다
+			    removeAllChildNods(listEl);
+			
+			    // 지도에 표시되고 있는 마커를 제거합니다
+			    removeMarker();
+			    
+			    for ( var i=0; i<places.length; i++ ) {
+			
+			        // 마커를 생성하고 지도에 표시합니다
+			        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
+			        var marker = addMarker(placePosition, i); 
+			        var itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
+			
+			        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+			        // LatLngBounds 객체에 좌표를 추가합니다
+			        bounds.extend(placePosition);
+			
+			        // 마커와 검색결과 항목에 mouseover 했을때
+			        // 해당 장소에 인포윈도우에 장소명을 표시합니다
+			        // mouseout 했을 때는 인포윈도우를 닫습니다
+			        (function(marker, title) {
+			            kakao.maps.event.addListener(marker, 'mouseover', function() {
+			                displayInfowindow(marker, title);
+			            });
+			
+			            kakao.maps.event.addListener(marker, 'mouseout', function() {
+			                infowindowK.close();
+			            });
+			
+			            itemEl.onmouseover =  function () {
+			                displayInfowindow(marker, title);
+			            };
+			
+			            itemEl.onmouseout =  function () {
+			                infowindowK.close();
+			            };
+			        })(marker, places[i].place_name);
+			
+			        fragment.appendChild(itemEl);
+			    }
+
+			    // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
+			    listEl.appendChild(fragment);
+			    menuEl.scrollTop = 0;
+			
+			    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+			    kakaoMap.setBounds(bounds);
+			}
+
+			// 검색결과 항목을 Element로 반환하는 함수입니다
+			function getListItem(index, places) {
+				let addr = "";
+			    var el = document.createElement('li'),
+			    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+			                '<div class="info">' +
+			                '   <h5>' + places.place_name + '</h5>';
+			
+			    if (places.road_address_name) {
+			    	addr = places.road_address_name;
+			        itemStr += '    <span>' + places.road_address_name + '</span>' +
+			                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
+			    } else {
+			        itemStr += '    <span>' +  places.address_name  + '</span>'; 
+			        addr = places.address_name;
+			    }
+			                 
+			      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
+			                '</div>';           
+			
+			    el.innerHTML = itemStr;
+			    el.className = 'item';
+				el.addEventListener("click", function(){
+					searchAddressToCoordinate(addr);
+					$("#searchForName").modal("hide");
+				})
+			    return el;
+			}
+
+			// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+			function addMarker(position, idx, title) {
+			    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+			        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
+			        imgOptions =  {
+			            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+			            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+			            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+			        },
+			        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+			        marker = new kakao.maps.Marker({
+			            position: position, // 마커의 위치
+			            image: markerImage 
+			        });
+			
+			    marker.setMap(kakaoMap); // 지도 위에 마커를 표출합니다
+			    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+			
+			    return marker;
+			}
+
+			// 지도 위에 표시되고 있는 마커를 모두 제거합니다
+			function removeMarker() {
+			    for ( var i = 0; i < markers.length; i++ ) {
+			        markers[i].setMap(null);
+			    }   
+			    markers = [];
+			}
+			
+			// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
+			function displayPagination(pagination) {
+			    var paginationEl = document.getElementById('pagination'),
+			        fragment = document.createDocumentFragment(),
+			        i; 
+			
+			    // 기존에 추가된 페이지번호를 삭제합니다
+			    while (paginationEl.hasChildNodes()) {
+			        paginationEl.removeChild (paginationEl.lastChild);
+			    }
+			
+			    for (i=1; i<=pagination.last; i++) {
+			        var el = document.createElement('a');
+			        el.href = "#";
+			        el.innerHTML = i;
+			
+			        if (i===pagination.current) {
+			            el.className = 'on';
+			        } else {
+			            el.onclick = (function(i) {
+			                return function() {
+			                    pagination.gotoPage(i);
+			                }
+			            })(i);
+			        }
+			
+			        fragment.appendChild(el);
+			    }
+			    paginationEl.appendChild(fragment);
+			}
+			
+			// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
+			// 인포윈도우에 장소명을 표시합니다
+			function displayInfowindow(marker, title) {
+			    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
+			
+			    infowindowK.setContent(content);
+			    infowindowK.open(kakaoMap, marker);
+			}
+			
+			 // 검색결과 목록의 자식 Element를 제거하는 함수입니다
+			function removeAllChildNods(el) {   
+			    while (el.hasChildNodes()) {
+			        el.removeChild (el.lastChild);
+			    }
+			}
+			
+		</script>
 	</main>
 	
 	<script>
@@ -208,11 +546,11 @@
 		        query: address
 		    }, function (status, response) {
 		        if (status === naver.maps.Service.Status.ERROR) {
-		            return alert('Something Wrong!');
-		        }
-
-		        if (response.v2.meta.totalCount === 0) {
-		            return alert('totalCount' + response.v2.meta.totalCount);
+		            return swal.fire({
+		            	title :"시스템 오류가 발생!",
+		            	text:"현재 지도 기능을 사용하기 어렵습니다. 나중에 시도해주세요.",
+		            	icon:"error"
+		            });
 		        }
 
 		        var htmlAddresses = [],
@@ -254,7 +592,11 @@
 		        ].join(',')
 		    }, function (status, response) {
 		        if (status === naver.maps.Service.Status.ERROR) {
-		            return alert('시스템 오류입니다!');
+		            return swal.fire({
+		            	title :"시스템 오류가 발생!",
+		            	text:"현재 지도 기능을 사용하기 어렵습니다. 나중에 시도해주세요.",
+		            	icon:"error"
+		            });
 		            //sw 쓸 수 있으면 써도 되고..
 		        }
 		        var items = response.v2.results,
@@ -346,14 +688,271 @@
 		    return !!(addition && addition.value);
 		}
 	</script>
-	<script src="/js/restr-js.js"></script>
+	<script>
+		
+		//사진 썸네일
+		function loadImg(obj) {
+		    //매개변수로 받은 객체는 input type="file" 인 요소
+		    //해당 객체의 files속성에 접근하면 첨부파일 정보를 볼 수 있음
+		    //files 속성은 파일의 multiple 옵션이 존재하기 때문에 여러개를 담을 수 있음
+		    //files는 배열과 유사한 형태이지만 배열이 아님(foreach 쓸 수 없음)
+		    //파일 갯수가 0개가 아니고 && 해당파일이 데이터가 존재하는 파일이라면
+		    if (obj.files.length != 0 && obj.files[0] != 0) {
+		        //첨부파일이 들어왔을때
+		        //첨부파일의 경로에는 접근이 불가능하기때문에 첨부파일 데이터를 읽어옴
+		        const reader = new FileReader();//파일정보를 읽어올 수 있는 js 객체
+		        //선택한 파일 정보를 읽어오는 함수
+		        reader.readAsDataURL(obj.files[0]);
+		        //파일리더가 정보를 다 읽어오고 나면 동작할 함수 작성
+		        reader.onload = function (e) {
+		            //=>리더가 정보를 다 읽어오면 동작함>>서버는 그동안 다른 일을 할 수 있음
+		            //읽어온 파일 정보가 매개변수에 들어있음
+		            $(obj).prev().prev().children("img").attr("src", e.target.result).show();
+		        }
+		    } else {
+		        //첨부파일이 사라졌을 때
+		        $(obj).prev().prev().attr("src", "").hide();
+		    }
+		}
+		//사진 썸네일2(수정페이지에서 처음 기존거 바꿀 시에..)
+		function loadImg(obj, filepath, no) {
+		    if (obj.files.length != 0 && obj.files[0] != 0) {
+		        //첨부파일이 들어왔을때
+		        //첨부파일의 경로에는 접근이 불가능하기때문에 첨부파일 데이터를 읽어옴
+		        const reader = new FileReader();//파일정보를 읽어올 수 있는 js 객체
+		        //선택한 파일 정보를 읽어오는 함수
+		        reader.readAsDataURL(obj.files[0]);
+		        //파일리더가 정보를 다 읽어오고 나면 동작할 함수 작성
+		        reader.onload = function (e) {
+		            //=>리더가 정보를 다 읽어오면 동작함>>서버는 그동안 다른 일을 할 수 있음
+		            //읽어온 파일 정보가 매개변수에 들어있음
+		            $(obj).prev().prev().children("img").attr("src", e.target.result).show();
+		        }
+		    } else {
+		        //첨부파일이 사라졌을 때
+		        $(obj).prev().prev().attr("src", "").hide();
+		    }
+		    const delFileInput = $("<input>");
+		    delFileInput.attr("name", "delFilepath" + no);
+		    delFileInput.attr("type", "hidden");
+		    delMenuInput.val(filepath);
+		    $("form#updateFrm").append(delFileInput);
+		}
+	
+		// //메뉴 삭제 버튼
+		// const delBtn = $("table").find("div.btn-box").children(".btn-mono");
+		// delBtn.on("click", function () { deleteTr(this) });
+		// //메뉴 추가 버튼
+		// const completeBtn = $("table").find("div.btn-box").children(".btn-sub");
+		// completeBtn.on('click', function () {
+	//	     completeTr(this);
+		// })
+	
+		//메뉴 항목 추가 버튼
+		function insertTr() {
+		    const tr = $("<tr>");
+		    // 메뉴 이름
+		    const MenuNameTd = $("<td>");
+		    const MenuNameDiv = $("<div>");
+		    MenuNameDiv.addClass("input-box");
+		    const MenuNameInput = $("<input type='text' name='menuName' placeholder='메뉴 이름'>");
+		    MenuNameInput.addClass("input-td").addClass("round-box");
+		    MenuNameDiv.append(MenuNameInput);
+		    MenuNameTd.append(MenuNameDiv);
+		    // 가격
+		    const MenuPriceTd = $("<td>");
+		    const MenuPriceDiv = $("<div>");
+		    MenuPriceDiv.addClass("input-box");
+		    const MenuPriceInput = $("<input type='text' name='menuPrice' placeholder='가격'>");
+		    MenuPriceInput.addClass("input-td").addClass("round-box");
+		    const span = $("<span>");
+		    span.text("원");
+		    MenuPriceDiv.append(MenuPriceInput).append(span);
+		    MenuPriceTd.append(MenuPriceDiv);
+		    // 버튼
+		    const btnTd = $("<td>");
+		    const btnDiv = $("<div>");
+		    btnDiv.addClass("btn-box");
+		    const insertBtn = $("<button type='button'>");
+		    insertBtn.addClass("btn").addClass("btn-sm").addClass("btn-sub");
+		    insertBtn.text("추가");
+		    insertBtn.on("click", function () {
+		        completeTr(this);
+		    });
+		    const deleteBtn = $("<button type='button'>");
+		    deleteBtn.addClass("btn").addClass("btn-sm").addClass("btn-mono");
+		    deleteBtn.text("삭제");
+		    deleteBtn.on("click", function () {
+		        deleteTr(this);
+		    });
+		    btnDiv.append(insertBtn).append($("<br>")).append(deleteBtn);
+		    btnTd.append(btnDiv);
+		    // 합치기
+		    tr.append(MenuNameTd).append(MenuPriceTd).append(btnTd);
+		    // 추가
+		    const tbody = $("table.tbl").children("tbody");
+		    tbody.append(tr);
+		}
+		//메뉴 관련 함수 만들기
+		function deleteTr(btn) {
+		    const tr = $(btn).parents("tr");
+		    tr.remove();
+		}
+		//메뉴 추가버튼은 작성페이지와 업데이트 페이지가 다르므로 각각의 페이지에 넣었음
+	
+	
+		function updateTr(btn) {
+		    const tr = $(btn).parents("tr");
+		    const MenuNameTd = $("<td>");
+		    const MenuNameDiv = $("<div>");
+		    MenuNameDiv.addClass("input-box");
+		    const MenuNameInput = $("<input type='text' placeholder='메뉴 이름'>");
+		    MenuNameInput.addClass("input-td").addClass("round-box").val(tr.children().eq(0).text());
+		    MenuNameDiv.append(MenuNameInput);
+		    MenuNameTd.append(MenuNameDiv);
+		    // 가격
+		    const MenuPriceTd = $("<td>");
+		    const MenuPriceDiv = $("<div>");
+		    MenuPriceDiv.addClass("input-box");
+		    const MenuPriceInput = $("<input type='text' placeholder='가격'>");
+		    MenuPriceInput.addClass("input-td").addClass("round-box").val(tr.children().eq(1).children().eq(0).text());
+		    const span = $("<span>");
+		    span.text("원");
+		    MenuPriceDiv.append(MenuPriceInput).append(span);
+		    MenuPriceTd.append(MenuPriceDiv);
+		    // 버튼
+		    const btnTd = $("<td>");
+		    const btnDiv = $("<div>");
+		    btnDiv.addClass("btn-box");
+		    const insertBtn = $("<button type='button'>");
+		    insertBtn.addClass("btn").addClass("btn-sm").addClass("btn-sub");
+		    insertBtn.text("추가");
+		    insertBtn.on("click", function () {
+		        completeTr(this);
+		    });
+		    const deleteBtn = $("<button type='button'>");
+		    deleteBtn.addClass("btn").addClass("btn-sm").addClass("btn-mono");
+		    deleteBtn.text("삭제");
+		    deleteBtn.on("click", function () {
+		        deleteTr(this)
+		    });
+		    btnDiv.append(insertBtn).append($("<br>")).append(deleteBtn);
+		    btnTd.append(btnDiv);
+		    // 합치기
+		    tr.empty();
+		    tr.append(MenuNameTd).append(MenuPriceTd).append(btnTd);
+		}
+	
+		//수정페이지
+		function updateTr(btn, restrMenuNo) {
+		    const tr = $(btn).parents("tr");
+		    const MenuNameTd = $("<td>");
+		    const MenuNameDiv = $("<div>");
+		    MenuNameDiv.addClass("input-box");
+		    const MenuNameInput = $("<input type='text' placeholder='메뉴 이름'>");
+		    MenuNameInput.addClass("input-td").addClass("round-box").val(tr.children().eq(0).text());
+		    MenuNameDiv.append(MenuNameInput);
+		    MenuNameTd.append(MenuNameDiv);
+		    // 가격
+		    const MenuPriceTd = $("<td>");
+		    const MenuPriceDiv = $("<div>");
+		    MenuPriceDiv.addClass("input-box");
+		    const MenuPriceInput = $("<input type='text' placeholder='가격'>");
+		    MenuPriceInput.addClass("input-td").addClass("round-box").val(tr.children().eq(1).children().eq(0).text());
+		    const span = $("<span>");
+		    span.text("원");
+		    MenuPriceDiv.append(MenuPriceInput).append(span);
+		    MenuPriceTd.append(MenuPriceDiv);
+		    // 버튼
+		    const btnTd = $("<td>");
+		    const btnDiv = $("<div>");
+		    btnDiv.addClass("btn-box");
+		    const insertBtn = $("<button type='button'>");
+		    insertBtn.addClass("btn").addClass("btn-sm").addClass("btn-sub");
+		    insertBtn.text("추가");
+		    insertBtn.on("click", function () {
+		        completeTr(this);
+		    });
+		    const deleteBtn = $("<button type='button'>");
+		    deleteBtn.addClass("btn").addClass("btn-sm").addClass("btn-mono");
+		    deleteBtn.text("삭제");
+		    deleteBtn.on("click", function () {
+		        deleteTr(this);
+		    });
+		    btnDiv.append(insertBtn).append($("<br>")).append(deleteBtn);
+		    btnTd.append(btnDiv);
+		    // 합치기
+		    tr.empty();
+		    tr.append(MenuNameTd).append(MenuPriceTd).append(btnTd);
+		    //메뉴 삭제 하기 위한 메뉴 번호 저장하기
+		    insertDelMenuInput(restrMenuNo);
+		}
+		function insertDelMenuInput(restrMenuNo) {
+		    const delMenuInput = $("<input>");
+		    delMenuInput.attr("name", "delMenuNo");
+		    delMenuInput.attr("type", "hidden");
+		    delMenuInput.val(restrMenuNo);
+		    $("form#updateFrm").append(delMenuInput);
+		}
+	
+		//태그 삭제
+		// const cancels = $("div.tag").children("span.material-symbols-outlined");
+	
+		// cancels.on("click", function () {
+	//	     deleteTag(this);
+		// })
+	
+		function deleteTag(span) {
+		    const delTag = $(span).parent();
+		    delTag.remove();
+		    //빼는 작업 따로 필요
+		}
+	
+		//수정페이지용-수정페이지에서 바뀌는 것들은 모두 class에 update가 추가되어있음/ 기존거 삭제하면 해당 태그, 메뉴번호 저장
+		function deleteTag(span, restrTagNo) {
+		    const delTag = $(span).parent();
+		    delTag.remove();
+		    //빼는 작업 따로 필요
+		    const delTagInput = $("<input>");
+		    delTagInput.attr("name", "delTagNo");
+		    delTagInput.attr("type", "hidden");
+		    delTagInput.val(restrTagNo);
+		    $("form#updateFrm").append(delTagInput);
+		}
+	
+		//태그 작성하고 엔터치면 추가될 수 있도록
+		$("#restrTag").on("keyup", function(event){
+			  if (event.which == 13) {
+		        $("#insertTag").click();
+		    }
+		})
+		//인풋에서 엔터쳤을때 form 추가 방지111 
+		$("input[type=text]").on("keyup", function(event){
+			if(event.which == 13){
+				console.log(event);
+				event.preventDefault();
+				return false;
+			}
+		});
+		//이름으로 검색시 엔터쳐도 괜찮게..
+		$("input#name").keydown(function(){
+			if(event.keyCode === 13){
+				$("#search").click();
+			}
+		})
+	</script>
 	<script th:inline="javascript">
 		//태그 추가
 		$("#insertTag").on("click", function () {
 			let doInsert = true;
 		    const tagText = $("#restrTag").val();
 		    if (tagText == "") {
-		        alert("태그를 입력해주세요");
+		        swal.fire({
+		        	title:"태그 입력 오류",
+		        	text:"태그를 입력하지 않았습니다.",
+		        	icon:"info",
+		        	iconColor : "var(--point1)"
+		        })
 		        doInsert = false;
 		        return;
 		    }
@@ -401,6 +1000,8 @@
 							text: "가격은 숫자로만 입력해주세요",
 							icon: "warning"
 						});
+						isCorrect = false;
+						return;
 					}
 				}
 			});
@@ -450,7 +1051,7 @@
 					text: "업체명을 입력하지 않으셨습니다",
 					icon: "error"
 				});
-				return;
+				return false;
 			}
 			if ($("input#restrAddr1").val() == "" || $("input#restrAddr2").val() == "") {
 				swal.fire({
@@ -458,7 +1059,7 @@
 					text: "주소를 입력하지 않으셨습니다",
 					icon: "error"
 				});
-				return;
+				return false;
 			}
 			if ($("input#restrTel").val() == "") {
 				swal.fire({
@@ -466,7 +1067,7 @@
 					text: "전화번호를 입력하지 않으셨습니다",
 					icon: "error"
 				});
-				return;
+				return false;
 			}
 
 			if ($("textarea#restrContent").val() == "") {
@@ -475,7 +1076,7 @@
 					text: "설명을 입력하지 않으셨습니다",
 					icon: "error"
 				});
-				return;
+				return false;
 			}
 			if (menuNames.length == 0) {
 				swal.fire({
@@ -483,7 +1084,7 @@
 					text: "메뉴를 입력하지 않으셨습니다",
 					icon: "error"
 				});
-				return;
+				return false;
 			}
 			updateMenuNames.each(function (index, item) {
 				const input = $("<input>");
@@ -498,7 +1099,7 @@
 					text: "메뉴를 입력하지 않으셨습니다",
 					icon: "error"
 				});
-				return;
+				return false;
 			}
 			updateMenuPrices.each(function (index, item) {
 				const input = $("<input>");
@@ -513,7 +1114,7 @@
 					text: "태그를 입력하지 않으셨습니다",
 					icon: "error"
 				});
-				return;
+				return false;
 			}
 			updateTags.each(function (index, item) {
 				const input = $("<input>");
@@ -522,7 +1123,6 @@
 				input.val($(item).text());
 				$("form#updateFrm").append(input);
 			});
-
 			$("#submit-input").click();
 		});
 
@@ -541,11 +1141,23 @@
 				cancelButtonColor: "var(--monocolor)"
 			}).then(result => {
 				if (result.isConfirmed) {
-					location.href = "/restaurant/restrView" + [[${ r.restrNo }]];
+					location.href = "/restaurant/restrView?restrNo=" + [[${ r.restrNo }]];
 					// /을 쓰면 처음부터 읽음 , /를 안쓰면 현재 들어와있는 /restaurant내에서 찾음
 				}
 			});
 		});
+		
+		$('input[type="text"]').keydown(function() {
+			  if (event.keyCode === 13) {
+			    event.preventDefault();
+			  };
+			});
+		//이름으로 검색시 엔터쳐도 괜찮게..
+		$("input#name").keydown(function(){
+			if(event.keyCode ===13){
+				$("#search").click();
+			}
+		})
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>

@@ -22,3 +22,4 @@ public class Inquery {
 	private List<InqueryComment> commentList;
 	private List<InqueryComment> reCommentList;
 }
+

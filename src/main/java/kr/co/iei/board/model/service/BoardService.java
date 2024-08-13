@@ -164,17 +164,21 @@ public class BoardService {
 	@Transactional
 	public int likePush(int commentNo, int isLike, int memberNo) {
 		int result = 0;
-		
 		if(isLike == 0) {
 			result = boardDao.insertBoardCommentLike(commentNo, memberNo);	
 		}else if(isLike == 1 ){
 			result = boardDao.deleteBoardCommentLike(commentNo,memberNo);		
 		}if(result >  0) {
-			int likeCount = boardDao.selectBoardCommentLikeCount(commentNo);
+			int likeCount = boardDao.selectBoardCommentLikeCount(commentNo);		
 			return likeCount;
 		}else {
 			return -1;		
 		}
+	}
+
+	public List boardSearch(String search) {
+		List list = boardDao.selectBoardSearch(search);
+		return list;
 	}
 }
 

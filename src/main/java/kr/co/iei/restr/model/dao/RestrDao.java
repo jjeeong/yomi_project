@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.iei.restr.model.dto.BestRestrRowMapper;
 import kr.co.iei.restr.model.dto.BestReviewRowMapper;
+import kr.co.iei.restr.model.dto.RecentRestrRowMapper;
 import kr.co.iei.restr.model.dto.Restaurant;
 import kr.co.iei.restr.model.dto.RestaurantRowMapper;
 
@@ -57,6 +58,9 @@ public class RestrDao {
 
 	@Autowired
 	private BestReviewRowMapper bestReviewRowMapper;
+	
+	@Autowired
+	private RecentRestrRowMapper recentRestrRowMapper;
 	
 	public Restaurant selectOneRestr(int restrNo) {
 		String query = "select * from restaurant where restr_no = ?";
@@ -401,15 +405,6 @@ public class RestrDao {
 
 	//검색결과
 	public List restrSearch(String searchKeyword, int start, int end) {
-		/*
-		String query = "SELECT restr_no, restr_addr1, restr_addr2, restr_content, restr_img1, restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel\r\n" + 
-				"FROM RESTAURANT\r\n" + 
-				"LEFT JOIN restr_tag USING (restr_no)\r\n" + 
-				"LEFT JOIN restr_menu USING (restr_no)\r\n" + 
-				"WHERE restr_tag_name LIKE ? OR restr_menu_name LIKE ? OR restr_name LIKE ?\r\n" + 
-				"GROUP BY restr_no, restr_addr1, restr_addr2, restr_content, restr_img1, restr_img2, restr_mapx, restr_mapy, restr_name, restr_tel\r\n" + 
-				"ORDER BY restr_no DESC";
-		*/
 		String query = "SELECT * \r\n" + 
 				"FROM (\r\n" + 
 				"    SELECT r.*, ROWNUM AS rnum\r\n" + 
@@ -506,6 +501,27 @@ public class RestrDao {
 		Object[] params = {reviewNo};
 		int result = jdbc.update(query, params);
 		return result;
+	}
+
+	public List<Review> reviewSearch(int restrNo) {
+	    String query = "select restr_no, review_no, review_star, review_content, review_reg_date, member_name, restr_img1, restr_name, restr_addr1 " +
+	                   "from (select rownum as rnum, review.* from (select * from review where restr_no = ? order by review_no desc) review) " +
+	                   "left join member_tbl using (member_no) " +
+	                   "left join RESTAURANT using (restr_no) " +
+	                   "where rnum between 1 and 4";
+	    Object[] params = {restrNo};
+	    List<Review> list = jdbc.query(query, reviewDataRowMapper, params);
+	    return list;
+	}
+	public Restaurant selectRecent(int restrNo) {
+		// TODO Auto-generated method stub
+		String query = "select restr_no, restr_img1, restr_name from restaurant where restr_no = ?";
+		Object[] params = {restrNo};
+		List list = jdbc.query(query, recentRestrRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}
+		return (Restaurant)list.get(0);
 	}
 
 }

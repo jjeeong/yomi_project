@@ -18,7 +18,7 @@ public class BoardCommentRowMapper implements RowMapper<BoardComment> {
 		comment.setCommentRefNo(rs.getInt("comment_ref_no"));
 		comment.setCommentRegDate(rs.getString("comment_reg_Date"));
 		comment.setCommentWriter(rs.getString("comment_writer"));
-		
+		comment.setLikeCount(rs.getInt("like_count"));
 		return comment;
 	}
 

@@ -100,7 +100,7 @@
 	<link rel="stylesheet" href="/summernote/summernote-lite.css">
 	
 	
-	<form action="/board/write" method="post" enctype="multipart/form-data">
+	<form action="/board/write" method="post" class="board-form" enctype="multipart/form-data">
     <main class="main-content">
         <div class="container">
             <div class="row justify-content-center">
@@ -118,26 +118,27 @@
                     	
                         <div class="form-group">
                             <label for="storeName">가게명:</label>
-                            <input type="text"	name="boardStoreName" id="storeName" class="form-control" placeholder="가게명을 입력하세요">
+                            <input type="text"	name="boardStoreName" id="storeName" class="form-control" placeholder="가게명을 입력하세요" required>
+                        	
                         </div>
                         <div class="form-group">
                             <label for="storeName">제목:</label>
-                            <input type="text"	name="boardTitle" id="storeName" class="form-control" placeholder="제목을 입력하세요">
+                            <input type="text"	name="boardTitle" id="storeName" class="form-control" placeholder="제목을 입력하세요" required>
                         </div>
                         <div class="form-group">
                             <label for="storeLocation">위치:</label>
-                            <input type="text" name="boardAddr" id="storeLocation" class="form-control" placeholder="위치를 입력하세요">
+                            <input type="text" name="boardAddr" id="storeLocation" class="form-control" placeholder="위치를 입력하세요" required>
                         </div>
                     </div>
                     <form id="storeForm" class="store-content">
                         <div class="form-group">
                             <label for="storeDescription">내용</label>
-                            <textarea id="storeDescription" name="boardContent" class="form-control" rows="6" placeholder="가게 소개를 작성해주세요."></textarea>
+                            <textarea id="storeDescription" name="boardContent" class="form-control" rows="6" placeholder="가게 소개를 작성해주세요." required></textarea>
                             
                         </div>
                     </form>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary">작성완료</button>
+                        <button  type="button" class="btn btn-primary">작성완료</button>
                     </div>
                 </div>
             </div>
@@ -147,6 +148,7 @@
     <th:block th:include="common/footer"></th:block>
 
     <script>
+    
         function previewThumbnail() {
             var file = document.getElementById('thumbnailInput').files[0];
             var reader = new FileReader();
@@ -165,11 +167,24 @@
                 document.getElementById('thumbnailPreview').style.backgroundImage = 'none';
             }
         }
+	
+        $(".btn-primary").on("click",function(){
+        	
+        	var input1 = $("input[name=boardStoreName]").val();
+        	var input2 = $("input[name=boardTitle]").val();
+        	var input3 = $("input[name=boardAddr]").val();
+        	var input4 = $("[name=boardContent]").val();
+        	if(input1==""||input2==""||input3==""||input4==""){
+        		swal.fire({
+					title : "게시글 작성",
+					text : "게시글을 모두 입력해주세요 !",
+					icon : "info"
+					});
+        	}else{
+        		$(".board-form").submit();
+        	}
+        });
 
-        function submitForm() {
-            // Form submission logic here
-            alert('작성완료 버튼이 클릭되었습니다.');
-        }
         
        
 		$("#storeDescription").summernote({

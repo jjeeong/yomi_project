@@ -15,5 +15,5 @@ public class BoardComment {
 	private int commentBoardNo;
 	private int commentRefNo;
 	private int likeCount;
-	private boolean isLike;
+	private int isLike;
 }
