@@ -717,11 +717,28 @@
     				$(".gender-check-msg").text("");
     				$(".gender-check-msg").removeClass("invalid");
     			}
-	    	
+    			if($("#birth-year").hasClass("no")||$("#birth-day").hasClass("no")||$("#birth-day").hasClass("no")){
+    				event.preventDefault();
+    				$(".birth-check-msg").text("생년월일을 다시 확인해주세요.");
+    			}
+				if($(".phone1").hasClass("no")||$(".phone2").hasClass("no")||$(".phone3").hasClass("no")){
+					event.preventDefault();
+					$(".phone-check-msg").text("휴대폰번호를 다시 확인해주세요.");
+				}
 	            
 	        });
-	            
-	        
+	    $(".gender1").on("click",function(){
+	    	if($(".form-group2>.gender2").is(":checked")||$(".form-group2>.gender1").is(":checked")){
+				$(".gender-check-msg").text("");
+				$(".gender-check-msg").removeClass("invalid");
+			}
+	    });        
+	    $(".gender2").on("click",function(){
+	    	if($(".form-group2>.gender2").is(":checked")||$(".form-group2>.gender1").is(":checked")){
+				$(".gender-check-msg").text("");
+				$(".gender-check-msg").removeClass("invalid");
+			}
+	    });            
 	        
 	        
 	        //회원가입 약관 필수 체크 로직
@@ -1014,40 +1031,68 @@
 			var input2 = $("#birth-month").val();
 			var input3 = $("#birth-day").val();
 			if(input1>'2024'||input1<'1960'){
-				console.log('asdasdasd');
 				$(".birth-check-msg").text("");
 				$(".birth-check-msg").text("1900~2024년도 까지만 입력가능합니다.");
 				$(".birth-check-msg").addClass("invalid");
-			}else if(input2>'12'){
-				$(".birth-check-msg").text("");
-				$(".birth-check-msg").text("1~12월 까지만 입력가능합니다.");
-				$(".birth-check-msg").addClass("invalid");
-			}else if(input3>'31'){
-				$(".birth-check-msg").text("");
-				$(".birth-check-msg").text("1~31일 까지만 입력 가능합니다.");
-				$(".birth-check-msg").addClass("invalid");
+				$("#birth-year").removeClass("ok");
+				$("#birth-year").addClass("no");
 			}else{
 				$(".birth-check-msg").text("");
 				$(".birth-check-msg").removeClass("invalid");
-			}
-		});
-		
-		$(".form-group2>.phone").on("change",function(){
-			if($(".form-group2>.phone").val()==""){
-				$(".phone-check-msg").text("휴대폰 번호를 입력해주세요");
-				$(".phone-check-msg").addClass("invalid");
+				$("#birth-year").removeClass("no");
+				$("#birth-year").addClass("ok");
+			} 
+			if(input2>'12'){
+				$(".birth-check-msg").text("");
+				$(".birth-check-msg").text("1~12월 까지만 입력가능합니다.");
+				$(".birth-check-msg").addClass("invalid");
+				$("#birth-month").removeClass("ok");
+				$("#birth-month").addClass("no")
 			}else{
-				$(".phone-check-msg").text("");
-				$(".phone-check-msg").removeClass("invalid");
+				$(".birth-check-msg").text("");
+				$(".birth-check-msg").removeClass("invalid");
+				$("#birth-month").removeClass("no");
+				$("#birth-month").addClass("ok");
+			}
+			if(input3>'31'){
+				$(".birth-check-msg").text("");
+				$(".birth-check-msg").text("1~31일 까지만 입력 가능합니다.");
+				$(".birth-check-msg").addClass("invalid");
+				$("#birth-day").removeClass("ok");
+				$("#birth-day").addClass("no");
+			}else{
+				$(".birth-check-msg").text("");
+				$(".birth-check-msg").removeClass("invalid");
+				$("#birth-day").removeClass("no");
+				$("#birth-day").addClass("ok")
 			}
 		});
 		
 		$(".name").on("change",function(){
+			const nameReg = /^[가-힣]{2,4}$/ 
+			const input = $(this).val();
+			if(nameReg.test(input)){
+				$(".name-check-msg").text("");
+				$(".name-check-msg").removeClass("invalid");
+				$(".name").addClass("ok");
+			}else{
+				$(".name-check-msg").text("이름을 확인해주세요");
+				$(".name-check-msg").addClass("invalid");
+			}
+			
+			
+			
 			if($(this).val()!=""){
 				$(".name-check-msg").text("");
 				$(".name-check-msg").removeClass("invalid");
 			}
 		});
+		
+		
+		
+		
+		
+		
 		//핸드폰 유효성 검사 
 		$(".phone1").on("change",function(){
 			const input = $(this).val();
@@ -1056,13 +1101,19 @@
 			if(input.length <3){
 				$(".phone-check-msg").text("(* 입력한 수 부족 *)번호 앞 세자리수 입력해주세요.");
 				$(".phone-check-msg").addClass("invalid");
+				$(".phone1").removeClass("ok");
+				$(".phone1").addClass("no");
 			}else{
 				if(phone1reg.test(input)){
 					$(".phone-check-msg").text("");
 					$(".phone-check-msg").removeClass("invalid");
+					$(".phone1").removeClass("no");
+					$(".phone1").addClass("ok");
 				}else{
 					$(".phone-check-msg").text("핸드폰의 앞 세자리수는 010,011 등의 형식으로 입력해주세요.");
 					$(".phone-check-msg").addClass("invalid");
+					$(".phone1").removeClass("ok");
+					$(".phone1").addClass("no");
 				}
 			}			
 		});
@@ -1073,13 +1124,19 @@
 			if(input.length <4){
 					$(".phone-check-msg").text("(* 입력한 수 부족 *)중간번호 네자리 입력해주세요.");
 					$(".phone-check-msg").addClass("invalid");
+					$(".phone2").removeClass("ok");
+					$(".phone2").addClass("no");
 			}else{
 				if(phone2reg.test(input)){
 					$(".phone-check-msg").text("");
 					$(".phone-check-msg").removeClass("invalid");
+					$(".phone2").removeClass("no");
+					$(".phone2").addClass("ok");
 				}else{
 					$(".phone-check-msg").text("핸드폰 번호를 확인해주세요.");
 					$(".phone-check-msg").addClass("invalid");
+					$(".phone2").removeClass("ok");
+					$(".phone2").addClass("no");
 				}
 			}
 		});
@@ -1090,13 +1147,19 @@
 			if(input.length <4){
 					$(".phone-check-msg").text("(* 입력한 수 부족 *)뒷번호 네자리 입력해주세요.");
 					$(".phone-check-msg").addClass("invalid");
+					$(".phone3").removeClass("ok");
+					$(".phone3").addClass("no");
 			}else{
 				if(phone2reg.test(input)){
 					$(".phone-check-msg").text("");
 					$(".phone-check-msg").removeClass("invalid");
+					$(".phone2").removeClass("no");
+					$(".phone2").addClass("ok");
 				}else{
 					$(".phone-check-msg").text("핸드폰 번호를 확인해주세요.");
 					$(".phone-check-msg").addClass("invalid");
+					$(".phone2").removeClass("ok");
+					$(".phone2").addClass("no");
 				}
 			}
 		});
