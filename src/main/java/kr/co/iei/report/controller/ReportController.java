@@ -25,12 +25,6 @@ public class ReportController {
 	@Autowired
 	private MemberService memberService;
 	
-	@GetMapping(value="/reportModal")
-	public String reportModal() {
-		return "report/checkReportInsert";
-	}// 디자인 확인용(나중에 지우든 수정하든 할것)
-	
-	
 	
 	@GetMapping(value="/insertReviewReport")
 	@ResponseBody
