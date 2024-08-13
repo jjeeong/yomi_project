@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <title>비밀번호 찾기</title>
 <link rel="stylesheet" href="/css/findPw.css">
+<style>
+#auth>#timeZone{
+	color:blue;
+	font-family:'g_b';
+}
+</style>
 </head>
 <body>
 	<th:block th:include="common/header"></th:block>
@@ -109,7 +115,7 @@
     				$("#sec").text(newSec);
     			}
     		}
-    	},100);
+    	},1000);
     }
    	 $("#authBtn").on("click",function(){
     	const authCode = $("#authCode").val();
