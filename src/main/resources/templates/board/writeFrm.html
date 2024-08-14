@@ -174,7 +174,8 @@
         	var input2 = $("input[name=boardTitle]").val();
         	var input3 = $("input[name=boardAddr]").val();
         	var input4 = $("[name=boardContent]").val();
-        	if(input1==""||input2==""||input3==""||input4==""){
+        	var input5 = $("[name=upfile]").val();
+        	if(input1==""||input2==""||input3==""||input4==""||input5==""){
         		swal.fire({
 					title : "게시글 작성",
 					text : "게시글을 모두 입력해주세요 !",
