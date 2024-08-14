@@ -5,6 +5,9 @@
 <title>문의사항 수정</title>
 <link rel="stylesheet" href="/css/inquery.css">
 <style>
+	.tbl tbody tr td .note-editor .note-editable{
+		width:880px;
+	}
 	.inquery-update-wrap{
 		width:1000px;
 		margin:0 auto;
@@ -86,9 +89,9 @@
 					
 					<tr>
 						<th style="border-bottom:1px solid black;">내용</th>
-						<td class="left">
-							<div class="input-item">
-								<textarea name="inqueryContent" id="inqueryContent" th:text="${inq.inqueryContent}"></textarea>
+						<td class="left" >
+							<div class="input-item" >
+								<textarea  name="inqueryContent" id="inqueryContent" th:text="${inq.inqueryContent}"></textarea>
 							</div>
 						</td>
 					</tr>
@@ -108,6 +111,7 @@
 	<script>	
 		// 1. Summernote 에디터를 초기화, onImageUpload 콜백 함수를 설정하여 사용자가 이미지를 업로드할 수 있게 합니다. -> 2. controller로 이동	
 			$('#inqueryContent').summernote({
+				
 				height:500,
 				// 한글로 나옴
 				lang:"ko-KR",
