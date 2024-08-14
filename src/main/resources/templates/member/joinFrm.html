@@ -25,7 +25,7 @@
 	                </div>
 	                <div class="form-group1 no2">
 	                    <input type="checkbox" id="termsCheck" class="essential2">
-	                    <label for="termsCheck"><span>이용약관 동의 (필수)</span>&numsp;&numsp;&numsp;&numsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+	                    <label for="termsCheck"><span>이용약관 동의 (필수)</span>&numsp;&numsp;&numsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 	                        <a class="indetail1">내용보기</a></label>
 	                </div>
 	                <div class="form-group1 no3">
@@ -1026,13 +1026,11 @@
 	    })
 		
 		//생년월일 입력시 조건에 안맞으면 메세지 출력
-		$("#birth-year,#birth-month,#birth-day").on("change",function(){
-			var input1 = $("#birth-year").val();
-			var input2 = $("#birth-month").val();
-			var input3 = $("#birth-day").val();
+		$("#birth-year").on("change",function(){
+			var input1 = $(this).val();
 			if(input1>'2024'||input1<'1960'){
 				$(".birth-check-msg").text("");
-				$(".birth-check-msg").text("1900~2024년도 까지만 입력가능합니다.");
+				$(".birth-check-msg").text("1960~2024년 까지만 입력가능합니다.");
 				$(".birth-check-msg").addClass("invalid");
 				$("#birth-year").removeClass("ok");
 				$("#birth-year").addClass("no");
@@ -1042,6 +1040,10 @@
 				$("#birth-year").removeClass("no");
 				$("#birth-year").addClass("ok");
 			} 
+		});
+	    
+	    $("#birth-month").on("change",function(){
+			var input2 = $(this).val();
 			if(input2>'12'){
 				$(".birth-check-msg").text("");
 				$(".birth-check-msg").text("1~12월 까지만 입력가능합니다.");
@@ -1054,7 +1056,13 @@
 				$("#birth-month").removeClass("no");
 				$("#birth-month").addClass("ok");
 			}
-			if(input3>'31'){
+	    });
+	    
+	    
+	    $("#birth-day").on("change",function(){
+			var input3 = $(this).val();
+			
+	    	if(input3>'31'){
 				$(".birth-check-msg").text("");
 				$(".birth-check-msg").text("1~31일 까지만 입력 가능합니다.");
 				$(".birth-check-msg").addClass("invalid");
@@ -1066,7 +1074,18 @@
 				$("#birth-day").removeClass("no");
 				$("#birth-day").addClass("ok")
 			}
-		});
+	    });
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
 		
 		$(".name").on("change",function(){
 			const nameReg = /^[가-힣]{2,4}$/ 

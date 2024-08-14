@@ -26,7 +26,7 @@ public class NoticeService {
 		int end = reqPage * numPerPage;
 		int start = end - numPerPage +1;
 		List list = noticeDao.selectNoticeList(start, end);
-		
+		System.out.println("ser:"+list);
 		int totalCount = noticeDao.selectNoticeTotalCount();
 		
 		int totalPage = 0;
