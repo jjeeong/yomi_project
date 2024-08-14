@@ -723,6 +723,10 @@
 					event.preventDefault();
 					$(".phone-check-msg").text("휴대폰번호를 다시 확인해주세요.");
 				}
+				if($(".name").hasClass("no")){
+					event.preventDefault();
+					$(".name-check-msg").text("이름의 형식를 다시 확인해주세요.");
+				}
 	            
 	        });
 	    $(".gender1").on("click",function(){
@@ -1065,35 +1069,23 @@
 			}
 	    });
 	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-		
 		$(".name").on("change",function(){
 			const nameReg = /^[가-힣]{2,4}$/ 
 			const input = $(this).val();
 			if(nameReg.test(input)){
 				$(".name-check-msg").text("");
 				$(".name-check-msg").removeClass("invalid");
+				$(".name").removeClass("no");
 				$(".name").addClass("ok");
 			}else{
 				$(".name-check-msg").text("이름을 확인해주세요");
 				$(".name-check-msg").addClass("invalid");
+				$(".name").removeClass("ok");
+				$(".name").addClass("no");
 			}
 			
 			
 			
-			if($(this).val()!=""){
-				$(".name-check-msg").text("");
-				$(".name-check-msg").removeClass("invalid");
-			}
 		});
 		
 		
