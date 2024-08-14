@@ -511,7 +511,6 @@
 			//전체 체크 
 			$(".no0>input[type=checkbox]").on("click",function(){
 				const allcheck = $(".no0>input[type=checkbox]")
-				console.log(allcheck.is(":checked"))
 				if(allcheck.is(":checked")){
 					$("input[type=checkbox]").prop("checked",true)
 				}else{
@@ -666,7 +665,6 @@
 	            }
 	            if($(".form-group2>.email1").val()==""){
 					event.preventDefault();
-					console.log('asdasd')
 	            	$(".email-check-msg").text("E-mail을 입력해주세요");
 					$(".email-check-msg").addClass("invalid");
 	            }
@@ -746,7 +744,6 @@
 	    if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
 	      $(".next-btn>button").attr("disabled", false);					
 	      
-	      console.log('true')
 	    }else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
 	      $(".next-btn>button").attr("disabled", true);
 	    }
@@ -755,7 +752,6 @@
 	    if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
 	      $(".next-btn>button").attr("disabled", false);					
 	      
-	      console.log('true')
 	    }else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
 	      $(".next-btn>button").attr("disabled", true);
 	    }
@@ -764,7 +760,6 @@
 	    if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
 	      $(".next-btn>button").attr("disabled", false);					
 	      
-	      console.log('true')
 	    }else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
 	      $(".next-btn>button").attr("disabled", true);
 	    }
@@ -773,7 +768,6 @@
 		if($(".essential1").is(":checked")==true&&$(".essential2").is(":checked")==true&&$(".essential3").is(":checked")==true){
 	      $(".next-btn>button").attr("disabled", false);					
 	      
-	      console.log('true')
 	    }else if($(".essential1").is(":checked")==false||$(".essential2").is(":checked")==false||$(".essential3").is(":checked")==false){
 	      $(".next-btn>button").attr("disabled", true);
 		}
@@ -792,7 +786,6 @@
 						type:"get",
 						data:{memberId:memberId},
 						success:function(data){
-							console.log(data)
 							if(data == 0){
 								$(".id-check-msg").text("사용 가능한 아이디 입니다.");
 								$(".id-check-msg").addClass("valid");
@@ -888,7 +881,6 @@
 						type : "get",
 						data : {email:email},
 						success : function(data){
-							console.log(data)
 							if(data == 0){
 								$(".email-check-msg").text("사용 가능한 이메일 입니다.");
 								$(".email-check-msg").addClass("valid");
@@ -937,7 +929,6 @@
 			const memberEmail = $(this).val();
 			const emailReg = /^[a-zA-Z0-9._%+-]{4,15}$/ ;
 			if(emailReg.test(memberEmail)){
-				console.log('asdasdasd');
 				$(".email-check-msg").text("");
 				$(".email-check-msg").removeClass("invalid").removeClass("valid");
 			}else{
@@ -955,13 +946,11 @@
 		    	if(inputMsg.hasClass("invalid")){
 		    		$(".email-check-msg").text("체크표시를 눌러 이메일 중복체크를 해주세요.")
 		    	}else if(inputMsg.hasClass("valid")){
-		    		console.log(receiver);
 			    	$.ajax({
 			    		url : "/member/sendCode",
 			    		data : {receiver : receiver},
 			    		type : "post",
 			    		success : function(data){
-			    			console.log(data);
 			    			mailCode = data;
 			    			alert("인증번호가 전송돼었습니다.")
 			    			$("#sendBtn").css("display","none");
@@ -1116,7 +1105,6 @@
 		$(".phone1").on("change",function(){
 			const input = $(this).val();
 			const phone1reg = /^01([0|1|6|7|8|9]?)$/
-			console.log(input.length)
 			if(input.length <3){
 				$(".phone-check-msg").text("(* 입력한 수 부족 *)번호 앞 세자리수 입력해주세요.");
 				$(".phone-check-msg").addClass("invalid");
@@ -1198,18 +1186,15 @@
 		//지도 Api
 		
 		$("#addrSearch").on("click",function(){
-			console.log
 			new daum.Postcode({
 		        oncomplete: function(data) {
 		            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
 		            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-		        	console.log(data);
 		            $("#addr1").val(data.roadAddress);
 		        }
 		    }).open();
 		})
 		$(".form-group2>#addr2").on("change",function(){
-			console.log('asdasd')
 			const input = $("#addr2").val();
 			if(input==""){
 				$(".addr-check-msg").text('상세주소를 입력해주세요.');

@@ -36,7 +36,6 @@
     </main>
     <script>
     	$(".submit-btn").on("click",function(){
-    		console.log('asdasd')
     		const input1 = $("input[name=memberName]").val();
     		const input2 = $("input[name=memberEmail]").val();
     		if(input1 == "" || input2 == ""){
@@ -80,7 +79,6 @@
     	});
     	let mailCode = null;
      	$(".sendBtn").on("click",function(){
-    		console.log("asdasd")
      		const input1 = $("input[name=memberName]").val();
     		const input2 = $("input[name=memberEmail]").val();
     		if(input1 == "" || input2 == "" ){
@@ -88,13 +86,11 @@
     		}else{
     			if($("#email").hasClass("ok")){
 	    	    	const receiver = $("#email").val();
-	    	    	console.log(receiver);
 	    	    	$.ajax({
 	    	    		url : "/member/sendCode",
 	    	    		data : {receiver : receiver},
 	    	    		type : "post",
 	    	    		success : function(data){
-	    	    			console.log(data);
 	    	    			mailCode = data;
 	    	    			$(".sendBtn").css("display","none");
 	    	    			alert("인증번호가 발송됐습니다.")
