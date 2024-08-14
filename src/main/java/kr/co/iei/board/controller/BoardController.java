@@ -60,11 +60,8 @@ public class BoardController {
 	
 	@PostMapping(value="/write")
 	public String write(Board b, MultipartFile upfile,Model model) {
-		System.out.println(b);
-		System.out.println("업로드 된 파일의 수 : " + upfile);
-		
+
 		List<BoardFile> fileList = new ArrayList<BoardFile>();
-		
 					
 			String savepath = root+"/board/thumbNailImg/";
 			

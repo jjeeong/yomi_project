@@ -217,7 +217,22 @@
 		        }
 		    });
 		}
-		
+			$(".btn-primary").on("click",function(){
+        	
+        	var input1 = $("input[name=boardStoreName]").val();
+        	var input2 = $("input[name=boardTitle]").val();
+        	var input3 = $("input[name=boardAddr]").val();
+        	var input4 = $("[name=boardContent]").val();
+        	if(input1==""||input2==""||input3==""||input4==""){
+        		swal.fire({
+					title : "게시글 작성",
+					text : "게시글을 모두 입력해주세요 !",
+					icon : "info"
+					});
+        	}else{
+        		$(".board-form").submit();
+        	}
+        });
 		
 		
     </script>
