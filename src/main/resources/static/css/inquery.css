@@ -304,7 +304,7 @@ section.section.bg-section {
 }
 
 .input-item > textarea {
-  width: 100%;
+  width: 100vm;
   height: 100px;
   padding: 15px;
   resize: none;
@@ -313,14 +313,17 @@ section.section.bg-section {
   border: 1px solid var(--line2);
 }
 .left > textarea {
-  width: 100%;
-  height: 156px;
+  word-wrap: break-word; /* 긴 단어가 자동으로 줄바꿈되도록 설정 */
+  height: 140px;
+  width: 100vm;
   padding: 15px;
   resize: none;
   font-size: 16px;
   line-height: 24px;
   border: 1px solid var(--line2);
 }
+
+
 
 .input-wrap > input[type="checkbox"] {
   display: none;
@@ -409,7 +412,7 @@ section.section.bg-section {
 .modal-container {
   background-color: var(--gray8);
   padding: 40px 20px;
-  width: 500px;
+  width: 1000px;
   display: flex;
   flex-direction: column;
   border-radius: 10px;
@@ -537,7 +540,7 @@ section.section.bg-section {
   justify-content: right;
   align-items: top;
   min-height: 100px;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid white;
 }
 .posting-comment.reply > li:first-child {
   width: 50%;
@@ -607,6 +610,11 @@ ul{
 #inqueryCommentContent{
 	width:200px;
 	height:200px;
+	
+	border-radius: 0.8rem;
+	border: none;
+	resize: none;
+
 	
 }
 .inputCommentBox>form>ul>li:first-child>span{

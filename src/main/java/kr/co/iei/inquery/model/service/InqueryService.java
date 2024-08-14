@@ -37,7 +37,7 @@ public class InqueryService {
 		//totalPage : 전체 페이지 수
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {
-			totalPage = totalCount / numPerPage;			
+			totalPage = totalCount / numPerPage;
 		}else {
 			totalPage = totalCount / numPerPage + 1;
 		}
